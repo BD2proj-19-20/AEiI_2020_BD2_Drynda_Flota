@@ -1,0 +1,46 @@
+﻿<Window x:Class="FirmaTransportowa.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:FirmaTransportowa"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#FF646464" WindowStyle="None">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <ListView Height="600" Width="225" BorderBrush="White">
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Zarezerwuj pojazd"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Wypożycz pojazd"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Przedłuż wypożyczenie"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Zwróć pojazd"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Przegląd pojazdów"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Zgłoś usterkę"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Refuel" MouseLeftButtonUp="Refuel_MouseLeftButtonUp">
+                    <TextBlock Text="Zatankuj pojazd"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <TextBlock Text="Modyfikuj rezerwacje"/>
+                </ListViewItem>
+                <ListViewItem BorderBrush="Transparent" Background="White" HorizontalAlignment="Left" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Foreground="Red" Kind="Close"/>
+                        <TextBlock Text="Wyjście"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Window>
