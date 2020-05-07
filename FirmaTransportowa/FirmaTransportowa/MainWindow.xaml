@@ -5,12 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:FirmaTransportowa"
+        xmlns:viewmodels="clr-namespace:FirmaTransportowa.ViewModels"
+        xmlns:views="clr-namespace:FirmaTransportowa.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#FF646464" WindowStyle="None">
+        Title="MainWindow" Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#FF646464" WindowStyle="None">
+    <Window.Resources>
+        <DataTemplate x:Name="RezerwacjeTemplate" DataType="{x:Type viewmodels:RezerwacjeModel}">
+            <views:Rezerwacje DataContext="{Binding}"/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <ListView Height="600" Width="225" BorderBrush="White">
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+            <ListView Height="600" Width="250" BorderBrush="White">
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
                     <TextBlock Text="Zarezerwuj pojazd"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
@@ -34,13 +41,14 @@
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
                     <TextBlock Text="Modyfikuj rezerwacje"/>
                 </ListViewItem>
-                <ListViewItem BorderBrush="Transparent" Background="White" HorizontalAlignment="Left" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
+                <ListViewItem Background="White" HorizontalAlignment="Center" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Foreground="Red" Kind="Close"/>
                         <TextBlock Text="Wyjście"/>
                     </StackPanel>
                 </ListViewItem>
             </ListView>
+            <ContentControl Width="750" Content="{Binding}"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FirmaTransportowa.ViewModels;
+using FirmaTransportowa.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +34,11 @@ namespace FirmaTransportowa
         private void CloseButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Close();
+        }
+
+        private void Rent_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new RezerwacjeModel();
         }
     }
 }
