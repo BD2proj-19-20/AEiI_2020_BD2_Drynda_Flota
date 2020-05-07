@@ -26,10 +26,6 @@ namespace FirmaTransportowa
         {
             InitializeComponent();
         }
-        private void Refuel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void CloseButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -39,6 +35,11 @@ namespace FirmaTransportowa
         private void Rent_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DataContext = new RezerwacjeModel();
+        }
+
+        private void CarList_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new ListaPojazdowModel();
         }
     }
 }

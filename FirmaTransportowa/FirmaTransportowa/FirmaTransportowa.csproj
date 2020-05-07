@@ -63,7 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\ListaPojazdowModel.cs" />
     <Compile Include="ViewModels\RezerwacjeModel.cs" />
+    <Compile Include="Views\ListaPojazdow.xaml.cs">
+      <DependentUpon>ListaPojazdow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Rezerwacje.xaml.cs">
       <DependentUpon>Rezerwacje.xaml</DependentUpon>
     </Compile>
@@ -79,6 +83,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ListaPojazdow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Rezerwacje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
