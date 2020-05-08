@@ -38,8 +38,8 @@
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
                     <TextBlock Text="Lista pojazdów (pracownik)"/>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
-                    <TextBlock Text="Moje pojazdy (opiekun)" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp"/>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
+                    <TextBlock Text="Moje pojazdy (opiekun)"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Statistics" MouseLeftButtonUp="Statistics_MouseLeftButtonUp">
                     <TextBlock Text="Statystyki (kierownik)"/>

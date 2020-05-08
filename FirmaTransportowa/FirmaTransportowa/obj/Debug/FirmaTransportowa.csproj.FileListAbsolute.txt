@@ -85,3 +85,5 @@ C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\Firm
 C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ZarzadzajPojazdami.baml
 C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.g.cs
 C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.baml
+C:\Users\Wojtek\source\repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.g.cs
+C:\Users\Wojtek\source\repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.baml
