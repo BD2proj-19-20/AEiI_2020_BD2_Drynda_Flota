@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FirmaTransportowa.Views.ListaPojazdow"
+﻿<UserControl x:Class="FirmaTransportowa.Views.MojePojazdy"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -45,8 +45,9 @@
                 </ListViewItem>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Rezerwuj" Margin="100 0 0 0" Width="200" />
-                <Button Content="Podgląd" Margin="100 0 0 0" Width="200" />
+                <Button Content="Zleć wykonanie czynności" Margin="25 0 0 0" Width="200" />
+                <Button Content="Podgląd" Margin="25 0 0 0" Width="200" />
+                <Button Content="Wyłącz ze służby/Przywróć do służby" Margin="25 0" Width="200" />
             </StackPanel>
         </StackPanel>
     </Grid>

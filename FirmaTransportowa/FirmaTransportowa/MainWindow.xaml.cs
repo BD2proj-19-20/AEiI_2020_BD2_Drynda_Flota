@@ -41,5 +41,20 @@ namespace FirmaTransportowa
         {
             DataContext = new ListaPojazdowModel();
         }
+
+        private void Statistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new StatystykiModel();
+        }
+
+        private void Manage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new ZarzadzajPojazdamiModel();
+        }
+
+        private void MyCars_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new MojePojazdyModel();
+        }
     }
 }

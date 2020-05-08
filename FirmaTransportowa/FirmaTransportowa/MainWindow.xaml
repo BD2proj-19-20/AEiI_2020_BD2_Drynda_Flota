@@ -16,24 +16,33 @@
         <DataTemplate x:Name="ListaPojazdowTemplate" DataType="{x:Type viewmodels:ListaPojazdowModel}">
             <views:ListaPojazdow DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="StatystykiTemplate" DataType="{x:Type viewmodels:StatystykiModel}">
+            <views:Statystyki DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="ZarzadzajPojazdamiTemplate" DataType="{x:Type viewmodels:ZarzadzajPojazdamiModel}">
+            <views:ZarzadzajPojazdami DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="MojePojazdyTemplate" DataType="{x:Type viewmodels:MojePojazdyModel}">
+            <views:MojePojazdy DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
             <ListView Height="600" Width="250" BorderBrush="White">
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
-                    <TextBlock Text="Rezerwacje"/>
+                    <TextBlock Text="Rezerwacje (kierownik)"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
-                    <TextBlock Text="Moje pojazdy"/>
+                    <TextBlock Text="Moje pojazdy (opiekun)" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp"/>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
-                    <TextBlock Text="Statystyki"/>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Statistics" MouseLeftButtonUp="Statistics_MouseLeftButtonUp">
+                    <TextBlock Text="Statystyki (kierownik)"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
-                    <TextBlock Text="Lista pojazdów"/>
+                    <TextBlock Text="Lista pojazdów (pracownik)"/>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
-                    <TextBlock Text="Menadżer sterowania"/>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Manage" MouseLeftButtonUp="Manage_MouseLeftButtonUp">
+                    <TextBlock Text="Zarządzaj pojazdami (kierownik)"/>
                 </ListViewItem>
                 <ListViewItem Background="White" HorizontalAlignment="Center" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
                     <StackPanel Orientation="Horizontal">
