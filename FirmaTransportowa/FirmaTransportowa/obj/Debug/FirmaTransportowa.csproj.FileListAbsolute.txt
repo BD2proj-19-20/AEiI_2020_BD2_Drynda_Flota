@@ -72,3 +72,16 @@ C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaT
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ZarzadzajPojazdami.baml
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojePojazdy.g.cs
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojePojazdy.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ListaPojazdow.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojePojazdy.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Rezerwacje.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Statystyki.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ZarzadzajPojazdami.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ListaPojazdow.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojePojazdy.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Rezerwacje.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Statystyki.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\ZarzadzajPojazdami.baml
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.g.cs
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\MojeRezerwacje.baml

@@ -56,5 +56,9 @@ namespace FirmaTransportowa
         {
             DataContext = new MojePojazdyModel();
         }
+        private void Reservations_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new MojeRezerwacjeModel();
+        }
     }
 }

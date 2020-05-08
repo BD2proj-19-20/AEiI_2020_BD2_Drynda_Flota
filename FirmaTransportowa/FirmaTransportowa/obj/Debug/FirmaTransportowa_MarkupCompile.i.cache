@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\
 FirmaTransportowa
 none
 false
 DEBUG;TRACE
-C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\App.xaml
-6695590284
+C:\Users\user\Documents\GitHub\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\App.xaml
+7-270106442
 
-16330937477
-15-385039435
-MainWindow.xaml;Views\ListaPojazdow.xaml;Views\MojePojazdy.xaml;Views\Rezerwacje.xaml;Views\Statystyki.xaml;Views\ZarzadzajPojazdami.xaml;
+181465046735
+15718231224
+MainWindow.xaml;Views\ListaPojazdow.xaml;Views\MojePojazdy.xaml;Views\MojeRezerwacje.xaml;Views\Rezerwacje.xaml;Views\Statystyki.xaml;Views\ZarzadzajPojazdami.xaml;
 
-False
+True
 
