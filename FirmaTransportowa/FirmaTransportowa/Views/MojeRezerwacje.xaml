@@ -10,21 +10,49 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Moje rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="White" Text="Rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Skoda Octavia" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="ID: 101" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ListViewItem>
-
-
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Volkswagen Passat" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="ID: 102" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID: 103" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID: 104" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID: 105" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID: 106" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ListViewItem>
             </ListView>

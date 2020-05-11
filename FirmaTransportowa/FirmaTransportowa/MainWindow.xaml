@@ -33,7 +33,7 @@
         <StackPanel Orientation="Horizontal">
             <ListView Height="600" Width="250" BorderBrush="White">
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
-                    <TextBlock Text="Moje rezerwacje"/>
+                    <TextBlock Text="Moje rezerwacje (pracownik)"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
                     <TextBlock Text="Lista pojazdów (pracownik)"/>
