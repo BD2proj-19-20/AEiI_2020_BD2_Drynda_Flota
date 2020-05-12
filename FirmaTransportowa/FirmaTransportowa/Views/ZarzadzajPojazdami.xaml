@@ -45,8 +45,9 @@
                 </ListViewItem>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="100 0 0 0" Width="200" />
-                <Button Content="Usuń" Margin="100 0 0 0" Width="200" />
+                <Button Content="Dodaj" Margin="10 0 0 0" Width="200" />
+                <Button Content="Usuń" Margin="10 0 0 0" Width="200" />
+                <Button Content="Zmień opiekuna" Margin="10 0 0 0" Width="200" />
             </StackPanel>
         </StackPanel>
     </Grid>

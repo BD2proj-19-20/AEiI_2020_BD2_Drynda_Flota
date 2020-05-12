@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\ListaPojazdowModel.cs" />
     <Compile Include="ViewModels\MojePojazdyModel.cs" />
+    <Compile Include="ViewModels\MojeRezerwacjeModel.cs" />
     <Compile Include="ViewModels\RezerwacjeModel.cs" />
     <Compile Include="ViewModels\StatystykiModel.cs" />
     <Compile Include="ViewModels\ZarzadzajPojazdamiModel.cs" />
@@ -73,6 +74,9 @@
     </Compile>
     <Compile Include="Views\MojePojazdy.xaml.cs">
       <DependentUpon>MojePojazdy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MojeRezerwacje.xaml.cs">
+      <DependentUpon>MojeRezerwacje.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Rezerwacje.xaml.cs">
       <DependentUpon>Rezerwacje.xaml</DependentUpon>
@@ -100,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MojePojazdy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MojeRezerwacje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
