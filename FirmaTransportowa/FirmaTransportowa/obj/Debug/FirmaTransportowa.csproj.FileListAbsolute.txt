@@ -89,3 +89,5 @@ C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaT
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\StatystykiPojazdu.baml
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\StatystykiPracownika.g.cs
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\StatystykiPracownika.baml
+C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Pracownicy.g.cs
+C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\obj\Debug\Views\Pracownicy.baml

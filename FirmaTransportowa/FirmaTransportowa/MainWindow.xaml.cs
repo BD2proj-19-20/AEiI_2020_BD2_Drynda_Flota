@@ -65,5 +65,10 @@ namespace FirmaTransportowa
         {
             DataContext = new StatystykiPracownikaModel();
         }
+
+        private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new PracownicyModel();
+        }
     }
 }
