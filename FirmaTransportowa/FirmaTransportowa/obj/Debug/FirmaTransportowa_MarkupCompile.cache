@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Wojtek\Source\Repos\AEiI_2020_BD2_Drynda_Flota\FirmaTransportowa\FirmaTransportowa\App.xaml
-7-270106442
+8328830753
 
-17141264859
+19567117146
 15-385039435
-MainWindow.xaml;Views\ListaPojazdow.xaml;Views\MojePojazdy.xaml;Views\MojeRezerwacje.xaml;Views\Rezerwacje.xaml;Views\Statystyki.xaml;Views\ZarzadzajPojazdami.xaml;
+MainWindow.xaml;Views\ListaPojazdow.xaml;Views\MojePojazdy.xaml;Views\MojeRezerwacje.xaml;Views\Rezerwacje.xaml;Views\StatystykiPojazdu.xaml;Views\StatystykiPracownika.xaml;Views\ZarzadzajPojazdami.xaml;
 
 False
 

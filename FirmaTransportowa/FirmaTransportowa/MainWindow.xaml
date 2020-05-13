@@ -19,8 +19,11 @@
         <DataTemplate x:Name="ListaPojazdowTemplate" DataType="{x:Type viewmodels:ListaPojazdowModel}">
             <views:ListaPojazdow DataContext="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="StatystykiTemplate" DataType="{x:Type viewmodels:StatystykiModel}">
-            <views:Statystyki DataContext="{Binding}"/>
+        <DataTemplate x:Name="StatystykiPojazduTemplate" DataType="{x:Type viewmodels:StatystykiPojazduModel}">
+            <views:StatystykiPojazdu DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="StatystykiPracownikaTemplate" DataType="{x:Type viewmodels:StatystykiPracownikaModel}">
+            <views:StatystykiPracownika DataContext="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Name="ZarzadzajPojazdamiTemplate" DataType="{x:Type viewmodels:ZarzadzajPojazdamiModel}">
             <views:ZarzadzajPojazdami DataContext="{Binding}"/>
@@ -41,8 +44,11 @@
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
                     <TextBlock Text="Moje pojazdy (opiekun)"/>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Statistics" MouseLeftButtonUp="Statistics_MouseLeftButtonUp">
-                    <TextBlock Text="Statystyki (kierownik)"/>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarStatistics" MouseLeftButtonUp="CarStatistics_MouseLeftButtonUp">
+                    <TextBlock Text="Statystyki pojazdu (wszyscy)"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="WorkerStatistics" MouseLeftButtonUp="WorkerStatistics_MouseLeftButtonUp">
+                    <TextBlock Text="Statystyki pracownika (kierownik)"/>
                 </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
                     <TextBlock Text="Rezerwacje (kierownik)"/>

@@ -10,7 +10,7 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="White" Text="Moje rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">

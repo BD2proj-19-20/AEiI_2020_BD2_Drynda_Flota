@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace FirmaTransportowa.Views
 {
     /// <summary>
-    /// Interaction logic for Statystyki.xaml
+    /// Interaction logic for StatystykiPracownika.xaml
     /// </summary>
-    public partial class Statystyki : UserControl
+    public partial class StatystykiPracownika : UserControl
     {
-        public Statystyki()
+        public StatystykiPracownika()
         {
             InitializeComponent();
         }

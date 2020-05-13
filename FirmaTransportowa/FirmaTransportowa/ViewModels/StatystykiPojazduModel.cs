@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FirmaTransportowa.ViewModels
 {
-    public class StatystykiModel
+    public class StatystykiPojazduModel
     {
     }
 }

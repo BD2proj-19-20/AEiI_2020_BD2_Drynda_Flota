@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="FirmaTransportowa.Views.StatystykiPojazdu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FirmaTransportowa.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="750">
+    <Grid Background="#FF646464">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock Foreground="Black" Text="ID: 11  " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="Black" Margin="10 0" Text="Pojazd: Audi A8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="500" Width="700">
+                <Border BorderBrush="Black" BorderThickness="5" Margin="25 0" Height="500" Width="300" CornerRadius="10">
+                    <StackPanel Background="Transparent" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontSize="20" FontWeight="Bold" Text="Informacje ogólne"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Marka:" Width="150"/>
+                            <TextBlock FontSize="15" Text="Audi"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Model:" Width="150"/>
+                            <TextBlock FontSize="15" Text="A8"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Napęd:" Width="150"/>
+                            <TextBlock FontSize="15" Text="4x4"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Rodzaj paliwa:" Width="150"/>
+                            <TextBlock FontSize="15" Text="Diesel"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Rok produkcji:" Width="150"/>
+                            <TextBlock FontSize="15" Text="2017"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="5" Margin="25 0" Height="500" Width="300" CornerRadius="10">
+                    <StackPanel Background="Transparent" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkowania"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Przebieg:" Width="150"/>
+                            <TextBlock FontSize="15" Text="117000 km"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Użytkownik:" Width="150"/>
+                            <TextBlock FontSize="15" Text="Jan Kowalski"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Ostati przegląd:" Width="150"/>
+                            <TextBlock FontSize="15" Text="04-04-2019"/>
+                        </StackPanel>
+                </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

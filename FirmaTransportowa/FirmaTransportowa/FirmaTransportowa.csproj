@@ -67,7 +67,8 @@
     <Compile Include="ViewModels\MojePojazdyModel.cs" />
     <Compile Include="ViewModels\MojeRezerwacjeModel.cs" />
     <Compile Include="ViewModels\RezerwacjeModel.cs" />
-    <Compile Include="ViewModels\StatystykiModel.cs" />
+    <Compile Include="ViewModels\StatystykiPojazduModel.cs" />
+    <Compile Include="ViewModels\StatystykiPracownikaModel.cs" />
     <Compile Include="ViewModels\ZarzadzajPojazdamiModel.cs" />
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
@@ -81,8 +82,11 @@
     <Compile Include="Views\Rezerwacje.xaml.cs">
       <DependentUpon>Rezerwacje.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Statystyki.xaml.cs">
-      <DependentUpon>Statystyki.xaml</DependentUpon>
+    <Compile Include="Views\StatystykiPojazdu.xaml.cs">
+      <DependentUpon>StatystykiPojazdu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatystykiPracownika.xaml.cs">
+      <DependentUpon>StatystykiPracownika.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZarzadzajPojazdami.xaml.cs">
       <DependentUpon>ZarzadzajPojazdami.xaml</DependentUpon>
@@ -115,7 +119,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Statystyki.xaml">
+    <Page Include="Views\StatystykiPojazdu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatystykiPracownika.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

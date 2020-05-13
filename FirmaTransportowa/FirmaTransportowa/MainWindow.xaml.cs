@@ -42,9 +42,9 @@ namespace FirmaTransportowa
             DataContext = new ListaPojazdowModel();
         }
 
-        private void Statistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CarStatistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            DataContext = new StatystykiModel();
+            DataContext = new StatystykiPojazduModel();
         }
 
         private void Manage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -59,6 +59,11 @@ namespace FirmaTransportowa
         private void Reservations_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DataContext = new MojeRezerwacjeModel();
+        }
+
+        private void WorkerStatistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataContext = new StatystykiPracownikaModel();
         }
     }
 }
