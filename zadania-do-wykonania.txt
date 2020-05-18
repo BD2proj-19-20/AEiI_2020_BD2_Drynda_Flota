@@ -1,0 +1,18 @@
+rezerwacje na jaki samochód
+bez imienia nazwiska
+możliwośćsortowania rezerwacji
+opiekun samochodu w rezerwacji w potrzebie kontkatu
+
+filtry odnośnie pojazdu
+rezerwacja - wyświetlenia kalendarza
+podgląd = statystyki
+opcja oddanie pojazdu - tam zgłoszenie usterki, tankowanie
+
+raport dla pojazdu generowany w pdfie
+
+akceptacja rezerwacji przez opiekuna
+w przypadku odrzucenia - iformacja o tym (odrzucona)
+
+statystyki przacownika aktualny/ostatni samochód, data
+
+help
