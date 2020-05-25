@@ -50,7 +50,6 @@
                 <Button Content="Podgląd" Margin="10 0 0 0" Width="100" />
                 <Button Content="Zgłoś usterkę" Margin="10 0 0 0" Width="100" />
                 <Button Content="Dodaj tankowanie" Margin="10 0 0 0" Width="100" />
-                <Button Content="Statystyki" Margin="10 0 0 0" Width="100"/>
             </StackPanel>
         </StackPanel>
     </Grid>

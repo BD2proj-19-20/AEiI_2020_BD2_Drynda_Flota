@@ -11,61 +11,41 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 101" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 102" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 103" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 104" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 105" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 106" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="50" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="ID: 107" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Kierowca: Jan Kowalski" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <TextBlock Margin="10 0" Text="Data: 07.05.2020" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
+            <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Id}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Id" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Pracownik</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Date}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Car}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Car" Click="GridViewColumnHeader_Click">Pojazd</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Keeper}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Keeper" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="100 0 50 0" Width="100" />
-                <Button Content="Modyfikuj" Margin="50 0" Width="100" />
-                <Button Content="Usuń" Margin="50 0" Width="100" />
+                <Button Content="Dodaj" Margin="50 0" Width="125" />
+                <Button Content="Modyfikuj" Margin="50 0" Width="125" />
+                <Button Content="Usuń" Margin="50 0" Width="125" />
             </StackPanel>
         </StackPanel>
     </Grid>

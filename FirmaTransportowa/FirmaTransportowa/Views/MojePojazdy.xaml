@@ -48,7 +48,6 @@
                 <Button Content="Zleć wykonanie czynności" Margin="25 0" Width="125" />
                 <Button Content="Podgląd" Margin="25 0" Width="125" />
                 <Button Content="Wyłącz ze służby/Przywróć do służby" Margin="25 0" Width="125" />
-                <Button Content="Statystyki" Margin="25 0" Width="125" />
             </StackPanel>
         </StackPanel>
     </Grid>

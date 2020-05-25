@@ -62,6 +62,12 @@
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Manage" MouseLeftButtonUp="Manage_MouseLeftButtonUp">
                     <TextBlock Text="Zarządzaj pojazdami (kierownik)"/>
                 </ListViewItem>
+                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Foreground="Blue" Kind="Help"/>
+                        <TextBlock Text="Pomoc"/>
+                    </StackPanel>
+                </ListViewItem>
                 <ListViewItem Background="White" HorizontalAlignment="Center" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Foreground="Red" Kind="Close"/>
