@@ -58,9 +58,10 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Ostati przegląd:" Width="150"/>
                             <TextBlock FontSize="15" Text="04-04-2019"/>
                         </StackPanel>
-                </StackPanel>
+                    </StackPanel>
                 </Border>
             </StackPanel>
+            <Button Content="Generuj raport" Click="Generuj_Raport" Margin="10 5 0 0" Width="100" Height="50"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +26,16 @@ namespace FirmaTransportowa.Views
         public StatystykiPojazdu()
         {
             InitializeComponent();
+        }
+
+        private void Generuj_Raport(object sender, RoutedEventArgs e)
+        {
+            FileStream fs = new FileStream("Raport na temat pojazdu.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+            doc.Add(new iTextSharp.text.Paragraph("Zawartosc raportu"));
+            doc.Close();
         }
     }
 }
