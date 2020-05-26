@@ -1,0 +1,967 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AEiI_2020_BD2_Drynda_FlotaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="critical" Type="bit" Nullable="false" />
+          <Property Name="reporterId" Type="int" Nullable="false" />
+          <Property Name="reportDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="closeDate" Type="smalldatetime" />
+          <Property Name="service" Type="bit" Nullable="false" />
+          <Property Name="price" Type="money" />
+          <Property Name="orderDate" Type="smalldatetime" />
+          <Property Name="contractorId" Type="int" />
+          <Property Name="comments" Type="text" />
+        </EntityType>
+        <EntityType Name="CarDestinations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="31" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarExtras">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="127" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarExtrasInCars">
+          <Key>
+            <PropertyRef Name="carId" />
+            <PropertyRef Name="extraId" />
+          </Key>
+          <Property Name="carId" Type="int" Nullable="false" />
+          <Property Name="extraId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="make" Type="nvarchar" MaxLength="31" Nullable="false" />
+          <Property Name="model" Type="nvarchar" MaxLength="31" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Registration" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="engineCapacity" Type="smallint" Nullable="false" />
+          <Property Name="purchaseDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="saleDate" Type="smalldatetime" />
+          <Property Name="inspectionValidUntil" Type="smalldatetime" Nullable="false" />
+          <Property Name="onService" Type="bit" Nullable="false" />
+          <Property Name="modelId" Type="int" Nullable="false" />
+          <Property Name="destinationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarSupervisors">
+          <Key>
+            <PropertyRef Name="personId" />
+            <PropertyRef Name="carId" />
+          </Key>
+          <Property Name="personId" Type="int" Nullable="false" />
+          <Property Name="carId" Type="int" Nullable="false" />
+          <Property Name="beginDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="endDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="Contractors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="63" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lends">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="carId" Type="int" Nullable="false" />
+          <Property Name="personId" Type="int" Nullable="false" />
+          <Property Name="lendDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="plannedReturnDate" Type="smalldatetime" />
+          <Property Name="returnDate" Type="smalldatetime" />
+          <Property Name="startOdometer" Type="int" Nullable="false" />
+          <Property Name="endOdometer" Type="int" />
+          <Property Name="startFuel" Type="float" Nullable="false" />
+          <Property Name="endFuel" Type="float" />
+          <Property Name="private" Type="bit" Nullable="false" />
+          <Property Name="reservationId" Type="int" />
+          <Property Name="comments" Type="text" />
+        </EntityType>
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="63" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="63" Nullable="false" />
+          <Property Name="employmentData" Type="smalldatetime" Nullable="false" />
+          <Property Name="layoffDate" Type="smalldatetime" />
+          <Property Name="systemLogin" Type="varchar" MaxLength="63" />
+          <Property Name="passwordHash" Type="binary" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="PeoplesPermissions">
+          <Key>
+            <PropertyRef Name="personId" />
+            <PropertyRef Name="permissionId" />
+          </Key>
+          <Property Name="personId" Type="int" Nullable="false" />
+          <Property Name="permissionId" Type="int" Nullable="false" />
+          <Property Name="grantDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="revokeDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="31" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="carId" Type="int" Nullable="false" />
+          <Property Name="reservationDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="lendDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="returnDate" Type="smalldatetime" />
+          <Property Name="lendId" Type="int" />
+          <Property Name="ended" Type="bit" Nullable="false" />
+          <Property Name="private" Type="bit" />
+          <Property Name="personId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Activities_contractorId">
+          <End Role="Contractors" Type="Self.Contractors" Multiplicity="0..1" />
+          <End Role="Activities" Type="Self.Activities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="contractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Activities_reporterId">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Activities" Type="Self.Activities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="reporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarId">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="CarExtrasInCars" Type="Self.CarExtrasInCars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarExtrasInCars">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_destinationId">
+          <End Role="CarDestinations" Type="Self.CarDestinations" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarDestinations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="destinationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExtraId">
+          <End Role="CarExtras" Type="Self.CarExtras" Multiplicity="1" />
+          <End Role="CarExtrasInCars" Type="Self.CarExtrasInCars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarExtras">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarExtrasInCars">
+              <PropertyRef Name="extraId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_carId">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="Lends" Type="Self.Lends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_personId">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Lends" Type="Self.Lends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_reservationId">
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="0..1" />
+          <End Role="Lends" Type="Self.Lends" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="reservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modelId">
+          <End Role="CarModels" Type="Self.CarModels" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="modelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeoplesPermissions_permissionId">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="PeoplesPermissions" Type="Self.PeoplesPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PeoplesPermissions">
+              <PropertyRef Name="permissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeoplesPermissions_personId">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="PeoplesPermissions" Type="Self.PeoplesPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeoplesPermissions">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_personId">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="CarSupervisors" Type="Self.CarSupervisors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarSupervisors">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_carId">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_lendId">
+          <End Role="Lends" Type="Self.Lends" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lends">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="lendId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_personId">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AEiI_2020_BD2_Drynda_FlotaModelStoreContainer">
+          <EntitySet Name="Activities" EntityType="Self.Activities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarDestinations" EntityType="Self.CarDestinations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarExtras" EntityType="Self.CarExtras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarExtrasInCars" EntityType="Self.CarExtrasInCars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarModels" EntityType="Self.CarModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarSupervisors" EntityType="Self.CarSupervisors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contractors" EntityType="Self.Contractors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lends" EntityType="Self.Lends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeoplesPermissions" EntityType="Self.PeoplesPermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Activities_contractorId" Association="Self.FK_Activities_contractorId">
+            <End Role="Contractors" EntitySet="Contractors" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Activities_reporterId" Association="Self.FK_Activities_reporterId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarId" Association="Self.FK_CarId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="CarExtrasInCars" EntitySet="CarExtrasInCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_destinationId" Association="Self.FK_destinationId">
+            <End Role="CarDestinations" EntitySet="CarDestinations" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExtraId" Association="Self.FK_ExtraId">
+            <End Role="CarExtras" EntitySet="CarExtras" />
+            <End Role="CarExtrasInCars" EntitySet="CarExtrasInCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_carId" Association="Self.FK_Lends_carId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_personId" Association="Self.FK_Lends_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_reservationId" Association="Self.FK_Lends_reservationId">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modelId" Association="Self.FK_modelId">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeoplesPermissions_permissionId" Association="Self.FK_PeoplesPermissions_permissionId">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="PeoplesPermissions" EntitySet="PeoplesPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeoplesPermissions_personId" Association="Self.FK_PeoplesPermissions_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="PeoplesPermissions" EntitySet="PeoplesPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_personId" Association="Self.FK_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="CarSupervisors" EntitySet="CarSupervisors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_carId" Association="Self.FK_Reservations_carId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_lendId" Association="Self.FK_Reservations_lendId">
+            <End Role="Lends" EntitySet="Lends" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_personId" Association="Self.FK_Reservations_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AEiI_2020_BD2_Drynda_FlotaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="critical" Type="Boolean" Nullable="false" />
+          <Property Name="reporterId" Type="Int32" Nullable="false" />
+          <Property Name="reportDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="closeDate" Type="DateTime" Precision="0" />
+          <Property Name="service" Type="Boolean" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="orderDate" Type="DateTime" Precision="0" />
+          <Property Name="contractorId" Type="Int32" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contractor" Relationship="Self.FK_Activities_contractorId" FromRole="Activities" ToRole="Contractors" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Activities_reporterId" FromRole="Activities" ToRole="People" />
+        </EntityType>
+        <EntityType Name="CarDestination">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="31" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_destinationId" FromRole="CarDestinations" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="CarExtra">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="127" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.CarExtrasInCars" FromRole="CarExtras" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="CarModel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="make" Type="String" MaxLength="31" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="model" Type="String" MaxLength="31" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_modelId" FromRole="CarModels" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Registration" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="engineCapacity" Type="Int16" Nullable="false" />
+          <Property Name="purchaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="saleDate" Type="DateTime" Precision="0" />
+          <Property Name="inspectionValidUntil" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="onService" Type="Boolean" Nullable="false" />
+          <Property Name="modelId" Type="Int32" Nullable="false" />
+          <Property Name="destinationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CarDestination" Relationship="Self.FK_destinationId" FromRole="Cars" ToRole="CarDestinations" />
+          <NavigationProperty Name="CarModel" Relationship="Self.FK_modelId" FromRole="Cars" ToRole="CarModels" />
+          <NavigationProperty Name="Lends" Relationship="Self.FK_Lends_carId" FromRole="Cars" ToRole="Lends" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_carId" FromRole="Cars" ToRole="Reservations" />
+          <NavigationProperty Name="CarExtras" Relationship="Self.CarExtrasInCars" FromRole="Cars" ToRole="CarExtras" />
+        </EntityType>
+        <EntityType Name="CarSupervisor">
+          <Key>
+            <PropertyRef Name="personId" />
+            <PropertyRef Name="carId" />
+          </Key>
+          <Property Name="personId" Type="Int32" Nullable="false" />
+          <Property Name="carId" Type="Int32" Nullable="false" />
+          <Property Name="beginDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_personId" FromRole="CarSupervisors" ToRole="People" />
+        </EntityType>
+        <EntityType Name="Contractor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK_Activities_contractorId" FromRole="Contractors" ToRole="Activities" />
+        </EntityType>
+        <EntityType Name="Lend">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="carId" Type="Int32" Nullable="false" />
+          <Property Name="personId" Type="Int32" Nullable="false" />
+          <Property Name="lendDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="plannedReturnDate" Type="DateTime" Precision="0" />
+          <Property Name="returnDate" Type="DateTime" Precision="0" />
+          <Property Name="startOdometer" Type="Int32" Nullable="false" />
+          <Property Name="endOdometer" Type="Int32" />
+          <Property Name="startFuel" Type="Double" Nullable="false" />
+          <Property Name="endFuel" Type="Double" />
+          <Property Name="private" Type="Boolean" Nullable="false" />
+          <Property Name="reservationId" Type="Int32" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Lends_carId" FromRole="Lends" ToRole="Cars" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Lends_personId" FromRole="Lends" ToRole="People" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Lends_reservationId" FromRole="Lends" ToRole="Reservations" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_lendId" FromRole="Lends" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="63" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="63" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="employmentData" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="layoffDate" Type="DateTime" Precision="0" />
+          <Property Name="systemLogin" Type="String" MaxLength="63" FixedLength="false" Unicode="false" />
+          <Property Name="passwordHash" Type="Binary" MaxLength="256" FixedLength="true" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK_Activities_reporterId" FromRole="People" ToRole="Activities" />
+          <NavigationProperty Name="CarSupervisors" Relationship="Self.FK_personId" FromRole="People" ToRole="CarSupervisors" />
+          <NavigationProperty Name="Lends" Relationship="Self.FK_Lends_personId" FromRole="People" ToRole="Lends" />
+          <NavigationProperty Name="PeoplesPermissions" Relationship="Self.FK_PeoplesPermissions_personId" FromRole="People" ToRole="PeoplesPermissions" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_personId" FromRole="People" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="PeoplesPermission">
+          <Key>
+            <PropertyRef Name="personId" />
+            <PropertyRef Name="permissionId" />
+          </Key>
+          <Property Name="personId" Type="Int32" Nullable="false" />
+          <Property Name="permissionId" Type="Int32" Nullable="false" />
+          <Property Name="grantDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="revokeDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_PeoplesPermissions_personId" FromRole="PeoplesPermissions" ToRole="People" />
+          <NavigationProperty Name="Permission" Relationship="Self.FK_PeoplesPermissions_permissionId" FromRole="PeoplesPermissions" ToRole="Permissions" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="31" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PeoplesPermissions" Relationship="Self.FK_PeoplesPermissions_permissionId" FromRole="Permissions" ToRole="PeoplesPermissions" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="carId" Type="Int32" Nullable="false" />
+          <Property Name="reservationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="lendDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="returnDate" Type="DateTime" Precision="0" />
+          <Property Name="lendId" Type="Int32" />
+          <Property Name="ended" Type="Boolean" Nullable="false" />
+          <Property Name="private" Type="Boolean" />
+          <Property Name="personId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Reservations_carId" FromRole="Reservations" ToRole="Cars" />
+          <NavigationProperty Name="Lends" Relationship="Self.FK_Lends_reservationId" FromRole="Reservations" ToRole="Lends" />
+          <NavigationProperty Name="Lend" Relationship="Self.FK_Reservations_lendId" FromRole="Reservations" ToRole="Lends" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Reservations_personId" FromRole="Reservations" ToRole="People" />
+        </EntityType>
+        <Association Name="FK_Activities_contractorId">
+          <End Role="Contractors" Type="Self.Contractor" Multiplicity="0..1" />
+          <End Role="Activities" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="contractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Activities_reporterId">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="Activities" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="reporterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_destinationId">
+          <End Role="CarDestinations" Type="Self.CarDestination" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarDestinations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="destinationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modelId">
+          <End Role="CarModels" Type="Self.CarModel" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="modelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_carId">
+          <End Role="Cars" Type="Self.Car" Multiplicity="1" />
+          <End Role="Lends" Type="Self.Lend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_carId">
+          <End Role="Cars" Type="Self.Car" Multiplicity="1" />
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_personId">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="CarSupervisors" Type="Self.CarSupervisor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CarSupervisors">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_personId">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="Lends" Type="Self.Lend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lends_reservationId">
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Lends" Type="Self.Lend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lends">
+              <PropertyRef Name="reservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_lendId">
+          <End Role="Lends" Type="Self.Lend" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lends">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="lendId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeoplesPermissions_personId">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="PeoplesPermissions" Type="Self.PeoplesPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PeoplesPermissions">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_personId">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="personId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeoplesPermissions_permissionId">
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="1" />
+          <End Role="PeoplesPermissions" Type="Self.PeoplesPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PeoplesPermissions">
+              <PropertyRef Name="permissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CarExtrasInCars">
+          <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+          <End Role="CarExtras" Type="Self.CarExtra" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AEiI_2020_BD2_Drynda_FlotaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Activities" EntityType="Self.Activity" />
+          <EntitySet Name="CarDestinations" EntityType="Self.CarDestination" />
+          <EntitySet Name="CarExtras" EntityType="Self.CarExtra" />
+          <EntitySet Name="CarModels" EntityType="Self.CarModel" />
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="CarSupervisors" EntityType="Self.CarSupervisor" />
+          <EntitySet Name="Contractors" EntityType="Self.Contractor" />
+          <EntitySet Name="Lends" EntityType="Self.Lend" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="PeoplesPermissions" EntityType="Self.PeoplesPermission" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <AssociationSet Name="FK_Activities_contractorId" Association="Self.FK_Activities_contractorId">
+            <End Role="Contractors" EntitySet="Contractors" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Activities_reporterId" Association="Self.FK_Activities_reporterId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_destinationId" Association="Self.FK_destinationId">
+            <End Role="CarDestinations" EntitySet="CarDestinations" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modelId" Association="Self.FK_modelId">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_carId" Association="Self.FK_Lends_carId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_carId" Association="Self.FK_Reservations_carId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_personId" Association="Self.FK_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="CarSupervisors" EntitySet="CarSupervisors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_personId" Association="Self.FK_Lends_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lends_reservationId" Association="Self.FK_Lends_reservationId">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Lends" EntitySet="Lends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_lendId" Association="Self.FK_Reservations_lendId">
+            <End Role="Lends" EntitySet="Lends" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeoplesPermissions_personId" Association="Self.FK_PeoplesPermissions_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="PeoplesPermissions" EntitySet="PeoplesPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_personId" Association="Self.FK_Reservations_personId">
+            <End Role="People" EntitySet="People" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeoplesPermissions_permissionId" Association="Self.FK_PeoplesPermissions_permissionId">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="PeoplesPermissions" EntitySet="PeoplesPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="CarExtrasInCars" Association="Self.CarExtrasInCars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="CarExtras" EntitySet="CarExtras" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AEiI_2020_BD2_Drynda_FlotaModelStoreContainer" CdmEntityContainer="AEiI_2020_BD2_Drynda_FlotaEntities">
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Activity">
+              <MappingFragment StoreEntitySet="Activities">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="critical" ColumnName="critical" />
+                <ScalarProperty Name="reporterId" ColumnName="reporterId" />
+                <ScalarProperty Name="reportDate" ColumnName="reportDate" />
+                <ScalarProperty Name="closeDate" ColumnName="closeDate" />
+                <ScalarProperty Name="service" ColumnName="service" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="contractorId" ColumnName="contractorId" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarDestinations">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.CarDestination">
+              <MappingFragment StoreEntitySet="CarDestinations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarExtras">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.CarExtra">
+              <MappingFragment StoreEntitySet="CarExtras">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarModels">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.CarModel">
+              <MappingFragment StoreEntitySet="CarModels">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="make" ColumnName="make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Car">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Registration" ColumnName="Registration" />
+                <ScalarProperty Name="engineCapacity" ColumnName="engineCapacity" />
+                <ScalarProperty Name="purchaseDate" ColumnName="purchaseDate" />
+                <ScalarProperty Name="saleDate" ColumnName="saleDate" />
+                <ScalarProperty Name="inspectionValidUntil" ColumnName="inspectionValidUntil" />
+                <ScalarProperty Name="onService" ColumnName="onService" />
+                <ScalarProperty Name="modelId" ColumnName="modelId" />
+                <ScalarProperty Name="destinationId" ColumnName="destinationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarSupervisors">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.CarSupervisor">
+              <MappingFragment StoreEntitySet="CarSupervisors">
+                <ScalarProperty Name="personId" ColumnName="personId" />
+                <ScalarProperty Name="carId" ColumnName="carId" />
+                <ScalarProperty Name="beginDate" ColumnName="beginDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contractors">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Contractor">
+              <MappingFragment StoreEntitySet="Contractors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lends">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Lend">
+              <MappingFragment StoreEntitySet="Lends">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="carId" ColumnName="carId" />
+                <ScalarProperty Name="personId" ColumnName="personId" />
+                <ScalarProperty Name="lendDate" ColumnName="lendDate" />
+                <ScalarProperty Name="plannedReturnDate" ColumnName="plannedReturnDate" />
+                <ScalarProperty Name="returnDate" ColumnName="returnDate" />
+                <ScalarProperty Name="startOdometer" ColumnName="startOdometer" />
+                <ScalarProperty Name="endOdometer" ColumnName="endOdometer" />
+                <ScalarProperty Name="startFuel" ColumnName="startFuel" />
+                <ScalarProperty Name="endFuel" ColumnName="endFuel" />
+                <ScalarProperty Name="private" ColumnName="private" />
+                <ScalarProperty Name="reservationId" ColumnName="reservationId" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Person">
+              <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="employmentData" ColumnName="employmentData" />
+                <ScalarProperty Name="layoffDate" ColumnName="layoffDate" />
+                <ScalarProperty Name="systemLogin" ColumnName="systemLogin" />
+                <ScalarProperty Name="passwordHash" ColumnName="passwordHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeoplesPermissions">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.PeoplesPermission">
+              <MappingFragment StoreEntitySet="PeoplesPermissions">
+                <ScalarProperty Name="personId" ColumnName="personId" />
+                <ScalarProperty Name="permissionId" ColumnName="permissionId" />
+                <ScalarProperty Name="grantDate" ColumnName="grantDate" />
+                <ScalarProperty Name="revokeDate" ColumnName="revokeDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Permission">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="carId" ColumnName="carId" />
+                <ScalarProperty Name="reservationDate" ColumnName="reservationDate" />
+                <ScalarProperty Name="lendDate" ColumnName="lendDate" />
+                <ScalarProperty Name="returnDate" ColumnName="returnDate" />
+                <ScalarProperty Name="lendId" ColumnName="lendId" />
+                <ScalarProperty Name="ended" ColumnName="ended" />
+                <ScalarProperty Name="private" ColumnName="private" />
+                <ScalarProperty Name="personId" ColumnName="personId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CarExtrasInCars" TypeName="AEiI_2020_BD2_Drynda_FlotaModel.CarExtrasInCars" StoreEntitySet="CarExtrasInCars">
+            <EndProperty Name="Cars">
+              <ScalarProperty Name="id" ColumnName="carId" />
+            </EndProperty>
+            <EndProperty Name="CarExtras">
+              <ScalarProperty Name="id" ColumnName="extraId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
