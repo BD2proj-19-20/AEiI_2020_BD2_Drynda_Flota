@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3905a90a1c724f0bb7659ebbcc6b7604" Name="Diagram1">
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Activity" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarDestination" Width="1.5" PointX="1.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarExtra" Width="1.5" PointX="6" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarModel" Width="1.5" PointX="1.5" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Car" Width="1.5" PointX="3.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarSupervisor" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Contractor" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Lend" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Person" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.PeoplesPermission" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Permission" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Reservation" Width="1.5" PointX="8.25" PointY="6.25" IsExpanded="true" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_contractorId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_reporterId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_destinationId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_modelId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Lends_carId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Reservations_carId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_personId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Lends_personId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Lends_reservationId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Reservations_lendId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_PeoplesPermissions_personId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Reservations_personId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_PeoplesPermissions_permissionId" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.CarExtrasInCars" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
