@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace FirmaTransportowa.ViewModels
 {
-    public class ZarzadzajPojazdamiModel
+    public class DodajPojazdModel
     {
-        public ZarzadzajPojazdamiModel()
-        {
-        }
     }
 }

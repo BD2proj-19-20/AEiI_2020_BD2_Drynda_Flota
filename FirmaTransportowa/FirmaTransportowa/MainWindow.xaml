@@ -34,6 +34,9 @@
         <DataTemplate x:Name="PracownicyTemplate" DataType="{x:Type viewmodels:PracownicyModel}">
             <views:Pracownicy DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="DodajPojazdTemplate" DataType="{x:Type viewmodels:DodajPojazdModel}">
+            <views:DodajPojazd DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">

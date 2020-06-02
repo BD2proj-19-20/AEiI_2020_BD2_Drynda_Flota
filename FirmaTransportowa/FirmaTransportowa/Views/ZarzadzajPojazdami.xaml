@@ -12,7 +12,7 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
                 <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
@@ -45,11 +45,12 @@
                 </ListViewItem>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="25 0" Width="125" />
+                <Button Content="Dodaj" Margin="25 0" Width="125" Click="Dodaj_Pojazd" />
                 <Button Content="Usuń" Margin="25 0" Width="125" />
                 <Button Content="Zmień opiekuna" Margin="25 0" Width="125" />
                 <Button Content="Podgląd" Margin="25 0" Width="125" />
             </StackPanel>
         </StackPanel>
+        <Button Content="Generuj raport" Click="Generuj_Raport" Margin="325,5,325,550" Width="100"/>
     </Grid>
 </UserControl>

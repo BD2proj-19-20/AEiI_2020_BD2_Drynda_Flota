@@ -130,6 +130,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="SortAdorner.cs" />
+    <Compile Include="ViewModels\DodajPojazdModel.cs" />
     <Compile Include="ViewModels\ListaPojazdowModel.cs" />
     <Compile Include="ViewModels\MojePojazdyModel.cs" />
     <Compile Include="ViewModels\MojeRezerwacjeModel.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="ViewModels\StatystykiPojazduModel.cs" />
     <Compile Include="ViewModels\StatystykiPracownikaModel.cs" />
     <Compile Include="ViewModels\ZarzadzajPojazdamiModel.cs" />
+    <Compile Include="Views\DodajPojazd.xaml.cs">
+      <DependentUpon>DodajPojazd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
     </Compile>
@@ -174,6 +178,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DodajPojazd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ListaPojazdow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="FirmaTransportowa.Views.DodajPojazd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirmaTransportowa.Views"
+        mc:Ignorable="d"
+        d:DesignHeight="600" d:DesignWidth="750">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Name="Rejestracja"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Name="PojemnoscSilnika"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Path=DateTimeValue, StringFormat=dd-MM-yyyy}"  Name="DataZakupu"/>
+        <ComboBox HorizontalAlignment="Left" Margin="311,247,0,0" VerticalAlignment="Top" Width="120"  Name="Model"/>
+        <ComboBox HorizontalAlignment="Left" Margin="311,293,0,0" VerticalAlignment="Top" Width="120"  Name="Zastosowanie"/>
+        <Label Content="Rejestracja&#xD;&#xA;" HorizontalAlignment="Left" Margin="227,86,0,0" VerticalAlignment="Top" Width="79" Height="23"/>
+        <Label Content="Pojemność silnika" HorizontalAlignment="Left" Margin="197,139,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label Content="Data zakupu" HorizontalAlignment="Left" Margin="197,199,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label Content="Model" HorizontalAlignment="Left" Margin="211,247,0,0" VerticalAlignment="Top" Width="83"/>
+        <Label Content="Zastosowanie" HorizontalAlignment="Left" Margin="211,293,0,0" VerticalAlignment="Top" Width="95"/>
+        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="333,367,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Pojazd"/>
+
+    </Grid>
+</UserControl>
