@@ -60,9 +60,6 @@ namespace FirmaTransportowa.Views
 
 
             var carDests = db.CarDestinations;
-
-            newCar.destinationId = 0;
-
             string temp = Zastosowanie.Text;
 
             foreach(var carDest in carDests)
@@ -74,12 +71,45 @@ namespace FirmaTransportowa.Views
             }
 
             var carModels = db.CarModels;
+            temp = Model.Text;
 
-            newCar.modelId = 51;
+            foreach (var carModel in carModels)
+            {
+                string fullName = carModel.make + " " + carModel.model;
+                if (fullName.Equals(temp))
+                {
+                    newCar.modelId = carModel.id;
+                }
+            }
 
             cars.Add(newCar);
             db.SaveChanges();
 
+            temp = Opiekunowie.Text;
+            if (!temp.Equals(""))
+            {
+                var carSupervisors = db.CarSupervisors;
+
+                var newSupervisor = new CarSupervisor();
+                newSupervisor.carId = newCar.id;
+                newSupervisor.beginDate = Convert.ToDateTime(DataZakupu.Text);
+                newSupervisor.endDate = Convert.ToDateTime(DataZakupu.Text);
+
+                var People = db.People;
+
+                foreach (var human in People)
+                {
+                    string fullName = human.firstName + " " + human.lastName;
+                    if (fullName.Equals(temp))
+                    {
+                        newSupervisor.personId = human.id;
+                        newSupervisor.Person = human;
+                    }
+                }
+                carSupervisors.Add(newSupervisor);
+            }
+
+            db.SaveChanges();
         }
     }
 }
