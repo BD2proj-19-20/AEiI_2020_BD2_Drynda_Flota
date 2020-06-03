@@ -30,10 +30,18 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
             var newCar = new Car();
+
+            var carModels = db.CarModels;
+            var carModel = carModels.Find(0);
+
             newCar.Registration = Rejestracja.Text;
             newCar.purchaseDate = Convert.ToDateTime(DataZakupu.Text);
+            newCar.inspectionValidUntil = Convert.ToDateTime(DataZakupu.Text);
             newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
+            newCar.destinationId = 0;
+            newCar.modelId = 51;
             cars.Add(newCar);
+            db.SaveChanges();
 
         }
     }

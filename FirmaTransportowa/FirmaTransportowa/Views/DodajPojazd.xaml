@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         d:DesignHeight="600" d:DesignWidth="750">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Name="Rejestracja"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Name="PojemnoscSilnika"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Path=DateTimeValue, StringFormat=dd-MM-yyyy}"  Name="DataZakupu"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="Rejestracja" Text="SY8910F"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="PojemnoscSilnika" Text="1798"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="311,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="03.06.2020" Name="DataZakupu"/>
         <ComboBox HorizontalAlignment="Left" Margin="311,247,0,0" VerticalAlignment="Top" Width="120"  Name="Model"/>
         <ComboBox HorizontalAlignment="Left" Margin="311,293,0,0" VerticalAlignment="Top" Width="120"  Name="Zastosowanie"/>
         <Label Content="Rejestracja&#xD;&#xA;" HorizontalAlignment="Left" Margin="227,86,0,0" VerticalAlignment="Top" Width="79" Height="23"/>
