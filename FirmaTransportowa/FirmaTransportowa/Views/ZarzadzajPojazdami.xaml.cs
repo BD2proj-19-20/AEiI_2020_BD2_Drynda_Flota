@@ -23,11 +23,28 @@ namespace FirmaTransportowa.Views
     /// <summary>
     /// Interaction logic for ZarzadzajPojazdami.xaml
     /// </summary>
+    /// 
+    public class ItemList
+    {
+        public int Car { get; set; }
+
+        public string Registration { get; set; }
+    }
     public partial class ZarzadzajPojazdami : UserControl
     {
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+
+            foreach (var car in cars)
+            {
+                this.carList.Items.Add(new ItemList{Car = car.modelId, Registration = car.Registration});
+            }
+
+            
         }
         public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
         {
@@ -78,3 +95,4 @@ namespace FirmaTransportowa.Views
         }
     }
 }
+

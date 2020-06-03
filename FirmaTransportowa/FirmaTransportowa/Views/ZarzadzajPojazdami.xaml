@@ -13,36 +13,12 @@
                 <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Skoda Octavia" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Ford Focus" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Audi A8" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Volkswagen Passat" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Ford Mondeo" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Samochód" DisplayMemberBinding="{Binding Car}"/>
+                        <GridViewColumn Header="Nr rejestracyjny" DisplayMemberBinding="{Binding Registration}"/>
+                    </GridView>
+                </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Dodaj" Margin="25 0" Width="125" Click="Dodaj_Pojazd" />
