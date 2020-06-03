@@ -29,6 +29,8 @@ namespace FirmaTransportowa.Views
         public int Car { get; set; }
 
         public string Registration { get; set; }
+
+        public string CarSupervisor { get; set; }
     }
     public partial class ZarzadzajPojazdami : UserControl
     {
@@ -38,13 +40,30 @@ namespace FirmaTransportowa.Views
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
+            var carSupervisors = db.CarSupervisors;
+            var peoples = db.People;
+
 
             foreach (var car in cars)
             {
-                this.carList.Items.Add(new ItemList{Car = car.modelId, Registration = car.Registration});
-            }
+                string supervisorString = "Brak";
 
-            
+                foreach (var supervisor in carSupervisors)
+                {
+                    if (supervisor.carId == car.id)
+                    {
+                        foreach (var people in peoples)
+                        {
+                            if (people.id == supervisor.personId)
+                            {
+                                supervisorString = people.firstName + " " + people.lastName;
+                            }
+                        }
+                    }
+                }
+
+                this.carList.Items.Add(new ItemList { Car = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
+            }
         }
         public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
         {

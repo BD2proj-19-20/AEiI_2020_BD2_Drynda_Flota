@@ -17,6 +17,7 @@
                     <GridView>
                         <GridViewColumn Header="Samochód" DisplayMemberBinding="{Binding Car}"/>
                         <GridViewColumn Header="Nr rejestracyjny" DisplayMemberBinding="{Binding Registration}"/>
+                        <GridViewColumn Header="Opiekun" DisplayMemberBinding="{Binding CarSupervisor}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
