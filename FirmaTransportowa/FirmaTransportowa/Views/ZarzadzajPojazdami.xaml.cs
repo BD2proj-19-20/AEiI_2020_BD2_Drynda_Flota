@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace FirmaTransportowa.Views
     /// 
     public class ItemList
     {
-        public int Car { get; set; }
+        public int CarId { get; set; }
 
         public string Registration { get; set; }
 
@@ -62,7 +63,7 @@ namespace FirmaTransportowa.Views
                     }
                 }
 
-                this.carList.Items.Add(new ItemList { Car = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
+                this.carList.Items.Add(new ItemList { CarId = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
             }
         }
         public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
@@ -111,6 +112,28 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new DodajPojazdModel();
             //MainWindow
             //DataContext = new DodajPojazd();
+        }
+
+        private void Usun_Pojazd(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ItemList selected = (ItemList)carList.SelectedItem;
+            int selectedId = selected.CarId;
+            //Usuwam zaznaczony samochód z listy
+            carList.Items.RemoveAt(carList.SelectedIndex);
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+
+            //Usuwam zaznaczony samochód z bazy
+            foreach (var car in cars)
+            {
+                if(car.id==selectedId)
+                {
+                    db.Cars.Remove(car);
+                }
+            }
+            db.SaveChanges();
         }
     }
 }
