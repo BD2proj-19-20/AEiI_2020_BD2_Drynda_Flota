@@ -23,6 +23,28 @@ namespace FirmaTransportowa.Views
         public DodajPojazd()
         {
             InitializeComponent();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var carModels = db.CarModels;
+
+            foreach(var carModel in carModels)
+            {
+                Model.Items.Add(carModel.make+" "+carModel.model);
+            }
+
+            var carDests = db.CarDestinations;
+
+            foreach(var carDest in carDests)
+            {
+                Zastosowanie.Items.Add(carDest.name);
+            }
+
+            var people = db.People;
+
+            foreach(var human in people)
+            {
+                Opiekunowie.Items.Add(human.firstName + " " + human.lastName);
+            }
         }
 
         private void Dodaj_Pojazd(object sender, RoutedEventArgs e)
@@ -31,15 +53,30 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             var newCar = new Car();
 
-            var carModels = db.CarModels;
-            var carModel = carModels.Find(0);
-
             newCar.Registration = Rejestracja.Text;
             newCar.purchaseDate = Convert.ToDateTime(DataZakupu.Text);
             newCar.inspectionValidUntil = Convert.ToDateTime(DataZakupu.Text);
             newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
+
+
+            var carDests = db.CarDestinations;
+
             newCar.destinationId = 0;
+
+            string temp = Zastosowanie.Text;
+
+            foreach(var carDest in carDests)
+            {
+                if(carDest.name.Equals(temp))
+                {
+                    newCar.destinationId = carDest.id;
+                }
+            }
+
+            var carModels = db.CarModels;
+
             newCar.modelId = 51;
+
             cars.Add(newCar);
             db.SaveChanges();
 

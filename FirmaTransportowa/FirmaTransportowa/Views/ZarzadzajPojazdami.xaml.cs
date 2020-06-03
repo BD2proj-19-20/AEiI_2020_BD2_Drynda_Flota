@@ -108,10 +108,7 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Pojazd(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            //var glowneOkno = Application.Current.Windows[0];
             glowneOkno.DataContext = new DodajPojazdModel();
-            //MainWindow
-            //DataContext = new DodajPojazd();
         }
 
         private void Usun_Pojazd(object sender, RoutedEventArgs e)
