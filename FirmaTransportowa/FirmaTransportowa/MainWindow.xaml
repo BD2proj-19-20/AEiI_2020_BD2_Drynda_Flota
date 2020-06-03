@@ -53,12 +53,6 @@
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
                     <TextBlock Text="Moje pojazdy (opiekun)"/>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarStatistics" MouseLeftButtonUp="CarStatistics_MouseLeftButtonUp">
-                    <TextBlock Text="Statystyki pojazdu (wszyscy)"/>
-                </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="WorkerStatistics" MouseLeftButtonUp="WorkerStatistics_MouseLeftButtonUp">
-                    <TextBlock Text="Statystyki pracownika (kierownik)"/>
-                </ListViewItem>
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
                     <TextBlock Text="Rezerwacje (kierownik)"/>
                 </ListViewItem>

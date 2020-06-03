@@ -9,10 +9,10 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <TextBlock Foreground="Black" Margin="10 0" Text="Jan Kowalski" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="White" Margin="10 0" Text="Jan Kowalski" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="500" Width="700">
-                <Border BorderBrush="Black" BorderThickness="5" Margin="25 0" Height="500" Width="300" CornerRadius="10">
+                <Border Background="White" Margin="25 0" Height="500" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Informacje ogólne"/>
@@ -35,7 +35,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border BorderBrush="Black" BorderThickness="5" Margin="25 0" Height="500" Width="300" CornerRadius="10">
+                <Border Background="White" Margin="25 0" Height="500" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkownika"/>

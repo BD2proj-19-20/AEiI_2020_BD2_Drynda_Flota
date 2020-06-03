@@ -25,7 +25,7 @@
                 <Button Content="Dodaj" Margin="25 0" Width="125" Click="Dodaj_Pojazd" />
                 <Button Content="Usuń" Margin="25 0" Width="125" Click="Usun_Pojazd"/>
                 <Button Content="Zmień opiekuna" Margin="25 0" Width="125" />
-                <Button Content="Podgląd" Margin="25 0" Width="125" />
+                <Button Content="Podgląd" Margin="25 0" Width="125" Name="CarStatistics" Click="CarStatistics_Click"/>
             </StackPanel>
         </StackPanel>
         <Button Content="Generuj raport" Click="Generuj_Raport" Margin="325,5,325,550" Width="100"/>

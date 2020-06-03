@@ -132,6 +132,11 @@ namespace FirmaTransportowa.Views
             }
             db.SaveChanges();
         }
+        private void CarStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
+            mainWindow.DataContext = new StatystykiPojazduModel();
+        }
     }
 }
 

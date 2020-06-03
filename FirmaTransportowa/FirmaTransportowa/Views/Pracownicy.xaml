@@ -41,7 +41,7 @@
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Dodaj" Margin="25 0 0 0" Width="200" />
                 <Button Content="Usuń" Margin="25 0 0 0" Width="200" />
-                <Button Content="Statystyki" Margin="25 0 0 0" Width="200" />
+                <Button Content="Statystyki" Margin="25 0 0 0" Width="200" Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

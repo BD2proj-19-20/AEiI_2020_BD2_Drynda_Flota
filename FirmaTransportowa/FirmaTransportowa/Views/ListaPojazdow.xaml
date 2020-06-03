@@ -47,7 +47,7 @@
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Rezerwuj" Margin="10 0 0 0" Width="100" />
                 <Button Content="Wypożycz" Margin="10 0 0 0" Width="100" />
-                <Button Content="Podgląd" Margin="10 0 0 0" Width="100" />
+                <Button Content="Podgląd" Margin="10 0 0 0" Width="100" Name="CarStatistics" Click="CarStatistics_Click"/>
                 <Button Content="Zgłoś usterkę" Margin="10 0 0 0" Width="100" />
                 <Button Content="Dodaj tankowanie" Margin="10 0 0 0" Width="100" />
             </StackPanel>
