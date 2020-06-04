@@ -18,6 +18,7 @@ using FirmaTransportowa.Model;
 using FirmaTransportowa.ViewModels;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using MaterialDesignThemes.Wpf;
 
 namespace FirmaTransportowa.Views
 {
@@ -131,6 +132,16 @@ namespace FirmaTransportowa.Views
                 }
             }
             db.SaveChanges();
+        }
+
+        private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
+        {
+            ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna();
+            zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            zmianaOpiekunaView.ShowDialog();
+
+
         }
         private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
