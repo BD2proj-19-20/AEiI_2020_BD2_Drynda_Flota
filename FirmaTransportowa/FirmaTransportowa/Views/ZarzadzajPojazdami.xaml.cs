@@ -43,7 +43,7 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
             var carSupervisors = db.CarSupervisors;
-            var peoples = db.People;
+            var people = db.People;
 
 
             foreach (var car in cars)
@@ -54,11 +54,11 @@ namespace FirmaTransportowa.Views
                 {
                     if (supervisor.carId == car.id)
                     {
-                        foreach (var people in peoples)
+                        foreach (var human in people)
                         {
-                            if (people.id == supervisor.personId)
+                            if (human.id == supervisor.personId)
                             {
-                                supervisorString = people.firstName + " " + people.lastName;
+                                supervisorString = human.firstName + " " + human.lastName;
                             }
                         }
                     }
@@ -136,13 +136,26 @@ namespace FirmaTransportowa.Views
 
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
         {
-            ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna();
-            zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
-            zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-            zmianaOpiekunaView.ShowDialog();
+            //Pobieram zaznaczony samochód
+            ItemList selected = (ItemList)carList.SelectedItem;
+            int selectedId = selected.CarId;
 
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
 
+            //Wysyłam zaznaczony samochód do zmiany opiekuna
+            foreach (var car in cars)
+            {
+                if (car.id == selectedId)
+                {
+                    ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car);
+                    zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+                    zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+                    zmianaOpiekunaView.ShowDialog();
+                }
+            }
         }
+
         private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;

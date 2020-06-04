@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirmaTransportowa.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,61 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class ZmianaOpiekuna : Window
     {
-        public ZmianaOpiekuna()
+        Car toChange;
+        public ZmianaOpiekuna(Car toChange)
         {
             InitializeComponent();
+            nrRej.Content = toChange.Registration;
+            this.toChange = toChange;
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var people = db.People;
+
+            foreach (var human in people)
+            {
+                Opiekunowie.Items.Add(human.firstName + " " + human.lastName);
+            }
+        }
+
+        private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            string temp = Opiekunowie.Text;
+
+            if (!temp.Equals(""))
+            {
+                DateTime today = DateTime.Today;
+
+                var carSupervisors = db.CarSupervisors;
+                var newSupervisor = new CarSupervisor();
+
+                foreach (var carSupervisor in carSupervisors)
+                {
+                    if(carSupervisor.carId == toChange.id)
+                    {
+                        carSupervisor.endDate = today;
+                    }
+                }
+
+                newSupervisor.carId = toChange.id;
+                newSupervisor.beginDate = today;
+                newSupervisor.endDate = today;
+
+                var People = db.People;
+
+                foreach (var human in People)
+                {
+                    string fullName = human.firstName + " " + human.lastName;
+                    if (fullName.Equals(temp))
+                    {
+                        newSupervisor.personId = human.id;
+                        newSupervisor.Person = human;
+                    }
+                }
+                carSupervisors.Add(newSupervisor);
+            }
+            db.SaveChanges();
+            this.Close();
         }
 
         private void Anuluj(object sender, RoutedEventArgs e)
