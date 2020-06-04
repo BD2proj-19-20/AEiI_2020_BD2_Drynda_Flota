@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ namespace FirmaTransportowa.Views
 
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
+        List<ItemList> items = new List<ItemList>();
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -48,8 +50,6 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             var carSupervisors = db.CarSupervisors;
             var people = db.People;
-
-            List<ItemList> items = new List<ItemList>();
 
             foreach (var car in cars)
             {
@@ -97,21 +97,44 @@ namespace FirmaTransportowa.Views
 
         private void Generuj_Raport(object sender, RoutedEventArgs e)
         {
-            int selectedCarId = 1;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var carSupervisors = db.CarSupervisors;
             var cars = db.Cars;
+            var people = db.People;
 
-            foreach (var c in cars)
-            {
-                int id = c.id;
-                int eC = c.engineCapacity;
-            }
-
+            iTextSharp.text.Font times = FontFactory.GetFont("Arial", 28, new BaseColor(System.Drawing.Color.Black));
             FileStream fs = new FileStream("Raport na temat pojazdu.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
-            doc.Add(new iTextSharp.text.Paragraph("Zawartosc raportu"));
+
+            bool carSupervisorWritten = false;
+
+            foreach(var human in people)
+            {
+                carSupervisorWritten = false;
+
+                foreach (var carSupervisor in carSupervisors)
+                {
+                    if (human.id == carSupervisor.personId)
+                    {
+                        if (carSupervisorWritten == false)
+                        {
+                            doc.Add(new iTextSharp.text.Paragraph(human.id + " " + human.firstName + " " + human.lastName + " ma pod opieka:", times));
+                            carSupervisorWritten = true;
+                        }
+                        
+                        foreach (var car in cars)
+                        {
+                            if (car.id == carSupervisor.carId)
+                            {
+                                doc.Add(new iTextSharp.text.Chunk("    "+car.id + " " + car.CarModel.make + " " + car.CarModel.model + "\n"));
+                            }
+                        }
+                    }
+                }
+            }
+            
             doc.Close();
         }
 
@@ -127,7 +150,8 @@ namespace FirmaTransportowa.Views
             ItemList selected = (ItemList)carList.SelectedItem;
             int selectedId = selected.CarId;
             //Usuwam zaznaczony samochód z listy
-            carList.Items.RemoveAt(carList.SelectedIndex);
+            items.Remove(selected);
+            carList.ItemsSource = items;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
