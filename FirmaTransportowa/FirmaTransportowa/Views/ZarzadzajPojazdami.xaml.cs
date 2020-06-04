@@ -49,6 +49,7 @@ namespace FirmaTransportowa.Views
             var carSupervisors = db.CarSupervisors;
             var people = db.People;
 
+            List<ItemList> items = new List<ItemList>();
 
             foreach (var car in cars)
             {
@@ -68,8 +69,12 @@ namespace FirmaTransportowa.Views
                     }
                 }
 
-                this.carList.Items.Add(new ItemList { CarId = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
+                items.Add(new ItemList { CarId = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
             }
+            carList.ItemsSource = items;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            view.Filter += UserFilter;
         }
         public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
         {
@@ -130,7 +135,7 @@ namespace FirmaTransportowa.Views
             //Usuwam zaznaczony samochód z bazy
             foreach (var car in cars)
             {
-                if(car.id==selectedId)
+                if (car.id == selectedId)
                 {
                     db.Cars.Remove(car);
                 }
@@ -180,10 +185,44 @@ namespace FirmaTransportowa.Views
             carList.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
         }
 
+        private bool UserFilter(object item)
+        {
+            if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
+                //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
+                if (!((item as ItemList).CarSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(registrationFiler.Text))
+                //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
+                if (!((item as ItemList).Registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(idFilter.Text))
+                //jezeli item nie spelnia filtra id nie wyswietlam go
+                if (!((item as ItemList).CarId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            //cała reszte wyswietlam
+            return true;
+        }
+
+
         private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
             mainWindow.DataContext = new StatystykiPojazduModel();
+        }
+
+        private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void registrationFiler_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void carSupervisorFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
     }
 }
