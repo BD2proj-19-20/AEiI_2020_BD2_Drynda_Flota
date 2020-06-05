@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0CB15BAD5B62445E986641F735E89FA2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1EFF79A68296DA0DB8FF769657D2720B"
         "OwnerKey" = "8:_BF045AE259BD44F68AE478EC75303B37"
         "MsmSig" = "8:_UNDEFINED"
@@ -184,6 +190,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0CB15BAD5B62445E986641F735E89FA2"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\Desktop\\car.ico"
+            "TargetName" = "8:car.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_5029741CFC5F44E18CCC5801108E8493"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1EFF79A68296DA0DB8FF769657D2720B"
             {
             "AssemblyRegister" = "3:1"
@@ -456,9 +482,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:FirmaTransportowaInstalator"
+        "ProductName" = "8:Drynda Flota"
         "ProductCode" = "8:{426D5BD5-E51D-470B-B746-EE4A6B1C5AB5}"
-        "PackageCode" = "8:{5A023222-3412-4230-BDD1-60E3EEEE0DA2}"
+        "PackageCode" = "8:{01F0FC0D-E010-424B-BCCA-32AA73307D20}"
         "UpgradeCode" = "8:{6A4C6E6E-C4BC-4550-8E45-186023EB8724}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -466,12 +492,12 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:DryndaCompany"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:FirmaTransportowaInstalator"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:DryndaSection"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -578,6 +604,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_45C5984B748C43F983230B917382C077"
+            {
+            "Name" = "8:DryndaFlota"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_BF045AE259BD44F68AE478EC75303B37"
+            "Folder" = "8:_5029741CFC5F44E18CCC5801108E8493"
+            "WorkingFolder" = "8:_066A6A42138544F8917D6ED02399CAC4"
+            "Icon" = "8:_0CB15BAD5B62445E986641F735E89FA2"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
