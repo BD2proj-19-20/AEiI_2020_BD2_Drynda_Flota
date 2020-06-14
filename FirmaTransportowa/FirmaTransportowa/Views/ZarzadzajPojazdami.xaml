@@ -22,7 +22,7 @@
                     <GridView>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding CarId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="CarId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                                <GridViewColumnHeader  Tag="CarId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding Registration}">

@@ -11,35 +11,19 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Jan Kowalski" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Jan Kowalski" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Jan Kowalski" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Jan Kowalski" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Jan Kowalski" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
+            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="workersList">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="700"  DisplayMemberBinding="{Binding Person}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Visibility="Collapsed"   >Perosn</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="25 0 0 0" Width="200" />
+                <Button Content="Dodaj" Margin="25 0 0 0" Width="200"  Click="Dodaj_Pracownika"/>
                 <Button Content="Usuń" Margin="25 0 0 0" Width="200" />
                 <Button Content="Statystyki" Margin="25 0 0 0" Width="200" Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
