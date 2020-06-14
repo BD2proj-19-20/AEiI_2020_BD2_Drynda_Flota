@@ -23,5 +23,7 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
         }
+
+   
     }
 }

@@ -7,6 +7,16 @@
         mc:Ignorable="d"
            d:DesignHeight="600" d:DesignWidth="750">
     <Grid>
+        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="326,416,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="Imie" HorizontalAlignment="Left" Margin="228,155,0,0" VerticalAlignment="Top"/>
+        <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Nazwisko" HorizontalAlignment="Left" Margin="214,203,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Imie" HorizontalAlignment="Left" Height="23" Margin="306,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <TextBox x:Name="Nazwisko" HorizontalAlignment="Left" Height="23" Margin="306,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="306,247,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Login" HorizontalAlignment="Left" Margin="222,244,0,0" VerticalAlignment="Top"/>
+        <Label Content="Hasło" HorizontalAlignment="Left" Margin="222,292,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <PasswordBox x:Name="Hasło" HorizontalAlignment="Left" Margin="306,292,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
 
     </Grid>
     </UserControl>
