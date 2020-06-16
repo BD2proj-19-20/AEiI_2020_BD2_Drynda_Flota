@@ -42,6 +42,7 @@ namespace FirmaTransportowa.Views
 
             workers.Add(newWorker);
             db.SaveChanges();
+            MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text);
 
         }
 
