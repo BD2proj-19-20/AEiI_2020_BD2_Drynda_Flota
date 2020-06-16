@@ -8,5 +8,9 @@ namespace FirmaTransportowa.ViewModels
 {
     public class PracownicyModel
     {
+        public PracownicyModel()
+        {
+
+        }
     }
 }

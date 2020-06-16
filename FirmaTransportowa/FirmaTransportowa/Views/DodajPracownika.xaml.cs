@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirmaTransportowa.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,27 @@ namespace FirmaTransportowa.Views
         public DodajPracownika()
         {
             InitializeComponent();
+
         }
 
-   
+       
+        private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var workers = db.People;
+            var newWorker = new Person();
+
+            newWorker.firstName = Imie.Text;
+            newWorker.lastName = Nazwisko.Text;
+            newWorker.systemLogin = Login.Text;
+            newWorker.employmentData = Convert.ToDateTime(DzienZatrudnienia.Text);
+            //newWorker.passwordHash = Hasło.GetHashCode(); 
+
+
+            workers.Add(newWorker);
+            db.SaveChanges();
+
+        }
+
     }
 }

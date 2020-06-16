@@ -45,8 +45,7 @@ namespace FirmaTransportowa.Views
             
             workersList.ItemsSource = items;
 
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            //  view.Filter += UserFilter;
+         
 
 
         }
