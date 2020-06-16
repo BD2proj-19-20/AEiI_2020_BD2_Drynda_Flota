@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FirmaTransportowa.ViewModels;
 
 namespace FirmaTransportowa.Views
 {
@@ -45,6 +46,12 @@ namespace FirmaTransportowa.Views
             MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text);
 
         }
+        private void Cofnij(object sender, RoutedEventArgs e)
+        {
 
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new PracownicyModel();
+
+        }
     }
 }
