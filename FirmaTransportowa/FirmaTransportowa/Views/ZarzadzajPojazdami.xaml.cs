@@ -78,9 +78,8 @@ namespace FirmaTransportowa.Views
                 {
                     OneItem.Background = Brushes.Red;
                 }
-                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString , saleDate = null};
+                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString , saleDate = DateTime.MaxValue};
                 items.Add(OneItem);
-                carList.ItemsSource = items;
             }
             carList.ItemsSource = items;
 

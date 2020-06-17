@@ -20,19 +20,19 @@
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding CarId}">
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding carId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="CarId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="carId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Registration}">
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding registration}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Registration" Click="GridViewColumnHeader_Click">Numer rejestracyjny</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="registration" Click="GridViewColumnHeader_Click">Numer rejestracyjny</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding CarSupervisor}">
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding carSupervisor}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="CarSupervisor" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="carSupervisor" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView>
