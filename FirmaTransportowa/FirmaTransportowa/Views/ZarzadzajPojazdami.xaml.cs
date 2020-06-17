@@ -21,6 +21,7 @@ using FirmaTransportowa.ViewModels;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MaterialDesignThemes.Wpf;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace FirmaTransportowa.Views
 {
@@ -30,18 +31,20 @@ namespace FirmaTransportowa.Views
     /// 
     public class ItemList
     {
-        public int CarId { get; set; }
+        public int carId { get; set; }
 
-        public string Registration { get; set; }
+        public string registration { get; set; }
 
-        public string CarSupervisor { get; set; }
+        public string carSupervisor { get; set; }
+
+        public DateTime saleDate { get; set; }
     }
     public partial class ZarzadzajPojazdami : UserControl
     {
 
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
-        List<ItemList> items = new List<ItemList>();
+        List<ListViewItem> items = new List<ListViewItem>();
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -69,11 +72,19 @@ namespace FirmaTransportowa.Views
                     }
                 }
 
-                items.Add(new ItemList { CarId = car.id, Registration = car.Registration, CarSupervisor = supervisorString });
+                ListViewItem OneItem = new ListViewItem();
+                DateTime today = DateTime.Today;
+                if (car.saleDate <= today)
+                {
+                    OneItem.Background = Brushes.Red;
+                }
+                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString , saleDate = null};
+                items.Add(OneItem);
+                carList.ItemsSource = items;
             }
             carList.ItemsSource = items;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource); 
             view.Filter += UserFilter;
         }
         public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
@@ -147,10 +158,11 @@ namespace FirmaTransportowa.Views
         private void Usun_Pojazd(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
-            ItemList selected = (ItemList)carList.SelectedItem;
-            int selectedId = selected.CarId;
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            ItemList selectedObj = (ItemList)selected.Content;
+            int selectedId = selectedObj.carId;
             //Usuwam zaznaczony samochód z listy
-            items.Remove(selected);
+            items.Remove((ListViewItem)carList.SelectedItem);
             carList.ItemsSource = items;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -167,11 +179,33 @@ namespace FirmaTransportowa.Views
             db.SaveChanges();
         }
 
+        
+        private void Sprzedaj_Pojazd(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            ItemList selectedObj = (ItemList)selected.Content;
+            int selectedId = selectedObj.carId;
+            selectedObj.saleDate = DateTime.Today;
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+
+            //Ustawiam datę sprzedaży
+            foreach (var car in cars)
+            {
+                if (car.id == selectedId)
+                {
+                    car.saleDate = DateTime.Today;
+                }
+            }
+            db.SaveChanges();
+        }
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ItemList selected = (ItemList)carList.SelectedItem;
-            int selectedId = selected.CarId;
+            int selectedId = selected.carId;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
@@ -213,15 +247,15 @@ namespace FirmaTransportowa.Views
         {
             if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
                 //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
-                if (!((item as ItemList).CarSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((item as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             if (!String.IsNullOrEmpty(registrationFiler.Text))
                 //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
-                if (!((item as ItemList).Registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((item as ItemList).registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             if (!String.IsNullOrEmpty(idFilter.Text))
                 //jezeli item nie spelnia filtra id nie wyswietlam go
-                if (!((item as ItemList).CarId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((item as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             //cała reszte wyswietlam
             return true;
