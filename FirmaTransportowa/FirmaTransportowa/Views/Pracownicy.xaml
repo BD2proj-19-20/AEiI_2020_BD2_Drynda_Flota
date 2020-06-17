@@ -14,17 +14,23 @@
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="workersList">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="700"  DisplayMemberBinding="{Binding Person}">
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding PersonId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Visibility="Collapsed"   >Perosn</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="personId" >ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Person}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Person" Width="199" Height="30" >Imie i Nazwisko</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Dodaj" Margin="25 0 0 0" Width="200"  Click="Dodaj_Pracownika"/>
-                <Button Content="Usuń" Margin="25 0 0 0" Width="200" />
+                <Button Content="Usuń" Margin="25 0 0 0" Width="200" Click="Usun_Pracownika"/>
                 <Button Content="Statystyki" Margin="25 0 0 0" Width="200" Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
         </StackPanel>

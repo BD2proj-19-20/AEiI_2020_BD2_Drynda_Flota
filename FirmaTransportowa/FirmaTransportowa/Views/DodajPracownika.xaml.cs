@@ -43,7 +43,7 @@ namespace FirmaTransportowa.Views
 
             workers.Add(newWorker);
             db.SaveChanges();
-            MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text);
+            MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text,"Komunikat");
 
         }
         private void Cofnij(object sender, RoutedEventArgs e)
