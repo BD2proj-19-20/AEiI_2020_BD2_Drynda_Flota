@@ -48,6 +48,11 @@ namespace FirmaTransportowa.Views
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
+            initializeList();
+        }
+
+        private void initializeList()
+        {
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
@@ -60,7 +65,7 @@ namespace FirmaTransportowa.Views
 
                 foreach (var supervisor in carSupervisors)
                 {
-                    if (supervisor.carId == car.id)
+                    if (supervisor.carId == car.id && supervisor.endDate == null)
                     {
                         foreach (var human in people)
                         {
@@ -78,31 +83,13 @@ namespace FirmaTransportowa.Views
                 {
                     OneItem.Background = Brushes.Red;
                 }
-                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString , saleDate = DateTime.MaxValue};
+                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = DateTime.MaxValue };
                 items.Add(OneItem);
             }
             carList.ItemsSource = items;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource); 
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
             view.Filter += UserFilter;
-        }
-        public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
-                        return (T)child;
-                    }
-
-                    T childItem = FindVisualChild<T>(child);
-                    if (childItem != null) return childItem;
-                }
-            }
-            return null;
         }
 
         private void Generuj_Raport(object sender, RoutedEventArgs e)
@@ -203,8 +190,9 @@ namespace FirmaTransportowa.Views
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
-            ItemList selected = (ItemList)carList.SelectedItem;
-            int selectedId = selected.carId;
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            ItemList selectedObj = (ItemList)selected.Content;
+            int selectedId = selectedObj.carId;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
@@ -214,10 +202,19 @@ namespace FirmaTransportowa.Views
             {
                 if (car.id == selectedId)
                 {
-                    ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car);
+                    ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car, selectedObj);
                     zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
                     zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
                     zmianaOpiekunaView.ShowDialog();
+                    while(zmianaOpiekunaView.IsActive)
+                    {
+
+                    }
+                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                    glowneOkno.DataContext = new ZarzadzajPojazdami();
+                    /*carList.ItemsSource = items;
+                    CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();*/
+                    return;
                 }
             }
         }

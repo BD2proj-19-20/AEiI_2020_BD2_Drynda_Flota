@@ -110,6 +110,9 @@ namespace FirmaTransportowa.Views
             }
 
             db.SaveChanges();
+
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
     }
 }

@@ -21,11 +21,13 @@ namespace FirmaTransportowa.Views
     public partial class ZmianaOpiekuna : Window
     {
         Car toChange;
-        public ZmianaOpiekuna(Car toChange)
+        ItemList itemToChange;
+        public ZmianaOpiekuna(Car toChange, ItemList itemToChange)
         {
             InitializeComponent();
             nrRej.Content = toChange.Registration;
             this.toChange = toChange;
+            this.itemToChange = itemToChange;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
@@ -43,22 +45,22 @@ namespace FirmaTransportowa.Views
 
             if (!temp.Equals(""))
             {
-                DateTime today = DateTime.Today;
-
                 var carSupervisors = db.CarSupervisors;
                 var newSupervisor = new CarSupervisor();
 
+                //Szukam dotychczasowego opiekuna i ustawiam mu date konca
                 foreach (var carSupervisor in carSupervisors)
                 {
-                    if(carSupervisor.carId == toChange.id)
+                    if (carSupervisor.carId == toChange.id)
                     {
-                        carSupervisor.endDate = today;
+                        carSupervisor.endDate = DateTime.Today;
                     }
                 }
 
+
                 newSupervisor.carId = toChange.id;
-                newSupervisor.beginDate = today;
-                newSupervisor.endDate = today;
+                newSupervisor.beginDate = DateTime.Today;
+                newSupervisor.endDate = DateTime.MaxValue;
 
                 var People = db.People;
 
@@ -69,11 +71,26 @@ namespace FirmaTransportowa.Views
                     {
                         newSupervisor.personId = human.id;
                         newSupervisor.Person = human;
+                        itemToChange.carSupervisor = fullName;
                     }
                 }
-                carSupervisors.Add(newSupervisor);
+
+                bool againSupervisor = false;
+                foreach (var carSupervisor in carSupervisors)
+                {
+                    //Sprawdzam czy taki opiekun już istnieje, jeżeli tak, zmieniam jego endDate?
+                    if (carSupervisor.personId == newSupervisor.personId && carSupervisor.carId == newSupervisor.carId)
+                    {
+                        carSupervisor.endDate = null;
+                        carSupervisor.beginDate = DateTime.Today;
+                        againSupervisor = true;
+                        break;
+                    }
+                }
+                if (!againSupervisor)
+                    carSupervisors.Add(newSupervisor);
+                db.SaveChanges();
             }
-            db.SaveChanges();
             this.Close();
         }
 
