@@ -42,7 +42,12 @@ namespace FirmaTransportowa.Views
             foreach (var person in people)
             {
                 ListViewItem OneItem = new ListViewItem();
-                OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName };
+
+                if (person.layoffDate < DateTime.Today)
+                {
+                    OneItem.Background = Brushes.Red;
+                }
+                OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName+person.layoffDate.ToString() };
                 items.Add(OneItem);
             }
             
@@ -56,12 +61,10 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new DodajPracownikModel();
         }
 
-        private void Usun_Pracownika(object sender, RoutedEventArgs e)
+        private void Zwolnij_Pracownika(object sender, RoutedEventArgs e)
         {
 
-            string nazwisko="";
-            string imie="";
-            string komunikat = "";
+           
             ListViewItem selected = (ListViewItem)workersList.SelectedItem;
 
             if (selected != null)
@@ -70,11 +73,14 @@ namespace FirmaTransportowa.Views
 
 
                 int selectedId = selectedObj.PersonId;
+                
+                // items.Remove((ListViewItem)workersList.SelectedItem);
+                // workersList.ItemsSource = items;
 
 
-                items.Remove((ListViewItem)workersList.SelectedItem);
-                workersList.ItemsSource = items;
+                CarSupervisor carSupervisiorChange=null;
 
+                Person personChange=null;
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
@@ -83,32 +89,65 @@ namespace FirmaTransportowa.Views
                 {
                     if (person.id == selectedId)
                     {
-                        nazwisko = person.lastName;
-                        imie = person.firstName;
-
+                        //nazwisko = person.lastName;
+                        //imie = person.firstName;
+                        personChange = person;
                         foreach (var carS in carSupervisor)
                         {
                             if (person.id == carS.personId)
                             {
-                                db.CarSupervisors.Remove(carS);
+                                // carS.endDate = DateTime.Today; 
+
+                                carSupervisiorChange = carS;
+
                             }
-                            db.People.Remove(person);
-                        }
+                           
+                            //person.layoffDate = DateTime.Today;
+                        }   
+                        
+
                     }
                 }
-                db.SaveChanges();
-                komunikat = "Usunięto Pracownika: " + imie + " " + nazwisko;
-                workersList.Items.Refresh(); //aktualizacja widoku pracowników 
+                //db.SaveChanges();
+                DataZwolnienia dataZwolnieniaView = new DataZwolnienia(carSupervisiorChange, personChange);
+                dataZwolnieniaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+                dataZwolnieniaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+                dataZwolnieniaView.ShowDialog();
+                while (dataZwolnieniaView.IsActive)
+                {
+
+                }
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new Pracownicy();
+
+
+              //  komunikat = "Zwolniono Pracownika: " + personChange.firstName + " " + personChange.lastName;
+               //aktualizacja widoku pracowników 
+                workersList.ItemsSource = null;
+                items.Clear();
+
+                foreach (var person in people)
+                {
+                    ListViewItem OneItem = new ListViewItem();
+
+                    if (person.layoffDate < DateTime.Today )
+                    {
+                        OneItem.Background = Brushes.Red;
+                    }
+                    OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName };
+                    items.Add(OneItem);
+                }
+
+                workersList.ItemsSource = items;
 
             }
             else
             {
-                komunikat="Nikogo nie wybrano !";
+                MessageBox.Show ("Nikogo nie wybrano !","Komunikat");
             }
-             MessageBox.Show(komunikat,"Komunikat");
-
+            
+            
            
-
 
         }
         private void WorkerStatistics_Click(object sender, RoutedEventArgs e)

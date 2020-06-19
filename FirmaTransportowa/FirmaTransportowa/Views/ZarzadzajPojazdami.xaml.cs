@@ -79,7 +79,7 @@ namespace FirmaTransportowa.Views
 
                 ListViewItem OneItem = new ListViewItem();
                 DateTime today = DateTime.Today;
-                if (car.saleDate <= today)
+                if (car.saleDate <= today )
                 {
                     OneItem.Background = Brushes.Red;
                 }

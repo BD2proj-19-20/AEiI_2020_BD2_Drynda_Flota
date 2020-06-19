@@ -142,6 +142,9 @@
     <Compile Include="ViewModels\StatystykiPojazduModel.cs" />
     <Compile Include="ViewModels\StatystykiPracownikaModel.cs" />
     <Compile Include="ViewModels\ZarzadzajPojazdamiModel.cs" />
+    <Compile Include="Views\DataZwolnienia.xaml.cs">
+      <DependentUpon>DataZwolnienia.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DodajPojazd.xaml.cs">
       <DependentUpon>DodajPojazd.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DataZwolnienia.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DodajPojazd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
