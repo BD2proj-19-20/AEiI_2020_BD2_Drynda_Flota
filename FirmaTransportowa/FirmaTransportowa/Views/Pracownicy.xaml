@@ -8,7 +8,7 @@
              d:DesignHeight="600" d:DesignWidth="750">
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,50,25,0" Height="56" Width="700">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,25,25,20" Height="57" Width="700">
                 <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,2,0,20" RenderTransformOrigin="0.5,0.5">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
@@ -20,18 +20,25 @@
                     </TextBlock.RenderTransform>
                 </TextBlock>
             </Border>
-            <CheckBox Content="CheckBox" Margin="25,0,519,0"/>
-            <ListView x:Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+            <StackPanel Orientation="Horizontal" Margin="28,0,25,0">
+                <TextBox Text="" Height="20" Width="100" Name="idFilter" />
+                <TextBox Text="" Height="20" Width="99" Name="registrationFiler" />
+                <TextBox Text="" Height="20" Width="116" Name="carSupervisorFilter" />
+                <CheckBox x:Name="ZwolnieniBox" Content="Zwolnieni" Width="100"  IsChecked="True" Click="ZwolnieniBox_Click" />
+                <CheckBox x:Name="DataZwolnieniaBox" Content="Z datą zwolnienia" Width="127" IsChecked="True"  Click="DataZwolnieniaBox_Click"/>
+                <CheckBox x:Name="BezZwolnieniaBox" Content="Bez zwolnienia" Width="116" IsChecked="True" Click="BezZwolnieniaBox_Click"/>
+            </StackPanel>
+            <ListView x:Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="399" Width="700" Margin="25,0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonId}">
-                            <GridViewColumnHeader Tag="Id" Content="ID" />
+                            <GridViewColumnHeader Tag="PersonId" Content="ID" Click="GridViewColumnHeader_Click" />
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
-                            <GridViewColumnHeader Tag="Name" Content="Pracownik" />
+                            <GridViewColumnHeader Tag="Person" Content="Pracownik" Click="GridViewColumnHeader_Click" />
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
-                            <GridViewColumnHeader Tag="Date" Width="116" Content="Data zwolnienia" />
+                            <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
                         </GridViewColumn>
 
 

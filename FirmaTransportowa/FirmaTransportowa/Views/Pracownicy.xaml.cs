@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FirmaTransportowa.Model;
+using System.ComponentModel;
 
 namespace FirmaTransportowa.Views
 {
@@ -28,9 +29,10 @@ namespace FirmaTransportowa.Views
         public string PersonDateOut { get; set; }
     }
 
-
     public partial class Pracownicy : UserControl
     {
+        private GridViewColumnHeader listViewSortCol = null;
+        private SortAdorner listViewSortAdorner = null;
 
         List<ListViewItem> items = new List<ListViewItem>();
 
@@ -45,29 +47,39 @@ namespace FirmaTransportowa.Views
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
-
+   
             foreach (var person in people)
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
-                if (person.layoffDate < DateTime.Today)
+
+
+                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value==true )
                 {
                     OneItem.Background = Brushes.Red;
 
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
 
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
+
                 }
-                else if (!(person.layoffDate is null))
+                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.Orange;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
+
                 }
+                else if(BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
+                {
 
-
-                OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
-                items.Add(OneItem);
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
+                }
             }
             return items;
         }
@@ -196,6 +208,44 @@ namespace FirmaTransportowa.Views
             System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
             mainWindow.DataContext = new StatystykiPracownikaModel();
         }
-     
+        private void ZwolnieniBox_Click(object sender, RoutedEventArgs e)
+        {
+            workersList.ItemsSource = null;
+            items.Clear();
+            workersList.ItemsSource = listaPracownikow();
+        }
+        private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
+        {
+            workersList.ItemsSource = null;
+            items.Clear();
+            workersList.ItemsSource = listaPracownikow();
+        }
+        private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
+        {
+            workersList.ItemsSource = null;
+            items.Clear();
+            workersList.ItemsSource = listaPracownikow();
+        }
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            
+            GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            string sortBy = column.Tag.ToString();
+            if (listViewSortCol != null)
+            {
+                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
+                workersList.Items.SortDescriptions.Clear();
+            }
+
+            ListSortDirection newDir = ListSortDirection.Ascending;
+            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
+                newDir = ListSortDirection.Descending;
+
+            listViewSortCol = column;
+            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
+            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
+            workersList.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+            
+        }
     }
 }
