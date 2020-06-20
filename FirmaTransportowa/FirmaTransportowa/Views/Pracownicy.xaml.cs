@@ -25,6 +25,7 @@ namespace FirmaTransportowa.Views
     {
         public int PersonId { get; set; }
         public string Person { get; set; }
+        public string PersonDateOut { get; set; }
     }
 
 
@@ -36,25 +37,41 @@ namespace FirmaTransportowa.Views
         public Pracownicy()
         {
             InitializeComponent();
+            workersList.ItemsSource = listaPracownikow();
+
+        }
+
+        public List<ListViewItem> listaPracownikow()
+        {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
 
             foreach (var person in people)
             {
                 ListViewItem OneItem = new ListViewItem();
-
+                var date = "";
                 if (person.layoffDate < DateTime.Today)
                 {
                     OneItem.Background = Brushes.Red;
+
+                    string dateTime = person.layoffDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
                 }
-                OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName+person.layoffDate.ToString() };
+                else if (!(person.layoffDate is null))
+                {
+                    OneItem.Background = Brushes.Orange;
+                    string dateTime = person.layoffDate.ToString();
+                    date = dateTime.Substring(0, 10);
+                }
+
+
+                OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
                 items.Add(OneItem);
             }
-            
-            workersList.ItemsSource = items;
-
-
+            return items;
         }
+
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
@@ -74,13 +91,12 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.PersonId;
                 
-                // items.Remove((ListViewItem)workersList.SelectedItem);
-                // workersList.ItemsSource = items;
-
 
                 CarSupervisor carSupervisiorChange=null;
-
                 Person personChange=null;
+
+                
+
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
@@ -89,56 +105,39 @@ namespace FirmaTransportowa.Views
                 {
                     if (person.id == selectedId)
                     {
-                        //nazwisko = person.lastName;
-                        //imie = person.firstName;
+
+                        
                         personChange = person;
+
+                        if((personChange.layoffDate is null ) ||  personChange.layoffDate > DateTime.Today)
+
                         foreach (var carS in carSupervisor)
                         {
                             if (person.id == carS.personId)
-                            {
-                                // carS.endDate = DateTime.Today; 
-
                                 carSupervisiorChange = carS;
-
-                            }
-                           
-                            //person.layoffDate = DateTime.Today;
                         }   
-                        
-
                     }
                 }
-                //db.SaveChanges();
-                DataZwolnienia dataZwolnieniaView = new DataZwolnienia(carSupervisiorChange, personChange);
-                dataZwolnieniaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
-                dataZwolnieniaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-                dataZwolnieniaView.ShowDialog();
-                while (dataZwolnieniaView.IsActive)
+
+                if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
                 {
-
-                }
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new Pracownicy();
-
-
-              //  komunikat = "Zwolniono Pracownika: " + personChange.firstName + " " + personChange.lastName;
-               //aktualizacja widoku pracowników 
-                workersList.ItemsSource = null;
-                items.Clear();
-
-                foreach (var person in people)
-                {
-                    ListViewItem OneItem = new ListViewItem();
-
-                    if (person.layoffDate < DateTime.Today )
+                    DataZwolnienia dataZwolnieniaView = new DataZwolnienia(carSupervisiorChange, personChange);
+                    dataZwolnieniaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+                    dataZwolnieniaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+                    dataZwolnieniaView.ShowDialog();
+                    while (dataZwolnieniaView.IsActive)
                     {
-                        OneItem.Background = Brushes.Red;
-                    }
-                    OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName };
-                    items.Add(OneItem);
-                }
 
-                workersList.ItemsSource = items;
+                    }
+                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                    glowneOkno.DataContext = new Pracownicy();
+                    //aktualizacja widoku pracowników 
+                    workersList.ItemsSource = null;
+                    items.Clear();
+                    workersList.ItemsSource = listaPracownikow();
+                }
+                else
+                MessageBox.Show("Ta osoba została zwolniona", "Komunikat");
 
             }
             else

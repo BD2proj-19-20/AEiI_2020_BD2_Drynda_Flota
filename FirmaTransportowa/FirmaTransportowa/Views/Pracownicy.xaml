@@ -11,23 +11,33 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" x:Name="workersList" Margin="25,0">
+            <ListView Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn  Width="150" DisplayMemberBinding="{Binding PersonId}">
-                            <GridViewColumnHeader Tag="personId" Width="150"  Height="30" HorizontalAlignment="Left"   Content="ID"   />
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonId}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Id" >ID</GridViewColumnHeader>
+                            </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Person}">
-                            <GridViewColumnHeader Tag="Person" Width="152" Height="30" Content="Imie i Nazwisko" HorizontalAlignment="Right" />
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Name" >Pracownik</GridViewColumnHeader>
+                            </GridViewColumn.Header>
                         </GridViewColumn>
-
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Date" Width="116" >Data zwolnienia</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                     
+                     
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
+            <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Dodaj" Margin="25 0 0 0" Width="200"  Click="Dodaj_Pracownika"/>
                 <Button Content="Zwolnij" Margin="25 0 0 0" Width="200" Click="Zwolnij_Pracownika"/>
-                <Button Content="Statystyki" Margin="25 0 0 0" Width="200" Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
+                <Button Content="Statystyki" Margin="25 0 0 0" Width="200" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>
