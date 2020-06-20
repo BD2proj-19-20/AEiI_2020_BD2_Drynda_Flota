@@ -8,36 +8,41 @@
              d:DesignHeight="600" d:DesignWidth="750">
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,50,25,0" Height="56" Width="700">
+                <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,2,0,20" RenderTransformOrigin="0.5,0.5">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="359.495"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
             </Border>
-            <ListView Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+            <CheckBox Content="CheckBox" Margin="25,0,519,0"/>
+            <ListView x:Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonId}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Id" >ID</GridViewColumnHeader>
-                            </GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Id" Content="ID" />
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Name" >Pracownik</GridViewColumnHeader>
-                            </GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Name" Content="Pracownik" />
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Date" Width="116" >Data zwolnienia</GridViewColumnHeader>
-                            </GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Date" Width="116" Content="Data zwolnienia" />
                         </GridViewColumn>
-                     
-                     
+
+
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="25 0 0 0" Width="200"  Click="Dodaj_Pracownika"/>
-                <Button Content="Zwolnij" Margin="25 0 0 0" Width="200" Click="Zwolnij_Pracownika"/>
-                <Button Content="Statystyki" Margin="25 0 0 0" Width="200" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
+                <Button Content="Dodaj" Margin="25 0 0 0" Width="115"  Click="Dodaj_Pracownika"/>
+                <Button Content="Zwolnij" Margin="25 0 0 0" Width="139" Click="Zwolnij_Pracownika"/>
+                <Button Content="Usun Zwolnienie" Margin="25 0 0 0" Width="139" Click="Usun_zwolnienie"/>
+                <Button Content="Statystyki" Margin="25 0 0 0" Width="123" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

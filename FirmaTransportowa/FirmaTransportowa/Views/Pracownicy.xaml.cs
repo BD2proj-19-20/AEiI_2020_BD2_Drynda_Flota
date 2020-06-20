@@ -66,7 +66,7 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                OneItem.Content = new WorkersList { PersonId = person.id, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
                 items.Add(OneItem);
             }
             return items;
@@ -81,7 +81,7 @@ namespace FirmaTransportowa.Views
         private void Zwolnij_Pracownika(object sender, RoutedEventArgs e)
         {
 
-           
+
             ListViewItem selected = (ListViewItem)workersList.SelectedItem;
 
             if (selected != null)
@@ -89,13 +89,13 @@ namespace FirmaTransportowa.Views
                 WorkersList selectedObj = (WorkersList)selected.Content;
 
 
-                int selectedId = selectedObj.PersonId;
-                
+                int selectedId = selectedObj.PersonId - 1;
 
-                CarSupervisor carSupervisiorChange=null;
-                Person personChange=null;
 
-                
+                CarSupervisor carSupervisiorChange = null;
+                Person personChange = null;
+
+
 
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -106,16 +106,16 @@ namespace FirmaTransportowa.Views
                     if (person.id == selectedId)
                     {
 
-                        
+
                         personChange = person;
 
-                        if((personChange.layoffDate is null ) ||  personChange.layoffDate > DateTime.Today)
+                        if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
 
-                        foreach (var carS in carSupervisor)
-                        {
-                            if (person.id == carS.personId)
-                                carSupervisiorChange = carS;
-                        }   
+                            foreach (var carS in carSupervisor)
+                            {
+                                if (person.id == carS.personId)
+                                    carSupervisiorChange = carS;
+                            }
                     }
                 }
 
@@ -137,18 +137,60 @@ namespace FirmaTransportowa.Views
                     workersList.ItemsSource = listaPracownikow();
                 }
                 else
-                MessageBox.Show("Ta osoba została zwolniona", "Komunikat");
+                    MessageBox.Show("Ta osoba została zwolniona", "Komunikat");
 
             }
             else
             {
-                MessageBox.Show ("Nikogo nie wybrano !","Komunikat");
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
             }
-            
-            
-           
+
 
         }
+        private void Usun_zwolnienie(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)workersList.SelectedItem;
+
+            if (selected != null)
+            {
+                WorkersList selectedObj = (WorkersList)selected.Content;
+
+                int selectedId = selectedObj.PersonId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var people = db.People;
+                var carSupervisor = db.CarSupervisors;
+
+                foreach (var person in people)
+                {
+                    if (person.id == selectedId)
+                    {
+
+                        if (person.layoffDate > DateTime.Today)
+                        {
+                            person.layoffDate = null;
+                            MessageBox.Show("Usunieto zwolnienie", "Komunikat");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ta osoba została zwolniona!", "Komunikat");
+                        }
+                    }
+                }
+                db.SaveChanges();
+                
+                //aktualizacja widoku pracowników 
+                workersList.ItemsSource = null;
+                items.Clear();
+                workersList.ItemsSource = listaPracownikow();
+
+            }
+         
+            else
+            {
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+            }
+        }
+        
         private void WorkerStatistics_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
