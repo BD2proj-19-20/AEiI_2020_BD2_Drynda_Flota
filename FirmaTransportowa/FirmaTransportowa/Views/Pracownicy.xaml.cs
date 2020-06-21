@@ -34,53 +34,44 @@ namespace FirmaTransportowa.Views
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
 
-        List<ListViewItem> items = new List<ListViewItem>();
+        List<WorkersList> items = new List<WorkersList>();
 
         public Pracownicy()
         {
             InitializeComponent();
-            workersList.ItemsSource = listaPracownikow();
-
+            workersList.ItemsSource = ListaPracownikow();
+           
         }
-
-        public List<ListViewItem> listaPracownikow()
+    
+        public List<WorkersList> ListaPracownikow()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
    
             foreach (var person in people)
             {
-                ListViewItem OneItem = new ListViewItem();
                 var date = "";
-
 
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value==true )
                 {
-                    OneItem.Background = Brushes.Red;
-
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
-                    items.Add(OneItem);
-
+                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
+                   
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
                 {
-                    OneItem.Background = Brushes.Orange;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
-                    items.Add(OneItem);
+                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
 
                 }
-                else if(BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
+                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
                 {
-
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
-                    items.Add(OneItem);
+                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
                 }
             }
+
             return items;
         }
 
@@ -108,8 +99,6 @@ namespace FirmaTransportowa.Views
                 Person personChange = null;
 
 
-
-
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
                 var carSupervisor = db.CarSupervisors;
@@ -117,9 +106,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (person.id == selectedId)
                     {
-
-
-                        personChange = person;
+                           personChange = person;
 
                         if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
 
@@ -146,7 +133,7 @@ namespace FirmaTransportowa.Views
                     //aktualizacja widoku pracowników 
                     workersList.ItemsSource = null;
                     items.Clear();
-                    workersList.ItemsSource = listaPracownikow();
+                    workersList.ItemsSource = ListaPracownikow();
                 }
                 else
                     MessageBox.Show("Ta osoba została zwolniona", "Komunikat");
@@ -193,7 +180,7 @@ namespace FirmaTransportowa.Views
                 //aktualizacja widoku pracowników 
                 workersList.ItemsSource = null;
                 items.Clear();
-                workersList.ItemsSource = listaPracownikow();
+                workersList.ItemsSource = ListaPracownikow();
 
             }
          
@@ -212,19 +199,19 @@ namespace FirmaTransportowa.Views
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = listaPracownikow();
+            workersList.ItemsSource = ListaPracownikow();
         }
         private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = listaPracownikow();
+            workersList.ItemsSource = ListaPracownikow();
         }
         private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = listaPracownikow();
+            workersList.ItemsSource = ListaPracownikow();
         }
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
@@ -245,7 +232,7 @@ namespace FirmaTransportowa.Views
             listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
             AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
             workersList.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
-            
+           
         }
     }
 }
