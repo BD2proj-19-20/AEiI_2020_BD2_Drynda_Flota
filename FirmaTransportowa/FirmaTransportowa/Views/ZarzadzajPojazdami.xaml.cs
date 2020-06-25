@@ -45,6 +45,10 @@ namespace FirmaTransportowa.Views
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
         List<ListViewItem> items = new List<ListViewItem>();
+
+        List<ItemList> items2 = new List<ItemList>();
+
+        int temp = 0;
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -83,13 +87,111 @@ namespace FirmaTransportowa.Views
                 {
                     OneItem.Background = Brushes.Red;
                 }
+                ItemList item2 = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = DateTime.MaxValue };
                 OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = DateTime.MaxValue };
                 items.Add(OneItem);
+                items2.Add(item2);
             }
             carList.ItemsSource = items;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
+
             view.Filter += UserFilter;
+        }
+        int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
+        {
+            temp++;
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return first.carId.CompareTo(second.carId);
+        }
+
+        int CompareCarsByIdDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return second.carId.CompareTo(first.carId);
+        }
+
+        int CompareCarsByRegistrationDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(first.registration, second.registration);
+        }
+
+        int CompareCarsByRegistrationAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(second.registration, first.registration);
+        }
+
+
+        /*int CompareCarsById(ListViewItem a, ListViewItem b)
+        {
+            ItemList fist = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            // Return result of CompareTo with lengths of both strings.
+            return fist.carId.CompareTo(second.carId);
+        }
+        int CompareCarsById(ListViewItem a, ListViewItem b)
+        {
+            ItemList fist = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            // Return result of CompareTo with lengths of both strings.
+            return fist.carId.CompareTo(second.carId);
+        }
+        */
+
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            string sortBy = column.Tag.ToString();
+            if (listViewSortCol != null)
+            {
+                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
+                carList.Items.SortDescriptions.Clear();
+            }
+
+            ListSortDirection newDir = ListSortDirection.Ascending;
+            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
+                newDir = ListSortDirection.Descending;
+
+            listViewSortCol = column;
+            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
+            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
+
+            var tempItems = items.ToArray();
+            if (sortBy == "carId")
+            {
+                if (newDir.ToString() == "Ascending")
+                {
+                    Comparison<ListViewItem> comparison = new Comparison<ListViewItem>(CompareCarsByIdAscending);
+                    Array.Sort(tempItems, CompareCarsByIdAscending);
+                }
+                else
+                {
+                    Comparison<ListViewItem> comparison = new Comparison<ListViewItem>(CompareCarsByIdDescending);
+                    Array.Sort(tempItems, CompareCarsByIdAscending);
+                }
+            }
+            else if (sortBy == "registration")
+            {
+                if (newDir.ToString() == "Ascending")
+                {
+                    Array.Sort(tempItems, CompareCarsByRegistrationAscending);
+                }
+                else
+                {
+                    Array.Sort(tempItems, CompareCarsByRegistrationDescending);
+                }
+            }
+           
+            carList.ItemsSource = tempItems;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
         }
 
         private void Generuj_Raport(object sender, RoutedEventArgs e)
@@ -183,9 +285,13 @@ namespace FirmaTransportowa.Views
                 if (car.id == selectedId)
                 {
                     car.saleDate = DateTime.Today;
+                    break;
                 }
             }
             db.SaveChanges();
+            //Odświeżenie listy
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
         {
@@ -219,39 +325,21 @@ namespace FirmaTransportowa.Views
             }
         }
 
-        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
-        {
-            GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            string sortBy = column.Tag.ToString();
-            if (listViewSortCol != null)
-            {
-                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
-                carList.Items.SortDescriptions.Clear();
-            }
-
-            ListSortDirection newDir = ListSortDirection.Ascending;
-            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
-                newDir = ListSortDirection.Descending;
-
-            listViewSortCol = column;
-            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
-            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
-            carList.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
-        }
-
         private bool UserFilter(object item)
         {
+            ListViewItem toFilter = (ListViewItem)item;
+
             if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
                 //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
-                if (!((item as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((toFilter.Content as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             if (!String.IsNullOrEmpty(registrationFiler.Text))
                 //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
-                if (!((item as ItemList).registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((toFilter.Content as ItemList).registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             if (!String.IsNullOrEmpty(idFilter.Text))
                 //jezeli item nie spelnia filtra id nie wyswietlam go
-                if (!((item as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                if (!((toFilter.Content as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
             //cała reszte wyswietlam
             return true;
