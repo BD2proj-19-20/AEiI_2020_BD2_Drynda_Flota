@@ -57,10 +57,9 @@ namespace FirmaTransportowa.Views
                     }
                 }
 
-
                 newSupervisor.carId = toChange.id;
                 newSupervisor.beginDate = DateTime.Today;
-                newSupervisor.endDate = DateTime.MaxValue;
+                newSupervisor.endDate = null;
 
                 var People = db.People;
 
@@ -90,6 +89,7 @@ namespace FirmaTransportowa.Views
                 if (!againSupervisor)
                     carSupervisors.Add(newSupervisor);
                 db.SaveChanges();
+                //The conversion of a datetime2 data type to a smalldatetime data type resulted in an out-of-range value.
             }
             this.Close();
         }

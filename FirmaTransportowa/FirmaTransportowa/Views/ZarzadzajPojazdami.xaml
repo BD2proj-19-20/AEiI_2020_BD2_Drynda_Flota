@@ -16,6 +16,7 @@
                 <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="idFilter_TextChanged"/>
                 <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="registrationFiler_TextChanged"/>
                 <TextBox Text="" Height="20" Width="150" Name="carSupervisorFilter" TextChanged="carSupervisorFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" x:Name="saleDateFilter" TextChanged="saleDateFilter_TextChanged"/>
             </StackPanel>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
                 <ListView.View>
@@ -35,15 +36,21 @@
                                 <GridViewColumnHeader Tag="carSupervisor" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding saleDate}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="saleDate" Click="GridViewColumnHeader_Click">Sprzedane</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="2 0" Width="125" Click="Dodaj_Pojazd" />
-                <Button Content="Usuń" Margin="10 0" Width="125" Click="Usun_Pojazd"/>
-                <Button Content="Sprzedaj" Margin="10 0" Width="125" Click="Sprzedaj_Pojazd" />
-                <Button Content="Zmień opiekuna" Margin="10 0" Width="125" Click="Zmiana_Opiekuna" />
-                <Button Content="Podgląd" Margin="10 0" Width="125" Name="CarStatistics" Click="CarStatistics_Click"/>
+                <Button Content="Dodaj" Margin="2 0" Width="100" Click="Dodaj_Pojazd" />
+                <Button Content="Usuń" Margin="5 0" Width="100" Click="Usun_Pojazd"/>
+                <Button Content="Sprzedaj" Margin="5 0" Width="100" Click="Sprzedaj_Pojazd" />
+                <Button Content="Kup" Margin="5 0" Width="100" Click="Kup_Pojazd"/>
+                <Button Content="Zmień opiekuna" Margin="5 0" Width="100" Click="Zmiana_Opiekuna" />
+                <Button Content="Podgląd" Margin="5 0" Width="100" x:Name="CarStatistics_Copy" Click="CarStatistics_Click"/>
             </StackPanel>
         </StackPanel>
         <Button Content="Generuj raport" Click="Generuj_Raport" Margin="325,5,325,550" Width="100"/>

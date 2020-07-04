@@ -37,7 +37,7 @@ namespace FirmaTransportowa.Views
 
         public string carSupervisor { get; set; }
 
-        public DateTime saleDate { get; set; }
+        public string saleDate { get; set; }
     }
     public partial class ZarzadzajPojazdami : UserControl
     {
@@ -46,9 +46,6 @@ namespace FirmaTransportowa.Views
         private SortAdorner listViewSortAdorner = null;
         List<ListViewItem> items = new List<ListViewItem>();
 
-        List<ItemList> items2 = new List<ItemList>();
-
-        int temp = 0;
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -83,14 +80,18 @@ namespace FirmaTransportowa.Views
 
                 ListViewItem OneItem = new ListViewItem();
                 DateTime today = DateTime.Today;
+                string saleDate = "";
                 if (car.saleDate <= today )
                 {
-                    OneItem.Background = Brushes.Red;
+                    OneItem.Background = Brushes.LightGray;
                 }
-                ItemList item2 = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = DateTime.MaxValue };
-                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = DateTime.MaxValue };
+                if(car.saleDate != null)
+                {
+                    DateTime temp = (DateTime)car.saleDate;
+                    saleDate = temp.ToShortDateString();
+                }
+                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = saleDate };
                 items.Add(OneItem);
-                items2.Add(item2);
             }
             carList.ItemsSource = items;
 
@@ -141,22 +142,39 @@ namespace FirmaTransportowa.Views
             return String.Compare(second.carSupervisor, first.carSupervisor);
         }
 
+        int CompareCarsBySaleDateDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.saleDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.saleDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.saleDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.saleDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+        }
 
-        /*int CompareCarsById(ListViewItem a, ListViewItem b)
+        int CompareCarsBySaleDateAscending(ListViewItem a, ListViewItem b)
         {
-            ItemList fist = (ItemList)a.Content;
+            ItemList first = (ItemList)a.Content;
             ItemList second = (ItemList)b.Content;
-            // Return result of CompareTo with lengths of both strings.
-            return fist.carId.CompareTo(second.carId);
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.saleDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.saleDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.saleDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.saleDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
         }
-        int CompareCarsById(ListViewItem a, ListViewItem b)
-        {
-            ItemList fist = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            // Return result of CompareTo with lengths of both strings.
-            return fist.carId.CompareTo(second.carId);
-        }
-        */
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
@@ -197,6 +215,13 @@ namespace FirmaTransportowa.Views
                     Array.Sort(tempItems, CompareCarsBySupervisorAscending);
                 else
                     Array.Sort(tempItems, CompareCarsBySupervisorDescending);
+            }
+            else if (sortBy == "saleDate")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsBySaleDateAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsBySaleDateDescending);
             }
 
             carList.ItemsSource = tempItems;
@@ -284,7 +309,7 @@ namespace FirmaTransportowa.Views
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             ItemList selectedObj = (ItemList)selected.Content;
             int selectedId = selectedObj.carId;
-            selectedObj.saleDate = DateTime.Today;
+            selectedObj.saleDate = DateTime.Now.ToShortDateString();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
@@ -303,6 +328,33 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
+
+        private void Kup_Pojazd(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            ItemList selectedObj = (ItemList)selected.Content;
+            int selectedId = selectedObj.carId;
+            selectedObj.saleDate = null;
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+
+            //Usuwam datę sprzedaży
+            foreach (var car in cars)
+            {
+                if (car.id == selectedId)
+                {
+                    car.saleDate = null;
+                    break;
+                }
+            }
+            db.SaveChanges();
+            //Odświeżenie listy
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new ZarzadzajPojazdami();
+        }
+
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
@@ -351,6 +403,10 @@ namespace FirmaTransportowa.Views
                 //jezeli item nie spelnia filtra id nie wyswietlam go
                 if (!((toFilter.Content as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
                     return false;
+            if (!String.IsNullOrEmpty(saleDateFilter.Text))
+                //jezeli item nie spelnia filtra id nie wyswietlam go
+                if (!((toFilter.Content as ItemList).saleDate.IndexOf(saleDateFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
             //cała reszte wyswietlam
             return true;
         }
@@ -373,6 +429,11 @@ namespace FirmaTransportowa.Views
         }
 
         private void carSupervisorFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void saleDateFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
