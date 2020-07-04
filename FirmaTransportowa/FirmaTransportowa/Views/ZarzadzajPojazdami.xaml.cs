@@ -101,7 +101,6 @@ namespace FirmaTransportowa.Views
         }
         int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
         {
-            temp++;
             ItemList first = (ItemList)a.Content;
             ItemList second = (ItemList)b.Content;
             return first.carId.CompareTo(second.carId);
@@ -126,6 +125,20 @@ namespace FirmaTransportowa.Views
             ItemList first = (ItemList)a.Content;
             ItemList second = (ItemList)b.Content;
             return String.Compare(second.registration, first.registration);
+        }
+
+        int CompareCarsBySupervisorDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(first.carSupervisor, second.carSupervisor);
+        }
+
+        int CompareCarsBySupervisorAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(second.carSupervisor, first.carSupervisor);
         }
 
 
@@ -167,28 +180,25 @@ namespace FirmaTransportowa.Views
             if (sortBy == "carId")
             {
                 if (newDir.ToString() == "Ascending")
-                {
-                    Comparison<ListViewItem> comparison = new Comparison<ListViewItem>(CompareCarsByIdAscending);
                     Array.Sort(tempItems, CompareCarsByIdAscending);
-                }
                 else
-                {
-                    Comparison<ListViewItem> comparison = new Comparison<ListViewItem>(CompareCarsByIdDescending);
-                    Array.Sort(tempItems, CompareCarsByIdAscending);
-                }
+                    Array.Sort(tempItems, CompareCarsByIdDescending);
             }
             else if (sortBy == "registration")
             {
                 if (newDir.ToString() == "Ascending")
-                {
                     Array.Sort(tempItems, CompareCarsByRegistrationAscending);
-                }
                 else
-                {
                     Array.Sort(tempItems, CompareCarsByRegistrationDescending);
-                }
             }
-           
+            else if (sortBy == "carSupervisor")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsBySupervisorAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsBySupervisorDescending);
+            }
+
             carList.ItemsSource = tempItems;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
