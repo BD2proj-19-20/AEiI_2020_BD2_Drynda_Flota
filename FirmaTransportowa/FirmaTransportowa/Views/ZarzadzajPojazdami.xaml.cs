@@ -68,25 +68,19 @@ namespace FirmaTransportowa.Views
                 {
                     if (supervisor.carId == car.id && supervisor.endDate == null)
                     {
-                        foreach (var human in people)
-                        {
-                            if (human.id == supervisor.personId)
-                            {
-                                supervisorString = human.firstName + " " + human.lastName;
-                            }
-                        }
+                        supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                        break;
                     }
                 }
 
                 ListViewItem OneItem = new ListViewItem();
-                DateTime today = DateTime.Today;
                 string saleDate = "";
-                if (car.saleDate <= today )
-                {
-                    OneItem.Background = Brushes.LightGray;
-                }
                 if(car.saleDate != null)
                 {
+                    if (car.saleDate <= DateTime.Today)
+                    {
+                        OneItem.Background = Brushes.LightGray;
+                    }
                     DateTime temp = (DateTime)car.saleDate;
                     saleDate = temp.ToShortDateString();
                 }

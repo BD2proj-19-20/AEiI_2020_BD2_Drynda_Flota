@@ -89,7 +89,6 @@ namespace FirmaTransportowa.Views
                 if (!againSupervisor)
                     carSupervisors.Add(newSupervisor);
                 db.SaveChanges();
-                //The conversion of a datetime2 data type to a smalldatetime data type resulted in an out-of-range value.
             }
             this.Close();
         }
