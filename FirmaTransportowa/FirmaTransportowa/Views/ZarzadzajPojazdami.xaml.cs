@@ -251,6 +251,21 @@ namespace FirmaTransportowa.Views
         {
             ListViewItem toFilter = (ListViewItem)item;
 
+            if (saleDateFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ItemList).saleDate.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (saleDateFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ItemList).saleDate.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+
             if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
                 //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
                 if (!((toFilter.Content as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
@@ -368,6 +383,9 @@ namespace FirmaTransportowa.Views
             carList.ItemsSource = tempItems;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
         int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
         {
