@@ -10,7 +10,7 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <TextBlock Foreground="White" Margin="10 0" Text="Audi A8 [SY10291]" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="White" Margin="10 0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="500" Width="700">
                 <Border Background="White" Margin="25 0" Height="500" Width="300">
@@ -20,23 +20,31 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Marka:" Width="150"/>
-                            <TextBlock FontSize="15" Text="Audi"/>
+                            <TextBlock FontSize="15" Text="" Name="Marka"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Model:" Width="150"/>
-                            <TextBlock FontSize="15" Text="A8"/>
+                            <TextBlock FontSize="15" Text="" Name="Model"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Napęd:" Width="150"/>
-                            <TextBlock FontSize="15" Text="4x4"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Rejestracja:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Rejestracja"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Rodzaj paliwa:" Width="150"/>
-                            <TextBlock FontSize="15" Text="Diesel"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Pojemność silnika:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Pojemnosc_silnika"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Rok produkcji:" Width="150"/>
-                            <TextBlock FontSize="15" Text="2017"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Zastosowanie:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Zastosowanie"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Data zakupu:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Data_zakupu"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Data sprzedaży:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Data_sprzedaży"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -47,15 +55,23 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przebieg:" Width="150"/>
-                            <TextBlock FontSize="15" Text="117000 km"/>
+                            <TextBlock FontSize="15" Text=""/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Użytkownik:" Width="150"/>
-                            <TextBlock FontSize="15" Text="Jan Kowalski"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Przegląd ważny do:" Width="150"/>
+                            <TextBlock FontSize="15" Text=""  Name="Przeglad"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Ostati przegląd:" Width="150"/>
-                            <TextBlock FontSize="15" Text="04-04-2019"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wypożyczony przez:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Wypozyczony_przez"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wypożyczony od:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Wypozyczony_od"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Planowany zwrot:" Width="150"/>
+                            <TextBlock FontSize="15" Text="" Name="Planowany_zwrot"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
