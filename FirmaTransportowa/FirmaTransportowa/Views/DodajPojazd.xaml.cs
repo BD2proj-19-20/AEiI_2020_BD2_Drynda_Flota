@@ -114,5 +114,11 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
+
+        private void Anuluj(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new ZarzadzajPojazdami();
+        }
     }
 }
