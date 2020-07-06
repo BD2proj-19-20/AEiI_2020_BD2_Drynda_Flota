@@ -75,7 +75,7 @@ namespace FirmaTransportowa.Views
 
                 ListViewItem OneItem = new ListViewItem();
                 string saleDate = "";
-                if(car.saleDate != null)
+                if (car.saleDate != null)
                 {
                     if (car.saleDate <= DateTime.Today)
                     {
@@ -94,7 +94,7 @@ namespace FirmaTransportowa.Views
 
             view.Filter += UserFilter;
         }
-        
+
 
         private void Generuj_Raport(object sender, RoutedEventArgs e)
         {
@@ -103,39 +103,33 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             var people = db.People;
 
-            iTextSharp.text.Font times = FontFactory.GetFont("Arial", 28, new BaseColor(System.Drawing.Color.Black));
-            FileStream fs = new FileStream("Raport na temat pojazdu.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            iTextSharp.text.Font times = FontFactory.GetFont("Arial", 32, new BaseColor(System.Drawing.Color.Black));
+            iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
+            FileStream fs = new FileStream("Raport na temat pojazdow " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
 
-            bool carSupervisorWritten = false;
-
-            foreach(var human in people)
+            foreach (var car in cars)
             {
-                carSupervisorWritten = false;
-
+                doc.Add(new iTextSharp.text.Paragraph(car.id + " " + car.Registration + " "  + car.CarModel.make + " " + car.CarModel.model , times));
+                doc.Add(new iTextSharp.text.Paragraph("Opiekunowie: ", times2));
                 foreach (var carSupervisor in carSupervisors)
                 {
-                    if (human.id == carSupervisor.personId)
+                    if (car.id == carSupervisor.carId)
                     {
-                        if (carSupervisorWritten == false)
+                        carSupervisor.beginDate.ToShortDateString();
+                        string endDate = "";
+                        if (carSupervisor.endDate != null)
                         {
-                            doc.Add(new iTextSharp.text.Paragraph(human.id + " " + human.firstName + " " + human.lastName + " ma pod opieka:", times));
-                            carSupervisorWritten = true;
+                            DateTime temp = (DateTime)carSupervisor.endDate;
+                            endDate = temp.ToShortDateString();
                         }
-                        
-                        foreach (var car in cars)
-                        {
-                            if (car.id == carSupervisor.carId)
-                            {
-                                doc.Add(new iTextSharp.text.Chunk("    "+car.id + " " + car.CarModel.make + " " + car.CarModel.model + "\n"));
-                            }
-                        }
+                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " " + carSupervisor.Person.lastName + ": " + carSupervisor.beginDate.ToShortDateString() + " - " + endDate + "\n"));
                     }
                 }
+
             }
-            
             doc.Close();
         }
 
@@ -170,7 +164,7 @@ namespace FirmaTransportowa.Views
             db.SaveChanges();
         }
 
-        
+
         private void Sprzedaj_Pojazd(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
@@ -242,7 +236,7 @@ namespace FirmaTransportowa.Views
                     zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
                     zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
                     zmianaOpiekunaView.ShowDialog();
-                    while(zmianaOpiekunaView.IsActive)
+                    while (zmianaOpiekunaView.IsActive)
                     {
 
                     }
@@ -280,7 +274,7 @@ namespace FirmaTransportowa.Views
 
         private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
-                        //Pobieram zaznaczony samochód
+            //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             ItemList selectedObj = (ItemList)selected.Content;
             int selectedId = selectedObj.carId;
