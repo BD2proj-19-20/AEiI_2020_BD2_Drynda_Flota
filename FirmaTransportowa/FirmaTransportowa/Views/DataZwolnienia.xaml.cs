@@ -29,7 +29,8 @@ namespace FirmaTransportowa.Views
         public DataZwolnienia(CarSupervisor carSupervisiorChange,Person personChange)
         {
             InitializeComponent();
-           // if(!carSupervisiorChange.Equals(null))
+            // if(!carSupervisiorChange.Equals(null))
+            DataZwolnieniaPracownika.Text = DateTime.Today.ToString("dd.MM.yyyy");
             this.carSupervisiorChange = carSupervisiorChange;
             this.personChange = personChange;
 

@@ -15,7 +15,7 @@
         <Label Content="Data zwolnienia" HorizontalAlignment="Left" Margin="113,98,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
         <Button Content="OK" HorizontalAlignment="Left" Margin="113,144,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Zwolnienie" Height="20"/>
         <Button Content="Anuluj" HorizontalAlignment="Left" Margin="255,144,0,0" VerticalAlignment="Top" Width="75" Click="Anuluj"/>
-        <TextBox HorizontalAlignment="Left" Height="23"  Name="DataZwolnieniaPracownika" TextWrapping="Wrap" Text="16.06.2020" VerticalAlignment="Top" Width="120" Margin="235,101,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23"  Name="DataZwolnieniaPracownika" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="235,101,0,0"/>
 
     </Grid>
 </Window>

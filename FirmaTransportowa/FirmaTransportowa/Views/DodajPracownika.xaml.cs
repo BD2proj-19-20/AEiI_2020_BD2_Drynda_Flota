@@ -24,12 +24,14 @@ namespace FirmaTransportowa.Views
         public DodajPracownika()
         {
             InitializeComponent();
-
+            DzienZatrudnienia.Text = DateTime.Today.ToString("dd.MM.yyyy");
         }
 
        
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
         {
+
+           
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var workers = db.People;
             var newWorker = new Person();

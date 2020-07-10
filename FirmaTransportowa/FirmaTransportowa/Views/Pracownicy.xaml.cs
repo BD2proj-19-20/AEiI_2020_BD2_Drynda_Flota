@@ -34,42 +34,52 @@ namespace FirmaTransportowa.Views
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
 
-        List<WorkersList> items = new List<WorkersList>();
+        List<ListViewItem> items = new List<ListViewItem>();
 
         public Pracownicy()
         {
             InitializeComponent();
             workersList.ItemsSource = ListaPracownikow();
-           
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
     
-        public List<WorkersList> ListaPracownikow()
+        public List<ListViewItem> ListaPracownikow()
         {
+            
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
    
             foreach (var person in people)
             {
+                ListViewItem OneItem = new ListViewItem();
                 var date = "";
 
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value==true )
                 {
+                    OneItem.Background = Brushes.Red;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
-                   
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
                 {
+                    OneItem.Background = Brushes.Orange;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
-
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
                 }
                 else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
                 {
-                    items.Add(new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date });
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    items.Add(OneItem);
                 }
+               
+                
             }
 
             return items;
@@ -83,7 +93,6 @@ namespace FirmaTransportowa.Views
 
         private void Zwolnij_Pracownika(object sender, RoutedEventArgs e)
         {
-
 
             ListViewItem selected = (ListViewItem)workersList.SelectedItem;
 
@@ -200,19 +209,83 @@ namespace FirmaTransportowa.Views
             workersList.ItemsSource = null;
             items.Clear();
             workersList.ItemsSource = ListaPracownikow();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
         private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
             workersList.ItemsSource = ListaPracownikow();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
         private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
             workersList.ItemsSource = ListaPracownikow();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
+
+
+
+        private bool UserFilter(object item)
+        {
+            ListViewItem toFilter = (ListViewItem)item;
+
+            if (dataOutFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as WorkersList).PersonDateOut.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (dataOutFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as WorkersList).PersonDateOut.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+
+            if (!String.IsNullOrEmpty(personFilter.Text))
+                //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
+                if (!((toFilter.Content as WorkersList).Person.IndexOf(personFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(idFilter.Text))
+                //jezeli item nie spelnia filtra id nie wyswietlam go
+                if (!((toFilter.Content as WorkersList).PersonId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(dataOutFilter.Text))
+                //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
+                if (!((toFilter.Content as WorkersList).PersonDateOut.IndexOf(dataOutFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            //cała reszte wyswietlam
+            return true;
+        }
+
+        private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(workersList.ItemsSource).Refresh();
+        }
+
+        private void personFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(workersList.ItemsSource).Refresh();
+        }
+        private void dataOutFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(workersList.ItemsSource).Refresh();
+        }
+
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             
@@ -231,8 +304,97 @@ namespace FirmaTransportowa.Views
             listViewSortCol = column;
             listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
             AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
-            workersList.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
-           
+
+            var tempItems = items.ToArray();
+
+            if (sortBy == "PersonId")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, ComparePeopleByPersonIdAscending);
+                else
+                    Array.Sort(tempItems, ComparePeopleByPersonIdDescending);
+            }
+            else if (sortBy == "Person")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, ComparePeopleByPersonAscending);
+                else
+                    Array.Sort(tempItems, ComparePeopleByPersonDescending);
+            }
+            else if (sortBy == "PersonDateOut")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, ComparePeopleByDateAscending);
+                else
+                    Array.Sort(tempItems, ComparePeopleByDateDescending);
+            }
+            
+            workersList.ItemsSource = tempItems;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
+        int ComparePeopleByPersonIdAscending(ListViewItem a, ListViewItem b)
+        {
+           WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            return first.PersonId.CompareTo(second.PersonId);
+        }
+        int ComparePeopleByPersonIdDescending(ListViewItem a, ListViewItem b)
+        {
+            WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            return second.PersonId.CompareTo(first.PersonId);
+        }
+        int ComparePeopleByPersonAscending(ListViewItem a, ListViewItem b)
+        {
+            WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            return String.Compare(first.Person,second.Person);
+          
+        }
+        int ComparePeopleByPersonDescending(ListViewItem a, ListViewItem b)
+        {
+            WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            return String.Compare(second.Person, first.Person);
+        }
+        int ComparePeopleByDateAscending(ListViewItem a, ListViewItem b)
+        {
+            WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.PersonDateOut.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.PersonDateOut);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.PersonDateOut.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.PersonDateOut);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+          
+        }
+        int ComparePeopleByDateDescending(ListViewItem a, ListViewItem b)
+        {
+            WorkersList first = (WorkersList)a.Content;
+            WorkersList second = (WorkersList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.PersonDateOut.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.PersonDateOut);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.PersonDateOut.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.PersonDateOut);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+
     }
 }

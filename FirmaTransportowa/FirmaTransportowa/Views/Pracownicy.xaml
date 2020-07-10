@@ -21,9 +21,9 @@
                 </TextBlock>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0">
-                <TextBox Text="" Height="20" Width="100" Name="idFilter" />
-                <TextBox Text="" Height="20" Width="99" Name="registrationFiler" />
-                <TextBox Text="" Height="20" Width="116" Name="carSupervisorFilter" />
+                <TextBox Text="" Height="20" Width="100" Name="idFilter" TextChanged="idFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="99" Name="personFilter" TextChanged="personFilter_TextChanged" />
+                <TextBox Text="" Height="20" Width="116" Name="dataOutFilter" TextChanged="dataOutFilter_TextChanged"/>
                 <CheckBox x:Name="ZwolnieniBox" Content="Zwolnieni" Width="100"  IsChecked="True" Click="ZwolnieniBox_Click" />
                 <CheckBox x:Name="DataZwolnieniaBox" Content="Z datą zwolnienia" Width="127" IsChecked="True"  Click="DataZwolnieniaBox_Click"/>
                 <CheckBox x:Name="BezZwolnieniaBox" Content="Bez zwolnienia" Width="116" IsChecked="True" Click="BezZwolnieniaBox_Click"/>
@@ -32,17 +32,22 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonId}">
-                            <GridViewColumnHeader Tag="PersonId" Content="ID" Click="GridViewColumnHeader_Click" />
-                        </GridViewColumn>
+                        <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="PersonId" Content="ID" Click="GridViewColumnHeader_Click" />
+                            </GridViewColumn.Header>
+                    </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
-                            <GridViewColumnHeader Tag="Person" Content="Pracownik" Click="GridViewColumnHeader_Click" />
-                        </GridViewColumn>
+                        <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Person" Content="Pracownik" Click="GridViewColumnHeader_Click" />
+                            </GridViewColumn.Header>
+                    </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
-                            <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
-                        </GridViewColumn>
-
-
-                    </GridView>
+                        <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
+                            </GridViewColumn.Header>
+                    </GridViewColumn>
+                  
+                </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
