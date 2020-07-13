@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirmaTransportowa.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,76 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class StatystykiPracownika : UserControl
     {
-        public StatystykiPracownika()
+       
+
+        public StatystykiPracownika(Person people)
         {
             InitializeComponent();
+
+            Imie.Text = people.firstName;
+            Nazwisko.Text = people.lastName;
+            DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
+            if (people.layoffDate != null)
+                DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
+            Login.Text = people.systemLogin;
+            if(people.passwordHash!=null)
+            Haslo.Text = people.passwordHash.ToString();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var activities = db.Activities;
+            var carSupervisior = db.CarSupervisors;
+
+            int aktywnosci = 0;
+            var lends = db.Lends;
+            var cars = db.Cars;
+
+         //   people.
+            foreach (var carS in carSupervisior)
+            {
+                if(carS.personId == people.id)
+                {
+                    foreach(var car in cars)
+                        if( car.id == carS.carId)
+                        {
+                            Opiekun.Text = car.CarModel.make +"/" + car.CarModel.model + "/" + car.Registration;
+
+                        }
+
+
+                }
+
+            }
+
+
+           
+
+          foreach (var aktyw in activities)
+            {
+                if (aktyw.reporterId == people.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
+                    aktywnosci++;
+            }
+
+            Aktywnosci.Text = aktywnosci.ToString();
+
+           
+          //  int wyposzyczeniaAktulane = 0;
+
+            foreach (var lend in lends)
+            {
+                if (lend.personId == people.id && lend.lendDate < DateTime.Today && lend.plannedReturnDate > DateTime.Today)
+                    Zlecenia.Text = (people.Lends.Count - 1).ToString();
+                foreach (var car in cars)
+                {
+                    if(lend.carId==car.id)
+                    {
+
+                        Pojazd.Text = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration;
+
+                    }
+
+                }
+            }
+
         }
     }
 }

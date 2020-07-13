@@ -78,10 +78,8 @@ namespace FirmaTransportowa.Views
                     OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
-               
-                
+ 
             }
-
             return items;
         }
 
@@ -152,8 +150,6 @@ namespace FirmaTransportowa.Views
             {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
             }
-
-
         }
         private void Usun_zwolnienie(object sender, RoutedEventArgs e)
         {
@@ -201,9 +197,36 @@ namespace FirmaTransportowa.Views
         
         private void WorkerStatistics_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
-            mainWindow.DataContext = new StatystykiPracownikaModel();
+            ListViewItem selected = (ListViewItem)workersList.SelectedItem;
+
+            if (selected != null)
+            {
+                WorkersList selectedObj = (WorkersList)selected.Content;
+
+                int selectedId = selectedObj.PersonId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var people = db.People;
+               // var carSupervisor = db.CarSupervisors;
+
+                foreach (var person in people)
+                {
+                    if (person.id == selectedId)
+                    {
+                        System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
+                        mainWindow.DataContext = new StatystykiPracownika(person);
+                        return;
+
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+            }   
         }
+
+
+
         private void ZwolnieniBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
@@ -234,8 +257,6 @@ namespace FirmaTransportowa.Views
 
             view.Filter += UserFilter;
         }
-
-
 
         private bool UserFilter(object item)
         {
