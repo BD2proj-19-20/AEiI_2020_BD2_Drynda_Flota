@@ -47,7 +47,7 @@ namespace FirmaTransportowa.Views
          //   people.
             foreach (var carS in carSupervisior)
             {
-                if(carS.personId == people.id)
+                if(carS.personId == people.id) 
                 {
                     foreach(var car in cars)
                         if( car.id == carS.carId)
@@ -73,7 +73,6 @@ namespace FirmaTransportowa.Views
             Aktywnosci.Text = aktywnosci.ToString();
 
            
-          //  int wyposzyczeniaAktulane = 0;
 
             foreach (var lend in lends)
             {
