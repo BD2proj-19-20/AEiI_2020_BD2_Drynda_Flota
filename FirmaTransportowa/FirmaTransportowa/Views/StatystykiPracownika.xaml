@@ -9,21 +9,13 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <TextBlock Foreground="White" Margin="10 0" Text="Jan Kowalski" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Name="ImieNazwisko" Foreground="White" Margin="10 0" Text="Jan Kowalski" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="500" Width="700">
                 <Border Background="White" Margin="25 0" Height="500" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Informacje ogólne"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Imię:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Imie"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Nazwisko:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Nazwisko"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Data zatrudnienia:" Width="150"/>
@@ -48,22 +40,14 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkownika"/>
                         </StackPanel>
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150"/>
-                            <TextBlock FontSize="15" Text="15000 km" RenderTransformOrigin="0.5,0.5" Width="26">
-                                <TextBlock.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleX="-1"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
+                            <TextBlock FontSize="15"  Name="Przejechane" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Pojazd" Height="25" VerticalAlignment="Bottom"/>
+                            <TextBlock FontSize="15" x:Name="Pojazd" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Wykonane zlecenia:" Width="150"/>
@@ -73,9 +57,9 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Obecne aktywności:" Width="150"/>
                             <TextBlock FontSize="15" Name="Aktywnosci"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Opiekun"/>
+                            <TextBlock FontSize="15" x:Name="Opiekun" Height="Auto"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>

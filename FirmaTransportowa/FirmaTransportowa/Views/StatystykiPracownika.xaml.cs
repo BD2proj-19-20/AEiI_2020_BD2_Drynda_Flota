@@ -21,20 +21,19 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class StatystykiPracownika : UserControl
     {
-       
+
 
         public StatystykiPracownika(Person people)
         {
             InitializeComponent();
 
-            Imie.Text = people.firstName;
-            Nazwisko.Text = people.lastName;
+            ImieNazwisko.Text = people.firstName + " " + people.lastName;
             DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
             if (people.layoffDate != null)
                 DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
             Login.Text = people.systemLogin;
-            if(people.passwordHash!=null)
-            Haslo.Text = people.passwordHash.ToString();
+            if (people.passwordHash != null)
+                Haslo.Text = people.passwordHash.ToString();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var activities = db.Activities;
@@ -43,28 +42,26 @@ namespace FirmaTransportowa.Views
             int aktywnosci = 0;
             var lends = db.Lends;
             var cars = db.Cars;
+            string textOpiekun = "";
 
-         //   people.
             foreach (var carS in carSupervisior)
             {
-                if(carS.personId == people.id) 
+                if (carS.personId == people.id)
                 {
-                    foreach(var car in cars)
-                        if( car.id == carS.carId)
+
+                    foreach (var car in cars)
+                        if (car.id == carS.carId)
                         {
-                            Opiekun.Text = car.CarModel.make +"/" + car.CarModel.model + "/" + car.Registration;
+                            textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
 
                         }
-
-
                 }
 
             }
+            Opiekun.Text = textOpiekun;
 
 
-           
-
-          foreach (var aktyw in activities)
+            foreach (var aktyw in activities)
             {
                 if (aktyw.reporterId == people.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
                     aktywnosci++;
@@ -72,23 +69,28 @@ namespace FirmaTransportowa.Views
 
             Aktywnosci.Text = aktywnosci.ToString();
 
-           
 
+            int przejechaneKm = 0;
             foreach (var lend in lends)
             {
-                if (lend.personId == people.id && lend.lendDate < DateTime.Today && lend.plannedReturnDate > DateTime.Today)
+                
+                if (lend.personId == people.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today)
+                {
                     Zlecenia.Text = (people.Lends.Count - 1).ToString();
+                    przejechaneKm += lend.endOdometer.Value - lend.startOdometer; 
+                }
                 foreach (var car in cars)
                 {
-                    if(lend.carId==car.id)
+                    if (lend.carId == car.id)
                     {
-
                         Pojazd.Text = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration;
-
                     }
 
                 }
             }
+            Przejechane.Text = przejechaneKm.ToString()+" km";
+
+
 
         }
     }
