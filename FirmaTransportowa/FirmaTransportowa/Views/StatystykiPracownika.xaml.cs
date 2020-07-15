@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FirmaTransportowa.ViewModels;
 
 namespace FirmaTransportowa.Views
 {
@@ -33,7 +34,8 @@ namespace FirmaTransportowa.Views
                 DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
             Login.Text = people.systemLogin;
             if (people.passwordHash != null)
-                Haslo.Text = people.passwordHash.ToString();
+                Haslo.Text =  Convert.ToBase64String(people.passwordHash).Substring(0, 8);
+
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var activities = db.Activities;
@@ -46,16 +48,14 @@ namespace FirmaTransportowa.Views
 
             foreach (var carS in carSupervisior)
             {
-                if (carS.personId == people.id )
+                if (carS.personId == people.id)
                 {
-
                     foreach (var car in cars)
-                        if (car.id == carS.carId && (carS.endDate < DateTime.Today || carS.endDate==null))
+                        if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null))
                         {
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
                 }
-
             }
             Opiekun.Text = textOpiekun;
 
@@ -72,11 +72,11 @@ namespace FirmaTransportowa.Views
             int przejechaneKm = 0;
             foreach (var lend in lends)
             {
-                
+
                 if (lend.personId == people.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today)
                 {
                     Zlecenia.Text = (people.Lends.Count - 1).ToString();
-                    przejechaneKm += lend.endOdometer.Value - lend.startOdometer; 
+                    przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
                 }
                 foreach (var car in cars)
                 {
@@ -87,9 +87,13 @@ namespace FirmaTransportowa.Views
 
                 }
             }
-            Przejechane.Text = przejechaneKm.ToString()+" km";
+            Przejechane.Text = przejechaneKm.ToString() + " km";
+        }
+        private void Cofnij(object sender, RoutedEventArgs e)
+        {
 
-
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new PracownicyModel();
 
         }
     }

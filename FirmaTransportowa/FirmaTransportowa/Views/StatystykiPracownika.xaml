@@ -12,7 +12,7 @@
                 <TextBlock Name="ImieNazwisko" Foreground="White" Margin="10 0" Text="Jan Kowalski" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="500" Width="700">
-                <Border Background="White" Margin="25 0" Height="500" Width="300">
+                <Border Background="White" Margin="25,0,25,10" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Informacje ogólne"/>
@@ -35,7 +35,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Background="White" Margin="25 0" Height="500" Width="300">
+                <Border Background="White" Margin="25,0,25,10" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkownika"/>
@@ -64,6 +64,7 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
+            <Button Content="Cofnij" Height="43" Click="Cofnij" Margin="244,0,275,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

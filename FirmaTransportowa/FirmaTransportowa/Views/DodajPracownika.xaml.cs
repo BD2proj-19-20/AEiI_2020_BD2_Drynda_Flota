@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FirmaTransportowa.ViewModels;
+using System.Security.Cryptography;
 
 namespace FirmaTransportowa.Views
 {
@@ -27,7 +28,16 @@ namespace FirmaTransportowa.Views
             DzienZatrudnienia.Text = DateTime.Today.ToString("dd.MM.yyyy");
         }
 
-       
+        public byte[] getHash(string password)
+        {
+            byte[] passwordSalt = { 67,128,62,208,147,77,143,197 };
+
+            using (Rfc2898DeriveBytes hashGenerator = new Rfc2898DeriveBytes(password, passwordSalt))
+            {
+                hashGenerator.IterationCount = 1001;
+                return hashGenerator.GetBytes(8);
+            }
+        }
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
         {
 
@@ -40,14 +50,14 @@ namespace FirmaTransportowa.Views
             newWorker.lastName = Nazwisko.Text;
             newWorker.systemLogin = Login.Text;
             newWorker.employmentData = Convert.ToDateTime(DzienZatrudnienia.Text);
-            //newWorker.passwordHash = Hasło.GetHashCode(); 
-
+            newWorker.passwordHash = getHash(Hasło.Text);
 
             workers.Add(newWorker);
             db.SaveChanges();
             MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text,"Komunikat");
 
         }
+
         private void Cofnij(object sender, RoutedEventArgs e)
         {
 
