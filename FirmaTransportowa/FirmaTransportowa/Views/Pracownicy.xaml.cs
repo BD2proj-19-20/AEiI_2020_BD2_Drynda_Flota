@@ -35,15 +35,19 @@ namespace FirmaTransportowa.Views
         private SortAdorner listViewSortAdorner = null;
 
         List<ListViewItem> items = new List<ListViewItem>();
+        public void UpdateView()
+        {
+            workersList.ItemsSource = ListaPracownikow();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+            view.Filter += UserFilter;
+
+        }
 
         public Pracownicy()
         {
             InitializeComponent();
-            workersList.ItemsSource = ListaPracownikow();
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
+            UpdateView();
         }
     
         public List<ListViewItem> ListaPracownikow()
@@ -97,14 +101,9 @@ namespace FirmaTransportowa.Views
             if (selected != null)
             {
                 WorkersList selectedObj = (WorkersList)selected.Content;
-
-
                 int selectedId = selectedObj.PersonId - 1;
-
-
-                CarSupervisor carSupervisiorChange = null;
+                
                 Person personChange = null;
-
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
@@ -115,19 +114,12 @@ namespace FirmaTransportowa.Views
                     {
                            personChange = person;
 
-                        if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
-
-                            foreach (var carS in carSupervisor)
-                            {
-                                if (person.id == carS.personId)
-                                    carSupervisiorChange = carS;
-                            }
                     }
                 }
 
                 if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
                 {
-                    DataZwolnienia dataZwolnieniaView = new DataZwolnienia(carSupervisiorChange, personChange);
+                    DataZwolnienia dataZwolnieniaView = new DataZwolnienia(personChange);
                     dataZwolnieniaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
                     dataZwolnieniaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
                     dataZwolnieniaView.ShowDialog();
@@ -140,7 +132,8 @@ namespace FirmaTransportowa.Views
                     //aktualizacja widoku pracowników 
                     workersList.ItemsSource = null;
                     items.Clear();
-                    workersList.ItemsSource = ListaPracownikow();
+                  //  workersList.ItemsSource = ListaPracownikow();
+                    UpdateView();
                 }
                 else
                     MessageBox.Show("Ta osoba została zwolniona", "Komunikat");
@@ -185,8 +178,7 @@ namespace FirmaTransportowa.Views
                 //aktualizacja widoku pracowników 
                 workersList.ItemsSource = null;
                 items.Clear();
-                workersList.ItemsSource = ListaPracownikow();
-
+                UpdateView();
             }
          
             else
@@ -231,31 +223,19 @@ namespace FirmaTransportowa.Views
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = ListaPracownikow();
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
+            UpdateView();
         }
         private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = ListaPracownikow();
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
+           UpdateView();
         }
         private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            workersList.ItemsSource = ListaPracownikow();
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
+            UpdateView();
         }
 
         private bool UserFilter(object item)

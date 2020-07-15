@@ -26,36 +26,32 @@ namespace FirmaTransportowa.Views
         Person personChange;
 
         //ItemList itemToChange;
-        public DataZwolnienia(CarSupervisor carSupervisiorChange,Person personChange)
+        public DataZwolnienia(Person personChange)
         {
             InitializeComponent();
             // if(!carSupervisiorChange.Equals(null))
             DataZwolnieniaPracownika.Text = DateTime.Today.ToString("dd.MM.yyyy");
-            this.carSupervisiorChange = carSupervisiorChange;
+            
             this.personChange = personChange;
 
         }
 
         private void Dodaj_Zwolnienie(object sender, RoutedEventArgs e)
-        { 
-            if(!DataZwolnieniaPracownika.Text.Equals(""))
+        {
+            if (!DataZwolnieniaPracownika.Text.Equals(""))
             {
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
                 var carSupervisors = db.CarSupervisors;
                 // var newSupervisor = new CarSupervisor();
 
-                if (!(carSupervisiorChange is null))
-                {
-                    foreach (var carSupervisor in carSupervisors)
-                    {
-                        if (carSupervisor.carId == carSupervisiorChange.carId)
-                        {
-                            carSupervisor.endDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
 
-                        }
+                    foreach (var carS in carSupervisors)
+                    {
+                        if (personChange.id == carS.personId)
+                            carS.endDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
                     }
-                }
+
                 var people = db.People;
 
                 foreach (var person in people)
@@ -65,6 +61,28 @@ namespace FirmaTransportowa.Views
                         person.layoffDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
 
                     }
+                }
+                var reservation = db.Reservations;
+                foreach( var res in reservation)
+                {
+                    if(res.personId == personChange.id)
+                    {  
+                        res.returnDate = DateTime.Today;
+                        res.ended = true;
+                        
+                    }
+
+                }
+                var lends = db.Lends;
+                foreach (var lend in lends)
+                {
+                    if(lend.personId==personChange.id)
+                    {
+                        lend.returnDate= DateTime.Today;
+                       lend.plannedReturnDate = DateTime.Today;
+                        lend.comments = "Zakończono przez zwolnienie pracownika";
+                    }
+
                 }
 
                 db.SaveChanges();

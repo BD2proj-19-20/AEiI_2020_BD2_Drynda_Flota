@@ -66,7 +66,7 @@ namespace FirmaTransportowa.Views
 
                 foreach (var supervisor in carSupervisors)
                 {
-                    if (supervisor.carId == car.id && supervisor.endDate == null)
+                    if (supervisor.carId == car.id && supervisor.endDate > DateTime.Today)
                     {
                         supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
                         break;

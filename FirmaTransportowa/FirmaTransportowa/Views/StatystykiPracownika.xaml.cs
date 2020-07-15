@@ -46,14 +46,13 @@ namespace FirmaTransportowa.Views
 
             foreach (var carS in carSupervisior)
             {
-                if (carS.personId == people.id)
+                if (carS.personId == people.id )
                 {
 
                     foreach (var car in cars)
-                        if (car.id == carS.carId)
+                        if (car.id == carS.carId && (carS.endDate < DateTime.Today || carS.endDate==null))
                         {
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-
                         }
                 }
 
