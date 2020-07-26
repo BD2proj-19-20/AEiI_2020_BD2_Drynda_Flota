@@ -41,7 +41,7 @@ namespace FirmaTransportowa.Views
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
             view.Filter += UserFilter;
-
+           
         }
 
         public Pracownicy()
@@ -49,24 +49,24 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             UpdateView();
         }
-    
+
         public List<ListViewItem> ListaPracownikow()
         {
-            
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
-   
+
             foreach (var person in people)
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
 
-                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value==true )
+                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.Red;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
@@ -74,15 +74,15 @@ namespace FirmaTransportowa.Views
                     OneItem.Background = Brushes.Orange;
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
                 else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
                 {
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.firstName + " " + person.lastName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
- 
+
             }
             return items;
         }
@@ -102,7 +102,7 @@ namespace FirmaTransportowa.Views
             {
                 WorkersList selectedObj = (WorkersList)selected.Content;
                 int selectedId = selectedObj.PersonId - 1;
-                
+
                 Person personChange = null;
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -112,7 +112,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (person.id == selectedId)
                     {
-                           personChange = person;
+                        personChange = person;
 
                     }
                 }
@@ -132,7 +132,7 @@ namespace FirmaTransportowa.Views
                     //aktualizacja widoku pracowników 
                     workersList.ItemsSource = null;
                     items.Clear();
-                  //  workersList.ItemsSource = ListaPracownikow();
+                    //  workersList.ItemsSource = ListaPracownikow();
                     UpdateView();
                 }
                 else
@@ -174,19 +174,19 @@ namespace FirmaTransportowa.Views
                     }
                 }
                 db.SaveChanges();
-                
+
                 //aktualizacja widoku pracowników 
                 workersList.ItemsSource = null;
                 items.Clear();
                 UpdateView();
             }
-         
+
             else
             {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
             }
         }
-        
+
         private void WorkerStatistics_Click(object sender, RoutedEventArgs e)
         {
             ListViewItem selected = (ListViewItem)workersList.SelectedItem;
@@ -198,7 +198,7 @@ namespace FirmaTransportowa.Views
                 int selectedId = selectedObj.PersonId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
-               // var carSupervisor = db.CarSupervisors;
+                // var carSupervisor = db.CarSupervisors;
 
                 foreach (var person in people)
                 {
@@ -214,7 +214,7 @@ namespace FirmaTransportowa.Views
             else
             {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }   
+            }
         }
 
 
@@ -222,20 +222,25 @@ namespace FirmaTransportowa.Views
         private void ZwolnieniBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
+           
             items.Clear();
-            UpdateView();
+           // workersList.ItemsSource = ListaPracownikow();
+            
+             UpdateView();
         }
         private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-           UpdateView();
+           // workersList.ItemsSource = ListaPracownikow();
+               UpdateView();
         }
         private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            UpdateView();
+          //  workersList.ItemsSource = ListaPracownikow();
+              UpdateView();
         }
 
         private bool UserFilter(object item)
@@ -289,7 +294,7 @@ namespace FirmaTransportowa.Views
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
-            
+
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             string sortBy = column.Tag.ToString();
             if (listViewSortCol != null)
@@ -329,17 +334,17 @@ namespace FirmaTransportowa.Views
                 else
                     Array.Sort(tempItems, ComparePeopleByDateDescending);
             }
-            
-            workersList.ItemsSource = tempItems;
+           
+           workersList.ItemsSource = tempItems;
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
+            //view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
 
-            view.Filter += UserFilter;
+            //view.Filter += UserFilter;
         }
         int ComparePeopleByPersonIdAscending(ListViewItem a, ListViewItem b)
         {
-           WorkersList first = (WorkersList)a.Content;
+            WorkersList first = (WorkersList)a.Content;
             WorkersList second = (WorkersList)b.Content;
             return first.PersonId.CompareTo(second.PersonId);
         }
@@ -353,8 +358,8 @@ namespace FirmaTransportowa.Views
         {
             WorkersList first = (WorkersList)a.Content;
             WorkersList second = (WorkersList)b.Content;
-            return String.Compare(first.Person,second.Person);
-          
+            return String.Compare(first.Person, second.Person);
+
         }
         int ComparePeopleByPersonDescending(ListViewItem a, ListViewItem b)
         {
@@ -378,7 +383,7 @@ namespace FirmaTransportowa.Views
                 secondDate = DateTime.MinValue;
             return DateTime.Compare(firstDate, secondDate);
 
-          
+
         }
         int ComparePeopleByDateDescending(ListViewItem a, ListViewItem b)
         {
