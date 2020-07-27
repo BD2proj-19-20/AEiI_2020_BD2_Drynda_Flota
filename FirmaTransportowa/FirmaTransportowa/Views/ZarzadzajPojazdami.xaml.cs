@@ -66,7 +66,7 @@ namespace FirmaTransportowa.Views
 
                 foreach (var supervisor in carSupervisors)
                 {
-                    if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
+                    if (supervisor.carId == car.id && supervisor.endDate > DateTime.Today)
                     {
                         supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
                         break;
@@ -93,7 +93,6 @@ namespace FirmaTransportowa.Views
             view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
 
             view.Filter += UserFilter;
-
         }
 
 
@@ -106,8 +105,6 @@ namespace FirmaTransportowa.Views
 
             iTextSharp.text.Font times = FontFactory.GetFont("Arial", 32, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
-            iTextSharp.text.Font times3 = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
-            times3.Size = 14;
             FileStream fs = new FileStream("Raport na temat pojazdow " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
@@ -128,7 +125,7 @@ namespace FirmaTransportowa.Views
                             DateTime temp = (DateTime)carSupervisor.endDate;
                             endDate = temp.ToShortDateString();
                         }
-                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " " + carSupervisor.Person.lastName + ": " + carSupervisor.beginDate.ToShortDateString() + " - " + endDate + "\n",times3));
+                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " " + carSupervisor.Person.lastName + ": " + carSupervisor.beginDate.ToShortDateString() + " - " + endDate + "\n"));
                     }
                 }
 

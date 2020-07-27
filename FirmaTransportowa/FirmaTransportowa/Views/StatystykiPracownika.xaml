@@ -61,10 +61,6 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Opiekun" Height="Auto"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
-                            <TextBlock FontSize="15" x:Name="BylyOpiekun" Height="Auto"/>
-                        </StackPanel>
                     </StackPanel>
                 </Border>
             </StackPanel>

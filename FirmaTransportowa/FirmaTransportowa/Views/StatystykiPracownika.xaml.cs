@@ -45,24 +45,19 @@ namespace FirmaTransportowa.Views
             var lends = db.Lends;
             var cars = db.Cars;
             string textOpiekun = "";
-            string bylyOpiekun = "";
+
             foreach (var carS in carSupervisior)
             {
                 if (carS.personId == people.id)
                 {
                     foreach (var car in cars)
-                        if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
+                        if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null))
                         {
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                        }
-                    else if (car.id == carS.carId)
-                        {
-                            bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
                 }
             }
             Opiekun.Text = textOpiekun;
-            BylyOpiekun.Text = bylyOpiekun;
 
 
             foreach (var aktyw in activities)
