@@ -8,8 +8,8 @@
              d:DesignHeight="600" d:DesignWidth="750">
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,25,25,20" Height="57" Width="700">
-                <TextBlock Foreground="White" Text="Pracownicy:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,2,0,20" RenderTransformOrigin="0.5,0.5">
+            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,474,20" Height="57" Width="251">
+                <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,-3,-445,0" RenderTransformOrigin="0.5,0.5" Height="60" HorizontalAlignment="Left" Width="696">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -17,13 +17,14 @@
                             <RotateTransform Angle="359.495"/>
                             <TranslateTransform/>
                         </TransformGroup>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
+                    </TextBlock.RenderTransform><Run Text="Pracownicy:"/><Run Text="     "/><Run Text="      "/><Run Text=" "/><InlineUIContainer>
+                        <Button Content="Generuj Raport" FontWeight="Normal"  Click="Generuj_Raport_Pracownicy" Height="41" FontSize="15" Width="159" />
+                    </InlineUIContainer><Run Text=" "/><Run Text=" "/><Run Text="   "/><Run Text="                 "/><Run Text="     "/></TextBlock>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0">
-                <TextBox Text="" Height="20" Width="100" Name="idFilter" TextChanged="idFilter_TextChanged"/>
-                <TextBox Text="" Height="20" Width="99" Name="personFilter" TextChanged="personFilter_TextChanged" />
-                <TextBox Text="" Height="20" Width="116" Name="dataOutFilter" TextChanged="dataOutFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="100" x:Name="idFilter" TextChanged="idFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="99" x:Name="personFilter" TextChanged="personFilter_TextChanged" />
+                <TextBox Text="" Height="20" Width="116" x:Name="dataOutFilter" TextChanged="dataOutFilter_TextChanged"/>
                 <CheckBox x:Name="ZwolnieniBox" Content="Zwolnieni" Width="100"  IsChecked="True" Click="ZwolnieniBox_Click" />
                 <CheckBox x:Name="DataZwolnieniaBox" Content="Z datą zwolnienia" Width="127" IsChecked="True"  Click="DataZwolnieniaBox_Click"/>
                 <CheckBox x:Name="BezZwolnieniaBox" Content="Bez zwolnienia" Width="116" IsChecked="True" Click="BezZwolnieniaBox_Click"/>
@@ -32,22 +33,16 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonId}">
-                        <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="PersonId" Content="ID" Click="GridViewColumnHeader_Click" />
-                            </GridViewColumn.Header>
-                    </GridViewColumn>
+                            <GridViewColumnHeader Tag="PersonId" Content="ID" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
-                        <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Person" Content="Pracownik" Click="GridViewColumnHeader_Click" />
-                            </GridViewColumn.Header>
-                    </GridViewColumn>
+                            <GridViewColumnHeader Tag="Person" Content="Pracownik" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
-                        <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
-                            </GridViewColumn.Header>
-                    </GridViewColumn>
-                  
-                </GridView>
+                            <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
+                        </GridViewColumn>
+
+                    </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
