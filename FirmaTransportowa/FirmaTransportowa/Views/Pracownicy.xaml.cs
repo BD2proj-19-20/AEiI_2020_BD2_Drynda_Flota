@@ -19,6 +19,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MaterialDesignThemes.Wpf;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FirmaTransportowa.Views
 {
@@ -300,33 +301,39 @@ namespace FirmaTransportowa.Views
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
-            //  var cars = db.Cars.ToList().OrderBy(t => t.Registration);
             var people = db.People.ToList().OrderBy(t => t.lastName);
             var cars = db.Cars;
 
-
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
-            // FontFactory.Register("C:\\Windows\\Fonts\\ARIALUNI.TTF", "arial unicode ms");
             Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times.Size = 32;
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
-            FileStream fs = new FileStream(path + "Raport na temat pracowników" + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
 
-
-            //z checkboxami zrob
             foreach (var person in people)
             {
                 Chunk c = new Chunk(person.lastName + " " + person.firstName, times);
                 var dateO = "";
                 var dateE = "";
+                var date = "";
+                string namePerson = person.lastName + " " + person.firstName;
 
-                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true)
+                if (person.layoffDate != null)
+                {
+
+                    string dateTime = person.layoffDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                }
+
+                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
+                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
                 {
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -340,8 +347,9 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Zwolniony:" + dateO, times2));
 
                 }
-                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
-                {
+                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true && 
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
+                    {
 
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -354,8 +362,9 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Zatrudniony:" + dateE, times2));
                     doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie:" + dateO, times2));
                 }
-                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
-                {
+                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
+                        {
 
                     string dateTime = person.employmentData.ToString();
                     dateE = dateTime.Substring(0, 10);
@@ -415,6 +424,9 @@ namespace FirmaTransportowa.Views
                 //}
 
             }
+
+                doc.Add(new iTextSharp.text.Paragraph(" ", times2)); //doc nie może być pusty 
+
             doc.Close();
         }
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
