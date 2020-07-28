@@ -22,6 +22,8 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class DodajRezerwacje : UserControl
     {
+
+        
         public DodajRezerwacje()
         {
             InitializeComponent();
@@ -33,14 +35,15 @@ namespace FirmaTransportowa.Views
 
             foreach (var human in people)
             {
-                Pracownicy.Items.Add(human.firstName + " " + human.lastName);
+                if(human.layoffDate>DateTime.Now || human.layoffDate==null) //wyswietlamy tych co jeszcze pracuja
+                Pracownicy.Items.Add(human.id.ToString()+") "+ human.firstName + " " + human.lastName);
             }
           
 
             var cars = db.Cars;
             foreach (var car in cars)
             {
-
+                if(car.onService==false)  //gdy w sewisie nie wypożyczamy
                 PojazdID.Items.Add(car.id);
 
             }
@@ -86,20 +89,95 @@ namespace FirmaTransportowa.Views
             Zastosowanie.IsReadOnly = true;
 
         }
-         private void Pojazd_Change(object sender, RoutedEventArgs e)
+         private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
         {
+           //PojazdID.Text.
             Dane_Pojzadu();
         }
 
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
 
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            DateTime temp;
+            var reservations = db.Reservations;
+            var lends = db.Lends;
+            var people = db.People;
+            DateTime? datePersonOut = null ;
+
+            foreach (var person in people)
+            {
+                string name = person.id.ToString()+") "+person.firstName + " " + person.lastName;
+               // string check = Pracownicy.Text;
+                if (name.Equals(Pracownicy.Text))
+                {
+                    
+                    datePersonOut = person.layoffDate;
+                }
+
+            }
+
+
+            if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
+                !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
+                Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now
+                && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut==null))
+                
+
+            {
+                var newReservation = new Reservation();
+                var newLend = new Lend(); //?
+
+
+                newReservation.carId = Int16.Parse(PojazdID.Text);
+                newReservation.reservationDate = Convert.ToDateTime(ReservationDate.Text);
+                newReservation.lendDate = Convert.ToDateTime(ReservationStart.Text);
+                newReservation.returnDate = Convert.ToDateTime(ReservationEnd.Text);
+               
+                    newReservation.ended = true ;
+                if (PrywatneBox.IsChecked == true)
+                    newReservation.@private = true; 
+                else
+                    newReservation.@private = false;
+
+
+               
+                foreach (var person in people)
+                {
+                    string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
+                    //string check = Pracownicy.Text;
+                    if (name.Equals(Pracownicy.Text))
+                    {
+                        newReservation.personId = person.id; 
+                    }
+
+                }
+
+                reservations.Add(newReservation);
+                db.SaveChanges();
+
+                newLend.carId = newReservation.carId;
+                newLend.personId = newReservation.personId;
+                newLend.lendDate = newReservation.reservationDate;
+                newLend.plannedReturnDate = newReservation.returnDate;
+                newLend.@private = (bool)newReservation.@private;
+                newLend.reservationId = newReservation.id;
+                newLend.comments = "Zainicjowane przez kierownika";
+                lends.Add(newLend);
+                db.SaveChanges();
+
+            }
+            else
+            {
+                MessageBox.Show("Złe daty", "Komunikat");
+            }
+
         }
         private void Cofnij(object sender, RoutedEventArgs e)
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new DodajRezerwacjeModel();
+            glowneOkno.DataContext = new RezerwacjeModel();
 
         }
     }

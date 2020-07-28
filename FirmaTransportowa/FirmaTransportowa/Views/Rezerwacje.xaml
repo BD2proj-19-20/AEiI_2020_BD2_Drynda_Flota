@@ -14,32 +14,32 @@
             <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Id}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationId}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Id" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Pracownik</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding DateStart}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationStart}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data rozpoczęcia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding DateEnd}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationEnd}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data zakończenia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding DateReservation}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationDate}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data rezerwacji</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Car}">
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Vehicle}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Car" Click="GridViewColumnHeader_Click">Pojazd</GridViewColumnHeader>
                             </GridViewColumn.Header>
