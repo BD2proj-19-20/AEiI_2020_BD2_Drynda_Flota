@@ -58,13 +58,11 @@ namespace FirmaTransportowa.Views
                         else if (car.id == carS.carId)
                         {
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                         //   bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                        
                         }
                 }
             }
-            bylyOpiekun += bylyOpiekun  + "1\n";
-            bylyOpiekun += bylyOpiekun + "2\n"; 
-            bylyOpiekun += bylyOpiekun + "3\n";
+        
             Opiekun.Text = textOpiekun;
             BylyOpiekun.Text = bylyOpiekun;
             

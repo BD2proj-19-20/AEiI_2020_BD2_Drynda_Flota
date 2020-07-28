@@ -414,22 +414,49 @@ namespace FirmaTransportowa.Views
                 var zlecenia ="Brak";
                 int przejechaneKm = 0;
                 var aktualnyPojazd = "Brak";
+                int zleceniaPrywatne = 0;
+                int zleceniaSluzbowe = 0;
+                int przejechaneKmSluzbowe = 0;
+
+
+                int dni = 0;
+                int dniSluzbowe = 0;
+
+                var pojazd = "";
+                var pojazdSluzbowy = "";
 
                 foreach (var lend in lends)
                 {
 
-                    if (lend.personId == person.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today)
+                    if (lend.personId == person.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today) //lend ktore były
                     {
-                        zlecenia = (person.Lends.Count - 1).ToString();
-                        przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                        if (lend.@private == true)
+                        {
+                            zleceniaPrywatne++;
+                            przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                            TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
+                            dni += (int)t.TotalDays;
+
+                        }
+                        else
+                        {
+                            zleceniaSluzbowe++;
+                            przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
+                            TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
+                            dniSluzbowe += (int)t.TotalDays;
+                        }
+
                     }
                     foreach (var car in cars)
                     {
-                        if (lend.carId == car.id)
-                        {
-                            aktualnyPojazd = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration;
+                        if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
+                        { //jedno wypozyczenie?
+                            if (lend.@private == true)
+                                pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            else
+                                pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
-
+                        //dodanie kosztów zależności różnych kategorii - model typ ...
                     }
                 }
 
@@ -440,10 +467,22 @@ namespace FirmaTransportowa.Views
                     if (aktyw.reporterId == person.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
                         aktywnosci++;
                 }
-
+                doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
+                times3.Size = 20;
                 doc.Add(new iTextSharp.text.Paragraph("Przejechane: "+ przejechaneKm.ToString() + " km", times3));
-                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: "+ aktualnyPojazd, times3));
-                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: "+ zlecenia, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: "+ pojazd, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: "+ zleceniaPrywatne.ToString(), times3));
+                doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dni.ToString() + " dni", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + ((double)(przejechaneKm * 4.75)).ToString() + " PLN", times3));
+
+                doc.Add(new iTextSharp.text.Paragraph("Cele służbowe:", times));
+                doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKmSluzbowe.ToString() + " km", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazdSluzbowy, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaSluzbowe.ToString(), times3));
+                doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dniSluzbowe.ToString() + " dni", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + ((double)(przejechaneKmSluzbowe * 4.75)).ToString() + " PLN", times3));
+                times3.Size = 26;
+
                 times.Size = 26;
                 doc.Add(new iTextSharp.text.Paragraph("Obecne aktywności: "+ aktywnosci.ToString(), times));
                 times.Size = 32;
