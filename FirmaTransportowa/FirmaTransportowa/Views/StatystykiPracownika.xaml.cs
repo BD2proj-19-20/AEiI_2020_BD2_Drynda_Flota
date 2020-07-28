@@ -58,12 +58,16 @@ namespace FirmaTransportowa.Views
                         else if (car.id == carS.carId)
                         {
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                         //   bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
                 }
             }
+            bylyOpiekun += bylyOpiekun  + "1\n";
+            bylyOpiekun += bylyOpiekun + "2\n"; 
+            bylyOpiekun += bylyOpiekun + "3\n";
             Opiekun.Text = textOpiekun;
             BylyOpiekun.Text = bylyOpiekun;
-
+            
 
             foreach (var aktyw in activities)
             {
@@ -73,26 +77,74 @@ namespace FirmaTransportowa.Views
 
             Aktywnosci.Text = aktywnosci.ToString();
 
-
+            int zleceniaPrywatne = 0;
             int przejechaneKm = 0;
+            int zleceniaSluzbowe = 0;
+            int przejechaneKmSluzbowe = 0;
+
+
+            int dni = 0;
+            int dniSluzbowe = 0;
+
+            var pojazd = "";
+            var pojazdSluzbowy = "";
+
+            //double koszty=0;
+           // double kosztySluzbowe = 0;
+
             foreach (var lend in lends)
             {
 
-                if (lend.personId == people.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today)
+                if (lend.personId == people.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today) //lend ktore były
                 {
-                    Zlecenia.Text = (people.Lends.Count - 1).ToString();
-                    przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
-                }
-                foreach (var car in cars)
-                {
-                    if (lend.carId == car.id)
+                    if (lend.@private == true)
                     {
-                        Pojazd.Text = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration;
+                        zleceniaPrywatne++;
+                        przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                        TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
+                        dni += (int)t.TotalDays;
+                        
+                    }
+                    else
+                    {
+                        zleceniaSluzbowe++;
+                        przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
+                        TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
+                        dniSluzbowe += (int)t.TotalDays;
                     }
 
                 }
+
+
+                foreach (var car in cars)
+                {
+                    if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
+                    { //jedno wypozyczenie?
+                        if(lend.@private==true)
+                            pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration+"\n";
+                        else
+                            pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration+"\n";
+                    }
+                    //dodanie kosztów zależności różnych kategorii - model typ ...
+                }
             }
+            Pojazd.Text = pojazd;
+            PojazdSluzbowe.Text = pojazdSluzbowy;
+
+
+            Dni.Text = dni.ToString() +" dni";
+            DniSluzbowe.Text = dniSluzbowe.ToString() + " dni";
+
+            Zlecenia.Text = zleceniaPrywatne.ToString();
             Przejechane.Text = przejechaneKm.ToString() + " km";
+
+
+            PrzejechaneSluzobowe.Text = przejechaneKmSluzbowe.ToString() + " km";
+            ZleceniaSluzbowe.Text = zleceniaSluzbowe.ToString();
+
+            Koszty.Text= ((double)(przejechaneKm*4.75)).ToString() + " PLN";
+            KosztySluzbowe.Text = ((double)(przejechaneKmSluzbowe * 4.75)).ToString() +" PLN";
+
         }
         private void Cofnij(object sender, RoutedEventArgs e)
         {

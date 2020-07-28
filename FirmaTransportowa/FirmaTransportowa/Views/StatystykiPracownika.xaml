@@ -40,18 +40,62 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkownika"/>
                         </StackPanel>
+                        
 
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Cele prywatne"/>
+                        </StackPanel>
+                        
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150" Height="25" VerticalAlignment="Bottom"/>
                             <TextBlock FontSize="15"  Name="Przejechane" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150"/>
-                            <TextBlock FontSize="15" x:Name="Pojazd" Height="25" VerticalAlignment="Bottom"/>
+                            <TextBlock FontSize="15" x:Name="Pojazd" Height="Auto" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Wykonane zlecenia:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Zlecenia" Width="10"/>
+                            <TextBlock FontSize="15" Name="Zlecenia"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Czas jazdy:" Width="150"/>
+                            <TextBlock FontSize="15" Name="Dni"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Koszty:" Width="150"/>
+                            <TextBlock FontSize="15" Name="Koszty"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text=" Cele służbowe"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150" Height="25" VerticalAlignment="Bottom"/>
+                            <TextBlock FontSize="15"  Name="PrzejechaneSluzobowe" Height="25" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150"/>
+                            <TextBlock FontSize="15" x:Name="PojazdSluzbowe" Height="Auto" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wykonane zlecenia: " Width="150"/>
+                            <TextBlock FontSize="15" Name="ZleceniaSluzbowe" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Czas jazdy:" Width="150"/>
+                            <TextBlock FontSize="15" Name="DniSluzbowe"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Koszty:" Width="150"/>
+                            <TextBlock FontSize="15" Name="KosztySluzbowe"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text=" Inne"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Obecne aktywności:" Width="150"/>
@@ -63,7 +107,13 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
-                            <TextBlock FontSize="15" x:Name="BylyOpiekun" Height="Auto"/>
+                            <ScrollViewer MaxHeight="140"  
+              Width="Auto" 
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Auto">
+                                <TextBlock FontSize="15" x:Name="BylyOpiekun" TextWrapping="Wrap"  />
+                            </ScrollViewer>
+
                         </StackPanel>
                     </StackPanel>
                 </Border>
