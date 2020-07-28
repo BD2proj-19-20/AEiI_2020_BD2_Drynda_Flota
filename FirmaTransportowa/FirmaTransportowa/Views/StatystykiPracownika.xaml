@@ -42,7 +42,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150" Height="25" VerticalAlignment="Bottom"/>
                             <TextBlock FontSize="15"  Name="Przejechane" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">

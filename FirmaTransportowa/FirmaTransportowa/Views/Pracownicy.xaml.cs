@@ -301,8 +301,10 @@ namespace FirmaTransportowa.Views
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
+            var lends = db.Lends;
             var people = db.People.ToList().OrderBy(t => t.lastName);
             var cars = db.Cars;
+            var activities = db.Activities;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
@@ -317,7 +319,7 @@ namespace FirmaTransportowa.Views
             doc.Open();
 
             foreach (var person in people)
-            {
+            { 
                 Chunk c = new Chunk(person.lastName + " " + person.firstName, times);
                 var dateO = "";
                 var dateE = "";
@@ -329,7 +331,6 @@ namespace FirmaTransportowa.Views
 
                     string dateTime = person.layoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-
                 }
 
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
@@ -343,8 +344,8 @@ namespace FirmaTransportowa.Views
 
                     c.SetBackground(BaseColor.RED);
                     doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony:" + dateE, times2));
-                    doc.Add(new iTextSharp.text.Paragraph("Zwolniony:" + dateO, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zwolniony: " + dateO, times2));
 
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true && 
@@ -359,8 +360,8 @@ namespace FirmaTransportowa.Views
 
                     c.SetBackground(BaseColor.ORANGE);
                     doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony:" + dateE, times2));
-                    doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie:" + dateO, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie: " + dateO, times2));
                 }
                 else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
                     Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
@@ -370,7 +371,7 @@ namespace FirmaTransportowa.Views
                     dateE = dateTime.Substring(0, 10);
 
                     doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony:" + dateE, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
                 }
                 else
                 {
@@ -408,21 +409,44 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Byly Opiekun: ", times3));
                     doc.Add(new iTextSharp.text.Paragraph(bylyOpiekun, times2));
                 }
-                //foreach (var carSupervisor in carSupervisors)
-                //{
-                //    if (person.id == carSupervisor.carId)
-                //    {
-                //        carSupervisor.beginDate.ToShortDateString();
-                //        string endDate = "";
-                //        if (carSupervisor.endDate != null)
-                //        {
-                //            DateTime temp = (DateTime)carSupervisor.endDate;
-                //            endDate = temp.ToShortDateString();
-                //        }
-                //        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " " + carSupervisor.Person.lastName + ": " + carSupervisor.beginDate.ToShortDateString() + " - " + endDate + "\n"));
-                //    }
-                //}
 
+
+                var zlecenia ="Brak";
+                int przejechaneKm = 0;
+                var aktualnyPojazd = "Brak";
+
+                foreach (var lend in lends)
+                {
+
+                    if (lend.personId == person.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today)
+                    {
+                        zlecenia = (person.Lends.Count - 1).ToString();
+                        przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                    }
+                    foreach (var car in cars)
+                    {
+                        if (lend.carId == car.id)
+                        {
+                            aktualnyPojazd = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration;
+                        }
+
+                    }
+                }
+
+                int aktywnosci = 0;
+
+                foreach (var aktyw in activities)
+                {
+                    if (aktyw.reporterId == person.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
+                        aktywnosci++;
+                }
+
+                doc.Add(new iTextSharp.text.Paragraph("Przejechane: "+ przejechaneKm.ToString() + " km", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: "+ aktualnyPojazd, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: "+ zlecenia, times3));
+                times.Size = 26;
+                doc.Add(new iTextSharp.text.Paragraph("Obecne aktywności: "+ aktywnosci.ToString(), times));
+                times.Size = 32;
             }
 
                 doc.Add(new iTextSharp.text.Paragraph(" ", times2)); //doc nie może być pusty 
