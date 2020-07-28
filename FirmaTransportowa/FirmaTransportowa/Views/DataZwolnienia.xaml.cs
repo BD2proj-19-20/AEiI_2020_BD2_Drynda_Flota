@@ -21,11 +21,8 @@ namespace FirmaTransportowa.Views
     public partial class DataZwolnienia : Window
     {
 
-        CarSupervisor carSupervisiorChange;
-
         Person personChange;
 
-        //ItemList itemToChange;
         public DataZwolnienia(Person personChange)
         {
             InitializeComponent();
@@ -38,20 +35,23 @@ namespace FirmaTransportowa.Views
 
         private void Dodaj_Zwolnienie(object sender, RoutedEventArgs e)
         {
-            if (!DataZwolnieniaPracownika.Text.Equals(""))
-            {
+            DateTime temp;
+            if (!DataZwolnieniaPracownika.Text.Equals("") && (DateTime.TryParse(DataZwolnieniaPracownika.Text, out temp)))
+            { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
                 var carSupervisors = db.CarSupervisors;
                 // var newSupervisor = new CarSupervisor();
 
 
-                    foreach (var carS in carSupervisors)
+                foreach (var carS in carSupervisors)
+                {
+                    if (personChange.id == carS.personId)
                     {
-                        if (personChange.id == carS.personId)
-                            carS.endDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
+                        
+                        carS.endDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
                     }
-
+                }
                 var people = db.People;
 
                 foreach (var person in people)
@@ -86,6 +86,10 @@ namespace FirmaTransportowa.Views
                 }
 
                 db.SaveChanges();
+            }
+            else
+            {
+                MessageBox.Show("Zła data zwolnienia!", "Komunikat");
             }
             this.Close();
         }

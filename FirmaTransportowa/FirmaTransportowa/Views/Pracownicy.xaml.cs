@@ -128,8 +128,8 @@ namespace FirmaTransportowa.Views
                 if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
                 {
                     DataZwolnienia dataZwolnieniaView = new DataZwolnienia(personChange);
-                    dataZwolnieniaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
-                    dataZwolnieniaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+
+                  dataZwolnieniaView.WindowStartupLocation= System.Windows.WindowStartupLocation.CenterScreen; //środek ekranu
                     dataZwolnieniaView.ShowDialog();
                     while (dataZwolnieniaView.IsActive)
                     {
