@@ -5,17 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="#FF646464">
-        <Label Content="Imie" HorizontalAlignment="Left" Margin="228,155,0,0" VerticalAlignment="Top"/>
-        <Label Content="Nazwisko" HorizontalAlignment="Left" Margin="214,203,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Imie" HorizontalAlignment="Left" Height="23" Margin="306,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="Nazwisko" HorizontalAlignment="Left" Height="23" Margin="306,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Login" HorizontalAlignment="Left" Height="23" Margin="306,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Login" HorizontalAlignment="Left" Margin="223,293,0,0" VerticalAlignment="Top"/>
-        <Label Content="Hasło" HorizontalAlignment="Left" Margin="222,343,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <TextBox x:Name="Hasło" HorizontalAlignment="Left" Margin="306,343,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
-        <Label Content="Data Zatrudnienia" HorizontalAlignment="Left" Margin="189,252,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="DzienZatrudnienia" HorizontalAlignment="Left" Height="23" Margin="306,256,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+             d:DesignHeight="600" d:DesignWidth="750">
+    <Grid Margin="0,0,0,-99" >
+        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="326,520,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Rezerwacje"/>
+        <Label Content="Opiekun" HorizontalAlignment="Left" Margin="212,107,0,0" VerticalAlignment="Top" Width="81"/>
+        <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="178,144,0,0" VerticalAlignment="Top" Width="128"/>
+        <ComboBox x:Name="Pracownicy" HorizontalAlignment="Left" Height="23" Margin="306,107,0,0"  VerticalAlignment="Top" Width="120" />
+        <TextBox x:Name="ReservationStart" HorizontalAlignment="Left" Height="23" Margin="306,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,243,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,240,0,0" VerticalAlignment="Top" Width="112"/>
+        <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="191,316,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="167,355,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <ComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,281,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="Pojazd_Change"/>
+        <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="178,190,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,194,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,562,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
+        <TextBox x:Name="PojemnoscSilnika" HorizontalAlignment="Left" Height="23" Margin="306,358,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Model" HorizontalAlignment="Left" Margin="197,404,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <TextBox x:Name="Model" HorizontalAlignment="Left" Height="23" Margin="306,407,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Marka" HorizontalAlignment="Left" Margin="197,450,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <TextBox x:Name="Marka" HorizontalAlignment="Left" Height="23" Margin="306,453,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Numer Pojazdu" HorizontalAlignment="Left" Margin="181,281,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <TextBox x:Name="Rejestracja" HorizontalAlignment="Left" Height="23" Margin="306,319,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+        <Label Content="Zastosowanie" HorizontalAlignment="Left" Margin="181,487,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <TextBox x:Name="Zastosowanie" HorizontalAlignment="Left" Height="23" Margin="306,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
     </Grid>
 </UserControl>
