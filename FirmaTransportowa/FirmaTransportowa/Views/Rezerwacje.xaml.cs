@@ -124,8 +124,8 @@ namespace FirmaTransportowa.Views
 
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
-          //  System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-          //  glowneOkno.DataContext = new DodajRezerwacjeModel();
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new DodajRezerwacjeModel();
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)

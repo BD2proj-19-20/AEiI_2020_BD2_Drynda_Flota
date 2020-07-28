@@ -40,6 +40,9 @@
         <DataTemplate x:Name="DodajPracownikTemplate" DataType="{x:Type viewmodels:DodajPracownikModel}">
             <views:DodajPracownika DataContext="{Binding}"/>
         </DataTemplate>
+        <DataTemplate x:Name="DodajRezerwacjeTemplate" DataType="{x:Type viewmodels:DodajRezerwacjeModel}">
+            <views:DodajRezerwacje DataContext="{Binding}"/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
