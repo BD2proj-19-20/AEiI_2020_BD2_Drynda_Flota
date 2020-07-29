@@ -19,7 +19,7 @@
                                 <GridViewColumnHeader Tag="Id" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Person}">
+                        <GridViewColumn Width="130" DisplayMemberBinding="{Binding Person}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Pracownik</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -39,7 +39,7 @@
                                 <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data rezerwacji</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Vehicle}">
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding Vehicle}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Car" Click="GridViewColumnHeader_Click">Pojazd</GridViewColumnHeader>
                             </GridViewColumn.Header>

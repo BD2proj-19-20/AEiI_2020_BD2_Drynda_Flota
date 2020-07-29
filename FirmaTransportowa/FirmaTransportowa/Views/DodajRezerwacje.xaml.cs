@@ -43,6 +43,8 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
+
+
                 if(car.onService==false)  //gdy w sewisie nie wypożyczamy
                 PojazdID.Items.Add(car.id);
 
@@ -105,6 +107,9 @@ namespace FirmaTransportowa.Views
             var people = db.People;
             DateTime? datePersonOut = null ;
 
+            DateTime? actualCarLendDate = null;
+            DateTime? actualCarReturnDate = null;
+
             foreach (var person in people)
             {
                 string name = person.id.ToString()+") "+person.firstName + " " + person.lastName;
@@ -116,59 +121,77 @@ namespace FirmaTransportowa.Views
 
             }
 
-
-            if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
-                !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
-                Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now
-                && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut==null))
-                
-
+            foreach (var reserv in reservations)
             {
-                var newReservation = new Reservation();
-                var newLend = new Lend(); //?
-
-
-                newReservation.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
-                newReservation.reservationDate = Convert.ToDateTime(ReservationDate.Text);
-                newReservation.lendDate = Convert.ToDateTime(ReservationStart.Text);
-                newReservation.returnDate = Convert.ToDateTime(ReservationEnd.Text);
-                newReservation.ended = false ;
-
-                if (PrywatneBox.IsChecked == true)
-                    newReservation.@private = true; 
-                else
-                    newReservation.@private = false;
-
-
-               
-                foreach (var person in people)
+                if(reserv.carId.ToString() == PojazdID.SelectedItem.ToString())
                 {
-                    string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-
-                    if (name.Equals(Pracownicy.Text))
-                    {
-                        newReservation.personId = person.id; 
-                    }
-
+                    actualCarLendDate = reserv.lendDate;
+                    actualCarReturnDate = reserv.returnDate;
                 }
 
-                reservations.Add(newReservation);
-                db.SaveChanges();
+            }
 
-                newLend.carId = newReservation.carId;
-                newLend.personId = newReservation.personId;
-                newLend.lendDate = newReservation.reservationDate;
-                newLend.plannedReturnDate = newReservation.returnDate;
-                newLend.@private = (bool)newReservation.@private;
-                newLend.reservationId = newReservation.id;
-                newLend.comments = "Zainicjowane przez kierownika";
-                lends.Add(newLend);
-                db.SaveChanges();
+                if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
+                    !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
+                    Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now
+                    && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
+                {
 
+                    if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                     || (actualCarLendDate == null && actualCarReturnDate == null)) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
+                { 
+                        var newReservation = new Reservation();
+                    var newLend = new Lend(); //?
+
+
+                    newReservation.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
+                    newReservation.reservationDate = Convert.ToDateTime(ReservationDate.Text);
+                    newReservation.lendDate = Convert.ToDateTime(ReservationStart.Text);
+                    newReservation.returnDate = Convert.ToDateTime(ReservationEnd.Text);
+                    newReservation.ended = false;
+
+                    if (PrywatneBox.IsChecked == true)
+                        newReservation.@private = true;
+                    else
+                        newReservation.@private = false;
+
+
+
+                    foreach (var person in people)
+                    {
+                        string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
+
+                        if (name.Equals(Pracownicy.Text))
+                        {
+                            newReservation.personId = person.id;
+                        }
+
+                    }
+
+                   reservations.Add(newReservation);
+                   db.SaveChanges();
+
+                    newLend.carId = newReservation.carId;
+                    newLend.personId = newReservation.personId;
+                    newLend.lendDate = newReservation.reservationDate;
+                    newLend.plannedReturnDate = newReservation.returnDate;
+                    newLend.@private = (bool)newReservation.@private;
+                    newLend.reservationId = newReservation.id;
+                    newLend.comments = "Zainicjowane przez kierownika";
+                   lends.Add(newLend);
+                    db.SaveChanges();
+
+                    MessageBox.Show("Dodano rezerwację.", "Komunikat");
+                }
+                else
+                {
+                    MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
+                }
             }
             else
             {
                 MessageBox.Show("Błędne dane.", "Komunikat");
+               
             }
 
         }
