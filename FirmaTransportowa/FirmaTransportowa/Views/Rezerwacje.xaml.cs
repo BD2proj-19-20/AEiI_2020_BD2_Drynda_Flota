@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 using FirmaTransportowa.Model;
 using FirmaTransportowa.ViewModels;
+using System.Windows.Forms;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MessageBox = System.Windows.Forms.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace FirmaTransportowa.Views
 {
@@ -30,8 +27,6 @@ namespace FirmaTransportowa.Views
         public string ReservationEnd { get; set; }
         public string ReservationDate { get; set; }
         public string Vehicle { get; set; }
-
-
     }
     public partial class Rezerwacje : UserControl
     {
@@ -141,12 +136,68 @@ namespace FirmaTransportowa.Views
             ListViewReservations.ItemsSource = items;
         }
 
-
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new DodajRezerwacjeModel();
         }
+
+        private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
+        {
+
+            ListViewItem selected = (ListViewItem)ListViewReservations.SelectedItem;
+
+            if (selected != null)
+            {
+                ReservationList selectedObj = (ReservationList)selected.Content;
+
+                int selectedId = selectedObj.ReservationId-1;
+                var reservationPerson = selectedObj.Person;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var people = db.People;
+                var reservations = db.Reservations;
+                //  var cars = db.Cars;
+                Reservation reservationChange = null;
+
+                foreach (var reserv in reservations)
+                {
+
+                    if (reserv.id == selectedId)
+                    {
+                        reservationChange = reserv;
+                        break;
+                    }
+                }
+
+                if (reservationChange.ended == true)
+                {
+                    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+
+                }
+                else
+                {
+
+
+
+                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc rezerwację " + reservationPerson +"?"
+                        , "Komunikat", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                       
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                    }
+                   
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+
+            }
+        }
+
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
 
@@ -171,7 +222,6 @@ namespace FirmaTransportowa.Views
             items.Clear();
             UpdateView();
         }
-
         private bool UserFilter(object item)
         {
             ListViewItem toFilter = (ListViewItem)item;
@@ -242,12 +292,10 @@ namespace FirmaTransportowa.Views
                     return false;
             return true;
         }
-
         private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
         }
-
         private void personFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
@@ -260,7 +308,6 @@ namespace FirmaTransportowa.Views
         {
             CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
         }
-
         private void dataReservationFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
@@ -269,7 +316,6 @@ namespace FirmaTransportowa.Views
         {
             CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
         }
-
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
 
@@ -333,14 +379,9 @@ namespace FirmaTransportowa.Views
                 else
                     Array.Sort(tempItems, CompareCarDescending);
             }
-
-
-            ListViewReservations.ItemsSource = tempItems;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);
-            //   view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+            ListViewReservations.ItemsSource = tempItems; 
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);    
             view.Filter += UserFilter;
-
         }
         int CompareReservationByIdAscending(ListViewItem a, ListViewItem b)
         {
@@ -380,7 +421,6 @@ namespace FirmaTransportowa.Views
             ReservationList second = (ReservationList)b.Content;
             return String.Compare(second.Vehicle, first.Vehicle);
         }
-
         int CompareReservationByDateStartAscending(ListViewItem a, ListViewItem b)
         {
             ReservationList first = (ReservationList)a.Content;
