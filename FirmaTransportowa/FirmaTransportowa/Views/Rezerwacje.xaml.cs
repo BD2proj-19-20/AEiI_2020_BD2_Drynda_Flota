@@ -43,6 +43,9 @@ namespace FirmaTransportowa.Views
         public void UpdateView()
         {
             ListaRezerwacji();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("ReservationId", ListSortDirection.Descending));
+            view.Filter += UserFilter;
         }
         public Rezerwacje()
         {
@@ -169,8 +172,107 @@ namespace FirmaTransportowa.Views
             UpdateView();
         }
 
+        private bool UserFilter(object item)
+        {
+            ListViewItem toFilter = (ListViewItem)item;
+
+            if (dataStartFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationStart.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (dataStartFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationStart.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+            if (dataEndFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationEnd.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (dataEndFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationEnd.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+            if (dataReservationFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationDate.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (dataReservationFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ReservationList).ReservationDate.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+            if (!String.IsNullOrEmpty(personFilter.Text))
+                if (!((toFilter.Content as ReservationList).Person.IndexOf(personFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(idFilter.Text))
+                if (!((toFilter.Content as ReservationList).ReservationId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(carFilter.Text))
+                if (!((toFilter.Content as ReservationList).Vehicle.ToString().IndexOf(carFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+
+
+            if (!String.IsNullOrEmpty(dataStartFilter.Text))
+                if (!((toFilter.Content as ReservationList).ReservationStart.IndexOf(dataStartFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+
+            if (!String.IsNullOrEmpty(dataEndFilter.Text))
+                if (!((toFilter.Content as ReservationList).ReservationEnd.IndexOf(dataEndFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+
+            if (!String.IsNullOrEmpty(dataReservationFilter.Text))
+                if (!((toFilter.Content as ReservationList).ReservationDate.IndexOf(dataReservationFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            return true;
+        }
+
+        private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+
+        private void personFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+        private void dataStartFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+        private void dataEndFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+
+        private void dataReservationFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+        private void carFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource).Refresh();
+        }
+
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
+
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             string sortBy = column.Tag.ToString();
             if (listViewSortCol != null)
@@ -186,7 +288,198 @@ namespace FirmaTransportowa.Views
             listViewSortCol = column;
             listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
             AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
-            ListViewReservations.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+
+            var tempItems = items.ToArray();
+
+            if (sortBy == "ReservationId")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareReservationByIdAscending);
+                else
+                    Array.Sort(tempItems, CompareReservationByIdDescending);
+            }
+            else if (sortBy == "Person")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, ComparePeopleByPersonAscending);
+                else
+                    Array.Sort(tempItems, ComparePeopleByPersonDescending);
+            }
+            else if (sortBy == "DateStart")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareReservationByDateStartAscending);
+                else
+                    Array.Sort(tempItems, CompareReservationByDateStartDescending);
+            }
+            else if (sortBy == "DateEnd")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareReservationByDateEndAscending);
+                else
+                    Array.Sort(tempItems, CompareReservationByDateEndDescending);
+            }
+            else if (sortBy == "DateReservation")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, ComparePeopleByDateReservationAscending);
+                else
+                    Array.Sort(tempItems, ComparePeopleByDateReservationDescending);
+            }
+            else if (sortBy == "Car")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarAscending);
+                else
+                    Array.Sort(tempItems, CompareCarDescending);
+            }
+
+
+            ListViewReservations.ItemsSource = tempItems;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);
+            //   view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
+            view.Filter += UserFilter;
+
+        }
+        int CompareReservationByIdAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return first.ReservationId.CompareTo(second.ReservationId);
+        }
+        int CompareReservationByIdDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return second.ReservationId.CompareTo(first.ReservationId);
+        }
+        int ComparePeopleByPersonAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return String.Compare(first.Person, second.Person);
+
+        }
+        int ComparePeopleByPersonDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return String.Compare(second.Person, first.Person);
+        }
+        int CompareCarAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return String.Compare(first.Vehicle, second.Vehicle);
+
+        }
+        int CompareCarDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            return String.Compare(second.Vehicle, first.Vehicle);
+        }
+
+        int CompareReservationByDateStartAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationStart.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationStart);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationStart.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationStart);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+        }
+        int CompareReservationByDateStartDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationStart.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationStart);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationStart.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationStart);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+        int CompareReservationByDateEndAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+
+        }
+        int CompareReservationByDateEndDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+        int ComparePeopleByDateReservationAscending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+
+        }
+        int ComparePeopleByDateReservationDescending(ListViewItem a, ListViewItem b)
+        {
+            ReservationList first = (ReservationList)a.Content;
+            ReservationList second = (ReservationList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
         }
     }
 }

@@ -17,12 +17,12 @@
                 <CheckBox x:Name="PozostałeBox" Content="Pozostałe" Width="116" IsChecked="True" Click="PozostałeBox_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="43">
-                <TextBox Text="" Height="20" Width="100" x:Name="idFilter" />
-                <TextBox Text="" Height="20" Width="111" x:Name="personFilter" Margin="0,12,0,11"  />
-                <TextBox Text="" Height="20" Width="119" x:Name="dataOutFilter" Margin="0,12,0,11" />
-                <TextBox Text="" Height="20" Width="104" x:Name="dataOutFislter" Margin="0,12,0,11" />
-                <TextBox Text="" Height="20" Width="98" x:Name="dataOutFislster" Margin="0,12,0,11" />
-                <TextBox Text="" Height="20" Width="161" x:Name="dataOutFislstser" Margin="0,12,0,11" />
+                <TextBox Text="" Height="20" Width="100" x:Name="idFilter" TextChanged="idFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="111" x:Name="personFilter" Margin="0,12,0,11" TextChanged="personFilter_TextChanged" />
+                <TextBox Text="" Height="20" Width="119" x:Name="dataStartFilter" Margin="0,12,0,11" TextChanged="dataStartFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="104" x:Name="dataEndFilter" Margin="0,12,0,11" TextChanged="dataEndFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="98" x:Name="dataReservationFilter" Margin="0,12,0,11" TextChanged="dataReservationFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="161" x:Name="carFilter" Margin="0,12,0,11" TextChanged="carFilter_TextChanged"/>
             </StackPanel>
 
             <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
