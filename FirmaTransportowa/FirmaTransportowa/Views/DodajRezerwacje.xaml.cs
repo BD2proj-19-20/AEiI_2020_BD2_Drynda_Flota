@@ -35,7 +35,7 @@ namespace FirmaTransportowa.Views
 
             foreach (var human in people)
             {
-                if(human.layoffDate>DateTime.Now || human.layoffDate==null) //wyswietlamy tych co jeszcze pracuja
+                if(human.layoffDate>DateTime.Now || human.layoffDate==null) //wyswietlamy tych co jeszcze pracują
                 Pracownicy.Items.Add(human.id.ToString()+") "+ human.firstName + " " + human.lastName);
             }
           
@@ -44,12 +44,10 @@ namespace FirmaTransportowa.Views
             foreach (var car in cars)
             {
 
-
                 if(car.onService==false)  //gdy w sewisie nie wypożyczamy
                 PojazdID.Items.Add(car.id);
 
             }
-            // var aaa = Pojazdy.Text;
             PojazdID.SelectedIndex = 0;
             Pracownicy.SelectedIndex = 0;
             Dane_Pojzadu();
@@ -178,8 +176,8 @@ namespace FirmaTransportowa.Views
 
                     }
 
-                //   reservations.Add(newReservation);
-                //   db.SaveChanges();
+                   reservations.Add(newReservation);
+                   db.SaveChanges();
 
                     newLend.carId = newReservation.carId;
                     newLend.personId = newReservation.personId;
@@ -188,8 +186,8 @@ namespace FirmaTransportowa.Views
                     newLend.@private = (bool)newReservation.@private;
                     newLend.reservationId = newReservation.id;
                     newLend.comments = "Zainicjowane przez kierownika";
-                  //  lends.Add(newLend);
-                  //  db.SaveChanges();
+                    lends.Add(newLend);
+                    db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
                 }

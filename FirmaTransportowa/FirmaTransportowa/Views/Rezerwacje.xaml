@@ -8,35 +8,49 @@
              d:DesignHeight="600" d:DesignWidth="750">
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,20,25,0" Height="46" Width="700" RenderTransformOrigin="0.494,-0.141">
+                <TextBlock Foreground="White" Text="Rezerwacje:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="10,0,0,6" RenderTransformOrigin="0.834,1.025"/>
             </Border>
+            <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="20">
+                <CheckBox x:Name="PrywatneBox" Content="Prywate" Width="100"  IsChecked="True" Click="PrywatneBox_Click" Height="20" VerticalAlignment="Top" />
+                <CheckBox x:Name="ZakonczoneBox" Content="Zakończone" Width="127" IsChecked="True"  Click="ZakonczoneBox_Click"/>
+                <CheckBox x:Name="PozostałeBox" Content="Pozostałe" Width="116" IsChecked="True" Click="PozostałeBox_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="43">
+                <TextBox Text="" Height="20" Width="100" x:Name="idFilter" />
+                <TextBox Text="" Height="20" Width="111" x:Name="personFilter" Margin="0,12,0,11"  />
+                <TextBox Text="" Height="20" Width="119" x:Name="dataOutFilter" Margin="0,12,0,11" />
+                <TextBox Text="" Height="20" Width="104" x:Name="dataOutFislter" Margin="0,12,0,11" />
+                <TextBox Text="" Height="20" Width="98" x:Name="dataOutFislster" Margin="0,12,0,11" />
+                <TextBox Text="" Height="20" Width="161" x:Name="dataOutFislstser" Margin="0,12,0,11" />
+            </StackPanel>
+
             <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Id" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="ReservationId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="130" DisplayMemberBinding="{Binding Person}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Pracownik</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="Person" Click="GridViewColumnHeader_Click">Pracownik</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationStart}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data rozpoczęcia</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="DateStart" Click="GridViewColumnHeader_Click">Data rozpoczęcia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationEnd}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data zakończenia</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="DateEnd" Click="GridViewColumnHeader_Click">Data zakończenia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding ReservationDate}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="Date" Click="GridViewColumnHeader_Click">Data rezerwacji</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="DateReservation" Click="GridViewColumnHeader_Click">Data rezerwacji</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding Vehicle}">

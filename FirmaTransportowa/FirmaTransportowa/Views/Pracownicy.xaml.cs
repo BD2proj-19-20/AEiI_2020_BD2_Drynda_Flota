@@ -411,9 +411,9 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                var zlecenia ="Brak";
+               // var zlecenia ="Brak";
                 int przejechaneKm = 0;
-                var aktualnyPojazd = "Brak";
+              //  var aktualnyPojazd = "Brak";
                 int zleceniaPrywatne = 0;
                 int zleceniaSluzbowe = 0;
                 int przejechaneKmSluzbowe = 0;

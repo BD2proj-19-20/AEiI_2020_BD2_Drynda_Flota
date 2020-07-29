@@ -83,15 +83,9 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                if (reserv.ended == true)
+                if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.OrangeRed;  //zakonczone 
-                }
-                else if (reserv.@private == true)
-                {
-                    OneItem.Background = Brushes.BlueViolet;  //prywatne
-                }
-
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
 
@@ -105,8 +99,40 @@ namespace FirmaTransportowa.Views
                         Vehicle = vehicle
                     };
                     items.Add(OneItem);
-                
+                }
+                else if (reserv.@private == true && PrywatneBox.IsChecked.Value ==true)
+                {
+                    OneItem.Background = Brushes.BlueViolet;  //prywatne
+                    string dateTime = reserv.lendDate.ToString();
+                    date = dateTime.Substring(0, 10);
 
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.id + 1,
+                        Person = opiekun,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
+                        Vehicle = vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if(PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
+                {
+                    string dateTime = reserv.lendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.id + 1,
+                        Person = opiekun,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
+                        Vehicle = vehicle
+                    };
+                    items.Add(OneItem);
+                }
 
             }
             ListViewReservations.ItemsSource = items;
@@ -117,6 +143,30 @@ namespace FirmaTransportowa.Views
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new DodajRezerwacjeModel();
+        }
+        private void PrywatneBox_Click(object sender, RoutedEventArgs e)
+        {
+
+            ListViewReservations.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+
+        }
+        private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
+        {
+
+            ListViewReservations.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+
+
+
+        }
+        private void PozostałeBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewReservations.ItemsSource = null;
+            items.Clear();
+            UpdateView();
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
