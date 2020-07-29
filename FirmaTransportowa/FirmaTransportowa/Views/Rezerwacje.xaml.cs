@@ -81,26 +81,17 @@ namespace FirmaTransportowa.Views
 
 
                 }
+
+
                 if (reserv.ended == true)
                 {
-
                     OneItem.Background = Brushes.OrangeRed;
-                    string dateTime = reserv.lendDate.ToString();
-                    date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new ReservationList
-                    {
-                        ReservationId = reserv.id + 1,
-                        Person = opiekun,
-                        ReservationStart = date,
-                        ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
-                        ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
-                        Vehicle = vehicle
-                    };
-                    items.Add(OneItem);
                 }
-                else
+                else if (reserv.@private == true)
                 {
+                    OneItem.Background = Brushes.BlueViolet;
+                }
+
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
 
@@ -114,7 +105,7 @@ namespace FirmaTransportowa.Views
                         Vehicle = vehicle
                     };
                     items.Add(OneItem);
-                }
+                
 
 
             }

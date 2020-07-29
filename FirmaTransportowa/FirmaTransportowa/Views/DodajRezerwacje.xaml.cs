@@ -49,6 +49,7 @@ namespace FirmaTransportowa.Views
             }
             // var aaa = Pojazdy.Text;
             PojazdID.SelectedIndex = 0;
+            Pracownicy.SelectedIndex = 0;
             Dane_Pojzadu();
 
         }
@@ -60,7 +61,7 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
-                if ((car.id).ToString() == PojazdID.Text)
+                if ((car.id).ToString() == PojazdID.SelectedItem.ToString())
                 {
                     Rejestracja.Text = car.Registration;
                     PojemnoscSilnika.Text = car.engineCapacity.ToString();
@@ -89,9 +90,8 @@ namespace FirmaTransportowa.Views
             Zastosowanie.IsReadOnly = true;
 
         }
-         private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
+         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
         {
-           //PojazdID.Text.
             Dane_Pojzadu();
         }
 
@@ -111,7 +111,6 @@ namespace FirmaTransportowa.Views
                // string check = Pracownicy.Text;
                 if (name.Equals(Pracownicy.Text))
                 {
-                    
                     datePersonOut = person.layoffDate;
                 }
 
@@ -129,12 +128,12 @@ namespace FirmaTransportowa.Views
                 var newLend = new Lend(); //?
 
 
-                newReservation.carId = Int16.Parse(PojazdID.Text);
+                newReservation.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
                 newReservation.reservationDate = Convert.ToDateTime(ReservationDate.Text);
                 newReservation.lendDate = Convert.ToDateTime(ReservationStart.Text);
                 newReservation.returnDate = Convert.ToDateTime(ReservationEnd.Text);
-               
-                    newReservation.ended = true ;
+                newReservation.ended = false ;
+
                 if (PrywatneBox.IsChecked == true)
                     newReservation.@private = true; 
                 else
@@ -145,7 +144,7 @@ namespace FirmaTransportowa.Views
                 foreach (var person in people)
                 {
                     string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-                    //string check = Pracownicy.Text;
+
                     if (name.Equals(Pracownicy.Text))
                     {
                         newReservation.personId = person.id; 
@@ -169,7 +168,7 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                MessageBox.Show("Złe daty", "Komunikat");
+                MessageBox.Show("Błędne dane.", "Komunikat");
             }
 
         }
