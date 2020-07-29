@@ -1,4 +1,5 @@
-﻿using FirmaTransportowa.ViewModels;
+﻿using FirmaTransportowa.Model;
+using FirmaTransportowa.ViewModels;
 using FirmaTransportowa.Views;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,22 @@ namespace FirmaTransportowa
         public MainWindow()
         {
             InitializeComponent();
-        }
+            UpdateReservations(); // aktualizacja  rezerwacji
 
+
+
+        }
+        private void UpdateReservations()
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var reservation = db.Reservations;
+            foreach (var res in reservation)
+            {
+                    if (res.returnDate < DateTime.Now )
+                        res.ended = true; //zakańczamy rezerwację 
+            }
+
+        }
         private void CloseButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Close();

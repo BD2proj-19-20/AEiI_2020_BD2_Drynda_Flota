@@ -65,21 +65,22 @@ namespace FirmaTransportowa.Views
                 var reservation = db.Reservations;
                 foreach( var res in reservation)
                 {
-                    if(res.personId == personChange.id)
+                    if(res.personId == personChange.id && res.ended == false)
                     {  
-                        res.returnDate = DateTime.Today;
-                        res.ended = true;
-                        
+
+                        if(res.returnDate > Convert.ToDateTime(DataZwolnieniaPracownika.Text))
+                         res.ended = true; //zakańczamy rezerwację przy zwolnienu pracownika zostawiamy daty startu i końca
+
                     }
 
                 }
                 var lends = db.Lends;
                 foreach (var lend in lends)
                 {
-                    if(lend.personId==personChange.id)
+                    if(lend.personId==personChange.id )
                     {
-                        lend.returnDate= DateTime.Today;
-                       lend.plannedReturnDate = DateTime.Today;
+                        lend.returnDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
+                        lend.plannedReturnDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
                         lend.comments = "Zakończono przez zwolnienie pracownika";
                     }
 

@@ -120,13 +120,24 @@ namespace FirmaTransportowa.Views
                 }
 
             }
-
+            bool doReservation = false;
             foreach (var reserv in reservations)
             {
-                if(reserv.carId.ToString() == PojazdID.SelectedItem.ToString())
+                if (reserv.carId.ToString() == PojazdID.SelectedItem.ToString())
                 {
                     actualCarLendDate = reserv.lendDate;
                     actualCarReturnDate = reserv.returnDate;
+
+                    if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
+                    {
+                        doReservation = true;
+                    }
+                    else
+                    {
+                        doReservation = false;
+                        break;
+                    }
                 }
 
             }
@@ -136,9 +147,8 @@ namespace FirmaTransportowa.Views
                     Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now.AddDays(-1)
                     && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
 
-                { 
-                    if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
-                     || (actualCarLendDate == null && actualCarReturnDate == null)) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
+                {
+                if (doReservation == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
                 { 
                         var newReservation = new Reservation();
                     var newLend = new Lend(); //?
@@ -168,8 +178,8 @@ namespace FirmaTransportowa.Views
 
                     }
 
-                   reservations.Add(newReservation);
-                   db.SaveChanges();
+                //   reservations.Add(newReservation);
+                //   db.SaveChanges();
 
                     newLend.carId = newReservation.carId;
                     newLend.personId = newReservation.personId;
@@ -178,8 +188,8 @@ namespace FirmaTransportowa.Views
                     newLend.@private = (bool)newReservation.@private;
                     newLend.reservationId = newReservation.id;
                     newLend.comments = "Zainicjowane przez kierownika";
-                    lends.Add(newLend);
-                    db.SaveChanges();
+                  //  lends.Add(newLend);
+                  //  db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
                 }
