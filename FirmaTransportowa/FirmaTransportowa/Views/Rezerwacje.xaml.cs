@@ -85,11 +85,11 @@ namespace FirmaTransportowa.Views
 
                 if (reserv.ended == true)
                 {
-                    OneItem.Background = Brushes.OrangeRed;
+                    OneItem.Background = Brushes.OrangeRed;  //zakonczone 
                 }
                 else if (reserv.@private == true)
                 {
-                    OneItem.Background = Brushes.BlueViolet;
+                    OneItem.Background = Brushes.BlueViolet;  //prywatne
                 }
 
                     string dateTime = reserv.lendDate.ToString();

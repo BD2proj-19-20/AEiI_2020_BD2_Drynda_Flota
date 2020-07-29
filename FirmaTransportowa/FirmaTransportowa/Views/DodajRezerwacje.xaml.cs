@@ -133,10 +133,10 @@ namespace FirmaTransportowa.Views
 
                 if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
                     !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
-                    Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now
+                    Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now.AddDays(-1)
                     && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
-                {
 
+                { 
                     if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
                      || (actualCarLendDate == null && actualCarReturnDate == null)) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
                 { 
@@ -178,7 +178,7 @@ namespace FirmaTransportowa.Views
                     newLend.@private = (bool)newReservation.@private;
                     newLend.reservationId = newReservation.id;
                     newLend.comments = "Zainicjowane przez kierownika";
-                   lends.Add(newLend);
+                    lends.Add(newLend);
                     db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
@@ -190,8 +190,12 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                MessageBox.Show("Błędne dane.", "Komunikat");
-               
+                if(!ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) && 
+                    !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&  
+                    datePersonOut < Convert.ToDateTime(ReservationEnd.Text))
+                    MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
+               else
+                    MessageBox.Show("Błędne dane.", "Komunikat");
             }
 
         }
