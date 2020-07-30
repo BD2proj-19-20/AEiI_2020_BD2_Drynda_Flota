@@ -326,7 +326,7 @@ namespace FirmaTransportowa.Views
                 }
 
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
-                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
+                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)  && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
                 {
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -341,8 +341,9 @@ namespace FirmaTransportowa.Views
 
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true && 
-                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
-                    {
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                     && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
+                {
 
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -356,8 +357,9 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie: " + dateO, times2));
                 }
                 else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
-                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase))
-                        {
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                    && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
+                {
 
                     string dateTime = person.employmentData.ToString();
                     dateE = dateTime.Substring(0, 10);
@@ -425,7 +427,8 @@ namespace FirmaTransportowa.Views
                         if (lend.@private == true)
                         {
                             zleceniaPrywatne++;
-                            przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                            if (lend.endOdometer != null)
+                                przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
                             TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
                             dni += (int)t.TotalDays;
 
@@ -433,6 +436,7 @@ namespace FirmaTransportowa.Views
                         else
                         {
                             zleceniaSluzbowe++;
+                            if(lend.endOdometer!=null)
                             przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
                             TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
                             dniSluzbowe += (int)t.TotalDays;
