@@ -7,6 +7,10 @@ using FirmaTransportowa.Model;
 using System.Windows.Media;
 using System.Windows.Data;
 using System;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MessageBox = System.Windows.Forms.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
+using System.Windows.Forms;
 
 namespace FirmaTransportowa.Views
 {
@@ -128,7 +132,73 @@ namespace FirmaTransportowa.Views
         private void Modyfikuj_Rezerwacje(object sender, RoutedEventArgs e)
         { }
         private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
-        { }
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyReservations.SelectedItem;
+
+            if (selected != null)
+            {
+                MyReservationList selectedObj = (MyReservationList)selected.Content;
+
+                int selectedId = selectedObj.ReservationId - 1;
+              //  var reservationPerson = selectedObj.Person;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                //var people = db.People;
+                var reservations = db.Reservations;
+                //  var cars = db.Cars;
+                Reservation reservationChange = null;
+
+                foreach (var reserv in reservations)
+                {
+                    if (reserv.id == selectedId)
+                    {
+                        reservationChange = reserv;
+                    }
+                }
+
+                if (reservationChange.ended == true)
+                {
+                    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+
+                }
+                else
+                {
+
+                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc rezerwację ?"
+                        , "Komunikat", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+
+                        reservationChange.ended = true;
+                        var lends = db.Lends;
+                        foreach (var lend in lends)
+                        {
+                            if (lend.reservationId == reservationChange.id)
+                            {
+                                lend.returnDate = Convert.ToDateTime(DateTime.Now);
+                                lend.plannedReturnDate = Convert.ToDateTime(DateTime.Now);
+
+                                lend.comments = "Zakończono przez zakończenie\nrezerwacji przez pracownika - " + DateTime.Now.ToString();
+                            }
+
+                        }
+                        db.SaveChanges();
+
+                        ListViewMyReservations.ItemsSource = null;
+                        items.Clear();
+                        UpdateView();
+
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                    }
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nic nie wybrano !", "Komunikat");
+            }
+        }
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
 
