@@ -484,7 +484,8 @@ namespace FirmaTransportowa.Views
                 times.Size = 32;
             }
 
-                doc.Add(new iTextSharp.text.Paragraph(" ", times2)); //doc nie może być pusty 
+            Chunk c1 = new Chunk("");
+            doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
         }

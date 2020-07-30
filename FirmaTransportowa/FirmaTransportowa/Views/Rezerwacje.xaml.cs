@@ -77,9 +77,12 @@ namespace FirmaTransportowa.Views
                     if (car.id == reserv.carId)
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
-                if (reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true && reserv.@private == false)
+                if (reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true )
                 {
-                    OneItem.Background = Brushes.OrangeRed;  //zakonczone 
+                    if(reserv.@private == true)
+                    OneItem.Background = Brushes.Red;  //zakonczone prywatne
+                    else
+                    OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
 
@@ -111,6 +114,7 @@ namespace FirmaTransportowa.Views
                     };
                     items.Add(OneItem);
                 }
+
                 else if(PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
                 {
                     string dateTime = reserv.lendDate.ToString();
@@ -282,7 +286,7 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true && reserv.@private == false
+                if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true 
                   && (Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
                     && (Regex.IsMatch(reserv.lendDate.ToShortDateString(), dataStartFilter.Text, RegexOptions.IgnoreCase))
                      && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
@@ -291,7 +295,10 @@ namespace FirmaTransportowa.Views
                        && (idFilter.Text.Equals((reserv.id + 1).ToString()) || idFilter.Text.Equals("")))
                 {
 
-                    c.SetBackground(BaseColor.ORANGE);
+                    if (reserv.@private == true)
+                        c.SetBackground(BaseColor.ORANGE);
+                    else
+                        c.SetBackground(BaseColor.RED);
                     times.Size = 26;
                     doc.Add(new iTextSharp.text.Paragraph(c));
                     doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
@@ -335,13 +342,14 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
 
                   
-                    doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                    doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));
                     times.Size = 32;
 
                 }
                
             }
-            doc.Add(new iTextSharp.text.Paragraph(" ", times)); //doc nie może być pusty 
+            Chunk c1 = new Chunk("");
+            doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
         }
