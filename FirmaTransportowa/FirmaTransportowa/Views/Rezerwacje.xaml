@@ -67,5 +67,6 @@
                 <Button Content="Zakończ" Margin="50 0" Width="125" Click="Zakoncz_Rezerwacje"/>
             </StackPanel>
         </StackPanel>
+        <Button Content="Generuj raport" Click="Generuj_Raport_Rezerwacje" Margin="325,5,325,550" Width="100"/>
     </Grid>
 </UserControl>

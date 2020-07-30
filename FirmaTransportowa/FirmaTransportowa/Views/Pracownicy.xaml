@@ -18,7 +18,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </TextBlock.RenderTransform><Run Text="Pracownicy:"/><Run Text="     "/><Run Text="      "/><Run Text=" "/><InlineUIContainer>
-                        <Button Content="Generuj Raport" FontWeight="Normal"  Click="Generuj_Raport_Pracownicy" Height="41" FontSize="15" Width="159" />
+                      
                     </InlineUIContainer><Run Text=" "/><Run Text=" "/><Run Text="   "/><Run Text="                 "/><Run Text="     "/></TextBlock>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0">
@@ -52,5 +52,6 @@
                 <Button Content="Statystyki" Margin="25 0 0 0" Width="123" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
             </StackPanel>
         </StackPanel>
+        <Button Content="Generuj raport" Click="Generuj_Raport_Pracownicy" Margin="325,5,325,550" Width="100"/>
     </Grid>
 </UserControl>

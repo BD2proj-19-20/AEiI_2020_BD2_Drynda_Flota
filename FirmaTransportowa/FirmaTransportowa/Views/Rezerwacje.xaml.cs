@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace FirmaTransportowa.Views
 {
@@ -240,6 +243,57 @@ namespace FirmaTransportowa.Views
             {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
             }
+        }
+        private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var carSupervisors = db.CarSupervisors;
+            var lends = db.Lends;
+            //  var people = db.People.ToList().OrderBy(t => t.lastName);
+            var people = db.People;
+            var cars = db.Cars;
+          //  var activities = db.Activities;
+            var reservations = db.Reservations;
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
+
+            Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
+            times.Size = 32;
+          //  iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
+        //    iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
+            FileStream fs = new FileStream(path + "Raport na temat rezerwacji - " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+            string namePerson = "";
+            var vehicle = "";
+            foreach (var reserv in reservations)
+            {
+
+                foreach (var person in people)
+                {
+                    if(person.id == reserv.personId)
+                        namePerson = person.lastName + " " + person.firstName;
+                }
+                Chunk c = new Chunk((reserv.id+1)+")\n"+ namePerson, times);
+                times.Size = 26;
+                doc.Add(new iTextSharp.text.Paragraph(c));
+                doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
+                doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
+                doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+
+                foreach (var car in cars)
+                {
+                    if (car.id == reserv.carId)
+                        vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                }
+                doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle+"\n", times));
+                times.Size = 32;
+            }
+            doc.Add(new iTextSharp.text.Paragraph(" ", times)); //doc nie może być pusty 
+
+            doc.Close();
         }
 
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
