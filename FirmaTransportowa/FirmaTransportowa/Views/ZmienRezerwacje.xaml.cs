@@ -117,7 +117,7 @@ namespace FirmaTransportowa.Views
             DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
-
+            Person personReservation = null;
             foreach (var person in people)
             {
                 string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
@@ -125,11 +125,12 @@ namespace FirmaTransportowa.Views
                 if (name.Equals(Pracownicy.Text))
                 {
                     datePersonOut = person.layoffDate;
+                    personReservation = person;
                 }
 
             }
-            bool doReservation = true;
-
+            bool doReservationCar = true;
+            bool doReservationPerson = true;
 
             if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
                 !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
@@ -148,17 +149,38 @@ namespace FirmaTransportowa.Views
                         if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                         {
-                            doReservation = true;
+                            doReservationCar = true;
                         }
                         else
                         {
-                            doReservation = false;
+                            doReservationCar = false;
                             break;
                         }
                     }
 
                 }
-                if (doReservation == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
+                foreach (var reserv in reservations) //sprawdzanie rezerwacji wybranego pracownika
+                {
+                    if (reserv.personId.ToString() == personReservation.id.ToString() && reserv.id != this.reservationChange.id) //nie obchodzi nas zmieniana rezerwacja
+                    {
+                        actualCarLendDate = reserv.lendDate;
+                        actualCarReturnDate = reserv.returnDate;
+
+                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
+                        {
+                            doReservationPerson = true;
+                        }
+                        else
+                        {
+                            doReservationPerson = false;
+                            break;
+                        }
+                    }
+
+                }
+
+                if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 {
                     //var newReservation = new Reservation();
                     //var newLend = new Lend(); //?
@@ -216,7 +238,12 @@ namespace FirmaTransportowa.Views
                 }
                 else
                 {
-                    MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
+                    if (doReservationCar == false)
+                        MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
+                    else if (doReservationPerson == false)
+                        MessageBox.Show("Pracownik w tym czasie \njest zajęty!", "Komunikat");
+                    else
+                        MessageBox.Show("Pracownik i samochód w tym czasie \nsą zajęci!", "Komunikat");
                 }
             }
             else

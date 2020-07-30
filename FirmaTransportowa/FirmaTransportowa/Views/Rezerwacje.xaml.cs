@@ -46,9 +46,6 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             UpdateView();
-
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewMyReservations.ItemsSource);
-            // view.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
         }
 
         public void ListaRezerwacji()
@@ -62,7 +59,6 @@ namespace FirmaTransportowa.Views
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
-                //checkbox zrob
                 var opiekun = "";
                 var vehicle = "";
 
