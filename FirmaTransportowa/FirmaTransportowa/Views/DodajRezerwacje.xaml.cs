@@ -104,7 +104,6 @@ namespace FirmaTransportowa.Views
             var lends = db.Lends;
             var people = db.People;
             DateTime? datePersonOut = null ;
-
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
 

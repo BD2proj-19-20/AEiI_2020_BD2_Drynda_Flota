@@ -137,6 +137,44 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new DodajRezerwacjeModel();
         }
+        private void Modyfikuj_Rezerwacje(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewReservations.SelectedItem;
+            if (selected != null)
+            {
+                ReservationList selectedObj = (ReservationList)selected.Content;
+                int selectedId = selectedObj.ReservationId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                //var people = db.People;
+                var reservations = db.Reservations;
+                Reservation reservationChange = null;
+
+                foreach (var reserv in reservations)
+                {
+                    if (reserv.id == selectedId)
+                    {
+                        reservationChange = reserv;
+                    }
+                }
+                if (reservationChange.ended == false)
+                {
+                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                    glowneOkno.DataContext = new ZmienRezerwacje(reservationChange);
+
+                }
+                else
+                {
+                    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+                }
+            }
+            else
+            {
+
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+            }
+            //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+           // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
+        }
 
         private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
         {

@@ -133,7 +133,6 @@ namespace FirmaTransportowa.Views
                     //aktualizacja widoku pracowników 
                     workersList.ItemsSource = null;
                     items.Clear();
-                    //  workersList.ItemsSource = ListaPracownikow();
                     UpdateView();
                 }
                 else
