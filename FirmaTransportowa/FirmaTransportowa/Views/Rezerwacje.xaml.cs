@@ -77,12 +77,27 @@ namespace FirmaTransportowa.Views
                     if (car.id == reserv.carId)
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
-                if (reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true )
+                if (reserv.@private == false && reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true )
                 {
-                    if(reserv.@private == true)
-                    OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                    else
+                    
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+                    string dateTime = reserv.lendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.id + 1,
+                        Person = opiekun,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
+                        Vehicle = vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if (reserv.@private == true && reserv.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
+                 {
+                    OneItem.Background = Brushes.Red; // zakonczone prywante
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
 
@@ -285,68 +300,62 @@ namespace FirmaTransportowa.Views
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
 
-
-                if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true 
-                  && (Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
+                if ((Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
                     && (Regex.IsMatch(reserv.lendDate.ToShortDateString(), dataStartFilter.Text, RegexOptions.IgnoreCase))
                      && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
                        && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
-                   && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-
-                    && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
-                       
+                   && Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
                 {
-
-                    if (reserv.@private == true)
+                    if (reserv.@private == false && reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)     
+                {
                         c.SetBackground(BaseColor.ORANGE);
-                    else
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+
+
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (reserv.@private == true && reserv.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
+                    {
                         c.SetBackground(BaseColor.RED);
-                    times.Size = 26;
-                    doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
 
-                   
-                    doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
-                    times.Size = 32;
-                }
-                else if (reserv.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false
-             && (Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) )
-                    && (Regex.IsMatch(reserv.lendDate.ToShortDateString(), dataStartFilter.Text, RegexOptions.IgnoreCase))
-                     && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
-                       && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
-                   && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-                       && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
-                {
-                    c.SetBackground(BaseColor.BLUE);
-                    times.Size = 26;
-                    doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (reserv.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false)
+                    {
+                        c.SetBackground(BaseColor.BLUE);
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
 
-                    doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
-                    times.Size = 32;
-                }
-                else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false
-                 && (Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
-                    && (Regex.IsMatch(reserv.lendDate.ToShortDateString(), dataStartFilter.Text, RegexOptions.IgnoreCase))
-                     && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
-                       && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
-                   && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-                          && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
-                {
-                    times.Size = 26;
-                    doc.Add(new iTextSharp.text.Paragraph(c));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)           
+                    {
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
 
-                  
-                    doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));
-                    times.Size = 32;
 
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));
+                        times.Size = 32;
+
+                    }
                 }
                
             }
@@ -375,6 +384,12 @@ namespace FirmaTransportowa.Views
 
         }
         private void PozostałeBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewReservations.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+        }
+       private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
             ListViewReservations.ItemsSource = null;
             items.Clear();

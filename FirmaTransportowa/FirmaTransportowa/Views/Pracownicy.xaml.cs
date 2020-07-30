@@ -36,13 +36,9 @@ namespace FirmaTransportowa.Views
         public void UpdateView()
         {
             workersList.ItemsSource = ListaPracownikow();
-
-
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
             view.Filter += UserFilter;
-
-
         }
 
         public Pracownicy()
