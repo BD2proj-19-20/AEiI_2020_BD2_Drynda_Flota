@@ -190,7 +190,7 @@ namespace FirmaTransportowa.Views
                     }
 
                    reservations.Add(newReservation);
-                 //  db.SaveChanges();
+                   db.SaveChanges();
 
                     newLend.carId = newReservation.carId;
                     newLend.personId = newReservation.personId;
@@ -201,7 +201,7 @@ namespace FirmaTransportowa.Views
                     newLend.comments = "Zainicjowane przez kierownika";
                     lends.Add(newLend);
                     
-                //    db.SaveChanges();
+                   db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
                 }

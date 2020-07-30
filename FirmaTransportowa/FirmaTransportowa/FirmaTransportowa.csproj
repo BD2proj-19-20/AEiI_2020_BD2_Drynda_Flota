@@ -185,6 +185,9 @@
     <Compile Include="Views\ZmienRezerwacje.xaml.cs">
       <DependentUpon>ZmienRezerwacje.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZmienRezerwacjePracownik.xaml.cs">
+      <DependentUpon>ZmienRezerwacjePracownik.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -250,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZmienRezerwacje.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZmienRezerwacjePracownik.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -163,7 +163,7 @@ namespace FirmaTransportowa.Views
                 if (reservationChange.ended == false)
                 {
                     System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                    glowneOkno.DataContext = new ZmienRezerwacje(reservationChange);
+                    glowneOkno.DataContext = new ZmienRezerwacjePracownik(reservationChange);
 
                 }
                 else
