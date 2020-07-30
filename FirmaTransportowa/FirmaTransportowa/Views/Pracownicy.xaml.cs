@@ -312,7 +312,7 @@ namespace FirmaTransportowa.Views
 
             foreach (var person in people)
             { 
-                Chunk c = new Chunk(person.lastName + " " + person.firstName, times);
+                Chunk c = new Chunk((person.id+1)+") "+person.lastName + " " + person.firstName, times);
                 var dateO = "";
                 var dateE = "";
                 var date = "";
@@ -326,7 +326,9 @@ namespace FirmaTransportowa.Views
                 }
 
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
-                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)  && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
+                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                    && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
+                  
                 {
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -342,7 +344,7 @@ namespace FirmaTransportowa.Views
                 }
                 else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true && 
                     Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
-                     && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
+                    && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
                 {
 
                     string dateTime = person.layoffDate.ToString();
@@ -358,7 +360,7 @@ namespace FirmaTransportowa.Views
                 }
                 else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
                     Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
-                    && (idFilter.Text.Equals((person.id + 1).ToString()) || idFilter.Text.Equals("")))
+                         && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
                 {
 
                     string dateTime = person.employmentData.ToString();

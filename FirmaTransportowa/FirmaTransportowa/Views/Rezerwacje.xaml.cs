@@ -292,7 +292,9 @@ namespace FirmaTransportowa.Views
                      && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
                        && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
                    && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-                       && (idFilter.Text.Equals((reserv.id + 1).ToString()) || idFilter.Text.Equals("")))
+
+                    && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
+                       
                 {
 
                     if (reserv.@private == true)
@@ -315,7 +317,7 @@ namespace FirmaTransportowa.Views
                      && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
                        && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
                    && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-                       && (idFilter.Text.Equals((reserv.id + 1).ToString()) || idFilter.Text.Equals("")))
+                       && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
                 {
                     c.SetBackground(BaseColor.BLUE);
                     times.Size = 26;
@@ -333,7 +335,7 @@ namespace FirmaTransportowa.Views
                      && (Regex.IsMatch(reserv.returnDate.ToString().Substring(0, 10), dataEndFilter.Text, RegexOptions.IgnoreCase))
                        && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
                    && (Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase))
-                       && (idFilter.Text.Equals((reserv.id + 1).ToString()) || idFilter.Text.Equals("")))
+                          && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
                 {
                     times.Size = 26;
                     doc.Add(new iTextSharp.text.Paragraph(c));
