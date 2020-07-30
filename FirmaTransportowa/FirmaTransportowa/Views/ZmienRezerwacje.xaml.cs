@@ -35,7 +35,7 @@ namespace FirmaTransportowa.Views
                 if (reserv.id == reservationChange.id)
                 {
 
-                    reservationChange = reserv;
+                    this.reservationChange = reserv;
 
                 }
             }
@@ -106,12 +106,132 @@ namespace FirmaTransportowa.Views
             Zastosowanie.IsReadOnly = true;
 
         }
-        private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
+        private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e)
         {
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            DateTime temp;
+            var reservations = db.Reservations;
+            var lends = db.Lends;
+            var people = db.People;
+            DateTime? datePersonOut = null;
+            DateTime? actualCarLendDate = null;
+            DateTime? actualCarReturnDate = null;
+
+            foreach (var person in people)
+            {
+                string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
+                // string check = Pracownicy.Text;
+                if (name.Equals(Pracownicy.Text))
+                {
+                    datePersonOut = person.layoffDate;
+                }
+
+            }
+            bool doReservation = true;
+
+
+            if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
+                !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
+                Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now.AddDays(-1)
+                && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
+
+            {
+
+                foreach (var reserv in reservations)
+                {
+                    if (reserv.carId.ToString() == PojazdID.SelectedItem.ToString() && reserv.id != this.reservationChange.id) //nie obchodzi nas zmieniana rezerwacja
+                    {
+                        actualCarLendDate = reserv.lendDate;
+                        actualCarReturnDate = reserv.returnDate;
+
+                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
+                        {
+                            doReservation = true;
+                        }
+                        else
+                        {
+                            doReservation = false;
+                            break;
+                        }
+                    }
+
+                }
+                if (doReservation == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
+                {
+                    //var newReservation = new Reservation();
+                    //var newLend = new Lend(); //?
+                    Reservation reservationChange = null;
+                    foreach (var reserv in reservations)
+                    {
+                        if(reserv.id==this.reservationChange.id)
+                        {
+                            reservationChange = reserv;
+                        }
+                    }
+
+                    reservationChange.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
+                    reservationChange.reservationDate = Convert.ToDateTime(ReservationDate.Text);
+                    reservationChange.lendDate = Convert.ToDateTime(ReservationStart.Text);
+                    reservationChange.returnDate = Convert.ToDateTime(ReservationEnd.Text);
+                    reservationChange.ended = false;
+
+                    if (PrywatneBox.IsChecked == true)
+                        reservationChange.@private = true;
+                    else
+                        reservationChange.@private = false;
+
+
+
+                    foreach (var person in people)
+                    {
+                        string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
+
+                        if (name.Equals(Pracownicy.Text))
+                        {
+                            reservationChange.personId = person.id;
+                        }
+
+                    }
+                    db.SaveChanges();
+
+                    foreach (var lend in lends)
+                    {
+                        if (lend.reservationId == reservationChange.id)
+                        {
+                            lend.carId = reservationChange.carId;
+                            lend.personId = reservationChange.personId;
+                            lend.lendDate = reservationChange.reservationDate;
+                            lend.plannedReturnDate = reservationChange.returnDate;
+                            lend.@private = (bool)reservationChange.@private;
+                            //lend.reservationId = reservationChange.id;
+                            lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    MessageBox.Show("Zmodyfikowano rezerwację.", "Komunikat");
+                }
+                else
+                {
+                    MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
+                }
+            }
+            else
+            {
+                if (!ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
+                    !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
+                    datePersonOut < Convert.ToDateTime(ReservationEnd.Text))
+                    MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
+                else
+                    MessageBox.Show("Błędne dane.", "Komunikat");
+            }
 
         }
 
-            private void Cofnij(object sender, RoutedEventArgs e)
+        private void Cofnij(object sender, RoutedEventArgs e)
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;

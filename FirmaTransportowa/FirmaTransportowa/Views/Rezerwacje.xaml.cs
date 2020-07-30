@@ -77,7 +77,7 @@ namespace FirmaTransportowa.Views
                     if (car.id == reserv.carId)
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
-                if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
+                if (reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true && reserv.@private == false)
                 {
                     OneItem.Background = Brushes.OrangeRed;  //zakonczone 
                     string dateTime = reserv.lendDate.ToString();
@@ -94,7 +94,7 @@ namespace FirmaTransportowa.Views
                     };
                     items.Add(OneItem);
                 }
-                else if (reserv.@private == true && PrywatneBox.IsChecked.Value ==true)
+                else if (reserv.@private == true && PrywatneBox.IsChecked.Value ==true && reserv.ended == false)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
                     string dateTime = reserv.lendDate.ToString();

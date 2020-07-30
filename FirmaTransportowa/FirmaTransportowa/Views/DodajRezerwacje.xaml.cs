@@ -117,7 +117,7 @@ namespace FirmaTransportowa.Views
                 }
 
             }
-            bool doReservation = false;
+            bool doReservation = true;
           
 
                 if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
@@ -188,6 +188,7 @@ namespace FirmaTransportowa.Views
                     newLend.reservationId = newReservation.id;
                     newLend.comments = "Zainicjowane przez kierownika";
                     lends.Add(newLend);
+                    
                     db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");

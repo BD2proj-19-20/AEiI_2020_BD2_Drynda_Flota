@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
             d:DesignHeight="600" d:DesignWidth="750">
     <Grid Margin="0,0,0,-99" >
-        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="326,524,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Rezerwacje"/>
+        <Button Content="Modyfikuj" HorizontalAlignment="Left" Margin="326,524,0,0" VerticalAlignment="Top" Width="75" Click="Zmien_Dane_Rezerwacji"/>
         <Label Content="Opiekun" HorizontalAlignment="Left" Margin="197,79,0,0" VerticalAlignment="Top" Width="81"/>
         <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="181,119,0,0" VerticalAlignment="Top" Width="128"/>
         <ComboBox x:Name="Pracownicy" HorizontalAlignment="Left" Height="23" Margin="306,79,0,0"  VerticalAlignment="Top" Width="Auto" />
