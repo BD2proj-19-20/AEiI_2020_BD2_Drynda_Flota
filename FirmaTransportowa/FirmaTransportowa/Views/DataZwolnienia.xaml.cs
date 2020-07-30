@@ -81,7 +81,7 @@ namespace FirmaTransportowa.Views
                     {
                         lend.returnDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
                         lend.plannedReturnDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
-                        lend.comments = "Zakończono przez zwolnienie pracownika";
+                        lend.comments = "Zakończono przez zwolnienie pracownika - "+ DateTime.Now.ToString();
                     }
 
                 }

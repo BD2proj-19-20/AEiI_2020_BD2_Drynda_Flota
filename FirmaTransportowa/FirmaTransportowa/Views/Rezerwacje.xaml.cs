@@ -76,11 +76,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == reserv.carId)
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-
-
                 }
-
-
                 if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.OrangeRed;  //zakonczone 
@@ -161,11 +157,9 @@ namespace FirmaTransportowa.Views
 
                 foreach (var reserv in reservations)
                 {
-
                     if (reserv.id == selectedId)
                     {
                         reservationChange = reserv;
-                        break;
                     }
                 }
 
@@ -177,13 +171,30 @@ namespace FirmaTransportowa.Views
                 else
                 {
 
-
-
                     DialogResult result = MessageBox.Show("Czy chcesz zakonczyc rezerwację " + reservationPerson +"?"
                         , "Komunikat", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
                        
+                        reservationChange.ended=true;
+                        var lends = db.Lends;
+                        foreach (var lend in lends)
+                        {
+                            if (lend.reservationId == reservationChange.id)
+                            {
+                                lend.returnDate = Convert.ToDateTime(DateTime.Now);
+                                lend.plannedReturnDate = Convert.ToDateTime(DateTime.Now);
+                                
+                                lend.comments = "Zakończono przez zakończenie rezerwacji - " + DateTime.Now.ToString();
+                            }
+
+                        }
+                        db.SaveChanges();
+
+                        ListViewReservations.ItemsSource = null;
+                        items.Clear();
+                        UpdateView();
+
                     }
                     else if (result == DialogResult.No)
                     {
@@ -194,7 +205,6 @@ namespace FirmaTransportowa.Views
             else
             {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-
             }
         }
 

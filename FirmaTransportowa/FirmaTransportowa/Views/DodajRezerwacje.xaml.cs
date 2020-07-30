@@ -119,26 +119,7 @@ namespace FirmaTransportowa.Views
 
             }
             bool doReservation = false;
-            foreach (var reserv in reservations)
-            {
-                if (reserv.carId.ToString() == PojazdID.SelectedItem.ToString())
-                {
-                    actualCarLendDate = reserv.lendDate;
-                    actualCarReturnDate = reserv.returnDate;
-
-                    if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
-                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                    {
-                        doReservation = true;
-                    }
-                    else
-                    {
-                        doReservation = false;
-                        break;
-                    }
-                }
-
-            }
+          
 
                 if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
                     !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
@@ -146,6 +127,27 @@ namespace FirmaTransportowa.Views
                     && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
 
                 {
+
+                foreach (var reserv in reservations)
+                {
+                    if (reserv.carId.ToString() == PojazdID.SelectedItem.ToString())
+                    {
+                        actualCarLendDate = reserv.lendDate;
+                        actualCarReturnDate = reserv.returnDate;
+
+                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
+                        {
+                            doReservation = true;
+                        }
+                        else
+                        {
+                            doReservation = false;
+                            break;
+                        }
+                    }
+
+                }
                 if (doReservation == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie 
                 { 
                         var newReservation = new Reservation();
