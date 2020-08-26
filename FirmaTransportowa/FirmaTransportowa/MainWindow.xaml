@@ -10,6 +10,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#FF646464" WindowStyle="None">
     <Window.Resources>
+        <DataTemplate x:Name="MenuPracownikTemplate" DataType="{x:Type viewmodels:MenuPracownikModel}">
+            <views:MenuPracownik DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="MenuKierownikTemplate" DataType="{x:Type viewmodels:MenuKierownikModel}">
+            <views:MenuKierownik DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate x:Name="MenuOpiekunTemplate" DataType="{x:Type viewmodels:MenuOpiekunModel}">
+            <views:MenuOpiekun DataContext="{Binding}"/>
+        </DataTemplate>
         <DataTemplate x:Name="RezerwacjeTemplate" DataType="{x:Type viewmodels:RezerwacjeModel}">
             <views:Rezerwacje DataContext="{Binding}"/>
         </DataTemplate>
@@ -18,12 +27,6 @@
         </DataTemplate>
         <DataTemplate x:Name="ListaPojazdowTemplate" DataType="{x:Type viewmodels:ListaPojazdowModel}">
             <views:ListaPojazdow DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate x:Name="StatystykiPojazduTemplate" DataType="{x:Type viewmodels:StatystykiPojazduModel}">
-            <views:StatystykiPojazdu DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate x:Name="StatystykiPracownikaTemplate" DataType="{x:Type viewmodels:StatystykiPracownikaModel}">
-            <views:StatystykiPracownika DataContext="{Binding}"/>
         </DataTemplate>
         <DataTemplate x:Name="ZarzadzajPojazdamiTemplate" DataType="{x:Type viewmodels:ZarzadzajPojazdamiModel}">
             <views:ZarzadzajPojazdami DataContext="{Binding}"/>
@@ -45,7 +48,17 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Minimize_Maximize">
+                <materialDesign:PackIcon Foreground="White" Kind="WindowMinimize"/>
+            </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Close">
+                <materialDesign:PackIcon Foreground="White" Kind="Close"/>
+            </Button>
+        </StackPanel>
         <StackPanel Orientation="Horizontal">
+
+            <!--
             <ListView Height="600" Width="250" BorderBrush="White">
                 <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
                     <TextBlock Text="Moje rezerwacje (pracownik)"/>
@@ -71,14 +84,15 @@
                         <TextBlock Text="Pomoc"/>
                     </StackPanel>
                 </ListViewItem>
-                <ListViewItem Background="White" HorizontalAlignment="Center" Width="200" Height="50" Name="CloseButton" MouseLeftButtonUp="CloseButton_MouseLeftButtonUp">
+                <ListViewItem Background="White" HorizontalAlignment="Center" Width="200" Height="50" Name="Logout" MouseLeftButtonUp="Logout_MouseLeftButtonUp">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Red" Kind="Close"/>
-                        <TextBlock Text="Wyjście"/>
+                        <materialDesign:PackIcon Foreground="Gold" Kind="Logout"/>
+                        <TextBlock Text="Wyloguj się"/>
                     </StackPanel>
                 </ListViewItem>
-            </ListView>
-            <ContentControl Width="750" Content="{Binding}"/>
+            </ListView>-->
+            <ContentControl x:Name="Menu" Width="250" Content="{Binding}"/>
+            <ContentControl Margin="0 20 0 0" Width="750" Content="{Binding}"/>
         </StackPanel>
     </Grid>
 </Window>

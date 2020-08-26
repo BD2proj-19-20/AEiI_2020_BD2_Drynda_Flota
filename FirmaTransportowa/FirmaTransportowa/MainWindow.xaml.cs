@@ -27,9 +27,9 @@ namespace FirmaTransportowa
         {
             InitializeComponent();
             UpdateReservations(); // aktualizacja  rezerwacji
-
-
-
+            Menu.Content = new MenuPracownikModel();     //wybrane menu - dla pracownika
+            //Menu.Content = new MenuKierownikModel();   //wybrane menu - dla Kierownika
+            //Menu.Content = new MenuOpiekunModel();     //wybrane menu - dla opiekuna
         }
         private void UpdateReservations()
         {
@@ -57,11 +57,6 @@ namespace FirmaTransportowa
             DataContext = new ListaPojazdowModel();
         }
 
-        private void CarStatistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new StatystykiPojazduModel();
-        }
-
         private void Manage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DataContext = new ZarzadzajPojazdamiModel();
@@ -76,14 +71,25 @@ namespace FirmaTransportowa
             DataContext = new MojeRezerwacjeModel();
         }
 
-        private void WorkerStatistics_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new StatystykiPracownikaModel();
-        }
-
         private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             DataContext = new PracownicyModel();
+        }
+
+        private void Button_Close(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Button_Minimize_Maximize(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+                this.WindowState = WindowState.Minimized;
         }
     }
 }

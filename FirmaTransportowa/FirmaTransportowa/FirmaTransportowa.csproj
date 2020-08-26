@@ -136,6 +136,9 @@
     <Compile Include="ViewModels\DodajPracownikModel.cs" />
     <Compile Include="ViewModels\DodajRezerwacjeModel.cs" />
     <Compile Include="ViewModels\ListaPojazdowModel.cs" />
+    <Compile Include="ViewModels\MenuKierownikModel.cs" />
+    <Compile Include="ViewModels\MenuOpiekunModel.cs" />
+    <Compile Include="ViewModels\MenuPracownikModel.cs" />
     <Compile Include="ViewModels\MojePojazdyModel.cs" />
     <Compile Include="ViewModels\MojeRezerwacjeModel.cs" />
     <Compile Include="ViewModels\PracownicyModel.cs" />
@@ -157,6 +160,15 @@
     </Compile>
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuKierownik.xaml.cs">
+      <DependentUpon>MenuKierownik.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuOpiekun.xaml.cs">
+      <DependentUpon>MenuOpiekun.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuPracownik.xaml.cs">
+      <DependentUpon>MenuPracownik.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MojePojazdy.xaml.cs">
       <DependentUpon>MojePojazdy.xaml</DependentUpon>
@@ -217,6 +229,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListaPojazdow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuKierownik.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuOpiekun.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuPracownik.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
