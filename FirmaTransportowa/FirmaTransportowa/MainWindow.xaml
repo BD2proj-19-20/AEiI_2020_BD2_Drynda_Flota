@@ -10,15 +10,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#FF646464" WindowStyle="None">
     <Window.Resources>
-        <DataTemplate x:Name="MenuPracownikTemplate" DataType="{x:Type viewmodels:MenuPracownikModel}">
-            <views:MenuPracownik DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate x:Name="MenuKierownikTemplate" DataType="{x:Type viewmodels:MenuKierownikModel}">
-            <views:MenuKierownik DataContext="{Binding}"/>
-        </DataTemplate>
-        <DataTemplate x:Name="MenuOpiekunTemplate" DataType="{x:Type viewmodels:MenuOpiekunModel}">
-            <views:MenuOpiekun DataContext="{Binding}"/>
-        </DataTemplate>
         <DataTemplate x:Name="RezerwacjeTemplate" DataType="{x:Type viewmodels:RezerwacjeModel}">
             <views:Rezerwacje DataContext="{Binding}"/>
         </DataTemplate>
@@ -91,8 +82,9 @@
                     </StackPanel>
                 </ListViewItem>
             </ListView>-->
-            <ContentControl x:Name="Menu" Width="250" Content="{Binding}"/>
-            <ContentControl Margin="0 20 0 0" Width="750" Content="{Binding}"/>
+        <ContentControl x:Name="Menu" Width="250"/>
+        <ContentControl Margin="0 20 0 0" Width="750" Content="{Binding}"/>
         </StackPanel>
+        <ContentControl x:Name="LoginScreen" HorizontalAlignment="Center" VerticalAlignment="Top"/>
     </Grid>
 </Window>

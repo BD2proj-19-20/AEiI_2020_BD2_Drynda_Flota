@@ -1,6 +1,7 @@
 ﻿using FirmaTransportowa.Model;
 using FirmaTransportowa.ViewModels;
 using FirmaTransportowa.Views;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,9 +29,15 @@ namespace FirmaTransportowa
         {
             InitializeComponent();
             UpdateReservations(); // aktualizacja  rezerwacji
-            Menu.Content = new MenuPracownikModel();     //wybrane menu - dla pracownika
-            //Menu.Content = new MenuKierownikModel();   //wybrane menu - dla Kierownika
-            //Menu.Content = new MenuOpiekunModel();     //wybrane menu - dla opiekuna
+            LogIn();
+        }
+        private void LogIn()
+        {
+            Width = 300;
+            Height = 450;
+            LoginScreen.Content = new Logowanie();
+            //Window logowanieView = new Logowanie();
+            //logowanieView.ShowDialog();
         }
         private void UpdateReservations()
         {
@@ -42,48 +50,10 @@ namespace FirmaTransportowa
             }
 
         }
-        private void CloseButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Close();
-        }
-
-        private void Rent_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new RezerwacjeModel();
-        }
-
-        private void CarList_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new ListaPojazdowModel();
-        }
-
-        private void Manage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new ZarzadzajPojazdamiModel();
-        }
-
-        private void MyCars_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new MojePojazdyModel();
-        }
-        private void Reservations_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new MojeRezerwacjeModel();
-        }
-
-        private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            DataContext = new PracownicyModel();
-        }
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
         }
 
         private void Button_Minimize_Maximize(object sender, RoutedEventArgs e)

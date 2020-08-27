@@ -39,7 +39,12 @@ namespace FirmaTransportowa.Views
         }
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = null;
+            glowneOkno.Width = 300;
+            glowneOkno.Height = 450;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = null;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = new Logowanie();
         }
     }
 }

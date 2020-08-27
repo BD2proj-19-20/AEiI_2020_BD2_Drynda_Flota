@@ -161,6 +161,9 @@
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Logowanie.xaml.cs">
+      <DependentUpon>Logowanie.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuKierownik.xaml.cs">
       <DependentUpon>MenuKierownik.xaml</DependentUpon>
     </Compile>
@@ -229,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ListaPojazdow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Logowanie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
