@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirmaTransportowa.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,31 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             CenterWindowOnScreen();
+        }
+
+        private int getPermission(string login, byte[] password)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var people = db.People;
+            var permissions = db.PeoplesPermissions;
+            foreach (var person in people)
+            {
+                if (person.systemLogin == login)
+                {
+                    if (person.passwordHash == password)
+                    {
+                        foreach (var permission in permissions)
+                        {
+                            if (permission.personId == person.id)
+                            {
+                                return permission.permissionId;
+                            }
+                        }
+                    }
+                }
+
+            }
+            return 0;
         }
 
         private void Worker_Click(object sender, RoutedEventArgs e)
@@ -56,6 +82,39 @@ namespace FirmaTransportowa.Views
             ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuOpiekun();
         }
 
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            string login = loginBox.Text;
+            byte[] password = Encoding.ASCII.GetBytes(passwordBox.Password);
+            var permissionId = getPermission(login, password);
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            switch (permissionId)
+            {
+                case 0:
+                    glowneOkno.Width = 1000;
+                    glowneOkno.Height = 600;
+                    CenterWindowOnScreen();
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuPracownik();
+                    break;
+                case 1:
+                    glowneOkno.Width = 1000;
+                    glowneOkno.Height = 600;
+                    CenterWindowOnScreen();
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuKierownik();
+                    break;
+                case 2:
+                    glowneOkno.Width = 1000;
+                    glowneOkno.Height = 600;
+                    CenterWindowOnScreen();
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuOpiekun();
+                    break;
+                default:
+                    break;
+            }
+        }
         private void CenterWindowOnScreen()
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;

@@ -9,9 +9,14 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Button Content="Pracownik" Margin="0 50 0 0" Click="Worker_Click"/>
-                <Button Content="Kierownik" Margin="0 50 0 0" Click="Leader_Click"/>
-                <Button Content="Opiekun" Margin="0 50 0 0" Click="Supervisor_Click"/>
-            </StackPanel>
+                <Button Content="Pracownik" Margin="0 20 0 0" Click="Worker_Click"/>
+                <Button Content="Kierownik" Margin="0 20 0 0" Click="Leader_Click"/>
+                <Button Content="Opiekun" Margin="0 20 0 0" Click="Supervisor_Click"/>
+            <Label Content="Login:" Foreground="White" Margin="0 50 0 0"/>
+            <TextBox x:Name="loginBox"></TextBox>
+            <Label Content="Hasło:" Foreground="White" Margin="0 50 0 0"/>
+            <PasswordBox x:Name="passwordBox"></PasswordBox>
+            <Button Content="Zaloguj się" Margin="0 50 0 0" Click="Login_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>

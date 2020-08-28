@@ -36,6 +36,7 @@ namespace FirmaTransportowa
             Width = 300;
             Height = 450;
             LoginScreen.Content = new Logowanie();
+            
             //Window logowanieView = new Logowanie();
             //logowanieView.ShowDialog();
         }
@@ -48,7 +49,6 @@ namespace FirmaTransportowa
                     if (res.returnDate < DateTime.Now )
                         res.ended = true; //zakańczamy rezerwację 
             }
-
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)
