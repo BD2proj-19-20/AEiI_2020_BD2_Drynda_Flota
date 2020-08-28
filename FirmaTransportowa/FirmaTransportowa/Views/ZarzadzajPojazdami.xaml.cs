@@ -212,29 +212,36 @@ namespace FirmaTransportowa.Views
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            ItemList selectedObj = (ItemList)selected.Content;
-            int selectedId = selectedObj.carId;
-
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-
-            //Wysyłam zaznaczony samochód do zmiany opiekuna
-            foreach (var car in cars)
+            if (selected != null)
             {
-                if (car.id == selectedId)
-                {
-                    ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car, selectedObj);
-                    zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
-                    zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-                    zmianaOpiekunaView.ShowDialog();
-                    while (zmianaOpiekunaView.IsActive)
-                    {
+                ItemList selectedObj = (ItemList)selected.Content;
+                int selectedId = selectedObj.carId;
 
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Wysyłam zaznaczony samochód do zmiany opiekuna
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car, selectedObj);
+                        zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+                        zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+                        zmianaOpiekunaView.ShowDialog();
+                        while (zmianaOpiekunaView.IsActive)
+                        {
+
+                        }
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = new ZarzadzajPojazdami();
+                        return;
                     }
-                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                    glowneOkno.DataContext = new ZarzadzajPojazdami();
-                    return;
                 }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
             }
         }
 

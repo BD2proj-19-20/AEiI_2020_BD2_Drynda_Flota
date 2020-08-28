@@ -12,7 +12,7 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Lista samochodów:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-            <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+           <!-- <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
                 <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
@@ -43,6 +43,32 @@
                         <TextBlock Text="Ford Mondeo" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ListViewItem>
+            </ListView>-->
+            <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
+                <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="idFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="registrationFiler_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="carSupervisorFilter" TextChanged="carSupervisorFilter_TextChanged"/>
+            </StackPanel>
+            <ListView x:Name="carList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="399" Width="700" Margin="25,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding carId}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="carId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding registration}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="registration" Click="GridViewColumnHeader_Click">Numer rejestracyjny</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding carSupervisor}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="carSupervisor" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Rezerwuj" Margin="10 0 0 0" Width="100" />

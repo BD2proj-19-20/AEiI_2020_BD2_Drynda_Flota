@@ -41,7 +41,6 @@
                         <GridViewColumn Width="100" DisplayMemberBinding="{Binding PersonDateOut}">
                             <GridViewColumnHeader Tag="PersonDateOut" Width="116" Content="Data zwolnienia" Click="GridViewColumnHeader_Click" />
                         </GridViewColumn>
-
                     </GridView>
                 </ListView.View>
             </ListView>

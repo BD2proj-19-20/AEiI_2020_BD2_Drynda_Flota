@@ -61,5 +61,10 @@ namespace FirmaTransportowa
             if (this.WindowState == WindowState.Normal)
                 this.WindowState = WindowState.Minimized;
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
+        }
     }
 }
