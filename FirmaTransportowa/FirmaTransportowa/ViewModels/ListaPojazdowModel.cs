@@ -8,5 +8,6 @@ namespace FirmaTransportowa.ViewModels
 {
     public class ListaPojazdowModel
     {
+
     }
 }

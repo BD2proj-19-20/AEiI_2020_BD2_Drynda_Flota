@@ -12,38 +12,6 @@
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" Height="50" Width="700">
                 <TextBlock Foreground="White" Text="Lista samochodów:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
-           <!-- <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Skoda Octavia" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Ford Focus" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Audi A8" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Volkswagen Passat" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="0 5 0 0" BorderBrush="Gray" Height="100" Width="650">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Foreground="Black" Kind="Car" VerticalAlignment="Center"/>
-                        <TextBlock Text="Ford Mondeo" FontSize="30" FontWeight="Bold" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-            </ListView>-->
             <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
                 <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="idFilter_TextChanged"/>
                 <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="registrationFiler_TextChanged"/>

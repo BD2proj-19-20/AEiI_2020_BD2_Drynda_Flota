@@ -32,6 +32,7 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
             var permissions = db.PeoplesPermissions;
+            var carSupervisors = db.CarSupervisors;
             foreach (var person in people)
             {
                 if (person.systemLogin == login)
@@ -49,7 +50,7 @@ namespace FirmaTransportowa.Views
                 }
 
             }
-            return 0;
+            return 3;
         }
 
         private void Worker_Click(object sender, RoutedEventArgs e)
@@ -86,7 +87,7 @@ namespace FirmaTransportowa.Views
         {
             string login = loginBox.Text;
             byte[] password = Encoding.ASCII.GetBytes(passwordBox.Password);
-            var permissionId = getPermission(login, password);
+            var permissionId = getPermission(login, password); //zwracana wartość to id dostępu
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             switch (permissionId)
             {
