@@ -8,12 +8,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="580" d:DesignWidth="750">
     <Grid Background="#FF646464">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Name="ImieNazwisko" Foreground="White" Margin="10 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+        </StackPanel>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <TextBlock Foreground="White" Margin="10 0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Height="500" Width="700">
-                <Border Background="White" Margin="25 0" Height="500" Width="300">
+            <StackPanel Orientation="Horizontal" Height="480" Width="700">
+                <Border Background="White" Margin="25 0 25 10" Height="500" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Informacje ogólne"/>
@@ -48,7 +51,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Background="White" Margin="25 0" Height="500" Width="300">
+                <Border Background="White" Margin="25 0 25 10" Height="500" Width="300">
                     <StackPanel Background="Transparent" VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkowania"/>
@@ -76,6 +79,7 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
+            <Button Content="Cofnij" Height="43" Click="Cofnij" Margin="244,0,275,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

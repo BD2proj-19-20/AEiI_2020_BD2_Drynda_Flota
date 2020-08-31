@@ -1,5 +1,7 @@
 ﻿using FirmaTransportowa.Model;
+using FirmaTransportowa.ViewModels;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FirmaTransportowa.Views
@@ -59,6 +61,13 @@ namespace FirmaTransportowa.Views
                     Wypozyczony_przez.Text = lend.Person.firstName + " " + lend.Person.lastName;
                 }
             }
+
+        }
+        private void Cofnij(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            
 
         }
     }

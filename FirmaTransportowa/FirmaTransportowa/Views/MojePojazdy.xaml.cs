@@ -79,8 +79,33 @@ namespace FirmaTransportowa.Views
         }
         private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
-            mainWindow.DataContext = new StatystykiPojazduModel();
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car);
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = statystykiPojazduView;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+
         }
         private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
