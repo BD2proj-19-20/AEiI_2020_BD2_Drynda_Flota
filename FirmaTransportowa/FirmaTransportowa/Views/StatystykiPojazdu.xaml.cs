@@ -11,9 +11,11 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class StatystykiPojazdu : UserControl
     {
-        public StatystykiPojazdu(Car car)
+        int permission = 0;
+        public StatystykiPojazdu(Car car, int userPermission)
         {
             InitializeComponent();
+            permission = userPermission;
             Rejestracja.Text = car.Registration;
             Pojemnosc_silnika.Text = car.engineCapacity.ToString();
 
@@ -66,18 +68,20 @@ namespace FirmaTransportowa.Views
         private void Cofnij(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            /*if ()
+            switch (permission)
             {
-                glowneOkno.DataContext = new ListaPojazdowModel();
+                case 1:
+                    glowneOkno.DataContext = new ListaPojazdowModel();
+                    break;
+                case 2:
+                    glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
+                    break;
+                case 3:
+                    glowneOkno.DataContext = new MojePojazdyModel();
+                    break;
+                default:
+                    break;
             }
-            else if ()
-            {
-                glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
-            }
-            else if ()
-            {
-                glowneOkno.DataContext = new MojePojazdyModel();
-            }*/
         }
     }
 }

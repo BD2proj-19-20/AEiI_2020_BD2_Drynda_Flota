@@ -94,7 +94,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
-                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car);
+                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car, 3);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = statystykiPojazduView;
                         return;

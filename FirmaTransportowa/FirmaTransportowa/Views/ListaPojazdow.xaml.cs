@@ -103,7 +103,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
-                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car);
+                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car, 1);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = statystykiPojazduView;
                         return;
@@ -224,12 +224,58 @@ namespace FirmaTransportowa.Views
 
         private void Rent_Click(object sender, RoutedEventArgs e)
         {
-
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
 
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
 
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
+        private void Refuel_Click(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
     }
 }
