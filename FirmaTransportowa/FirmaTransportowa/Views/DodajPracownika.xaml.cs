@@ -25,7 +25,7 @@ namespace FirmaTransportowa.Views
             using (Rfc2898DeriveBytes hashGenerator = new Rfc2898DeriveBytes(password, passwordSalt))
             {
                 hashGenerator.IterationCount = 1001;
-                return hashGenerator.GetBytes(8);
+                return hashGenerator.GetBytes(256);
             }
         }
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)

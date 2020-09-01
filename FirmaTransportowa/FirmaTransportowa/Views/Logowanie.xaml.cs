@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,7 +28,18 @@ namespace FirmaTransportowa.Views
             CenterWindowOnScreen();
         }
 
-        private int getPermission(string login, byte[] password)
+        static public byte[] getHash(string password)
+        {
+            byte[] passwordSalt = { 67, 128, 62, 208, 147, 77, 143, 197 };
+
+            using (Rfc2898DeriveBytes hashGenerator = new Rfc2898DeriveBytes(password, passwordSalt))
+            {
+                hashGenerator.IterationCount = 1001;
+                return hashGenerator.GetBytes(256);
+            }
+        }
+
+        private int getPermission(string login, string password)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
@@ -37,8 +49,14 @@ namespace FirmaTransportowa.Views
             {
                 if (person.systemLogin == login)
                 {
-                    if (person.passwordHash == password)
+                    var k = Convert.ToBase64String(person.passwordHash).Substring(0, 8);
+                    byte[] check2 = getHash(password);
+                    
+                    bool ki = person.passwordHash.SequenceEqual(check2);
+                    if (person.passwordHash.SequenceEqual(getHash(password)))
                     {
+                    
+
                         foreach (var permission in permissions)
                         {
                             if (permission.personId == person.id)
@@ -86,8 +104,7 @@ namespace FirmaTransportowa.Views
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             string login = loginBox.Text;
-            byte[] password = Encoding.ASCII.GetBytes(passwordBox.Password);
-            var permissionId = getPermission(login, password); //zwracana wartość to id dostępu
+            var permissionId = getPermission(login, passwordBox.Password); //zwracana wartość to id dostępu
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             switch (permissionId)
             {
