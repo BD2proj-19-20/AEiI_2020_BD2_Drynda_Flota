@@ -194,6 +194,9 @@
     <Compile Include="Views\ZarzadzajPojazdami.xaml.cs">
       <DependentUpon>ZarzadzajPojazdami.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZmaianaDanychLogowania.xaml.cs">
+      <DependentUpon>ZmaianaDanychLogowania.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZmianaOpiekuna.xaml.cs">
       <DependentUpon>ZmianaOpiekuna.xaml</DependentUpon>
     </Compile>
@@ -276,6 +279,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZarzadzajPojazdami.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZmaianaDanychLogowania.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

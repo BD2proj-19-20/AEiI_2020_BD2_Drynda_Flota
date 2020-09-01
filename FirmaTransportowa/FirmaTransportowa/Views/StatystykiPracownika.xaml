@@ -30,7 +30,6 @@
                             <TextBlock FontSize="15" Name="Login"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Hasło:" Width="150"/>
                             <TextBlock FontSize="15" Name="Haslo"/>
                         </StackPanel>
                     </StackPanel>
@@ -40,12 +39,12 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="20" FontWeight="Bold" Text="Statystyki użytkownika"/>
                         </StackPanel>
-                        
+
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Cele prywatne"/>
                         </StackPanel>
-                        
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przejechane km:" Width="150" Height="25" VerticalAlignment="Bottom"/>
                             <TextBlock FontSize="15"  Name="Przejechane" Height="25" VerticalAlignment="Bottom"/>
@@ -93,7 +92,7 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Koszty:" Width="150"/>
                             <TextBlock FontSize="15" Name="KosztySluzbowe"/>
                         </StackPanel>
-                        
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="15" FontWeight="Bold" Text=" Inne"/>
                         </StackPanel>
@@ -118,7 +117,10 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            <Button Content="Cofnij" Height="43" Click="Cofnij" Margin="244,0,275,0"/>
+            <StackPanel Margin="25,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
+                <Button Content="Cofnij" Margin="250 0 0 0" Width="105"  Click="Cofnij"/>
+                <Button Content="Zmień Dane Logowania" Margin="30 0 0 0" Width="143" Click="Zmien_Dane" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

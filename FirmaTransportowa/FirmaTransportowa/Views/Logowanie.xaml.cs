@@ -49,22 +49,21 @@ namespace FirmaTransportowa.Views
             {
                 if (person.systemLogin == login)
                 {
-                    var k = Convert.ToBase64String(person.passwordHash).Substring(0, 8);
-                    byte[] check2 = getHash(password);
-                    
-                    bool ki = person.passwordHash.SequenceEqual(check2);
                     if (person.passwordHash.SequenceEqual(getHash(password)))
                     {
-                    
 
+
+                        MessageBox.Show("Logowanie udało się ", "Komunikat");
                         foreach (var permission in permissions)
                         {
-                            if (permission.personId == person.id)
+                            if (permission.personId == person.id)  //do poprawy
                             {
                                 return permission.permissionId;
                             }
                         }
                     }
+                    else
+                        MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
                 }
 
             }

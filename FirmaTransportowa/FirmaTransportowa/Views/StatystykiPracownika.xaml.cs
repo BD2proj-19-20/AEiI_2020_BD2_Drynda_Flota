@@ -11,19 +11,18 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class StatystykiPracownika : UserControl
     {
-
+        Person changePerson;
 
         public StatystykiPracownika(Person people)
         {
             InitializeComponent();
 
+            changePerson = people;
             ImieNazwisko.Text = people.firstName + " " + people.lastName;
             DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
             if (people.layoffDate != null)
                 DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
             Login.Text = people.systemLogin;
-            if (people.passwordHash != null)
-                Haslo.Text = Convert.ToBase64String(people.passwordHash).Substring(0, 8);
 
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -141,6 +140,42 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new PracownicyModel();
 
+        }
+
+        private void Zmien_Dane(object sender, RoutedEventArgs e)
+        {
+            Person newPerson = new Person();
+            int id = changePerson.id;
+            ZmaianaDanychLogowania zmianaOpiekunaView = new ZmaianaDanychLogowania(changePerson);
+            zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            zmianaOpiekunaView.ShowDialog();
+            while (zmianaOpiekunaView.IsActive)
+            {
+
+            }
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var people = db.People;
+
+
+            // toChange.systemLogin = newLogin.Text;
+
+            foreach (var person in people)
+            {
+                if (person.id == changePerson.id)
+                {
+
+                    newPerson = person;
+                    break;
+
+                }
+
+            }
+
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new StatystykiPracownika(newPerson);
+            return;
         }
     }
 }
