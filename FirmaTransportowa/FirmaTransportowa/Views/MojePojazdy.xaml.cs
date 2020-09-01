@@ -186,5 +186,15 @@ namespace FirmaTransportowa.Views
             CarList second = (CarList)b.Content;
             return String.Compare(second.registration, first.registration);
         }
+
+        private void Send_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Activate_Disactivate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

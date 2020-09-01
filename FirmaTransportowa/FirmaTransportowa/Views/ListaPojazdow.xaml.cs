@@ -221,5 +221,15 @@ namespace FirmaTransportowa.Views
             CarList second = (CarList)b.Content;
             return String.Compare(second.carSupervisor, first.carSupervisor);
         }
+
+        private void Rent_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Reserve_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

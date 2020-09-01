@@ -12,6 +12,8 @@
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
                 <TextBlock Text="Moje pojazdy (opiekun)"/>
             </ListViewItem>
+        </ListView>
+        <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Foreground="Blue" Kind="Help"/>

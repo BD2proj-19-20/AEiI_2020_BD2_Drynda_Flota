@@ -251,8 +251,10 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new RezerwacjeModel();
-
+            //if()
+                //glowneOkno.DataContext = new RezerwacjeModel();
+            //else if ()
+                //glowneOkno.DataContext = new MojeRezerwacjeModel();
         }
         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
         {

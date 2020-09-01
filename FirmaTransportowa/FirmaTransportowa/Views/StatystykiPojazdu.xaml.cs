@@ -14,7 +14,6 @@ namespace FirmaTransportowa.Views
         public StatystykiPojazdu(Car car)
         {
             InitializeComponent();
-            //Model.Text = car.
             Rejestracja.Text = car.Registration;
             Pojemnosc_silnika.Text = car.engineCapacity.ToString();
 
@@ -38,6 +37,7 @@ namespace FirmaTransportowa.Views
             {
                 if (car.modelId == model.id)
                 {
+                    ModelPojazdu.Text = model.make + " " + model.model;
                     Marka.Text = model.make;
                     Model.Text = model.model;
                 }
@@ -65,10 +65,19 @@ namespace FirmaTransportowa.Views
         }
         private void Cofnij(object sender, RoutedEventArgs e)
         {
-
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            
-
+            /*if ()
+            {
+                glowneOkno.DataContext = new ListaPojazdowModel();
+            }
+            else if ()
+            {
+                glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
+            }
+            else if ()
+            {
+                glowneOkno.DataContext = new MojePojazdyModel();
+            }*/
         }
     }
 }

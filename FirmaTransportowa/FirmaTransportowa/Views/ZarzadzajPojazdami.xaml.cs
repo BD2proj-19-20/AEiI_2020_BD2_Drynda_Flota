@@ -134,7 +134,9 @@ namespace FirmaTransportowa.Views
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            ItemList selectedObj = (ItemList)selected.Content;
+            if (selected != null)
+            {
+                ItemList selectedObj = (ItemList)selected.Content;
             int selectedId = selectedObj.carId;
             //Usuwam zaznaczony samochód z listy
             items.Remove((ListViewItem)carList.SelectedItem);
@@ -153,6 +155,11 @@ namespace FirmaTransportowa.Views
                 }
             }
             db.SaveChanges();
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
 
 
@@ -160,33 +167,42 @@ namespace FirmaTransportowa.Views
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            ItemList selectedObj = (ItemList)selected.Content;
-            int selectedId = selectedObj.carId;
-            selectedObj.saleDate = DateTime.Now.ToShortDateString();
-
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-
-            //Ustawiam datę sprzedaży
-            foreach (var car in cars)
+            if (selected != null)
             {
-                if (car.id == selectedId)
+                ItemList selectedObj = (ItemList)selected.Content;
+                int selectedId = selectedObj.carId;
+                selectedObj.saleDate = DateTime.Now.ToShortDateString();
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Ustawiam datę sprzedaży
+                foreach (var car in cars)
                 {
-                    car.saleDate = DateTime.Today;
-                    break;
+                    if (car.id == selectedId)
+                    {
+                        car.saleDate = DateTime.Today;
+                        break;
+                    }
                 }
+                db.SaveChanges();
+                //Odświeżenie listy
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new ZarzadzajPojazdami();
             }
-            db.SaveChanges();
-            //Odświeżenie listy
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ZarzadzajPojazdami();
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
 
         private void Kup_Pojazd(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            ItemList selectedObj = (ItemList)selected.Content;
+            if (selected != null)
+            {
+                ItemList selectedObj = (ItemList)selected.Content;
             int selectedId = selectedObj.carId;
             selectedObj.saleDate = null;
 
@@ -206,6 +222,11 @@ namespace FirmaTransportowa.Views
             //Odświeżenie listy
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new ZarzadzajPojazdami();
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
 
         private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)

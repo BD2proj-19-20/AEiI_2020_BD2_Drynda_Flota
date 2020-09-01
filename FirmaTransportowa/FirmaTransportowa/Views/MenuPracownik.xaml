@@ -8,13 +8,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="250">
     <Grid>
-        <ListView Height="600" Width="250" BorderBrush="White">
+        <ListView Height="600" Width="250" BorderBrush="Transparent">
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
                 <TextBlock Text="Moje rezerwacje (pracownik)"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
                 <TextBlock Text="Lista pojazdów (pracownik)"/>
             </ListViewItem>
+        </ListView>
+        <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Foreground="Blue" Kind="Help"/>
