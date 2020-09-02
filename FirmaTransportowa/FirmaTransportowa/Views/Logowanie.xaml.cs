@@ -45,14 +45,42 @@ namespace FirmaTransportowa.Views
             var people = db.People;
             var permissions = db.PeoplesPermissions;
             var carSupervisors = db.CarSupervisors;
+
+            string cos = " ";
+            foreach( var permission in permissions)
+            {
+
+              cos+=  permission.personId.ToString();
+
+            }
+
+            var permissionFlota = db.Permissions;
+
+            //var permissionName1 = new Permission();
+            //var permissionName2 = new Permission();
+            //var permissionName3 = new Permission();
+            //permissionName1.name = "Kierownik";
+            //permissionName2.name = "Opiekun";
+            //permissionName3.name = "Pracownik";
+
+            //permissionFlota.Add(permissionName1);
+            //permissionFlota.Add(permissionName2);
+            //permissionFlota.Add(permissionName3);
+            //db.SaveChanges();
+
+            //foreach (var permission in permissionFlota)
+            //{           
+            //    cos += permission.name;
+            //}
+           // MessageBox.Show(cos, "Komunikat");
+
+            if(login.Length>=6 && password.Length>=6)
             foreach (var person in people)
             {
-                if (person.systemLogin == login)
+                if (person.systemLogin == login ) 
                 {
-                    if (person.passwordHash.SequenceEqual(getHash(password)))
-                    {
-
-
+                    if (person.passwordHash.SequenceEqual(getHash(password)) && person.layoffDate <= DateTime.Now) //zwolniony nie może się zalogować
+                        {
                         MessageBox.Show("Logowanie udało się ", "Komunikat");
                         foreach (var permission in permissions)
                         {
@@ -67,6 +95,8 @@ namespace FirmaTransportowa.Views
                 }
 
             }
+            else
+                MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 3;
         }
 

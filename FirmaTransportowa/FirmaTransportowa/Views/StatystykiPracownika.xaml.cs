@@ -18,6 +18,18 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
 
             changePerson = people;
+
+
+            if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zowlniony nie można zmienić danych logownaia
+            {
+                zmienDaneButton.Visibility = Visibility.Hidden;
+                OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
+                Thickness margin = BylyOpiekunPanel.Margin;
+                margin.Top = margin.Top-25;
+                BylyOpiekunPanel.Margin = margin; //przesuwamy w górę panel z byłymi opiekunami
+            }
+
+
             ImieNazwisko.Text = people.firstName + " " + people.lastName;
             DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
             if (people.layoffDate != null)
@@ -39,21 +51,60 @@ namespace FirmaTransportowa.Views
                 if (carS.personId == people.id)
                 {
                     foreach (var car in cars)
-                        if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
+                        if (changePerson.layoffDate <= DateTime.Now && car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null) )
                         {
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
                         else if (car.id == carS.carId)
                         {
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                        
                         }
                 }
             }
-        
-            Opiekun.Text = textOpiekun;
+            if (changePerson.layoffDate > DateTime.Now)
+                Opiekun.Text = textOpiekun;
             BylyOpiekun.Text = bylyOpiekun;
-            
+
+
+            //var persons = db.People; //sprawdznie ilości aktywności 
+
+            //foreach (var person in persons)
+            //{
+            //    if (person.CarSupervisors.Count > 3)
+            //    {
+            //        MessageBox.Show(bylyOpiekun, "Komunikat");
+            //    }
+
+            //}
+
+            var permissionCompany = db.Permissions;
+            var peoplePermission = db.PeoplesPermissions;
+
+
+            Kierownik.Text = "Nie";
+            foreach( var permissionWorker in peoplePermission)
+            {
+              if(permissionWorker.personId==changePerson.id && permissionWorker.Permission.name=="Kierownik" &&
+                    permissionWorker.grantDate<DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate ==null))
+                {
+
+                    Kierownik.Text = "Tak";
+                    KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
+                    if(permissionWorker.revokeDate!=null)
+                    KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
+
+                }
+              else if(permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
+                    permissionWorker.grantDate > DateTime.Now )
+                {
+                    Kierownik.Text = "Za "+(permissionWorker.grantDate- DateTime.Now).Days + " dni";
+                   // Kierownik.Text ="Zostanie za "+ (DateTime.Now - permissionWorker.grantDate).TotalDays.ToString()+"dni";
+                    KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
+                    if (permissionWorker.revokeDate != null)
+                        KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                }
+
+            }
 
             foreach (var aktyw in activities)
             {

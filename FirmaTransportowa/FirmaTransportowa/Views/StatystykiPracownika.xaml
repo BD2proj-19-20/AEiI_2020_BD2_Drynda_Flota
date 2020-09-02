@@ -27,10 +27,19 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Login:" Width="150"/>
-                            <TextBlock FontSize="15" Name="Login"/>
+                            <TextBlock FontSize="15" x:Name="Login"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" Name="Haslo"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Kierownik:" Width="150"/>
+                            <TextBlock FontSize="15" x:Name="Kierownik"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień rozpoczęcia:" Width="150"/>
+                            <TextBlock FontSize="15" x:Name="KierownikDateStart"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień zakończenia:" Width="150"/>
+                            <TextBlock FontSize="15" x:Name="KierownikDateEnd"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -100,11 +109,11 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Obecne aktywności:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Aktywnosci"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
+                        <StackPanel Name="OpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Opiekun" Height="Auto"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
+                        <StackPanel Name="BylyOpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
                             <ScrollViewer MaxHeight="140"  
               Width="Auto" 
@@ -119,7 +128,7 @@
             </StackPanel>
             <StackPanel Margin="25,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Cofnij" Margin="250 0 0 0" Width="105"  Click="Cofnij"/>
-                <Button Content="Zmień Dane Logowania" Margin="30 0 0 0" Width="143" Click="Zmien_Dane" />
+                <Button Content="Zmień Dane Logowania" Margin="30 0 0 0" Width="143" Click="Zmien_Dane" Name="zmienDaneButton"/>
             </StackPanel>
         </StackPanel>
     </Grid>

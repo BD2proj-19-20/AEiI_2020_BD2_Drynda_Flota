@@ -29,6 +29,7 @@ namespace FirmaTransportowa.Views
             newLogin.Text = changePerson.systemLogin;
             toChange = changePerson;
 
+        
 
         }
         public byte[] getHash(string password)

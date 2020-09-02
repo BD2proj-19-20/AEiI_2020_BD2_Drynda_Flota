@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="ZmaianaDanychLogowania" Height="300" Width="400">
     <Grid Margin="0,0,2,6">
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="51*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="227*"/>
                 <ColumnDefinition Width="86*"/>

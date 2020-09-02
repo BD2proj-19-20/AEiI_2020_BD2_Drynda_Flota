@@ -16,6 +16,8 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             DzienZatrudnienia.Text = DateTime.Today.ToString("dd.MM.yyyy");
+            DzienKierownictwaStart.Text = DateTime.Today.ToString("dd.MM.yyyy");
+            DzienKierownictwaEnd.Text = DateTime.Today.AddDays(1).ToString("dd.MM.yyyy");
         }
 
         public byte[] getHash(string password)
@@ -59,15 +61,54 @@ namespace FirmaTransportowa.Views
                     newWorker.lastName = Nazwisko.Text;
                     newWorker.systemLogin = Login.Text;
 
-
                     newWorker.employmentData = Convert.ToDateTime(DzienZatrudnienia.Text);
-
 
                     newWorker.passwordHash = getHash(Hasło1.Password);
 
                     workers.Add(newWorker);
                     db.SaveChanges();
-                    MessageBox.Show("Dodano Pracownika: " + Imie.Text + " " + Nazwisko.Text, "Komunikat");
+
+                    if(KierownikBox.IsChecked==true)
+                    {
+
+                        var permissionCompany = db.Permissions;
+                        var peoplePermission = db.PeoplesPermissions;
+                        var workerPermission = new PeoplesPermission();
+
+
+
+                        if(!(DateTime.TryParse(DzienKierownictwaStart.Text, out temp) && (Convert.ToDateTime(DzienKierownictwaStart.Text) >= newWorker.employmentData)))
+                        {
+                            workers.Remove(newWorker);
+                            db.SaveChanges();
+                            MessageBox.Show("Błedna data początku", "Komunikat");
+                            return;
+                        }
+                        if (!((DateTime.TryParse(DzienKierownictwaEnd.Text, out temp)  && Convert.ToDateTime(DzienKierownictwaEnd.Text) > Convert.ToDateTime(DzienKierownictwaStart.Text))
+                            || DzienKierownictwaEnd.Text==""))
+                        {
+                            workers.Remove(newWorker);
+                            db.SaveChanges();
+                            MessageBox.Show("Błedna data zakonczenia", "Komunikat");
+                            return;
+
+                        }
+
+                        if (DzienKierownictwaEnd.Text != "")
+                            workerPermission.revokeDate = Convert.ToDateTime(DzienKierownictwaEnd.Text);
+                        
+                        foreach (var permissionComp in permissionCompany)
+                        {
+                            if (permissionComp.name == "Kierownik")
+                                workerPermission.permissionId = permissionComp.Id;
+                        }
+                        workerPermission.grantDate= Convert.ToDateTime(DzienKierownictwaStart.Text); //od razu staje się kierownikiem 
+                        workerPermission.personId = newWorker.id;
+                        peoplePermission.Add(workerPermission);
+                        db.SaveChanges();
+                    }
+
+                    MessageBox.Show("Dodano Pracownika: " + newWorker.id + " " + Nazwisko.Text, "Komunikat");
                 }
                 else
                     MessageBox.Show("Zła data zatrudnienia!", "Komunikat");
