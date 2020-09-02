@@ -369,6 +369,38 @@ namespace FirmaTransportowa.Views
                 {
                     continue;
                 }
+                var peoplePermission = db.PeoplesPermissions;
+
+
+                string kierownik = "Nie";
+                string kierownikStart = "";
+                string kierownikEnd = "";
+                foreach (var permissionWorker in peoplePermission)
+                {
+                    if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
+                          permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
+                    {
+                        kierownik = "Tak";
+                        kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
+                        if (permissionWorker.revokeDate != null)
+                            kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                    }
+                    else if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
+                          permissionWorker.grantDate > DateTime.Now)
+                    {
+                        if (((permissionWorker.grantDate - DateTime.Now).Days + 1) == 1)
+                            kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dzień";
+                        else
+                            kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dni";
+                        kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
+                        if (permissionWorker.revokeDate != null)
+                            kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                    }
+                }
+                doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
+                doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
+                doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
+
 
 
                 string textOpiekun = "";

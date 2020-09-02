@@ -200,6 +200,9 @@
     <Compile Include="Views\ZmianaOpiekuna.xaml.cs">
       <DependentUpon>ZmianaOpiekuna.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZmienKierownika.xaml.cs">
+      <DependentUpon>ZmienKierownika.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZmienRezerwacje.xaml.cs">
       <DependentUpon>ZmienRezerwacje.xaml</DependentUpon>
     </Compile>
@@ -287,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZmianaOpiekuna.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZmienKierownika.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

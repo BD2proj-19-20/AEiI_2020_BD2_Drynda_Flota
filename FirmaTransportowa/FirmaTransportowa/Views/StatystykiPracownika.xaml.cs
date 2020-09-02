@@ -20,9 +20,10 @@ namespace FirmaTransportowa.Views
             changePerson = people;
 
 
-            if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zowlniony nie można zmienić danych logownaia
+            if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zwolniony nie można zmienić danych logownaia
             {
                 zmienDaneButton.Visibility = Visibility.Hidden;
+                zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
                 Thickness margin = BylyOpiekunPanel.Margin;
                 margin.Top = margin.Top-25;
@@ -77,7 +78,7 @@ namespace FirmaTransportowa.Views
 
             //}
 
-            var permissionCompany = db.Permissions;
+       //     var permissionCompany = db.Permissions;
             var peoplePermission = db.PeoplesPermissions;
 
 
@@ -97,8 +98,11 @@ namespace FirmaTransportowa.Views
               else if(permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
                     permissionWorker.grantDate > DateTime.Now )
                 {
-                    Kierownik.Text = "Za "+(permissionWorker.grantDate- DateTime.Now).Days + " dni";
-                   // Kierownik.Text ="Zostanie za "+ (DateTime.Now - permissionWorker.grantDate).TotalDays.ToString()+"dni";
+                    if (((permissionWorker.grantDate - DateTime.Now).Days + 1)==1)
+                        Kierownik.Text = "Za "+((permissionWorker.grantDate- DateTime.Now).Days+1) + " dzień";
+                    else
+                        Kierownik.Text = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dni";
+                    // Kierownik.Text ="Zostanie za "+ (DateTime.Now - permissionWorker.grantDate).TotalDays.ToString()+"dni";
                     KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
                     if (permissionWorker.revokeDate != null)
                         KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
@@ -197,11 +201,11 @@ namespace FirmaTransportowa.Views
         {
             Person newPerson = new Person();
             int id = changePerson.id;
-            ZmaianaDanychLogowania zmianaOpiekunaView = new ZmaianaDanychLogowania(changePerson);
-            zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
-            zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-            zmianaOpiekunaView.ShowDialog();
-            while (zmianaOpiekunaView.IsActive)
+            ZmaianaDanychLogowania zmianaView = new ZmaianaDanychLogowania(changePerson);
+            zmianaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            zmianaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            zmianaView.ShowDialog();
+            while (zmianaView.IsActive)
             {
 
             }
@@ -211,6 +215,37 @@ namespace FirmaTransportowa.Views
 
 
             // toChange.systemLogin = newLogin.Text;
+
+            foreach (var person in people)
+            {
+                if (person.id == changePerson.id)
+                {
+
+                    newPerson = person;
+                    break;
+
+                }
+
+            }
+
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new StatystykiPracownika(newPerson);
+            return;
+        }
+        private void Zmien_Kierownika(object sender, RoutedEventArgs e)
+        {
+            Person newPerson = new Person();
+            int id = changePerson.id;
+            ZmienKierownika zmianaOpiekunaView = new ZmienKierownika(changePerson);
+            zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            zmianaOpiekunaView.ShowDialog();
+            while (zmianaOpiekunaView.IsActive)
+            {
+
+            }
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var people = db.People;
 
             foreach (var person in people)
             {

@@ -77,7 +77,7 @@ namespace FirmaTransportowa.Views
                             // MessageBox.Show("Logowanie udało się ", "Komunikat");
                             foreach (var permission in permissions)
                             {
-                                if (permission.personId == person.id && permission.grantDate.Date >= DateTime.Now.Date)
+                                if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date)
                                 {
                                     foreach (var permissionWorkers in permissionComapny)
                                     {
@@ -88,8 +88,6 @@ namespace FirmaTransportowa.Views
                                         }
 
                                     }
-
-
                                 }             
                             }
                             MessageBox.Show("Zalogowano jako pracownik", "Komunikat");

@@ -26,6 +26,7 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
 
+
             newLogin.Text = changePerson.systemLogin;
             toChange = changePerson;
 
