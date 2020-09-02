@@ -45,14 +45,7 @@ namespace FirmaTransportowa.Views
             var people = db.People;
             var permissions = db.PeoplesPermissions;
             var carSupervisors = db.CarSupervisors;
-
-            string cos = " ";
-            foreach( var permission in permissions)
-            {
-
-              cos+=  permission.personId.ToString();
-
-            }
+            var permissionComapny = db.Permissions;
 
             var permissionFlota = db.Permissions;
 
@@ -72,29 +65,44 @@ namespace FirmaTransportowa.Views
             //{           
             //    cos += permission.name;
             //}
-           // MessageBox.Show(cos, "Komunikat");
+            // MessageBox.Show(cos, "Komunikat");
 
-            if(login.Length>=6 && password.Length>=6)
-            foreach (var person in people)
-            {
-                if (person.systemLogin == login ) 
+            if (login.Length >= 6 && password.Length >= 6)
+                foreach (var person in people)
                 {
-                    if (person.passwordHash.SequenceEqual(getHash(password)) && person.layoffDate <= DateTime.Now) //zwolniony nie może się zalogować
+                    if (person.systemLogin == login)
+                    {
+                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate <= DateTime.Now || person.layoffDate == null)) //zwolniony nie może się zalogować
                         {
-                        MessageBox.Show("Logowanie udało się ", "Komunikat");
-                        foreach (var permission in permissions)
-                        {
-                            if (permission.personId == person.id)  //do poprawy
+                            // MessageBox.Show("Logowanie udało się ", "Komunikat");
+                            foreach (var permission in permissions)
                             {
-                                return permission.permissionId;
+                                if (permission.personId == person.id && permission.grantDate.Date >= DateTime.Now.Date)
+                                {
+                                    foreach (var permissionWorkers in permissionComapny)
+                                    {
+                                        if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
+                                        {
+                                            MessageBox.Show("Zalogowano jako kierownik", "Komunikat");
+                                            return 1;
+                                        }
+
+                                    }
+
+
+                                }             
                             }
+                            MessageBox.Show("Zalogowano jako pracownik", "Komunikat");
+                            return 0;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
+                            return 3;
                         }
                     }
-                    else
-                        MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
                 }
 
-            }
             else
                 MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 3;

@@ -42,7 +42,6 @@ namespace FirmaTransportowa.Views
             if(Hasło1.Password != Hasło2.Password )
             {
                 MessageBox.Show("Hasła są różne!", "Komunikat");
-
             }
             else 
             if (Imie.Text.Length >= 3 && Nazwisko.Text.Length >= 3 && Login.Text.Length >= 6 && Hasło1.Password.Length >= 6)
@@ -60,23 +59,16 @@ namespace FirmaTransportowa.Views
                     newWorker.firstName = Imie.Text;
                     newWorker.lastName = Nazwisko.Text;
                     newWorker.systemLogin = Login.Text;
-
                     newWorker.employmentData = Convert.ToDateTime(DzienZatrudnienia.Text);
-
                     newWorker.passwordHash = getHash(Hasło1.Password);
-
                     workers.Add(newWorker);
                     db.SaveChanges();
 
                     if(KierownikBox.IsChecked==true)
                     {
-
                         var permissionCompany = db.Permissions;
                         var peoplePermission = db.PeoplesPermissions;
                         var workerPermission = new PeoplesPermission();
-
-
-
                         if(!(DateTime.TryParse(DzienKierownictwaStart.Text, out temp) && (Convert.ToDateTime(DzienKierownictwaStart.Text) >= newWorker.employmentData)))
                         {
                             workers.Remove(newWorker);
@@ -91,7 +83,6 @@ namespace FirmaTransportowa.Views
                             db.SaveChanges();
                             MessageBox.Show("Błedna data zakonczenia", "Komunikat");
                             return;
-
                         }
 
                         if (DzienKierownictwaEnd.Text != "")
