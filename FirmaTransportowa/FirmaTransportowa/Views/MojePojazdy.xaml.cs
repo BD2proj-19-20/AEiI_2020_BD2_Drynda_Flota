@@ -189,12 +189,31 @@ namespace FirmaTransportowa.Views
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new DodajZlecenie();
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
 
         private void Activate_Disactivate_Click(object sender, RoutedEventArgs e)
         {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
 
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
         }
     }
 }

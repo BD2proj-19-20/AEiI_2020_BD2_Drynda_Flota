@@ -158,6 +158,9 @@
     <Compile Include="Views\DodajRezerwacje.xaml.cs">
       <DependentUpon>DodajRezerwacje.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DodajZlecenie.xaml.cs">
+      <DependentUpon>DodajZlecenie.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
     </Compile>
@@ -194,6 +197,9 @@
     <Compile Include="Views\ZarzadzajPojazdami.xaml.cs">
       <DependentUpon>ZarzadzajPojazdami.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Zlecenia.xaml.cs">
+      <DependentUpon>Zlecenia.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZmaianaDanychLogowania.xaml.cs">
       <DependentUpon>ZmaianaDanychLogowania.xaml</DependentUpon>
     </Compile>
@@ -208,6 +214,9 @@
     </Compile>
     <Compile Include="Views\ZmienRezerwacjePracownik.xaml.cs">
       <DependentUpon>ZmienRezerwacjePracownik.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZmienZlecenie.xaml.cs">
+      <DependentUpon>ZmienZlecenie.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -234,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DodajRezerwacje.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DodajZlecenie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -285,6 +298,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Zlecenia.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ZmaianaDanychLogowania.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -302,6 +319,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZmienRezerwacjePracownik.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZmienZlecenie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
