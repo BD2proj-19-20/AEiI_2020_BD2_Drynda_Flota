@@ -22,11 +22,7 @@ namespace FirmaTransportowa.Views
             foreach (var reserv in reservations)
             {
                 if (reserv.id == reservationChange.id)
-                {
-
                     this.reservationChange = reserv;
-
-                }
             }
             ReservationDate.Text = reservationChange.reservationDate.ToString().Substring(0, 10);
             ReservationDate.IsReadOnly = true;
@@ -88,6 +84,7 @@ namespace FirmaTransportowa.Views
                     }
                 }
             }
+            PrywatneBox.IsChecked = reservationChange.@private;
             Rejestracja.IsReadOnly = true;
             PojemnoscSilnika.IsReadOnly = true;
             Marka.IsReadOnly = true;
@@ -251,10 +248,7 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            //if()
-                //glowneOkno.DataContext = new RezerwacjeModel();
-            //else if ()
-                //glowneOkno.DataContext = new MojeRezerwacjeModel();
+            glowneOkno.DataContext = new RezerwacjeModel();
         }
         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
         {

@@ -46,9 +46,10 @@ namespace FirmaTransportowa
             var reservation = db.Reservations;
             foreach (var res in reservation)
             {
-                    if (res.returnDate < DateTime.Now )
+                    if (res.returnDate <= DateTime.Now.Date && res.ended == false)
                         res.ended = true; //zakańczamy rezerwację 
             }
+            db.SaveChanges();
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)

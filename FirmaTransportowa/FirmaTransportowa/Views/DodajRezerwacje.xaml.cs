@@ -11,8 +11,6 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class DodajRezerwacje : UserControl
     {
-
-        
         public DodajRezerwacje()
         {
             InitializeComponent();
@@ -22,12 +20,7 @@ namespace FirmaTransportowa.Views
 
             var people = db.People;
 
-            foreach (var human in people)
-            {
-                if(human.layoffDate>DateTime.Now || human.layoffDate==null) //wyswietlamy tych co jeszcze pracują
-                Pracownicy.Items.Add(human.id.ToString()+") "+ human.firstName + " " + human.lastName);
-            }
-          
+
 
             var cars = db.Cars;
             foreach (var car in cars)
@@ -38,7 +31,6 @@ namespace FirmaTransportowa.Views
 
             }
             PojazdID.SelectedIndex = 0;
-            Pracownicy.SelectedIndex = 0;
             Dane_Pojzadu();
 
         }
@@ -87,6 +79,8 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
 
+            int id = 46; // do zmiany przechowywanie uprawnienia -> PeoplePermission
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             DateTime temp;
             var reservations = db.Reservations;
@@ -98,9 +92,8 @@ namespace FirmaTransportowa.Views
             Person personReservation=null;
             foreach (var person in people)
             {
-                string name = person.id.ToString()+") "+person.firstName + " " + person.lastName;
                // string check = Pracownicy.Text;
-                if (name.Equals(Pracownicy.Text))
+                if (person.id==id)
                 {
                     datePersonOut = person.layoffDate;
                     personReservation = person;
@@ -177,17 +170,8 @@ namespace FirmaTransportowa.Views
                         newReservation.@private = false;
 
 
+                    newReservation.personId = id;
 
-                    foreach (var person in people)
-                    {
-                        string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-
-                        if (name.Equals(Pracownicy.Text))
-                        {
-                            newReservation.personId = person.id;
-                        }
-
-                    }
 
                    reservations.Add(newReservation);
                    db.SaveChanges();
@@ -230,7 +214,7 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new RezerwacjeModel();
+            glowneOkno.DataContext = new MojeRezerwacjeModel();
 
         }
     }

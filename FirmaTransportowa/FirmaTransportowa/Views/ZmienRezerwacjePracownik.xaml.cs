@@ -33,11 +33,8 @@ namespace FirmaTransportowa.Views
             foreach (var reserv in reservations)
             {
                 if (reserv.id == reservationChange.id)
-                {
-
                     this.reservationChange = reserv;
 
-                }
             }
             ReservationDate.Text = reservationChange.reservationDate.ToString().Substring(0, 10);
             ReservationDate.IsReadOnly = true;
@@ -47,11 +44,6 @@ namespace FirmaTransportowa.Views
 
             var people = db.People;
 
-            foreach (var human in people)
-            {
-                if (human.layoffDate > DateTime.Now || human.layoffDate == null) //wyswietlamy tych co jeszcze pracują
-                    Pracownicy.Items.Add(human.id.ToString() + ") " + human.firstName + " " + human.lastName);
-            }
             var cars = db.Cars;
             foreach (var car in cars)
             {
@@ -67,8 +59,7 @@ namespace FirmaTransportowa.Views
                 if (reservationChange.personId == human.id)
                     break;
             }
-            Pracownicy.SelectedIndex = index;
-            Pracownicy.IsEnabled = false;
+
             Dane_Pojzadu();
 
         }
@@ -100,6 +91,7 @@ namespace FirmaTransportowa.Views
                     }
                 }
             }
+            PrywatneBox.IsChecked = reservationChange.@private;
             Rejestracja.IsReadOnly = true;
             PojemnoscSilnika.IsReadOnly = true;
             Marka.IsReadOnly = true;
@@ -110,6 +102,7 @@ namespace FirmaTransportowa.Views
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e)
         {
 
+            int id = 46; // do zmiany
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             DateTime temp;
             var reservations = db.Reservations;
@@ -121,14 +114,11 @@ namespace FirmaTransportowa.Views
             Person personReservation = null;
             foreach (var person in people)
             {
-                string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-                // string check = Pracownicy.Text;
-                if (name.Equals(Pracownicy.Text))
+                if (person.id==id)
                 {
                     datePersonOut = person.layoffDate;
                     personReservation = person;
                 }
-
             }
             bool doReservationCar = true;
             bool doReservationPerson = true;
@@ -189,9 +179,7 @@ namespace FirmaTransportowa.Views
                     foreach (var reserv in reservations)
                     {
                         if (reserv.id == this.reservationChange.id)
-                        {
                             reservationChange = reserv;
-                        }
                     }
 
                     reservationChange.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
@@ -205,18 +193,8 @@ namespace FirmaTransportowa.Views
                     else
                         reservationChange.@private = false;
 
-
-
-                    foreach (var person in people)
-                    {
-                        string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-
-                        if (name.Equals(Pracownicy.Text))
-                        {
-                            reservationChange.personId = person.id;
-                        }
-
-                    }
+                    reservationChange.personId = id;
+               
                     db.SaveChanges();
 
                     foreach (var lend in lends)

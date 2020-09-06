@@ -151,11 +151,7 @@ namespace FirmaTransportowa.Views
             ListViewReservations.ItemsSource = items;
         }
 
-        private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new DodajRezerwacjeModel();
-        }
+
         private void Modyfikuj_Rezerwacje(object sender, RoutedEventArgs e)
         {
             ListViewItem selected = (ListViewItem)ListViewReservations.SelectedItem;
@@ -178,7 +174,7 @@ namespace FirmaTransportowa.Views
                 if (reservationChange.ended == false)
                 {
                     System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                    glowneOkno.DataContext = new ZmienRezerwacjePracownik(reservationChange);
+                    glowneOkno.DataContext = new ZmienRezerwacje(reservationChange);
 
                 }
                 else

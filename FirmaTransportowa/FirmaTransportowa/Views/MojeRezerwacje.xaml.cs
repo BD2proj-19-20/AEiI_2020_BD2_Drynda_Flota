@@ -11,6 +11,7 @@ using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 using System.Windows.Forms;
+using FirmaTransportowa.ViewModels;
 
 namespace FirmaTransportowa.Views
 {
@@ -129,6 +130,11 @@ namespace FirmaTransportowa.Views
 
 
         }
+        private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new DodajRezerwacjeModel();
+        }
         private void Modyfikuj_Rezerwacje(object sender, RoutedEventArgs e)
         {
             ListViewItem selected = (ListViewItem)ListViewMyReservations.SelectedItem;
@@ -144,9 +150,7 @@ namespace FirmaTransportowa.Views
                 foreach (var reserv in reservations)
                 {
                     if (reserv.id == selectedId)
-                    {
                         reservationChange = reserv;
-                    }
                 }
                 if (reservationChange.ended == false)
                 {
@@ -155,18 +159,10 @@ namespace FirmaTransportowa.Views
 
                 }
                 else
-                {
                     MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
-                }
             }
             else
-            {
-
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }
-
-
-
         }
         private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
         {
@@ -187,16 +183,11 @@ namespace FirmaTransportowa.Views
                 foreach (var reserv in reservations)
                 {
                     if (reserv.id == selectedId)
-                    {
                         reservationChange = reserv;
-                    }
                 }
 
                 if (reservationChange.ended == true)
-                {
                     MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
-
-                }
                 else
                 {
 
@@ -232,9 +223,7 @@ namespace FirmaTransportowa.Views
                 }
             }
             else
-            {
                 MessageBox.Show("Nic nie wybrano !", "Komunikat");
-            }
         }
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
