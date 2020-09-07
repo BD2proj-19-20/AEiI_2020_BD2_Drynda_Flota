@@ -21,10 +21,6 @@ namespace FirmaTransportowa.Views
 
             if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zwolniony nie można zmienić danych logownaia
             {
-                KierownikPanel.Visibility = Visibility.Hidden;
-             
-               KierownikStartPanel.Visibility = Visibility.Hidden;
-                KierownikEndPanel.Visibility = Visibility.Hidden;
                 zmienDaneButton.Visibility = Visibility.Hidden;
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik

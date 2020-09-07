@@ -18,9 +18,5 @@
             <PasswordBox x:Name="passwordBox"></PasswordBox>
             <Button Content="Zaloguj się" Margin="0 50 0 0" Click="Login_Click"/>
         </StackPanel>
-        <RadioButton x:Name="PracownikButton" IsChecked="True"  Content="Pracownik" HorizontalAlignment="Left" Margin="110,381,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="KierownikButton" Content="Kierownik" HorizontalAlignment="Left" Margin="110,345,0,0" VerticalAlignment="Top"/>
-        <RadioButton  x:Name="OpiekunButton" Content="Opiekun" HorizontalAlignment="Left" Margin="110,412,0,0" VerticalAlignment="Top"/>
-        <Label Content="Propozycja&#xA;logowania" HorizontalAlignment="Left" Margin="33,370,0,0" VerticalAlignment="Top" Height="70" Width="72"/>
     </Grid>
 </UserControl>

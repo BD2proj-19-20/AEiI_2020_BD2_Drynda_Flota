@@ -29,15 +29,15 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Login:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Login"/>
                         </StackPanel>
-                        <StackPanel x:Name="KierownikPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Kierownik:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Kierownik"/>
                         </StackPanel>
-                        <StackPanel  x:Name="KierownikStartPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień rozpoczęcia:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="KierownikDateStart"/>
                         </StackPanel>
-                        <StackPanel x:Name="KierownikEndPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień zakończenia:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="KierownikDateEnd"/>
                         </StackPanel>

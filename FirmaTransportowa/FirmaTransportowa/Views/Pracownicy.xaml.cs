@@ -372,7 +372,7 @@ namespace FirmaTransportowa.Views
                 var peoplePermission = db.PeoplesPermissions;
 
 
-                string kierownik = "";
+                string kierownik = "Nie";
                 string kierownikStart = "";
                 string kierownikEnd = "";
                 foreach (var permissionWorker in peoplePermission)
@@ -397,12 +397,9 @@ namespace FirmaTransportowa.Views
                             kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
                     }
                 }
-                if (kierownik != "")
-                    doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
-                if (kierownikStart != "")
-                    doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
-                if (kierownikEnd != "")
-                    doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
+                doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
+                doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
+                doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
 
 
 
@@ -416,9 +413,13 @@ namespace FirmaTransportowa.Views
 
                         foreach (var car in cars)
                             if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
+                            {
                                 textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            }
                             else if (car.id == carS.carId)
+                            {
                                 bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            }
                     }
 
                 }
