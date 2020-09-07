@@ -508,3 +508,13 @@ MigrationBackup/
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 
 # End of https://www.gitignore.io/api/csharp,visualstudio
+FirmaTransportowa/FirmaTransportowa/obj/Debug/Views/ZarzadzajPojazdami.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/Views/Rezerwacje.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/Views/MojePojazdy.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/Views/ListaPojazdow.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/MainWindow.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/GeneratedInternalTypeHelper.g.i.cs
+FirmaTransportowa/FirmaTransportowa/obj/Debug/FirmaTransportowa.csprojAssemblyReference.cache
+FirmaTransportowa/FirmaTransportowa/obj/Debug/FirmaTransportowa.csproj.CoreCompileInputs.cache
+FirmaTransportowa/.vs/FirmaTransportowa/v16/.suo
+*.cache

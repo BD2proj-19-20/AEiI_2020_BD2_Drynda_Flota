@@ -154,7 +154,33 @@ namespace FirmaTransportowa.Views
                         break;
                     }
                 }
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    var reservations = db.Reservations;
+                    foreach (var reservation in reservations)
+                    {
+                        if (reservation.carId == selectedId)
+                        {
+                            db.Reservations.Remove(reservation);
+                        }
+                    }
+
+                    var lends = db.Lends;
+                    foreach (var lend in lends)
+                    {
+                        if (lend.carId == selectedId)
+                        {
+                            db.Lends.Remove(lend);
+                        }
+                    }
+
+                    MessageBox.Show("Usunięto zarezerwowany samochód, powiązane rezerwacje zostały również usunięte.", "Informacja");
+                    db.SaveChanges();
+                }
 
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                 glowneOkno.DataContext = new ZarzadzajPojazdami();
