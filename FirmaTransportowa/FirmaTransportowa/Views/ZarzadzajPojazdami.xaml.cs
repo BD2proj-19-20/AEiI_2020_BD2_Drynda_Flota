@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,7 +35,10 @@ namespace FirmaTransportowa.Views
 
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
-        List<ListViewItem> items = new List<ListViewItem>();
+        //List<ListViewItem> items = new List<ListViewItem>();
+        ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
+        GridViewColumnHeader sortingColumn = null;
+        
 
         public ZarzadzajPojazdami()
         {
@@ -182,8 +187,9 @@ namespace FirmaTransportowa.Views
                     db.SaveChanges();
                 }
 
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new ZarzadzajPojazdami();
+                items.Remove(selected);
+                carList.ItemsSource = items;
+                carList.Items.Refresh();
             }
             else
             {
@@ -216,8 +222,17 @@ namespace FirmaTransportowa.Views
                 }
                 db.SaveChanges();
                 //Odświeżenie listy
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new ZarzadzajPojazdami();
+                for(int i = 0; i<items.Count;i++)
+                {
+                    ItemList temp = (ItemList)items.ElementAt(i).Content;
+                    if(temp.carId == selectedId)
+                    {
+                        items.ElementAt(i).Content = selectedObj;
+                    }
+                }
+                carList.ItemsSource = null;
+                carList.ItemsSource = items;
+                carList.Items.Refresh();
             }
             else
             {
@@ -249,8 +264,8 @@ namespace FirmaTransportowa.Views
                 }
                 db.SaveChanges();
                 //Odświeżenie listy
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new ZarzadzajPojazdami();
+                carList.ItemsSource = items;
+                carList.Items.Refresh();
             }
             else
             {
@@ -283,8 +298,8 @@ namespace FirmaTransportowa.Views
                         {
 
                         }
-                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                        glowneOkno.DataContext = new ZarzadzajPojazdami();
+                        carList.ItemsSource = items;
+                        carList.Items.Refresh();
                         return;
                     }
                 }
@@ -389,6 +404,7 @@ namespace FirmaTransportowa.Views
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            sortingColumn = column;
             string sortBy = column.Tag.ToString();
             if (listViewSortCol != null)
             {
