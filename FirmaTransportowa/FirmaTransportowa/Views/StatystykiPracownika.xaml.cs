@@ -21,6 +21,10 @@ namespace FirmaTransportowa.Views
 
             if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zwolniony nie można zmienić danych logownaia
             {
+                KierownikPanel.Visibility = Visibility.Hidden;
+
+                KierownikStartPanel.Visibility = Visibility.Hidden;
+                KierownikEndPanel.Visibility = Visibility.Hidden;
                 zmienDaneButton.Visibility = Visibility.Hidden;
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
@@ -37,7 +41,7 @@ namespace FirmaTransportowa.Views
             }
 
 
-                ImieNazwisko.Text = people.firstName + " " + people.lastName;
+            ImieNazwisko.Text = people.firstName + " " + people.lastName;
             DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
             if (people.layoffDate != null)
                 DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
@@ -58,38 +62,38 @@ namespace FirmaTransportowa.Views
                 if (carS.personId == people.id)
                 {
                     foreach (var car in cars)
-                        if (!(changePerson.layoffDate <= DateTime.Now) && car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) 
-                            && (car.saleDate > DateTime.Today || car.saleDate == null) )
+                        if (!(changePerson.layoffDate <= DateTime.Now) && car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null)
+                            && (car.saleDate > DateTime.Today || car.saleDate == null))
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         else if (car.id == carS.carId)
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
             }
-            if (!(changePerson.layoffDate <= DateTime.Now) )
-                Opiekun.Text = textOpiekun ;
-            BylyOpiekun.Text = bylyOpiekun ;
+            if (!(changePerson.layoffDate <= DateTime.Now))
+                Opiekun.Text = textOpiekun;
+            BylyOpiekun.Text = bylyOpiekun;
 
             var peoplePermission = db.PeoplesPermissions;
 
 
             Kierownik.Text = "Nie";
-            foreach( var permissionWorker in peoplePermission)
+            foreach (var permissionWorker in peoplePermission)
             {
-              if(permissionWorker.personId==changePerson.id && permissionWorker.Permission.name=="Kierownik" &&
-                    permissionWorker.grantDate<DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate ==null))
+                if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
+                      permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
                 {
 
                     Kierownik.Text = "Tak";
                     KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
-                    if(permissionWorker.revokeDate!=null)
-                    KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                    if (permissionWorker.revokeDate != null)
+                        KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
 
                 }
-              else if(permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
-                    permissionWorker.grantDate > DateTime.Now )
+                else if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
+                      permissionWorker.grantDate > DateTime.Now)
                 {
-                    if (((permissionWorker.grantDate - DateTime.Now).Days + 1)==1)
-                        Kierownik.Text = "Za "+((permissionWorker.grantDate- DateTime.Now).Days+1) + " dzień";
+                    if (((permissionWorker.grantDate - DateTime.Now).Days + 1) == 1)
+                        Kierownik.Text = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dzień";
                     else
                         Kierownik.Text = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dni";
                     // Kierownik.Text ="Zostanie za "+ (DateTime.Now - permissionWorker.grantDate).TotalDays.ToString()+"dni";
@@ -121,7 +125,7 @@ namespace FirmaTransportowa.Views
             var pojazdSluzbowy = "";
 
             //double koszty=0;
-           // double kosztySluzbowe = 0;
+            // double kosztySluzbowe = 0;
 
             foreach (var lend in lends)
             {
@@ -135,7 +139,7 @@ namespace FirmaTransportowa.Views
                             przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
                         TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
                         dni += (int)t.TotalDays;
-                        
+
                     }
                     else
                     {
@@ -153,10 +157,10 @@ namespace FirmaTransportowa.Views
                 {
                     if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
                     { //jedno wypozyczenie?
-                        if(lend.@private==true)
-                            pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration+"\n";
+                        if (lend.@private == true)
+                            pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         else
-                            pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration+"\n";
+                            pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                     }
                     //dodanie kosztów zależności różnych kategorii - model typ ...
                 }
@@ -165,7 +169,7 @@ namespace FirmaTransportowa.Views
             PojazdSluzbowe.Text = pojazdSluzbowy;
 
 
-            Dni.Text = dni.ToString() +" dni";
+            Dni.Text = dni.ToString() + " dni";
             DniSluzbowe.Text = dniSluzbowe.ToString() + " dni";
 
             Zlecenia.Text = zleceniaPrywatne.ToString();
@@ -175,8 +179,8 @@ namespace FirmaTransportowa.Views
             PrzejechaneSluzobowe.Text = przejechaneKmSluzbowe.ToString() + " km";
             ZleceniaSluzbowe.Text = zleceniaSluzbowe.ToString();
 
-            Koszty.Text= ((double)(przejechaneKm*4.75)).ToString() + " PLN";
-            KosztySluzbowe.Text = ((double)(przejechaneKmSluzbowe * 4.75)).ToString() +" PLN";
+            Koszty.Text = ((double)(przejechaneKm * 4.75)).ToString() + " PLN";
+            KosztySluzbowe.Text = ((double)(przejechaneKmSluzbowe * 4.75)).ToString() + " PLN";
 
         }
         private void Cofnij(object sender, RoutedEventArgs e)

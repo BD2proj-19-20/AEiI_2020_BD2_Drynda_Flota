@@ -29,19 +29,19 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Login:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Login"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel x:Name="KierownikPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Kierownik:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Kierownik"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel  x:Name="KierownikStartPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień rozpoczęcia:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="KierownikDateStart"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel x:Name="KierownikEndPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień zakończenia:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="KierownikDateEnd"/>
                         </StackPanel>
-                        
+
                     </StackPanel>
                 </Border>
                 <Border Background="White" Margin="25,0,25,10" Width="300">
@@ -140,3 +140,8 @@
         </StackPanel>
     </Grid>
 </UserControl>
+
+
+
+
+

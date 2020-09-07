@@ -118,7 +118,7 @@ namespace FirmaTransportowa.Views
                 {
                     DataZwolnienia dataZwolnieniaView = new DataZwolnienia(personChange);
 
-                  dataZwolnieniaView.WindowStartupLocation= System.Windows.WindowStartupLocation.CenterScreen; //środek ekranu
+                    dataZwolnieniaView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen; //środek ekranu
                     dataZwolnieniaView.ShowDialog();
                     while (dataZwolnieniaView.IsActive)
                     {
@@ -307,8 +307,8 @@ namespace FirmaTransportowa.Views
             doc.Open();
 
             foreach (var person in people)
-            { 
-                Chunk c = new Chunk((person.id+1)+") "+person.lastName + " " + person.firstName, times);
+            {
+                Chunk c = new Chunk((person.id + 1) + ") " + person.lastName + " " + person.firstName, times);
                 var dateO = "";
                 var dateE = "";
                 var date = "";
@@ -324,7 +324,7 @@ namespace FirmaTransportowa.Views
                 if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
                    && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
                     && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
-                  
+
                 {
                     string dateTime = person.layoffDate.ToString();
                     dateO = dateTime.Substring(0, 10);
@@ -338,7 +338,7 @@ namespace FirmaTransportowa.Views
                     doc.Add(new iTextSharp.text.Paragraph("Zwolniony: " + dateO, times2));
 
                 }
-                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true && 
+                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true &&
                     Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
                     && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
                 {
@@ -372,7 +372,7 @@ namespace FirmaTransportowa.Views
                 var peoplePermission = db.PeoplesPermissions;
 
 
-                string kierownik = "Nie";
+                string kierownik = "";
                 string kierownikStart = "";
                 string kierownikEnd = "";
                 foreach (var permissionWorker in peoplePermission)
@@ -397,9 +397,12 @@ namespace FirmaTransportowa.Views
                             kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
                     }
                 }
-                doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
-                doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
-                doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
+                if (kierownik != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
+                if (kierownikStart != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
+                if (kierownikEnd != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
 
 
 
@@ -413,13 +416,9 @@ namespace FirmaTransportowa.Views
 
                         foreach (var car in cars)
                             if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
-                            {
                                 textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                            }
                             else if (car.id == carS.carId)
-                            {
                                 bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                            }
                     }
 
                 }
@@ -435,9 +434,9 @@ namespace FirmaTransportowa.Views
                 }
 
 
-               // var zlecenia ="Brak";
+                // var zlecenia ="Brak";
                 int przejechaneKm = 0;
-              //  var aktualnyPojazd = "Brak";
+                //  var aktualnyPojazd = "Brak";
                 int zleceniaPrywatne = 0;
                 int zleceniaSluzbowe = 0;
                 int przejechaneKmSluzbowe = 0;
@@ -466,8 +465,8 @@ namespace FirmaTransportowa.Views
                         else
                         {
                             zleceniaSluzbowe++;
-                            if(lend.endOdometer!=null)
-                            przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
+                            if (lend.endOdometer != null)
+                                przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
                             TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
                             dniSluzbowe += (int)t.TotalDays;
                         }
@@ -495,9 +494,9 @@ namespace FirmaTransportowa.Views
                 }
                 doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
                 times3.Size = 20;
-                doc.Add(new iTextSharp.text.Paragraph("Przejechane: "+ przejechaneKm.ToString() + " km", times3));
-                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: "+ pojazd, times3));
-                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: "+ zleceniaPrywatne.ToString(), times3));
+                doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazd, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaPrywatne.ToString(), times3));
                 doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dni.ToString() + " dni", times3));
                 doc.Add(new iTextSharp.text.Paragraph("Koszty: " + ((double)(przejechaneKm * 4.75)).ToString() + " PLN", times3));
 
@@ -510,7 +509,7 @@ namespace FirmaTransportowa.Views
                 times3.Size = 26;
 
                 times.Size = 26;
-                doc.Add(new iTextSharp.text.Paragraph("Obecne aktywności: "+ aktywnosci.ToString(), times));
+                doc.Add(new iTextSharp.text.Paragraph("Obecne aktywności: " + aktywnosci.ToString(), times));
                 times.Size = 32;
             }
 
@@ -631,3 +630,5 @@ namespace FirmaTransportowa.Views
 
     }
 }
+
+

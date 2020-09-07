@@ -29,6 +29,7 @@ namespace FirmaTransportowa.Views
         public static Person actualUser;
         public Logowanie()
         {
+
             InitializeComponent();
             CenterWindowOnScreen();
         }
@@ -79,27 +80,44 @@ namespace FirmaTransportowa.Views
                     {
                         if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate <= DateTime.Now || person.layoffDate == null)) //zwolniony nie może się zalogować
                         {
+
+                            if (KierownikButton.IsChecked == true)
                             // MessageBox.Show("Logowanie udało się ", "Komunikat");
-                            foreach (var permission in permissions)
                             {
-                                if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date)
+                                foreach (var permission in permissions)
                                 {
-                                    foreach (var permissionWorkers in permissionComapny)
+                                    if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date)
                                     {
-                                        if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
+                                        foreach (var permissionWorkers in permissionComapny)
                                         {
-                                            MessageBox.Show("Witaj "+person.firstName+" "+person.lastName+" ! \n(Kierownik)", "Komunikat");
-                                            actualUser = person;
-                                            return 1;
+
+                                            if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
+                                            {
+                                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Kierownik)", "Komunikat");
+                                                actualUser = person;
+                                                return 1;
+                                            }
+
                                         }
 
                                     }
                                 }
+                                MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
+                                return 3;
                             }
-                            //przykładowe logowanie dla pracownika login: kamBach hasło: kamBach
-                            MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Pracownik)", "Komunikat");
-                            actualUser = person;
-                            return 0;
+                            else if (PracownikButton.IsChecked == true)
+                            {
+                                //przykładowe logowanie dla pracownika login: kamBach hasło: kamBach
+                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Pracownik)", "Komunikat");
+                                actualUser = person;
+                                return 0;
+                            }
+                            else if (OpiekunButton.IsChecked == true)
+                            {
+                                //opiekuna sprawdzamy po CarSupervisior
+                                return 2;
+                            }
+
                         }
                         else
                         {
