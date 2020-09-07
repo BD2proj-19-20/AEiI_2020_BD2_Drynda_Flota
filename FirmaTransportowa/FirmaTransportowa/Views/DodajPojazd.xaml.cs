@@ -44,6 +44,16 @@ namespace FirmaTransportowa.Views
             var newCar = new Car();
 
             newCar.Registration = Rejestracja.Text;
+
+            foreach(var car in cars)
+            {
+                if (car.Registration.Contains(newCar.Registration))
+                {
+                    Warning.Content = "Pojazd z takim numerem rejestracyjnym już istnieje!";
+                    return;
+                }
+            }
+
             newCar.purchaseDate = Convert.ToDateTime(DataZakupu.Text);
             newCar.inspectionValidUntil = Convert.ToDateTime(DataZakupu.Text);
             newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);

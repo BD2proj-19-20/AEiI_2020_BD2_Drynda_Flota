@@ -103,7 +103,7 @@ namespace FirmaTransportowa.Views
 
             foreach (var car in cars)
             {
-                doc.Add(new iTextSharp.text.Paragraph(car.id + " " + car.Registration + " "  + car.CarModel.make + " " + car.CarModel.model , times));
+                doc.Add(new iTextSharp.text.Paragraph(car.id + " " + car.Registration + " " + car.CarModel.make + " " + car.CarModel.model, times));
                 doc.Add(new iTextSharp.text.Paragraph("Opiekunowie: ", times2));
                 foreach (var carSupervisor in carSupervisors)
                 {
@@ -137,24 +137,27 @@ namespace FirmaTransportowa.Views
             if (selected != null)
             {
                 ItemList selectedObj = (ItemList)selected.Content;
-            int selectedId = selectedObj.carId;
-            //Usuwam zaznaczony samochód z listy
-            items.Remove((ListViewItem)carList.SelectedItem);
-            carList.ItemsSource = items;
+                int selectedId = selectedObj.carId;
+                //Usuwam zaznaczony samochód z listy
+                items.Remove((ListViewItem)carList.SelectedItem);
+                carList.ItemsSource = items;
 
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
 
-            //Usuwam zaznaczony samochód z bazy
-            foreach (var car in cars)
-            {
-                if (car.id == selectedId)
+                //Usuwam zaznaczony samochód z bazy
+                foreach (var car in cars)
                 {
-                    db.Cars.Remove(car);
-                    break;
+                    if (car.id == selectedId)
+                    {
+                        db.Cars.Remove(car);
+                        break;
+                    }
                 }
-            }
-            db.SaveChanges();
+                db.SaveChanges();
+
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new ZarzadzajPojazdami();
             }
             else
             {
@@ -203,25 +206,25 @@ namespace FirmaTransportowa.Views
             if (selected != null)
             {
                 ItemList selectedObj = (ItemList)selected.Content;
-            int selectedId = selectedObj.carId;
-            selectedObj.saleDate = null;
+                int selectedId = selectedObj.carId;
+                selectedObj.saleDate = null;
 
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
 
-            //Usuwam datę sprzedaży
-            foreach (var car in cars)
-            {
-                if (car.id == selectedId)
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
                 {
-                    car.saleDate = null;
-                    break;
+                    if (car.id == selectedId)
+                    {
+                        car.saleDate = null;
+                        break;
+                    }
                 }
-            }
-            db.SaveChanges();
-            //Odświeżenie listy
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ZarzadzajPojazdami();
+                db.SaveChanges();
+                //Odświeżenie listy
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new ZarzadzajPojazdami();
             }
             else
             {
