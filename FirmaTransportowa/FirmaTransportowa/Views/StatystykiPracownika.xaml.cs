@@ -19,19 +19,25 @@ namespace FirmaTransportowa.Views
 
             changePerson = people;
 
-
             if (changePerson.layoffDate <= DateTime.Now) //jeśli pracownik jest zwolniony nie można zmienić danych logownaia
             {
                 zmienDaneButton.Visibility = Visibility.Hidden;
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
+                AktywnosciPanel.Visibility = Visibility.Hidden; //chpowiemy ilość obecnych aktywności
                 Thickness margin = BylyOpiekunPanel.Margin;
-                margin.Top = margin.Top-25;
+                margin.Top = margin.Top - 40;
                 BylyOpiekunPanel.Margin = margin; //przesuwamy w górę panel z byłymi opiekunami
+            }
+            else
+            {
+                ScrolllBylyOpiekun.Height = 40;
+                BylyOpiekunText.Height = 40;
+                BylyOpiekunPanel.Height = 40;
             }
 
 
-            ImieNazwisko.Text = people.firstName + " " + people.lastName;
+                ImieNazwisko.Text = people.firstName + " " + people.lastName;
             DataZatrudnienia.Text = people.employmentData.ToString().Substring(0, 10);
             if (people.layoffDate != null)
                 DataZwolnienia.Text = people.layoffDate.ToString().Substring(0, 10);
@@ -52,19 +58,16 @@ namespace FirmaTransportowa.Views
                 if (carS.personId == people.id)
                 {
                     foreach (var car in cars)
-                        if (changePerson.layoffDate <= DateTime.Now && car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null) )
-                        {
+                        if (!(changePerson.layoffDate <= DateTime.Now) && car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) 
+                            && (car.saleDate > DateTime.Today || car.saleDate == null) )
                             textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                        }
                         else if (car.id == carS.carId)
-                        {
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                        }
                 }
             }
-            if (changePerson.layoffDate > DateTime.Now)
-                Opiekun.Text = textOpiekun;
-            BylyOpiekun.Text = bylyOpiekun;
+            if (!(changePerson.layoffDate <= DateTime.Now) )
+                Opiekun.Text = textOpiekun ;
+            BylyOpiekun.Text = bylyOpiekun ;
 
 
             //var persons = db.People; //sprawdznie ilości aktywności 
@@ -78,7 +81,7 @@ namespace FirmaTransportowa.Views
 
             //}
 
-       //     var permissionCompany = db.Permissions;
+            //     var permissionCompany = db.Permissions;
             var peoplePermission = db.PeoplesPermissions;
 
 

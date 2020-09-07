@@ -41,6 +41,7 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Dzień zakończenia:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="KierownikDateEnd"/>
                         </StackPanel>
+                        
                     </StackPanel>
                 </Border>
                 <Border Background="White" Margin="25,0,25,10" Width="300">
@@ -105,17 +106,22 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="15" FontWeight="Bold" Text=" Inne"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Name="AktywnosciPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Obecne aktywności:" Width="150"/>
                             <TextBlock FontSize="15" x:Name="Aktywnosci"/>
                         </StackPanel>
                         <StackPanel Name="OpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
-                            <TextBlock FontSize="15" x:Name="Opiekun" Height="Auto"/>
+                            <ScrollViewer MaxHeight="70"  
+              Width="Auto" 
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Auto">
+                                <TextBlock FontSize="15" x:Name="Opiekun" TextWrapping="Wrap"  />
+                            </ScrollViewer>
                         </StackPanel>
                         <StackPanel Name="BylyOpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
-                            <ScrollViewer MaxHeight="140"  
+                            <TextBlock Name="BylyOpiekunText" FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
+                            <ScrollViewer Height="140"   Name="ScrolllBylyOpiekun"
               Width="Auto" 
               HorizontalScrollBarVisibility="Disabled"
               VerticalScrollBarVisibility="Auto">

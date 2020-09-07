@@ -23,6 +23,7 @@ namespace FirmaTransportowa.Views
 
             foreach (var human in people)
             {
+                if(!(human.layoffDate < DateTime.Now.Date)) // wyświetlamy tych co nie są zwolnieni
                 Opiekunowie.Items.Add(human.firstName + " " + human.lastName);
             }
         }

@@ -9,7 +9,6 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class DataZwolnienia : Window
     {
-
         Person personChange;
 
         public DataZwolnienia(Person personChange)
@@ -17,7 +16,6 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             // if(!carSupervisiorChange.Equals(null))
             DataZwolnieniaPracownika.Text = DateTime.Today.ToString("dd.MM.yyyy");
-            
             this.personChange = personChange;
 
         }
@@ -28,7 +26,6 @@ namespace FirmaTransportowa.Views
             if (!DataZwolnieniaPracownika.Text.Equals("") && (DateTime.TryParse(DataZwolnieniaPracownika.Text, out temp)))
             { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-
                 var carSupervisors = db.CarSupervisors;
                 // var newSupervisor = new CarSupervisor();
 
@@ -36,31 +33,21 @@ namespace FirmaTransportowa.Views
                 foreach (var carS in carSupervisors)
                 {
                     if (personChange.id == carS.personId)
-                    {
-                        
                         carS.endDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
-                    }
                 }
                 var people = db.People;
 
                 foreach (var person in people)
                 {
                     if (person.id == personChange.id)
-                    {
                         person.layoffDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text);
-
-                    }
                 }
                 var reservation = db.Reservations;
                 foreach( var res in reservation)
                 {
                     if(res.personId == personChange.id && res.ended == false)
-                    {  
-
                         if(res.returnDate > Convert.ToDateTime(DataZwolnieniaPracownika.Text))
                          res.ended = true; //zakańczamy rezerwację przy zwolnienu pracownika zostawiamy daty startu i końca
-
-                    }
 
                 }
                 var lends = db.Lends;
@@ -74,13 +61,16 @@ namespace FirmaTransportowa.Views
                     }
 
                 }
-
-                db.SaveChanges();
+                var permissions = db.PeoplesPermissions;
+                foreach (var permission in permissions)
+                {
+                    if (permission.personId == personChange.id)
+                        permission.revokeDate = Convert.ToDateTime(DataZwolnieniaPracownika.Text); //zamykamy wszyskie uprawnienia pracownika
+                }
+                    db.SaveChanges();
             }
             else
-            {
                 MessageBox.Show("Zła data zwolnienia!", "Komunikat");
-            }
             this.Close();
         }
         private void Anuluj(object sender, RoutedEventArgs e)
