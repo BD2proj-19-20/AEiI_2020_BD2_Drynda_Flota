@@ -20,8 +20,6 @@ namespace FirmaTransportowa.Views
 
             var people = db.People;
 
-
-
             var cars = db.Cars;
             foreach (var car in cars)
             {
@@ -79,7 +77,7 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
 
-            int id = 46; // do zmiany przechowywanie uprawnienia -> PeoplePermission
+            int id = Logowanie.actualUser.id;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             DateTime temp;

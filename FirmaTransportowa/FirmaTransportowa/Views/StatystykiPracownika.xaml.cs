@@ -69,19 +69,6 @@ namespace FirmaTransportowa.Views
                 Opiekun.Text = textOpiekun ;
             BylyOpiekun.Text = bylyOpiekun ;
 
-
-            //var persons = db.People; //sprawdznie ilości aktywności 
-
-            //foreach (var person in persons)
-            //{
-            //    if (person.CarSupervisors.Count > 3)
-            //    {
-            //        MessageBox.Show(bylyOpiekun, "Komunikat");
-            //    }
-
-            //}
-
-            //     var permissionCompany = db.Permissions;
             var peoplePermission = db.PeoplesPermissions;
 
 

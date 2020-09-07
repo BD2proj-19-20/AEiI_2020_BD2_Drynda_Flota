@@ -50,8 +50,7 @@ namespace FirmaTransportowa.Views
 
         public void MojaListaRezerwacji()
         {
-            //uznaje że jestem jakimś tam pracownikiem 
-            int id = 46;
+            int id = Logowanie.actualUser.id;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;

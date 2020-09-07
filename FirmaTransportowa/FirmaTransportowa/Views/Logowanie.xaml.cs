@@ -20,8 +20,13 @@ namespace FirmaTransportowa.Views
     /// <summary>
     /// Interaction logic for Logowanie.xaml
     /// </summary>
+    /// 
+
+
+
     public partial class Logowanie : UserControl
     {
+        public static Person actualUser;
         public Logowanie()
         {
             InitializeComponent();
@@ -83,14 +88,17 @@ namespace FirmaTransportowa.Views
                                     {
                                         if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
                                         {
-                                            MessageBox.Show("Zalogowano jako kierownik", "Komunikat");
+                                            MessageBox.Show("Witaj "+person.firstName+" "+person.lastName+" ! \n(Kierownik)", "Komunikat");
+                                            actualUser = person;
                                             return 1;
                                         }
 
                                     }
-                                }             
+                                }
                             }
-                            MessageBox.Show("Zalogowano jako pracownik", "Komunikat");
+                            //przykładowe logowanie dla pracownika login: kamBach hasło: kamBach
+                            MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Pracownik)", "Komunikat");
+                            actualUser = person;
                             return 0;
                         }
                         else

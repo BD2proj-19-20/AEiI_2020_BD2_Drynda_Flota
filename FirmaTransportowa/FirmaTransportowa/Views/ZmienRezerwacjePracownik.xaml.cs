@@ -102,7 +102,7 @@ namespace FirmaTransportowa.Views
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e)
         {
 
-            int id = 46; // do zmiany
+            int id = Logowanie.actualUser.id;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             DateTime temp;
             var reservations = db.Reservations;

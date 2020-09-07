@@ -167,9 +167,7 @@ namespace FirmaTransportowa.Views
                 foreach (var reserv in reservations)
                 {
                     if (reserv.id == selectedId)
-                    {
                         reservationChange = reserv;
-                    }
                 }
                 if (reservationChange.ended == false)
                 {
@@ -178,15 +176,11 @@ namespace FirmaTransportowa.Views
 
                 }
                 else
-                {
                     MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
-                }
             }
             else
-            {
 
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }
             //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
            // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
         }

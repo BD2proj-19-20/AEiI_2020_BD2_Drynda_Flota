@@ -45,6 +45,7 @@ namespace FirmaTransportowa.Views
             glowneOkno.Height = 450;
             ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = null;
             ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = new Logowanie();
+            Logowanie.actualUser = null;
         }
     }
 }
