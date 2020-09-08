@@ -10,9 +10,12 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class DodajPojazd : UserControl
     {
-        public DodajPojazd()
+        private ZarzadzajPojazdami prevWindow = null;
+        public DodajPojazd(ZarzadzajPojazdami prevWindow)
         {
             InitializeComponent();
+
+            this.prevWindow = prevWindow;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carModels = db.CarModels;
@@ -93,8 +96,10 @@ namespace FirmaTransportowa.Views
 
                 var newSupervisor = new CarSupervisor();
                 newSupervisor.carId = newCar.id;
-                newSupervisor.beginDate = Convert.ToDateTime(DataZakupu.Text);
-                newSupervisor.endDate = Convert.ToDateTime(DataZakupu.Text);
+                newSupervisor.beginDate = DateTime.Today;
+                newSupervisor.endDate = null;
+                /*newSupervisor.beginDate = Convert.ToDateTime(DataZakupu.Text);
+                newSupervisor.endDate = Convert.ToDateTime(DataZakupu.Text);*/
 
                 var People = db.People;
 
@@ -119,7 +124,7 @@ namespace FirmaTransportowa.Views
         private void Anuluj(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ZarzadzajPojazdami();
+            glowneOkno.DataContext = prevWindow;
         }
     }
 }
