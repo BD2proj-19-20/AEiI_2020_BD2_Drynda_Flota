@@ -197,6 +197,9 @@
     <Compile Include="Views\StatystykiPracownika.xaml.cs">
       <DependentUpon>StatystykiPracownika.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Wypozyczenia.xaml.cs">
+      <DependentUpon>Wypozyczenia.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZarzadzajPojazdami.xaml.cs">
       <DependentUpon>ZarzadzajPojazdami.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatystykiPracownika.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Wypozyczenia.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

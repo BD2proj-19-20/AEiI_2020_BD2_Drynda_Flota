@@ -52,6 +52,8 @@ namespace FirmaTransportowa.Views
             UpdateView();
         }
 
+
+
         public void ListaRezerwacji()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -63,13 +65,13 @@ namespace FirmaTransportowa.Views
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
-                var opiekun = "";
+                var własciciel = "";
                 var vehicle = "";
 
                 foreach (var person in people)
                 {
                     if (reserv.personId == person.id)
-                        opiekun = person.lastName + " " + person.firstName;
+                        własciciel = person.lastName + " " + person.firstName;
 
                 }
                 foreach (var car in cars)
@@ -77,9 +79,9 @@ namespace FirmaTransportowa.Views
                     if (car.id == reserv.carId)
                         vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
-                if (reserv.@private == false && reserv.ended == true &&  ZakonczoneBox.IsChecked.Value == true )
+                if (reserv.@private == false && reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
                 {
-                    
+
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
@@ -87,7 +89,7 @@ namespace FirmaTransportowa.Views
                     OneItem.Content = new ReservationList
                     {
                         ReservationId = reserv.id + 1,
-                        Person = opiekun,
+                        Person = własciciel,
                         ReservationStart = date,
                         ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
                         ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
@@ -96,7 +98,7 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
                 else if (reserv.@private == true && reserv.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
-                 {
+                {
                     OneItem.Background = Brushes.Red; // zakonczone prywante
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
@@ -104,7 +106,7 @@ namespace FirmaTransportowa.Views
                     OneItem.Content = new ReservationList
                     {
                         ReservationId = reserv.id + 1,
-                        Person = opiekun,
+                        Person = własciciel,
                         ReservationStart = date,
                         ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
                         ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
@@ -112,7 +114,7 @@ namespace FirmaTransportowa.Views
                     };
                     items.Add(OneItem);
                 }
-                else if (reserv.@private == true && PrywatneBox.IsChecked.Value ==true && reserv.ended == false)
+                else if (reserv.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
                     string dateTime = reserv.lendDate.ToString();
@@ -121,7 +123,7 @@ namespace FirmaTransportowa.Views
                     OneItem.Content = new ReservationList
                     {
                         ReservationId = reserv.id + 1,
-                        Person = opiekun,
+                        Person = własciciel,
                         ReservationStart = date,
                         ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
                         ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
@@ -130,7 +132,7 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
 
-                else if(PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
+                else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
                 {
                     string dateTime = reserv.lendDate.ToString();
                     date = dateTime.Substring(0, 10);
@@ -138,7 +140,7 @@ namespace FirmaTransportowa.Views
                     OneItem.Content = new ReservationList
                     {
                         ReservationId = reserv.id + 1,
-                        Person = opiekun,
+                        Person = własciciel,
                         ReservationStart = date,
                         ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
                         ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
@@ -182,7 +184,7 @@ namespace FirmaTransportowa.Views
 
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
             //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-           // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
+            // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
         }
 
         private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
@@ -194,7 +196,7 @@ namespace FirmaTransportowa.Views
             {
                 ReservationList selectedObj = (ReservationList)selected.Content;
 
-                int selectedId = selectedObj.ReservationId-1;
+                int selectedId = selectedObj.ReservationId - 1;
                 var reservationPerson = selectedObj.Person;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var people = db.People;
@@ -218,12 +220,12 @@ namespace FirmaTransportowa.Views
                 else
                 {
 
-                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc rezerwację " + reservationPerson +"?"
+                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc rezerwację " + reservationPerson + "?"
                         , "Komunikat", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
-                       
-                        reservationChange.ended=true;
+
+                        reservationChange.ended = true;
                         var lends = db.Lends;
                         foreach (var lend in lends)
                         {
@@ -231,7 +233,7 @@ namespace FirmaTransportowa.Views
                             {
                                 lend.returnDate = Convert.ToDateTime(DateTime.Now);
                                 lend.plannedReturnDate = Convert.ToDateTime(DateTime.Now);
-                                
+
                                 lend.comments = "Zakończono przez zakończenie rezerwacji - " + DateTime.Now.ToString();
                             }
 
@@ -246,7 +248,7 @@ namespace FirmaTransportowa.Views
                     else if (result == DialogResult.No)
                     {
                     }
-                   
+
                 }
             }
             else
@@ -262,7 +264,7 @@ namespace FirmaTransportowa.Views
             //  var people = db.People.ToList().OrderBy(t => t.lastName);
             var people = db.People;
             var cars = db.Cars;
-          //  var activities = db.Activities;
+            //  var activities = db.Activities;
             var reservations = db.Reservations;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
@@ -280,10 +282,10 @@ namespace FirmaTransportowa.Views
             {
                 foreach (var person in people)
                 {
-                    if(person.id == reserv.personId)
+                    if (person.id == reserv.personId)
                         namePerson = person.lastName + " " + person.firstName;
                 }
-                Chunk c = new Chunk((reserv.id+1)+")\n"+ namePerson, times);
+                Chunk c = new Chunk((reserv.id + 1) + ")\n" + namePerson, times);
                 foreach (var car in cars)
                 {
                     if (car.id == reserv.carId)
@@ -296,8 +298,8 @@ namespace FirmaTransportowa.Views
                        && (Regex.IsMatch(reserv.reservationDate.ToString().Substring(0, 10), dataReservationFilter.Text, RegexOptions.IgnoreCase))
                    && Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch((reserv.id + 1).ToString(), idFilter.Text))
                 {
-                    if (reserv.@private == false && reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)     
-                {
+                    if (reserv.@private == false && reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
+                    {
                         c.SetBackground(BaseColor.ORANGE);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
@@ -333,7 +335,7 @@ namespace FirmaTransportowa.Views
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
                     }
-                    else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)           
+                    else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
                     {
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
@@ -347,7 +349,7 @@ namespace FirmaTransportowa.Views
 
                     }
                 }
-               
+
             }
             Chunk c1 = new Chunk("");
             doc.Add(c1); //doc nie może być pusty 
@@ -379,7 +381,7 @@ namespace FirmaTransportowa.Views
             items.Clear();
             UpdateView();
         }
-       private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
+        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
             ListViewReservations.ItemsSource = null;
             items.Clear();
@@ -542,8 +544,8 @@ namespace FirmaTransportowa.Views
                 else
                     Array.Sort(tempItems, CompareCarDescending);
             }
-            ListViewReservations.ItemsSource = tempItems; 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);    
+            ListViewReservations.ItemsSource = tempItems;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewReservations.ItemsSource);
             view.Filter += UserFilter;
         }
         int CompareReservationByIdAscending(ListViewItem a, ListViewItem b)
