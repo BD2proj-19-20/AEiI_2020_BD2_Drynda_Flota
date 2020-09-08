@@ -32,6 +32,8 @@ namespace FirmaTransportowa.Views
 
             InitializeComponent();
             CenterWindowOnScreen();
+            loginBox.Text= "kamBach";
+            passwordBox.Password = "kamBach";
         }
 
         static public byte[] getHash(string password)

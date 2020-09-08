@@ -182,6 +182,9 @@
     <Compile Include="Views\MojeRezerwacje.xaml.cs">
       <DependentUpon>MojeRezerwacje.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MojeWypozyczenia.xaml.cs">
+      <DependentUpon>MojeWypozyczenia.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pracownicy.xaml.cs">
       <DependentUpon>Pracownicy.xaml</DependentUpon>
     </Compile>
@@ -275,6 +278,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MojeRezerwacje.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MojeWypozyczenia.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

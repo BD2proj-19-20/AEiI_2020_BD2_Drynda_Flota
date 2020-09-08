@@ -9,6 +9,9 @@
              d:DesignHeight="600" d:DesignWidth="250">
     <Grid>
         <ListView Height="600" Width="250" BorderBrush="Transparent">
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Lends" MouseLeftButtonUp="Lends_MouseLeftButtonUp">
+                <TextBlock Text="Moje wypożyczenia (pracownik)"/>
+            </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
                 <TextBlock Text="Moje rezerwacje (pracownik)"/>
             </ListViewItem>
