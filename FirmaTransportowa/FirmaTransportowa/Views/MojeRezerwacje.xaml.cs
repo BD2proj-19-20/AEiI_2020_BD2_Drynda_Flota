@@ -73,12 +73,29 @@ namespace FirmaTransportowa.Views
                             break;
                         }
                     }
-                    if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
-                    {
-                        if (reserv.@private == true)
+                    if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true && reserv.@private == true)
+                    { 
                             OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                        else
-                            OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+          
+                         
+                        string dateTime = reserv.lendDate.ToString();
+                        date = dateTime.Substring(0, 10);
+
+                        OneItem.Content = new MyReservationList
+                        {
+                            ReservationId = reserv.id + 1,
+
+                            ReservationStart = date,
+                            ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
+                            ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
+                            Vehicle = vehicle
+                        };
+                        items.Add(OneItem);
+                    }
+                    else if (reserv.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true && reserv.@private == false)
+                    {
+                
+                        OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                         string dateTime = reserv.lendDate.ToString();
                         date = dateTime.Substring(0, 10);
 
@@ -229,11 +246,9 @@ namespace FirmaTransportowa.Views
         }
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
-
             ListViewMyReservations.ItemsSource = null;
             items.Clear();
             UpdateView();
-
         }
         private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
         {
@@ -247,7 +262,12 @@ namespace FirmaTransportowa.Views
             items.Clear();
             UpdateView();
         }
-
+        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewMyReservations.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+        }
         private bool UserFilter(object item)
         {
             ListViewItem toFilter = (ListViewItem)item;

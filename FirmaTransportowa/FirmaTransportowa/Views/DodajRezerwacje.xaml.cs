@@ -137,9 +137,7 @@ namespace FirmaTransportowa.Views
 
                         if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                        {
                             doReservationPerson = true;
-                        }
                         else
                         {
                             doReservationPerson = false;
