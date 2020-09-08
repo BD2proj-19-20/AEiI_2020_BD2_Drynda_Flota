@@ -12,6 +12,9 @@
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Workers" MouseLeftButtonUp="Workers_MouseLeftButtonUp">
                 <TextBlock Text="Pracownicy (kierownik)"/>
             </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Lends" MouseLeftButtonUp="Lend_MouseLeftButtonUp">
+                <TextBlock Text="Wypożyczenia (kierownik)"/>
+            </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
                 <TextBlock Text="Rezerwacje (kierownik)"/>
             </ListViewItem>

@@ -222,8 +222,6 @@ namespace FirmaTransportowa.Views
                             if (lend.reservationId == reservationChange.id)
                             {
                                 lend.returnDate = Convert.ToDateTime(DateTime.Now);
-                                lend.plannedReturnDate = Convert.ToDateTime(DateTime.Now);
-
                                 lend.comments = "Zakończono przez zakończenie\nrezerwacji przez pracownika - " + DateTime.Now.ToString();
                             }
 
