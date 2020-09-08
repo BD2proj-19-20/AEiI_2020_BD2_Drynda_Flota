@@ -79,7 +79,7 @@ namespace FirmaTransportowa.Views
             InitializeList();
         }
 
-        private void CarStatistics_Click(object sender, RoutedEventArgs e)
+        private void CarStatisticsClick(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
@@ -197,7 +197,7 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new DodajPojazd(this);
         }
 
-        private void Generuj_Raport(object sender, RoutedEventArgs e)
+        private void GenerateRaport(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
@@ -236,7 +236,7 @@ namespace FirmaTransportowa.Views
             doc.Close();
         }
 
-        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        private void GridViewColumnHeaderClick(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             sortingColumn = column;
@@ -293,7 +293,7 @@ namespace FirmaTransportowa.Views
             view.Filter += UserFilter;
         }
 
-        private void IdFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void IdFilterTextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
@@ -372,18 +372,12 @@ namespace FirmaTransportowa.Views
             }
         }
 
-        private void RefreshList()
-        {
-            carList.ItemsSource = items;
-            carList.Items.Refresh();
-        }
-
-        private void RegistrationFiler_TextChanged(object sender, TextChangedEventArgs e)
+        private void RegistrationFilerTextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
 
-        private void SaleDateFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void SaleDateFilterTextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
@@ -545,8 +539,6 @@ namespace FirmaTransportowa.Views
                         {
 
                         }
-                        carList.ItemsSource = items;
-                        carList.Items.Refresh();
                         return;
                     }
                 }

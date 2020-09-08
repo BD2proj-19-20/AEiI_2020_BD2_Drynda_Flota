@@ -13,32 +13,32 @@
                 <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,0,0">
-                <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="IdFilter_TextChanged"/>
-                <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="RegistrationFiler_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="IdFilterTextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="RegistrationFilerTextChanged"/>
                 <TextBox Text="" Height="20" Width="150" Name="carSupervisorFilter" TextChanged="CarSupervisorFilterTextChanged"/>
-                <TextBox Text="" Height="20" Width="150" x:Name="saleDateFilter" TextChanged="SaleDateFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" x:Name="saleDateFilter" TextChanged="SaleDateFilterTextChanged"/>
             </StackPanel>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding carId}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="carId" Click="GridViewColumnHeader_Click">ID</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="carId" Click="GridViewColumnHeaderClick">ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding registration}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="registration" Click="GridViewColumnHeader_Click">Numer rejestracyjny</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="registration" Click="GridViewColumnHeaderClick">Numer rejestracyjny</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding carSupervisor}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="carSupervisor" Click="GridViewColumnHeader_Click">Opiekun</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="carSupervisor" Click="GridViewColumnHeaderClick">Opiekun</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn Width="150" DisplayMemberBinding="{Binding saleDate}">
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Tag="saleDate" Click="GridViewColumnHeader_Click">Sprzedane</GridViewColumnHeader>
+                                <GridViewColumnHeader Tag="saleDate" Click="GridViewColumnHeaderClick">Sprzedane</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView>
@@ -50,9 +50,9 @@
                 <Button Content="Sprzedaj" Margin="5 0" Width="100" Click="SellCar" />
                 <Button Content="Kup" Margin="5 0" Width="100" Click="BuyCar"/>
                 <Button Content="Zmień opiekuna" Margin="5 0" Width="100" Click="ChangeCarSupervisor" />
-                <Button Content="Podgląd" Margin="5 0" Width="100" x:Name="CarStatistics_Copy" Click="CarStatistics_Click"/>
+                <Button Content="Podgląd" Margin="5 0" Width="100" x:Name="CarStatistics_Copy" Click="CarStatisticsClick"/>
             </StackPanel>
         </StackPanel>
-        <Button Content="Generuj raport" Click="Generuj_Raport" Margin="325,5,325,550" Width="100"/>
+        <Button Content="Generuj raport" Click="GenerateRaport" Margin="325,5,325,550" Width="100"/>
     </Grid>
 </UserControl>
