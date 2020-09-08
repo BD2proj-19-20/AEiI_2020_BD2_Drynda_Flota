@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FirmaTransportowa.Views"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:FirmaTransportowa.Views" xmlns:controls="clr-namespace:THE.Controls;assembly=FilteredComboBox"
+             mc:Ignorable="d"
         d:DesignHeight="600" d:DesignWidth="750">
     <Grid>
         <TextBox HorizontalAlignment="Left" Height="40" Margin="340,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Name="Rejestracja" Text="SY8910F" FontSize="25"/>
         <TextBox HorizontalAlignment="Left" Height="40" Margin="340,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Name="PojemnoscSilnika" Text="1798" FontSize="25"/>
         <TextBox HorizontalAlignment="Left" Height="40" Margin="340,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Text="03.06.2020" Name="DataZakupu" FontSize="25"/>
-        <ComboBox HorizontalAlignment="Left" Margin="340,230,0,0" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25"/>
-        <ComboBox HorizontalAlignment="Left" Margin="340,280,0,0" VerticalAlignment="Top" Width="280"  Height="40"  Name="Zastosowanie" FontSize="25"/>
-        <ComboBox HorizontalAlignment="Left" Margin="340,330,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekunowie" FontSize="25"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,230,0,0" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,280,0,0" VerticalAlignment="Top" Width="280"  Height="40"  Name="Zastosowanie" FontSize="25"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,330,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekunowie" FontSize="25"/>
         <Label Content="Rejestracja&#xD;&#xA;" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="25"/>
         <Label Content="Pojemność silnika" HorizontalAlignment="Left" Margin="120,130,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25"/>
         <Label Content="Data zakupu" HorizontalAlignment="Left" Margin="120,180,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="25"/>
