@@ -56,6 +56,11 @@ namespace FirmaTransportowa.Views
                     Warning.Content = "Pojazd z takim numerem rejestracyjnym już istnieje!";
                     return;
                 }
+                if(newCar.Registration.Length>8)
+                {
+                    Warning.Content = "Nieprawidłowa długość numeru rejestracyjnego!";
+                    return;
+                }
             }
 
             newCar.purchaseDate = Convert.ToDateTime(DataZakupu.Text);

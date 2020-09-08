@@ -68,17 +68,10 @@ namespace FirmaTransportowa.Views
                         }
                     }
 
-
-                    // if (!(lend.returnDate < DateTime.Now.Date)  && ZakonczoneBox.IsChecked.Value == true)
-                    if (lend.returnDate <= DateTime.Now ) //zakończone
+                    if (lend.returnDate <= DateTime.Now && ZakonczoneBox.IsChecked.Value == true && lend.@private == true) //zakończone
                     {
-                        if (lend.@private == true)
                             OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                        else
-                            OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                         string dateTime = lend.lendDate.ToString();
-
-
 
                         if (dateTime.Length > 0)
                             date = dateTime.Substring(0, 10);
@@ -91,8 +84,6 @@ namespace FirmaTransportowa.Views
                                 break;
                             }
                         }
-
-
                         OneItem.Content = new MyLendList
                         {
                             LendId = lend.id + 1,
@@ -105,8 +96,36 @@ namespace FirmaTransportowa.Views
                         };
                         items.Add(OneItem);
                     }
-                    //   else if (lend.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false)
-                    else if (lend.@private == true && (lend.returnDate > DateTime.Now || lend.returnDate == null))
+                    else if (lend.returnDate <= DateTime.Now && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.@private == false) //zakończone
+                    {
+                            OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+                        string dateTime = lend.lendDate.ToString();
+
+                        if (dateTime.Length > 0)
+                            date = dateTime.Substring(0, 10);
+
+                        foreach (var reservation in reservations)
+                        {
+                            if (lend.reservationId == reservation.id)
+                            {
+                                dateTime = reservation.reservationDate.ToShortDateString();
+                                break;
+                            }
+                        }
+                        OneItem.Content = new MyLendList
+                        {
+                            LendId = lend.id + 1,
+
+                            LendStart = date,
+                            LendPlannedEnd = lend.plannedReturnDate.ToString().Substring(0, 10),
+                            LendEnd = lend.returnDate != null ? lend.returnDate.ToString().Substring(0, 10) : "",
+                            ReservationDate = dateTime,
+                            Vehicle = vehicle
+                        };
+                        items.Add(OneItem);
+                    }
+                    else if (lend.@private == true && (lend.returnDate > DateTime.Now || lend.returnDate == null) &&
+                        PrywatneBox.IsChecked.Value == true)
                     {
                         OneItem.Background = Brushes.BlueViolet;  //prywatne
                         string dateTime = lend.lendDate.ToString();
@@ -123,8 +142,6 @@ namespace FirmaTransportowa.Views
                                 break;
                             }
                         }
-
-
                         OneItem.Content = new MyLendList
                         {
                             LendId = lend.id + 1,
@@ -137,9 +154,8 @@ namespace FirmaTransportowa.Views
                         };
                         items.Add(OneItem);
                     }
-
-                    //else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
-                    else
+                    else if (PozostałeBox.IsChecked.Value == true && lend.@private == false 
+                        && (lend.returnDate > DateTime.Now || lend.returnDate==null))
                     {
                         string dateTime = lend.lendDate.ToString();
                         date = dateTime.Substring(0, 10);
@@ -155,8 +171,6 @@ namespace FirmaTransportowa.Views
                                 break;
                             }
                         }
-
-
                         OneItem.Content = new MyLendList
                         {
                             LendId = lend.id + 1,
@@ -179,6 +193,31 @@ namespace FirmaTransportowa.Views
         public MojeWypozyczenia()
         {
             InitializeComponent();
+            UpdateView();
+        }
+
+        private void PrywatneBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewMyLends.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+        }
+        private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewMyLends.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+        }
+        private void PozostałeBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewMyLends.ItemsSource = null;
+            items.Clear();
+            UpdateView();
+        }
+        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewMyLends.ItemsSource = null;
+            items.Clear();
             UpdateView();
         }
         private bool UserFilter(object item)
