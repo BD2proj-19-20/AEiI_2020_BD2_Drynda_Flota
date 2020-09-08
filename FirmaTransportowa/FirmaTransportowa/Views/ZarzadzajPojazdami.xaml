@@ -13,10 +13,10 @@
                 <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,0,0">
-                <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="idFilter_TextChanged"/>
-                <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="registrationFiler_TextChanged"/>
-                <TextBox Text="" Height="20" Width="150" Name="carSupervisorFilter" TextChanged="carSupervisorFilter_TextChanged"/>
-                <TextBox Text="" Height="20" Width="150" x:Name="saleDateFilter" TextChanged="saleDateFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="IdFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="registrationFiler" TextChanged="RegistrationFiler_TextChanged"/>
+                <TextBox Text="" Height="20" Width="150" Name="carSupervisorFilter" TextChanged="CarSupervisorFilterTextChanged"/>
+                <TextBox Text="" Height="20" Width="150" x:Name="saleDateFilter" TextChanged="SaleDateFilter_TextChanged"/>
             </StackPanel>
             <ListView Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700" Name="carList">
                 <ListView.View>
@@ -45,11 +45,11 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="2 0" Width="100" Click="Dodaj_Pojazd" />
-                <Button Content="Usuń" Margin="5 0" Width="100" Click="Usun_Pojazd"/>
-                <Button Content="Sprzedaj" Margin="5 0" Width="100" Click="Sprzedaj_Pojazd" />
-                <Button Content="Kup" Margin="5 0" Width="100" Click="Kup_Pojazd"/>
-                <Button Content="Zmień opiekuna" Margin="5 0" Width="100" Click="Zmiana_Opiekuna" />
+                <Button Content="Dodaj" Margin="2 0" Width="100" Click="AddCar" />
+                <Button Content="Usuń" Margin="5 0" Width="100" Click="DeleteCar"/>
+                <Button Content="Sprzedaj" Margin="5 0" Width="100" Click="SellCar" />
+                <Button Content="Kup" Margin="5 0" Width="100" Click="BuyCar"/>
+                <Button Content="Zmień opiekuna" Margin="5 0" Width="100" Click="ChangeCarSupervisor" />
                 <Button Content="Podgląd" Margin="5 0" Width="100" x:Name="CarStatistics_Copy" Click="CarStatistics_Click"/>
             </StackPanel>
         </StackPanel>

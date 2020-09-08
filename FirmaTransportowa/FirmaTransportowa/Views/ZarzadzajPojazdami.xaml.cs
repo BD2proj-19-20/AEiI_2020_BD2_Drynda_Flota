@@ -20,75 +20,182 @@ namespace FirmaTransportowa.Views
     /// Interaction logic for ZarzadzajPojazdami.xaml
     /// </summary>
     /// 
-    public class ItemList
+    public class ItemList : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaisePropertyChange(string propertyname)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
+        }
+
         public int carId { get; set; }
+
+        private string CarSupervisor;
+
+        public string carSupervisor
+        {
+            get
+            {
+                return this.CarSupervisor;
+            }
+            set
+            {
+                this.CarSupervisor = value;
+                RaisePropertyChange("carSupervisor");
+            }
+        }
 
         public string registration { get; set; }
 
-        public string carSupervisor { get; set; }
+        private string SaleDate;
 
-        public string saleDate { get; set; }
+        public string saleDate
+        {
+            get
+            {
+                return this.SaleDate;
+            }
+            set
+            {
+                this.SaleDate = value;
+                RaisePropertyChange("saleDate");
+            }
+        }
     }
     public partial class ZarzadzajPojazdami : UserControl
     {
 
-        private GridViewColumnHeader listViewSortCol = null;
+        private ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
         private SortAdorner listViewSortAdorner = null;
-        //List<ListViewItem> items = new List<ListViewItem>();
-        ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
-        GridViewColumnHeader sortingColumn = null;
-        
-
+        private GridViewColumnHeader listViewSortCol = null;
+        private GridViewColumnHeader sortingColumn = null;
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
-            initializeList();
+            InitializeList();
         }
 
-        private void initializeList()
+        private void CarStatistics_Click(object sender, RoutedEventArgs e)
         {
-
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            var carSupervisors = db.CarSupervisors;
-            var people = db.People;
-
-            foreach (var car in cars)
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
             {
-                string supervisorString = "Brak";
+                ItemList selectedObj = (ItemList)selected.Content;
+                int selectedId = selectedObj.carId;
 
-                foreach (var supervisor in carSupervisors)
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
                 {
-                    if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
+                    if (car.id == selectedId)
                     {
-                        supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                        break;
+                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car, 2);
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = statystykiPojazduView;
+                        return;
                     }
                 }
-
-                ListViewItem OneItem = new ListViewItem();
-                string saleDate = "";
-                if (car.saleDate != null)
-                {
-                    if (car.saleDate <= DateTime.Today)
-                    {
-                        OneItem.Background = Brushes.LightGray;
-                    }
-                    DateTime temp = (DateTime)car.saleDate;
-                    saleDate = temp.ToShortDateString();
-                }
-                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = saleDate };
-                items.Add(OneItem);
             }
-            carList.ItemsSource = items;
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
         }
 
+        private void CarSupervisorFilterTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return first.carId.CompareTo(second.carId);
+        }
+
+        int CompareCarsByIdDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return second.carId.CompareTo(first.carId);
+        }
+
+        int CompareCarsByRegistrationAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(second.registration, first.registration);
+        }
+
+        int CompareCarsByRegistrationDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(first.registration, second.registration);
+        }
+
+        int CompareCarsBySaleDateAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.saleDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.saleDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.saleDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.saleDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+
+        int CompareCarsBySaleDateDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.saleDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.saleDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.saleDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.saleDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+        }
+
+        int CompareCarsBySupervisorAscending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(second.carSupervisor, first.carSupervisor);
+        }
+
+        int CompareCarsBySupervisorDescending(ListViewItem a, ListViewItem b)
+        {
+            ItemList first = (ItemList)a.Content;
+            ItemList second = (ItemList)b.Content;
+            return String.Compare(first.carSupervisor, second.carSupervisor);
+        }
+
+        private void AddCar(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new DodajPojazd(this);
+        }
 
         private void Generuj_Raport(object sender, RoutedEventArgs e)
         {
@@ -129,13 +236,230 @@ namespace FirmaTransportowa.Views
             doc.Close();
         }
 
-        private void Dodaj_Pojazd(object sender, RoutedEventArgs e)
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new DodajPojazd(this);
+            GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            sortingColumn = column;
+            string sortBy = column.Tag.ToString();
+            if (listViewSortCol != null)
+            {
+                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
+                carList.Items.SortDescriptions.Clear();
+            }
+
+            ListSortDirection newDir = ListSortDirection.Ascending;
+            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
+                newDir = ListSortDirection.Descending;
+
+            listViewSortCol = column;
+            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
+            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
+
+            var tempItems = items.ToArray();
+            if (sortBy == "carId")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsByIdAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsByIdDescending);
+            }
+            else if (sortBy == "registration")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsByRegistrationAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsByRegistrationDescending);
+            }
+            else if (sortBy == "carSupervisor")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsBySupervisorAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsBySupervisorDescending);
+            }
+            else if (sortBy == "saleDate")
+            {
+                if (newDir.ToString() == "Ascending")
+                    Array.Sort(tempItems, CompareCarsBySaleDateAscending);
+                else
+                    Array.Sort(tempItems, CompareCarsBySaleDateDescending);
+            }
+
+            carList.ItemsSource = tempItems;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
         }
 
-        private void Usun_Pojazd(object sender, RoutedEventArgs e)
+        private void IdFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void InitializeList()
+        {
+            items.Clear();
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+            var carSupervisors = db.CarSupervisors;
+            var people = db.People;
+
+            foreach (var car in cars)
+            {
+                string supervisorString = "Brak";
+
+                foreach (var supervisor in carSupervisors)
+                {
+                    if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
+                    {
+                        supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                        break;
+                    }
+                }
+
+                ListViewItem OneItem = new ListViewItem();
+                string saleDate = "";
+                if (car.saleDate != null)
+                {
+                    if (car.saleDate <= DateTime.Today)
+                    {
+                        OneItem.Background = Brushes.LightGray;
+                    }
+                    DateTime temp = (DateTime)car.saleDate;
+                    saleDate = temp.ToShortDateString();
+                }
+                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = saleDate };
+                items.Add(OneItem);
+            }
+            carList.ItemsSource = items;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
+            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
+
+            view.Filter += UserFilter;
+        }
+        private void BuyCar(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                ItemList selectedObj = (ItemList)selected.Content;
+                int selectedId = selectedObj.carId;
+                selectedObj.saleDate = null;
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        car.saleDate = null;
+                        break;
+                    }
+                }
+                db.SaveChanges();
+                //Odświeżenie listy
+                selected.Background = Brushes.White;
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
+        private void RefreshList()
+        {
+            carList.ItemsSource = items;
+            carList.Items.Refresh();
+        }
+
+        private void RegistrationFiler_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void SaleDateFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
+        }
+
+        private void SellCar(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                ItemList selectedObj = (ItemList)selected.Content;
+                int selectedId = selectedObj.carId;
+                selectedObj.saleDate = DateTime.Now.ToShortDateString();
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Ustawiam datę sprzedaży
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        car.saleDate = DateTime.Today;
+                        break;
+                    }
+                }
+                db.SaveChanges();
+                //Odświeżenie listy
+                selected.Background = Brushes.LightGray;
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
+        private bool UserFilter(object item)
+        {
+            ListViewItem toFilter = (ListViewItem)item;
+
+            if (saleDateFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ItemList).saleDate.CompareTo("") != 0)
+                    return false;
+                else
+                    return true;
+            }
+            else if (saleDateFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if ((toFilter.Content as ItemList).saleDate.CompareTo("") == 0)
+                    return false;
+                else
+                    return true;
+            }
+
+            if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
+                //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
+                if (!((toFilter.Content as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(registrationFiler.Text))
+                //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
+                if (!((toFilter.Content as ItemList).registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(idFilter.Text))
+                //jezeli item nie spelnia filtra id nie wyswietlam go
+                if (!((toFilter.Content as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            if (!String.IsNullOrEmpty(saleDateFilter.Text))
+                //jezeli item nie spelnia filtra id nie wyswietlam go
+                if (!((toFilter.Content as ItemList).saleDate.IndexOf(saleDateFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
+                    return false;
+            //cała reszte wyswietlam
+            return true;
+        }
+
+        private void DeleteCar(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
@@ -196,85 +520,7 @@ namespace FirmaTransportowa.Views
                 MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
             }
         }
-
-
-        private void Sprzedaj_Pojazd(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-                ItemList selectedObj = (ItemList)selected.Content;
-                int selectedId = selectedObj.carId;
-                selectedObj.saleDate = DateTime.Now.ToShortDateString();
-
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var cars = db.Cars;
-
-                //Ustawiam datę sprzedaży
-                foreach (var car in cars)
-                {
-                    if (car.id == selectedId)
-                    {
-                        car.saleDate = DateTime.Today;
-                        break;
-                    }
-                }
-                db.SaveChanges();
-                //Odświeżenie listy
-                for(int i = 0; i<items.Count;i++)
-                {
-                    ItemList temp = (ItemList)items.ElementAt(i).Content;
-                    if(temp.carId == selectedId)
-                    {
-                        items.ElementAt(i).Content = selectedObj;
-                    }
-                }
-                carList.ItemsSource = null;
-                carList.Items.Refresh();
-                carList.ItemsSource = items;
-                carList.Items.Refresh();
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
-
-        private void Kup_Pojazd(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-                ItemList selectedObj = (ItemList)selected.Content;
-                int selectedId = selectedObj.carId;
-                selectedObj.saleDate = null;
-
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var cars = db.Cars;
-
-                //Usuwam datę sprzedaży
-                foreach (var car in cars)
-                {
-                    if (car.id == selectedId)
-                    {
-                        car.saleDate = null;
-                        break;
-                    }
-                }
-                db.SaveChanges();
-                //Odświeżenie listy
-                carList.ItemsSource = items;
-                carList.Items.Refresh();
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
-
-        private void Zmiana_Opiekuna(object sender, RoutedEventArgs e)
+        private void ChangeCarSupervisor(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
@@ -310,230 +556,6 @@ namespace FirmaTransportowa.Views
                 MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
             }
         }
-
-        private bool UserFilter(object item)
-        {
-            ListViewItem toFilter = (ListViewItem)item;
-
-            if (saleDateFilter.Text.Equals("nie", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                if ((toFilter.Content as ItemList).saleDate.CompareTo("") != 0)
-                    return false;
-                else
-                    return true;
-            }
-            else if (saleDateFilter.Text.Equals("tak", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                if ((toFilter.Content as ItemList).saleDate.CompareTo("") == 0)
-                    return false;
-                else
-                    return true;
-            }
-
-            if (!String.IsNullOrEmpty(carSupervisorFilter.Text))
-                //jezeli item nie spelnia filtra opiekuna nie wyswietlam go
-                if (!((toFilter.Content as ItemList).carSupervisor.IndexOf(carSupervisorFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
-                    return false;
-            if (!String.IsNullOrEmpty(registrationFiler.Text))
-                //jezeli item nie spelnia filtra rejestracji nie wyswietlam go
-                if (!((toFilter.Content as ItemList).registration.IndexOf(registrationFiler.Text, StringComparison.OrdinalIgnoreCase) >= 0))
-                    return false;
-            if (!String.IsNullOrEmpty(idFilter.Text))
-                //jezeli item nie spelnia filtra id nie wyswietlam go
-                if (!((toFilter.Content as ItemList).carId.ToString().IndexOf(idFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
-                    return false;
-            if (!String.IsNullOrEmpty(saleDateFilter.Text))
-                //jezeli item nie spelnia filtra id nie wyswietlam go
-                if (!((toFilter.Content as ItemList).saleDate.IndexOf(saleDateFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0))
-                    return false;
-            //cała reszte wyswietlam
-            return true;
-        }
-
-
-        private void CarStatistics_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-                ItemList selectedObj = (ItemList)selected.Content;
-                int selectedId = selectedObj.carId;
-
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var cars = db.Cars;
-
-                //Usuwam datę sprzedaży
-                foreach (var car in cars)
-                {
-                    if (car.id == selectedId)
-                    {
-                        StatystykiPojazdu statystykiPojazduView = new StatystykiPojazdu(car, 2);
-                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                        glowneOkno.DataContext = statystykiPojazduView;
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-
-        }
-
-        private void idFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
-        }
-
-        private void registrationFiler_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
-        }
-
-        private void carSupervisorFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
-        }
-
-        private void saleDateFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
-        }
-
-        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
-        {
-            GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            sortingColumn = column;
-            string sortBy = column.Tag.ToString();
-            if (listViewSortCol != null)
-            {
-                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
-                carList.Items.SortDescriptions.Clear();
-            }
-
-            ListSortDirection newDir = ListSortDirection.Ascending;
-            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
-                newDir = ListSortDirection.Descending;
-
-            listViewSortCol = column;
-            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
-            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
-
-            var tempItems = items.ToArray();
-            if (sortBy == "carId")
-            {
-                if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsByIdAscending);
-                else
-                    Array.Sort(tempItems, CompareCarsByIdDescending);
-            }
-            else if (sortBy == "registration")
-            {
-                if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsByRegistrationAscending);
-                else
-                    Array.Sort(tempItems, CompareCarsByRegistrationDescending);
-            }
-            else if (sortBy == "carSupervisor")
-            {
-                if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsBySupervisorAscending);
-                else
-                    Array.Sort(tempItems, CompareCarsBySupervisorDescending);
-            }
-            else if (sortBy == "saleDate")
-            {
-                if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsBySaleDateAscending);
-                else
-                    Array.Sort(tempItems, CompareCarsBySaleDateDescending);
-            }
-
-            carList.ItemsSource = tempItems;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
-
-            view.Filter += UserFilter;
-        }
-        int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return first.carId.CompareTo(second.carId);
-        }
-
-        int CompareCarsByIdDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return second.carId.CompareTo(first.carId);
-        }
-
-        int CompareCarsByRegistrationDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(first.registration, second.registration);
-        }
-
-        int CompareCarsByRegistrationAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(second.registration, first.registration);
-        }
-
-        int CompareCarsBySupervisorDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(first.carSupervisor, second.carSupervisor);
-        }
-
-        int CompareCarsBySupervisorAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(second.carSupervisor, first.carSupervisor);
-        }
-
-        int CompareCarsBySaleDateDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            DateTime firstDate;
-            DateTime secondDate;
-            if (first.saleDate.CompareTo("") != 0)
-                firstDate = Convert.ToDateTime(first.saleDate);
-            else
-                firstDate = DateTime.MinValue;
-            if (second.saleDate.CompareTo("") != 0)
-                secondDate = Convert.ToDateTime(second.saleDate);
-            else
-                secondDate = DateTime.MinValue;
-            return DateTime.Compare(firstDate, secondDate);
-        }
-
-        int CompareCarsBySaleDateAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            DateTime firstDate;
-            DateTime secondDate;
-            if (first.saleDate.CompareTo("") != 0)
-                firstDate = Convert.ToDateTime(first.saleDate);
-            else
-                firstDate = DateTime.MinValue;
-            if (second.saleDate.CompareTo("") != 0)
-                secondDate = Convert.ToDateTime(second.saleDate);
-            else
-                secondDate = DateTime.MinValue;
-            return DateTime.Compare(secondDate, firstDate);
-        }
-
     }
 }
 
