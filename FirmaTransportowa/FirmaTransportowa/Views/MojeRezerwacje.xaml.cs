@@ -68,7 +68,10 @@ namespace FirmaTransportowa.Views
                     foreach (var car in cars)
                     {
                         if (car.id == reserv.carId)
+                        {
                             vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            break;
+                        }
                     }
                     if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true)
                     {

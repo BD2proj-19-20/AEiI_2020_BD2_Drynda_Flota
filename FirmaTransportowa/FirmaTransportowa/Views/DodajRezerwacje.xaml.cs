@@ -176,7 +176,7 @@ namespace FirmaTransportowa.Views
 
                     newLend.carId = newReservation.carId;
                     newLend.personId = newReservation.personId;
-                    newLend.lendDate = newReservation.reservationDate;
+                    newLend.lendDate = newReservation.lendDate;
                     newLend.plannedReturnDate = newReservation.returnDate;
                     newLend.@private = (bool)newReservation.@private;
                     newLend.reservationId = newReservation.id;

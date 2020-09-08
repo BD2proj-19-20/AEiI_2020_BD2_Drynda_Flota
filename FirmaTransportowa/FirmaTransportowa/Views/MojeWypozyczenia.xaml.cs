@@ -62,12 +62,15 @@ namespace FirmaTransportowa.Views
                     foreach (var car in cars)
                     {
                         if (car.id == lend.carId)
+                        {
                             vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            break;
+                        }
                     }
 
 
                     // if (!(lend.returnDate < DateTime.Now.Date)  && ZakonczoneBox.IsChecked.Value == true)
-                    if (!(lend.returnDate < DateTime.Now.Date)) //zakończone
+                    if (lend.returnDate <= DateTime.Now ) //zakończone
                     {
                         if (lend.@private == true)
                             OneItem.Background = Brushes.Red;  //zakonczone prywatne
@@ -103,7 +106,7 @@ namespace FirmaTransportowa.Views
                         items.Add(OneItem);
                     }
                     //   else if (lend.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false)
-                    else if (lend.@private == true && (lend.returnDate > DateTime.Now.Date || lend.returnDate == null))
+                    else if (lend.@private == true && (lend.returnDate > DateTime.Now || lend.returnDate == null))
                     {
                         OneItem.Background = Brushes.BlueViolet;  //prywatne
                         string dateTime = lend.lendDate.ToString();

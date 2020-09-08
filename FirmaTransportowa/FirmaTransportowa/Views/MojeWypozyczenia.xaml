@@ -19,7 +19,7 @@
                 <TextBox Text="" Height="20" Width="140" x:Name="datePlannedEndFilter" Margin="0,12,0,11" TextChanged="datePlannedEndFilter_TextChanged"/>
                 <TextBox Text="" Height="20" Width="100" x:Name="dateEndFilter" Margin="0,12,0,11" TextChanged="datePlannedEndFilter_TextChanged"/>
                 <TextBox Text="" Height="20" Width="100" x:Name="dateReservationFilter" Margin="0,12,0,11" TextChanged="dateReservationFilter_TextChanged"/>
-                <TextBox Text="" Height="20" Width="100" x:Name="carFilter" Margin="0,12,0,11" TextChanged="carFilter_TextChanged"/>
+                <TextBox Text="" Height="20" Width="140" x:Name="carFilter" Margin="0,12,0,11" TextChanged="carFilter_TextChanged"/>
             </StackPanel>
 
             <ListView Name="ListViewMyLends" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
@@ -36,7 +36,7 @@
                                 <GridViewColumnHeader Tag="LendStart" Click="GridViewColumnHeader_Click">Data rozpoczęcia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding PlannedLendEnd}">
+                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding LendPlannedEnd}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="PlannedLendEnd" Click="GridViewColumnHeader_Click">Planowane zakończenie</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -51,7 +51,7 @@
                                 <GridViewColumnHeader Tag="DateReservation" Click="GridViewColumnHeader_Click">Data rezerwacji</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Vehicle}">
+                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Vehicle}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Car" Click="GridViewColumnHeader_Click">Pojazd</GridViewColumnHeader>
                             </GridViewColumn.Header>
