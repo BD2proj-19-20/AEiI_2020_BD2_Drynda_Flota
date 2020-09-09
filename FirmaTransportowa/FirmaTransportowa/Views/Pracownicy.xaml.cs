@@ -87,7 +87,7 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new DodajPracownikModel();
+            glowneOkno.DataContext = new DodajPracownika();
         }
 
         private void Zwolnij_Pracownika(object sender, RoutedEventArgs e)

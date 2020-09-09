@@ -136,18 +136,12 @@
     </Compile>
     <Compile Include="SortAdorner.cs" />
     <Compile Include="ViewModels\DodajPojazdModel.cs" />
-    <Compile Include="ViewModels\DodajPracownikModel.cs" />
-    <Compile Include="ViewModels\DodajRezerwacjeModel.cs" />
     <Compile Include="ViewModels\ListaPojazdowModel.cs" />
     <Compile Include="ViewModels\MenuKierownikModel.cs" />
     <Compile Include="ViewModels\MenuOpiekunModel.cs" />
     <Compile Include="ViewModels\MenuPracownikModel.cs" />
     <Compile Include="ViewModels\MojePojazdyModel.cs" />
-    <Compile Include="ViewModels\MojeRezerwacjeModel.cs" />
-    <Compile Include="ViewModels\PracownicyModel.cs" />
-    <Compile Include="ViewModels\RezerwacjeModel.cs" />
     <Compile Include="ViewModels\StatystykiPojazduModel.cs" />
-    <Compile Include="ViewModels\StatystykiPracownikaModel.cs" />
     <Compile Include="ViewModels\ZarzadzajPojazdamiModel.cs" />
     <Compile Include="Views\DataZwolnienia.xaml.cs">
       <DependentUpon>DataZwolnienia.xaml</DependentUpon>

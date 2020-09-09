@@ -210,7 +210,7 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new MojeRezerwacjeModel();
+            glowneOkno.DataContext = new MojeRezerwacje();
 
         }
     }

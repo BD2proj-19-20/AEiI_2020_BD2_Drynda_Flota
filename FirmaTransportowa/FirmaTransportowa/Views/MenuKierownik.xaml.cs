@@ -29,13 +29,13 @@ namespace FirmaTransportowa.Views
         private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new PracownicyModel();
+            glowneOkno.DataContext = new Pracownicy();
         }
 
         private void Rent_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new RezerwacjeModel();
+            glowneOkno.DataContext = new Rezerwacje();
         }
         private void Lend_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

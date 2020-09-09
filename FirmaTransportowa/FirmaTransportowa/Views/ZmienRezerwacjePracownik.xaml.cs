@@ -48,9 +48,9 @@ namespace FirmaTransportowa.Views
             foreach (var car in cars)
             {
                 if (car.onService == false)  //gdy w sewisie nie wypożyczamy
-                    PojazdID.Items.Add(car.id);
+                    PojazdID.Items.Add(car.id.ToString());
             }
-            PojazdID.SelectedItem = reservationChange.carId;
+            PojazdID.Text = reservationChange.carId.ToString();
             int index = -1;
             foreach (var human in people)
             {
@@ -69,7 +69,7 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
-                if ((car.id).ToString() == PojazdID.SelectedItem.ToString())
+                if ((car.id).ToString() == PojazdID.Text)
                 {
                     Rejestracja.Text = car.Registration;
                     PojemnoscSilnika.Text = car.engineCapacity.ToString();
@@ -241,7 +241,7 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new MojeRezerwacjeModel();
+            glowneOkno.DataContext = new MojeRezerwacje();
 
         }
         private void Function_SelectionChanged(object sender, RoutedEventArgs e)

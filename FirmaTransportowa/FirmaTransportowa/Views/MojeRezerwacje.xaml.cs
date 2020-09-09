@@ -152,7 +152,7 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new DodajRezerwacjeModel();
+            glowneOkno.DataContext = new DodajRezerwacje();
         }
         private void Modyfikuj_Rezerwacje(object sender, RoutedEventArgs e)
         {

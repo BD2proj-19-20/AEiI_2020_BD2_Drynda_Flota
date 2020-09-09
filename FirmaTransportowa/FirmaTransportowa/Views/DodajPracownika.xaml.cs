@@ -112,7 +112,7 @@ namespace FirmaTransportowa.Views
         {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new PracownicyModel();
+            glowneOkno.DataContext = new Pracownicy();
 
         }
     }

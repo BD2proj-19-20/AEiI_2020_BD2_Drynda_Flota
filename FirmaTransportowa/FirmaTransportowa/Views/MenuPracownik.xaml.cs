@@ -29,7 +29,7 @@ namespace FirmaTransportowa.Views
         private void Reservations_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new MojeRezerwacjeModel();
+            glowneOkno.DataContext = new MojeRezerwacje();
         }
         private void Lends_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

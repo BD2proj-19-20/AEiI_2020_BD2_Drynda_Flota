@@ -4,17 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
+             xmlns:controls="clr-namespace:THE.Controls;assembly=FilteredComboBox"
              mc:Ignorable="d" 
             d:DesignHeight="580" d:DesignWidth="750">
     <Grid Margin="0,-20,0,-100" >
         <Button Content="Modyfikuj" HorizontalAlignment="Left" Margin="326,513,0,0" VerticalAlignment="Top" Width="75" Click="Zmien_Dane_Rezerwacji"/>
-        <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="173,56,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="181,56,0,0" VerticalAlignment="Top" Width="112"/>
         <TextBox x:Name="ReservationStart" HorizontalAlignment="Left" Height="23" Margin="306,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,135,0,0" VerticalAlignment="Top" Width="112"/>
-        <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,135,0,0" VerticalAlignment="Top" Width="97"/>
+        <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="197,226,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="173,284,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <ComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,188,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="Function_SelectionChanged"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="306,185,0,0" VerticalAlignment="Top" Width="120" x:Name="PojazdID" SelectionChanged="Function_SelectionChanged"/>
         <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="181,96,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,100,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,562,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
@@ -23,7 +24,7 @@
         <TextBox x:Name="Model" HorizontalAlignment="Left" Height="23" Margin="306,333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Marka" HorizontalAlignment="Left" Margin="205,384,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <TextBox x:Name="Marka" HorizontalAlignment="Left" Height="23" Margin="306,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Numer Pojazdu" HorizontalAlignment="Left" Margin="181,188,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+        <Label Content="Numer Pojazdu" HorizontalAlignment="Left" Margin="187,181,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <TextBox x:Name="Rejestracja" HorizontalAlignment="Left" Height="23" Margin="306,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
         <Label Content="Zastosowanie" HorizontalAlignment="Left" Margin="181,424,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <TextBox x:Name="Zastosowanie" HorizontalAlignment="Left" Height="23" Margin="306,434,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
