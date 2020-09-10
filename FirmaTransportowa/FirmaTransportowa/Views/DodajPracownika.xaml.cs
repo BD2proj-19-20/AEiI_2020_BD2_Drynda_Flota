@@ -15,9 +15,13 @@ namespace FirmaTransportowa.Views
         public DodajPracownika()
         {
             InitializeComponent();
-            DzienZatrudnienia.Text = DateTime.Today.ToString("dd.MM.yyyy");
-            DzienKierownictwaStart.Text = DateTime.Today.ToString("dd.MM.yyyy");
-            DzienKierownictwaEnd.Text = DateTime.Today.AddDays(1).ToString("dd.MM.yyyy");
+            DzienKierownictwaEnd.BlackoutDates.AddDatesInPast();
+            DzienKierownictwaStart.BlackoutDates.AddDatesInPast();
+            DzienZatrudnienia.BlackoutDates.AddDatesInPast();
+            DzienKierownictwaEnd.SelectedDate = DateTime.Today;
+            DzienKierownictwaStart.SelectedDate = DateTime.Today;
+            DzienZatrudnienia.SelectedDate = DateTime.Today;
+            
         }
 
         public byte[] getHash(string password)
@@ -54,12 +58,12 @@ namespace FirmaTransportowa.Views
                 }
                 if(loginCheck == false)
                     MessageBox.Show("Login jest zajęty!", "Komunikat");
-                else if (!DzienZatrudnienia.Text.Equals("") && (DateTime.TryParse(DzienZatrudnienia.Text, out temp)))
+                else if (DzienZatrudnienia.SelectedDate != null)
                 {
                     newWorker.firstName = Imie.Text;
                     newWorker.lastName = Nazwisko.Text;
                     newWorker.systemLogin = Login.Text;
-                    newWorker.employmentData = Convert.ToDateTime(DzienZatrudnienia.Text);
+                    newWorker.employmentData = DzienZatrudnienia.SelectedDate.Value;
                     newWorker.passwordHash = getHash(Hasło1.Password);
                     workers.Add(newWorker);
                     db.SaveChanges();
@@ -69,31 +73,29 @@ namespace FirmaTransportowa.Views
                         var permissionCompany = db.Permissions;
                         var peoplePermission = db.PeoplesPermissions;
                         var workerPermission = new PeoplesPermission();
-                        if(!(DateTime.TryParse(DzienKierownictwaStart.Text, out temp) && (Convert.ToDateTime(DzienKierownictwaStart.Text) >= newWorker.employmentData)))
+                        if(DzienZatrudnienia.SelectedDate == null || DzienKierownictwaStart.SelectedDate < newWorker.employmentData) //jeżeli nie podano od kiedy kierownikiem, lub jest kierownikiem dłużej niż pracuje: błąd
                         {
                             workers.Remove(newWorker);
                             db.SaveChanges();
                             MessageBox.Show("Błedna data początku", "Komunikat");
                             return;
                         }
-                        if (!((DateTime.TryParse(DzienKierownictwaEnd.Text, out temp)  && Convert.ToDateTime(DzienKierownictwaEnd.Text) > Convert.ToDateTime(DzienKierownictwaStart.Text))
-                            || DzienKierownictwaEnd.Text==""))
+                        if (DzienKierownictwaEnd.SelectedDate == null || DzienKierownictwaEnd.SelectedDate > DzienKierownictwaStart.SelectedDate)
                         {
                             workers.Remove(newWorker);
                             db.SaveChanges();
                             MessageBox.Show("Błedna data zakonczenia", "Komunikat");
                             return;
                         }
-
-                        if (DzienKierownictwaEnd.Text != "")
-                            workerPermission.revokeDate = Convert.ToDateTime(DzienKierownictwaEnd.Text);
+                        else
+                            workerPermission.revokeDate = DzienKierownictwaEnd.SelectedDate;
                         
                         foreach (var permissionComp in permissionCompany)
                         {
                             if (permissionComp.name == "Kierownik")
                                 workerPermission.permissionId = permissionComp.Id;
                         }
-                        workerPermission.grantDate= Convert.ToDateTime(DzienKierownictwaStart.Text); //od razu staje się kierownikiem 
+                        workerPermission.grantDate= DzienKierownictwaStart.SelectedDate.Value; //od razu staje się kierownikiem 
                         workerPermission.personId = newWorker.id;
                         peoplePermission.Add(workerPermission);
                         db.SaveChanges();
@@ -115,5 +117,45 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new Pracownicy();
 
         }
-    }
+
+
+        private CalendarDateRange dzienKierownictwaStartBlackoutRange = null;
+        private void DzienZatrudnienia_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+            if (DzienKierownictwaStart.SelectedDate < DzienZatrudnienia.SelectedDate)
+                DzienKierownictwaStart.SelectedDate = DzienZatrudnienia.SelectedDate;
+            if (dzienKierownictwaStartBlackoutRange == null) {
+                dzienKierownictwaStartBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1));
+                DzienKierownictwaStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
+            }
+            else {
+                dzienKierownictwaStartBlackoutRange.End = ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1);
+                DzienKierownictwaStart.BlackoutDates[1] = dzienKierownictwaStartBlackoutRange;
+            }
+        }
+
+
+        private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;
+        private void DzienKierownictwaStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+            if (DzienKierownictwaEnd.SelectedDate < DzienKierownictwaStart.SelectedDate)
+                DzienKierownictwaEnd.SelectedDate = DzienKierownictwaStart.SelectedDate;
+            if (dzienKierownictwaEndBlackoutRange == null) {
+                dzienKierownictwaEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienKierownictwaStart.SelectedDate).AddDays(-1));
+                DzienKierownictwaEnd.BlackoutDates.Insert(1, dzienKierownictwaEndBlackoutRange);
+            }
+            else {
+                dzienKierownictwaEndBlackoutRange.End = ((DateTime)DzienKierownictwaStart.SelectedDate).AddDays(-1);
+                DzienKierownictwaEnd.BlackoutDates[1] = dzienKierownictwaEndBlackoutRange;
+            }
+        }
+
+		private void KierownikBox_Checked(object sender, RoutedEventArgs e) {
+            DzienKierownictwaStart.IsEnabled = true;
+            DzienKierownictwaEnd.IsEnabled = true;
+        }
+
+		private void KierownikBox_Unchecked(object sender, RoutedEventArgs e) {
+            DzienKierownictwaStart.IsEnabled = false;
+            DzienKierownictwaEnd.IsEnabled = false;
+        }
+	}
 }
