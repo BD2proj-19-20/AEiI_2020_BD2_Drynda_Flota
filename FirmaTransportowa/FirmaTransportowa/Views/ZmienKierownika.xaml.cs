@@ -21,6 +21,8 @@ namespace FirmaTransportowa.Views
     public partial class ZmienKierownika : Window
     {
         Person toChange;
+
+        private CalendarDateRange dzienKierownictwaStartBlackoutRange = null;
         public ZmienKierownika(Person changePerson)
         {
             InitializeComponent();
@@ -31,22 +33,47 @@ namespace FirmaTransportowa.Views
 
             var peoplePermission = db.PeoplesPermissions;
 
+            newKierownikEnd.BlackoutDates.AddDatesInPast();
+            newKierownikStart.BlackoutDates.AddDatesInPast();
+
+
+             
+            if (dzienKierownictwaStartBlackoutRange == null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+            {
+                if (toChange.layoffDate != null)
+                {
+                    dzienKierownictwaStartBlackoutRange = new CalendarDateRange(((DateTime)toChange.layoffDate).AddDays(1),   DateTime.MaxValue);
+                    newKierownikStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
+
+                }
+            }
+            else
+            {
+                if (toChange.layoffDate != null)
+                {
+                    dzienKierownictwaStartBlackoutRange = new CalendarDateRange(((DateTime)toChange.layoffDate).AddDays(1),  DateTime.MaxValue);
+                    newKierownikStart.BlackoutDates[1] = dzienKierownictwaStartBlackoutRange;
+                }
+            }
+
+
+
+
             foreach (var permissionWorker in peoplePermission)
             {
                 if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
-                   permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
+                   permissionWorker.grantDate <= DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
                 {
-                    newKierownikEnd.BlackoutDates.AddDatesInPast();
-                    newKierownikStart.BlackoutDates.AddDatesInPast();
+                
                     newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
-                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
+                    newKierownikStart.IsEnabled = false;
+                    newKierownikStart.BlackoutDates.Clear();
+                      newKierownikStart.SelectedDate = permissionWorker.grantDate;
+                    //   newKierownikStart.Text = permissionWorker.grantDate.ToString().Substring(0,10);
                 }
                 else if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
                    permissionWorker.grantDate > DateTime.Now)
                 {
-                    newKierownikEnd.BlackoutDates.AddDatesInPast();
-                    newKierownikStart.BlackoutDates.AddDatesInPast();
-
 
                     newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
                     newKierownikStart.SelectedDate = permissionWorker.grantDate;
@@ -59,45 +86,50 @@ namespace FirmaTransportowa.Views
         {
             this.Close();
         }
-        private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;
+        private CalendarDateRange dzienKierownictwaEndBlackoutRange1 = null;
+
+        private CalendarDateRange dzienKierownictwaEndBlackoutRange2 = null;
+
         private void DzienKierownictwaStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+
             if (newKierownikEnd.SelectedDate < newKierownikStart.SelectedDate)
                 newKierownikEnd.SelectedDate = newKierownikStart.SelectedDate;
-                if (dzienKierownictwaEndBlackoutRange == null)
+                if (dzienKierownictwaEndBlackoutRange1 == null)
                 {
-                    dzienKierownictwaEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)newKierownikStart.SelectedDate).AddDays(-1));
-                    newKierownikEnd.BlackoutDates.Insert(1, dzienKierownictwaEndBlackoutRange);
+                    dzienKierownictwaEndBlackoutRange1 = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)newKierownikStart.SelectedDate).AddDays(-1));
+                    newKierownikEnd.BlackoutDates.Insert(1, dzienKierownictwaEndBlackoutRange1);
+
+                    if(toChange.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+                {
+                    dzienKierownictwaEndBlackoutRange2 = new CalendarDateRange(((DateTime)toChange.layoffDate).AddDays(1), 
+                       DateTime.MaxValue);
+                    newKierownikEnd.BlackoutDates.Insert(2, dzienKierownictwaEndBlackoutRange2);
+
+                }
                 }
                 else
                 {
-                    dzienKierownictwaEndBlackoutRange.End = ((DateTime)newKierownikStart.SelectedDate).AddDays(-1);
-                    newKierownikEnd.BlackoutDates[1] = dzienKierownictwaEndBlackoutRange;
+                    dzienKierownictwaEndBlackoutRange1.End = ((DateTime)newKierownikStart.SelectedDate).AddDays(-1);
+                    newKierownikEnd.BlackoutDates[1] = dzienKierownictwaEndBlackoutRange1;
+
+                if (toChange.layoffDate != null)
+                {
+                    dzienKierownictwaEndBlackoutRange2 = new CalendarDateRange(((DateTime)toChange.layoffDate).AddDays(1),
+                       DateTime.MaxValue);
+                    newKierownikEnd.BlackoutDates[2] = dzienKierownictwaEndBlackoutRange2;
                 }
+            }
             
         }
 
-
+      
+       
         private void Zmien(object sender, RoutedEventArgs e)
         {
-          //  DateTime temp;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
             var peoplePermission = db.PeoplesPermissions;
-
-            //if (!(DateTime.TryParse(newKierownikStart.Text, out temp) &&
-            //    (Convert.ToDateTime(newKierownikStart.Text) >= toChange.employmentData)))
-            //{
-            //    MessageBox.Show("Błedna data początku", "Komunikat");
-            //    return;
-            //}
-            //if (!((DateTime.TryParse(newKierownikEnd.Text, out temp) &&
-            //     Convert.ToDateTime(newKierownikEnd.Text) > Convert.ToDateTime(newKierownikStart.Text))
-            //               || newKierownikEnd.Text == ""))
-            //{
-            //    MessageBox.Show("Błedna data zakonczenia", "Komunikat");
-            //    return;
-            //}
 
             bool newPermission = true;
             foreach (var person in people)
