@@ -7,30 +7,48 @@
              xmlns:controls="clr-namespace:THE.Controls;assembly=FilteredComboBox"
              mc:Ignorable="d" 
             d:DesignHeight="600" d:DesignWidth="750">
-    <Grid Margin="0,0,0,-99" >
-        <Button Content="Modyfikuj" HorizontalAlignment="Left" Margin="326,500,0,0" VerticalAlignment="Top" Width="75" Click="Zmien_Dane_Rezerwacji"/>
-        <Label Content="Opiekun" HorizontalAlignment="Left" Margin="206,50,0,0" VerticalAlignment="Top" Width="66" RenderTransformOrigin="0.568,-0.5"/>
-        <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="181,93,0,0" VerticalAlignment="Top" Width="120"/>
-        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="306,54,0,0" VerticalAlignment="Top" Width="120"  x:Name="Pracownicy" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="ReservationStart" HorizontalAlignment="Left" Height="23" Margin="306,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.496,-0.739"/>
-        <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,172,0,0" VerticalAlignment="Top" Width="104"/>
-        <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="189,262,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="167,303,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="306,216,0,0" VerticalAlignment="Top" Width="120" x:Name="PojazdID" Grid.ColumnSpan="2" SelectionChanged="Function_SelectionChanged"/>
-        <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="181,129,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,133,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,538,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
-        <TextBox x:Name="PojemnoscSilnika" HorizontalAlignment="Left" Height="23" Margin="306,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Model" HorizontalAlignment="Left" Margin="197,348,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <TextBox x:Name="Model" HorizontalAlignment="Left" Height="22" Margin="306,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Marka" HorizontalAlignment="Left" Margin="198,388,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <TextBox x:Name="Marka" HorizontalAlignment="Left" Height="23" Margin="306,383,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Numer Pojazdu" HorizontalAlignment="Left" Margin="181,216,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <TextBox x:Name="Rejestracja" HorizontalAlignment="Left" Height="22" Margin="306,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <Label Content="Zastosowanie" HorizontalAlignment="Left" Margin="181,425,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <TextBox x:Name="Zastosowanie" HorizontalAlignment="Left" Height="23" Margin="306,428,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <CheckBox x:Name="PrywatneBox" Content="Prywatne" HorizontalAlignment="Left" Margin="326,470,0,0" VerticalAlignment="Top"/>
-
-    </Grid>
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="120"/>
+			<ColumnDefinition Width="120"/>
+		</Grid.ColumnDefinitions>
+		<Label						Grid.Row="0"  Grid.Column="0" Content="Opiekun"				/>
+		<controls:FilteredComboBox	Grid.Row="0"  Grid.Column="1" x:Name="Pracownicy"			Height="24"/>
+		<Label						Grid.Row="1"  Grid.Column="0" Content="Data Rozpoczęcia"	/>
+		<DatePicker					Grid.Row="1"  Grid.Column="1" x:Name="ReservationStart"		Height="24" SelectedDateChanged="ReservationStart_SelectedDateChanged"/>
+		<Label						Grid.Row="2"  Grid.Column="0" Content="Data Zakończenia"	/>
+		<DatePicker					Grid.Row="2"  Grid.Column="1" x:Name="ReservationEnd"		Height="24"/>
+		<Label						Grid.Row="3"  Grid.Column="0" Content="Data rezerwacji"		/>
+		<DatePicker					Grid.Row="3"  Grid.Column="1" x:Name="ReservationDate"		Height="24" IsEnabled="False"/>
+		<Label						Grid.Row="4"  Grid.Column="0" Content="Numer Pojazdu"		/>
+		<controls:FilteredComboBox	Grid.Row="4"  Grid.Column="1" x:Name="PojazdID"				Height="24" SelectionChanged="Function_SelectionChanged"/>
+		<Label						Grid.Row="5"  Grid.Column="0" Content="Rejestracja"			/>
+		<TextBox					Grid.Row="5"  Grid.Column="1" x:Name="Rejestracja"			Height="24"/>
+		<Label						Grid.Row="6"  Grid.Column="0" Content="Pojemność Silnika"	/>
+		<TextBox					Grid.Row="6"  Grid.Column="1" x:Name="PojemnoscSilnika"		Height="24"/>
+		<Label						Grid.Row="7"  Grid.Column="0" Content="Model"				/>
+		<TextBox					Grid.Row="7"  Grid.Column="1" x:Name="Model"				Height="24"/>
+		<Label						Grid.Row="8"  Grid.Column="0" Content="Marka"				/>
+		<TextBox					Grid.Row="8"  Grid.Column="1" x:Name="Marka"				Height="24"/>
+		<Label						Grid.Row="9"  Grid.Column="0" Content="Zastosowanie"		/>
+		<TextBox					Grid.Row="9"  Grid.Column="1" x:Name="Zastosowanie"			Height="24"/>
+		<CheckBox					Grid.Row="10" Grid.Column="1" x:Name="PrywatneBox"			Content="Prywatne" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		<Button						Grid.Row="11" Grid.Column="1" Content="Modyfikuj"			Height="24"  Width="75" Click="Zmien_Dane_Rezerwacji"/>
+		<Button						Grid.Row="12" Grid.Column="1" Content="Cofnij"				Height="24" Width="75" Click="Cofnij"/>
+	</Grid>
 </UserControl>
