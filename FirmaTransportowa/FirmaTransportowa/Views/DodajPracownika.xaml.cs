@@ -79,15 +79,18 @@ namespace FirmaTransportowa.Views
                             MessageBox.Show("Błedna data początku", "Komunikat");
                             return;
                         }
-                        if (DzienKierownictwaEnd.SelectedDate == null || DzienKierownictwaEnd.SelectedDate > DzienKierownictwaStart.SelectedDate)
+                        if (DzienKierownictwaEnd.SelectedDate > DzienKierownictwaStart.SelectedDate)
                         {
                             workers.Remove(newWorker);
                             db.SaveChanges();
                             MessageBox.Show("Błedna data zakonczenia", "Komunikat");
                             return;
                         }
+                        else if (DzienKierownictwaEnd.Text != "")
+                            workerPermission.revokeDate = (System.DateTime)DzienKierownictwaEnd.SelectedDate;
                         else
-                            workerPermission.revokeDate = DzienKierownictwaEnd.SelectedDate;
+                            workerPermission.revokeDate = null;
+                       // workerPermission.revokeDate = DzienKierownictwaEnd.SelectedDate;
                         
                         foreach (var permissionComp in permissionCompany)
                         {
@@ -100,7 +103,7 @@ namespace FirmaTransportowa.Views
                         db.SaveChanges();
                     }
 
-                    MessageBox.Show("Dodano Pracownika: " + newWorker.id + " " + Nazwisko.Text, "Komunikat");
+                    MessageBox.Show("Dodano Pracownika: " + newWorker.id+1 + " " + newWorker.firstName + "\n" + newWorker.lastName, "Komunikat");
                 }
                 else
                     MessageBox.Show("Zła data zatrudnienia!", "Komunikat");
