@@ -63,8 +63,10 @@ namespace FirmaTransportowa.Views
                 }
             }
 
-            newCar.purchaseDate = Convert.ToDateTime(DataZakupu.Text);
-            newCar.inspectionValidUntil = Convert.ToDateTime(DataZakupu.Text);
+            //todo: walidacja daty (czy jest)
+
+            newCar.purchaseDate = DataZakupu.SelectedDate.Value;
+            newCar.inspectionValidUntil = DataZakupu.SelectedDate.Value;
             newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
 
 

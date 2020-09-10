@@ -9,7 +9,7 @@
     <Grid>
         <TextBox HorizontalAlignment="Left" Height="40" Margin="340,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Name="Rejestracja" Text="SY8910F" FontSize="25"/>
         <TextBox HorizontalAlignment="Left" Height="40" Margin="340,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Name="PojemnoscSilnika" Text="1798" FontSize="25"/>
-        <TextBox HorizontalAlignment="Left" Height="40" Margin="340,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" Text="03.06.2020" Name="DataZakupu" FontSize="25"/>
+        <DatePicker HorizontalAlignment="Left" Height="40" Margin="340,180,0,0" VerticalAlignment="Top" Width="280" Name="DataZakupu" FontSize="25"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,230,0,0" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,280,0,0" VerticalAlignment="Top" Width="280"  Height="40"  Name="Zastosowanie" FontSize="25"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,330,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekunowie" FontSize="25"/>
