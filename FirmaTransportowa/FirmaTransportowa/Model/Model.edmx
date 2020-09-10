@@ -10,6 +10,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="carId" Type="int" Nullable="false" />
           <Property Name="critical" Type="bit" Nullable="false" />
           <Property Name="reporterId" Type="int" Nullable="false" />
           <Property Name="reportDate" Type="smalldatetime" Nullable="false" />
@@ -80,6 +81,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="63" Nullable="false" />
+          <Property Name="startSate" Type="smalldatetime" Nullable="false" />
+          <Property Name="endDate" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Lends">
           <Key>
@@ -142,6 +145,18 @@
           <Property Name="private" Type="bit" />
           <Property Name="personId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Activities_carId">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="Activities" Type="Self.Activities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activities">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Activities_contractorId">
           <End Role="Contractors" Type="Self.Contractors" Multiplicity="0..1" />
           <End Role="Activities" Type="Self.Activities" Multiplicity="*" />
@@ -336,6 +351,10 @@
           <EntitySet Name="PeoplesPermissions" EntityType="Self.PeoplesPermissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Activities_carId" Association="Self.FK_Activities_carId">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Activities" EntitySet="Activities" />
+          </AssociationSet>
           <AssociationSet Name="FK_Activities_contractorId" Association="Self.FK_Activities_contractorId">
             <End Role="Contractors" EntitySet="Contractors" />
             <End Role="Activities" EntitySet="Activities" />
@@ -417,6 +436,8 @@
           <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contractor" Relationship="Self.FK_Activities_contractorId" FromRole="Activities" ToRole="Contractors" />
           <NavigationProperty Name="Person" Relationship="Self.FK_Activities_reporterId" FromRole="Activities" ToRole="People" />
+          <Property Name="carId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_carId" FromRole="Activity" ToRole="Car" />
         </EntityType>
         <EntityType Name="CarDestination">
           <Key>
@@ -461,6 +482,7 @@
           <NavigationProperty Name="Lends" Relationship="Self.FK_Lends_carId" FromRole="Cars" ToRole="Lends" />
           <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_carId" FromRole="Cars" ToRole="Reservations" />
           <NavigationProperty Name="CarExtras" Relationship="Self.CarExtrasInCars" FromRole="Cars" ToRole="CarExtras" />
+          <NavigationProperty Name="Activities" Relationship="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_carId" FromRole="Car" ToRole="Activity" />
         </EntityType>
         <EntityType Name="CarSupervisor">
           <Key>
@@ -480,6 +502,8 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Activities" Relationship="Self.FK_Activities_contractorId" FromRole="Contractors" ToRole="Activities" />
+          <Property Name="startSate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Lend">
           <Key>
@@ -787,7 +811,23 @@
             <End Role="Cars" EntitySet="Cars" />
             <End Role="CarExtras" EntitySet="CarExtras" />
           </AssociationSet>
+          <AssociationSet Name="FK_Activities_carId" Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_carId">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Activities_carId">
+          <End Type="AEiI_2020_BD2_Drynda_FlotaModel.Car" Role="Car" Multiplicity="1" />
+          <End Type="AEiI_2020_BD2_Drynda_FlotaModel.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="carId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -797,6 +837,7 @@
           <EntitySetMapping Name="Activities">
             <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Activity">
               <MappingFragment StoreEntitySet="Activities">
+                <ScalarProperty Name="carId" ColumnName="carId" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="critical" ColumnName="critical" />
                 <ScalarProperty Name="reporterId" ColumnName="reporterId" />
@@ -863,6 +904,8 @@
           <EntitySetMapping Name="Contractors">
             <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Contractor">
               <MappingFragment StoreEntitySet="Contractors">
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startSate" ColumnName="startSate" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>

@@ -24,8 +24,10 @@ namespace FirmaTransportowa.Model
         public Nullable<System.DateTime> orderDate { get; set; }
         public Nullable<int> contractorId { get; set; }
         public string comments { get; set; }
+        public int carId { get; set; }
     
         public virtual Contractor Contractor { get; set; }
         public virtual Person Person { get; set; }
+        public virtual Car Car { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace FirmaTransportowa.Model
             this.Lends = new HashSet<Lend>();
             this.Reservations = new HashSet<Reservation>();
             this.CarExtras = new HashSet<CarExtra>();
+            this.Activities = new HashSet<Activity>();
         }
     
         public int id { get; set; }
@@ -40,5 +41,7 @@ namespace FirmaTransportowa.Model
         public virtual ICollection<Reservation> Reservations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarExtra> CarExtras { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }

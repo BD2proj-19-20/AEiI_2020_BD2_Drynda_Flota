@@ -31,6 +31,7 @@
         <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Reservations_personId" ManuallyRouted="false" />
         <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_PeoplesPermissions_permissionId" ManuallyRouted="false" />
         <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.CarExtrasInCars" ManuallyRouted="false" />
+        <AssociationConnector Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_carId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
