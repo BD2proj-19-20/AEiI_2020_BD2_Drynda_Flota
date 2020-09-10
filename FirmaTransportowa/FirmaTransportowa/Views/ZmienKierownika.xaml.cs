@@ -74,7 +74,7 @@ namespace FirmaTransportowa.Views
                     dzienKierownictwaEndBlackoutRange.End = ((DateTime)newKierownikStart.SelectedDate).AddDays(-1);
                     newKierownikEnd.BlackoutDates[1] = dzienKierownictwaEndBlackoutRange;
                 }
-            }
+            
         }
 
 
