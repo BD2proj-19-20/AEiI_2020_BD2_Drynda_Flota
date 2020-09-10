@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FirmaTransportowa.Views"
         mc:Ignorable="d"
         Background="#FF646464"
-        Title="DataZwolnienia" Height="300" Width="200">
+        Title="Ustaw dzień zwolnienia" Height="300" Width="400">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
 			<RowDefinition Height="30"/>

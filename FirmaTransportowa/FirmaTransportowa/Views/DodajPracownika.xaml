@@ -18,7 +18,7 @@
         <PasswordBox x:Name="Hasło1" HorizontalAlignment="Left" Margin="306,248,0,0" VerticalAlignment="Top" Width="120" Height="26" RenderTransformOrigin="0.475,-0.385"/>
         <PasswordBox x:Name="Hasło2" HorizontalAlignment="Left" Margin="306,296,0,0" VerticalAlignment="Top" Width="120" Height="26"/>
         <Label Content="Data Zatrudnienia" HorizontalAlignment="Left" Margin="196,154,0,0" VerticalAlignment="Top"/>
-        <DatePicker IsEnabled="False" x:Name="DzienZatrudnienia" HorizontalAlignment="Left" Height="24" Margin="303,154,0,0"  VerticalAlignment="Top" Width="120" SelectedDateChanged="DzienZatrudnienia_SelectedDateChanged"/>
+        <DatePicker IsEnabled="False" x:Name="DzienZatrudnienia" HorizontalAlignment="Left" Height="24" Margin="303,154,0,0"  VerticalAlignment="Top" Width="120" />
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,528,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
         <Label Content="Powtórz Hasło" HorizontalAlignment="Left" Margin="196,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <CheckBox x:Name="KierownikBox" Content="Kierownik" HorizontalAlignment="Left" Margin="326,346,0,0" VerticalAlignment="Top" Checked="KierownikBox_Checked" Unchecked="KierownikBox_Unchecked" />

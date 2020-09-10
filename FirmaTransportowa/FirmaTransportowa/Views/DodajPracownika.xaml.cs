@@ -37,7 +37,6 @@ namespace FirmaTransportowa.Views
         private void Dodaj_Pracownika(object sender, RoutedEventArgs e)
         {
 
-            DateTime temp;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var workers = db.People;
             var newWorker = new Person();
@@ -119,19 +118,19 @@ namespace FirmaTransportowa.Views
         }
 
 
-        private CalendarDateRange dzienKierownictwaStartBlackoutRange = null;
-        private void DzienZatrudnienia_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
-            if (DzienKierownictwaStart.SelectedDate < DzienZatrudnienia.SelectedDate)
-                DzienKierownictwaStart.SelectedDate = DzienZatrudnienia.SelectedDate;
-            if (dzienKierownictwaStartBlackoutRange == null) {
-                dzienKierownictwaStartBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1));
-                DzienKierownictwaStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
-            }
-            else {
-                dzienKierownictwaStartBlackoutRange.End = ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1);
-                DzienKierownictwaStart.BlackoutDates[1] = dzienKierownictwaStartBlackoutRange;
-            }
-        }
+      //  private CalendarDateRange dzienKierownictwaStartBlackoutRange = null;
+        //private void DzienZatrudnienia_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+        //    if (DzienKierownictwaStart.SelectedDate < DzienZatrudnienia.SelectedDate)
+        //        DzienKierownictwaStart.SelectedDate = DzienZatrudnienia.SelectedDate;
+        //    if (dzienKierownictwaStartBlackoutRange == null) {
+        //        dzienKierownictwaStartBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1));
+        //        DzienKierownictwaStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
+        //    }
+        //    else {
+        //        dzienKierownictwaStartBlackoutRange.End = ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1);
+        //        DzienKierownictwaStart.BlackoutDates[1] = dzienKierownictwaStartBlackoutRange;
+        //    }
+        //}
 
 
         private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;

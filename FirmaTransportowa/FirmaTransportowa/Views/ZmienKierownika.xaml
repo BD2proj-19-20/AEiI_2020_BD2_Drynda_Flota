@@ -17,13 +17,11 @@
                 <ColumnDefinition Width="86*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Data rozpoczęcia" HorizontalAlignment="Left" Margin="73,54,0,0" VerticalAlignment="Top" Width="111"/>
-            <TextBox x:Name="newKierownikStart" HorizontalAlignment="Left" Height="23" Margin="189,57,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" 
-                 Grid.ColumnSpan="2"/>
+            <DatePicker x:Name="newKierownikStart" Height="24"  Margin="189,57,76,0"  VerticalAlignment="Top" Grid.ColumnSpan="2" SelectedDateChanged="DzienKierownictwaStart_SelectedDateChanged"/>
             <Button Content="Zmień" HorizontalAlignment="Left" Margin="73,199,0,0" VerticalAlignment="Top" Width="75" Click="Zmien" />
             <Button Grid.ColumnSpan="2" Content="Anuluj" HorizontalAlignment="Left" Margin="234,204,0,0" VerticalAlignment="Top" Width="75" Click="Anuluj" />
             <Label Content="Data zakończenia" HorizontalAlignment="Left" Margin="73,117,0,0" VerticalAlignment="Top" Width="111"/>
-            <TextBox x:Name="newKierownikEnd" HorizontalAlignment="Left" Height="23" Margin="189,120,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" 
-                 Grid.ColumnSpan="2"/>
+            <DatePicker x:Name="newKierownikEnd" Height="24"  Margin="189,120,76,0"  VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
         </Grid>
     </Grid>

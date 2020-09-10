@@ -80,7 +80,7 @@ namespace FirmaTransportowa.Views
             foreach (var permissionWorker in peoplePermission)
             {
                 if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
-                      permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
+                      permissionWorker.grantDate <= DateTime.Now.Date && (permissionWorker.revokeDate >= DateTime.Now.Date || permissionWorker.revokeDate == null))
                 {
 
                     Kierownik.Text = "Tak";
