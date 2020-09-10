@@ -79,7 +79,13 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            <Button Content="Cofnij" Height="43" Click="Cofnij" Margin="244,0,275,0"/>
+            <StackPanel Orientation="Horizontal" Height="36">
+                <Button Content="Usterki"  Margin="20,0,20,0" Width="145"/>
+                <Button Content="Historia"   Margin="20,0,20,0" Width="145"/>
+                <Button Content="Rezerwacje"    Margin="20,0,20,0" Width="145"/>
+                <Button Content="Cofnij"  Click="Cofnij"  Margin="20,0,20,0" Width="145"/>
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

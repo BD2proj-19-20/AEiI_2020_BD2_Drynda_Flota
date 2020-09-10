@@ -37,5 +37,6 @@ namespace FirmaTransportowa.Model
         public virtual DbSet<PeoplesPermission> PeoplesPermissions { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     }
 }
