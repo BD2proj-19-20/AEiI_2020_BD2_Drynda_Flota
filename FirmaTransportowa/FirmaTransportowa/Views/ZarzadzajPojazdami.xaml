@@ -45,14 +45,15 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="2 0" Width="100" Click="AddCar" />
-                <Button Content="Usuń" Margin="5 0" Width="100" Click="DeleteCar"/>
-                <Button Content="Sprzedaj" Margin="5 0" Width="100" Click="SellCar" />
-                <Button Content="Kup" Margin="5 0" Width="100" Click="BuyCar"/>
-                <Button Content="Zmień opiekuna" Margin="5 0" Width="100" Click="ChangeCarSupervisor" />
-                <Button Content="Podgląd" Margin="5 0" Width="100" x:Name="CarStatistics_Copy" Click="CarStatisticsClick"/>
+                <Button Content="Kup" Margin="2,0,0,0" Width="96" Click="BuyCar" />
+                <Button Content="Sprzedaj" Margin="4,0,0,0" Width="96" Click="SellCar" />
+                <Button Content="Odkup" Margin="4,0,0,0" Width="96" Click="RepurchaseCar"/>
+                <Button Content="Zmień opiekuna" Margin="4,0,0,0" Width="96" Click="ChangeCarSupervisor" />
+                <Button Content="Podgląd" Margin="4,0,0,0" Width="96" x:Name="CarStatistics_Copy" Click="CarStatisticsClick"/>
+                <Button Content="Usuń" Margin="4,0,0,0" Width="96" Click="DeleteCar"/>
+                <Button Content="Generuj raport" Click="GenerateRaport" Margin="4,0,0,0" Width="96"/>
             </StackPanel>
         </StackPanel>
-        <Button Content="Generuj raport" Click="GenerateRaport" Margin="325,5,325,550" Width="100"/>
+        
     </Grid>
 </UserControl>

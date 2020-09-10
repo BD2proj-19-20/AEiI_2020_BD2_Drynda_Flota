@@ -19,8 +19,8 @@
         <Label Content="Model" HorizontalAlignment="Left" Margin="120,230,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="25"/>
         <Label Content="Zastosowanie" HorizontalAlignment="Left" Margin="120,280,0,0" VerticalAlignment="Top" Width="180" Height="50" FontSize="25"/>
         <Label Content="Opiekun" HorizontalAlignment="Left" Margin="120,330,0,0" VerticalAlignment="Top"  Width="180" Height="50" FontSize="25"/>
-        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="275,400,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="Dodaj_Pojazd"/>
-        <Button Content="Anuluj" HorizontalAlignment="Left" Margin="275,450,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="Anuluj"/>
+        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="275,400,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="BuyCar"/>
+        <Button Content="Anuluj" HorizontalAlignment="Left" Margin="275,450,0,0" VerticalAlignment="Top" Width="200" Height="40" Click="Cancel"/>
         <Label Content="" HorizontalAlignment="Left" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" RenderTransformOrigin="-2.142,0.294" Width="730" Height="45" FontSize="25" Name="Warning" Foreground="Red"/>
 
 

@@ -25,6 +25,9 @@ namespace FirmaTransportowa.Views
             {
                 DateTime temp = (DateTime)car.saleDate;
                 saleDate = temp.ToShortDateString();
+            }
+            if (car.purchaseDate != null)
+            {
                 DateTime temp2 = (DateTime)car.purchaseDate;
                 purchaseDate = temp2.ToShortDateString();
             }

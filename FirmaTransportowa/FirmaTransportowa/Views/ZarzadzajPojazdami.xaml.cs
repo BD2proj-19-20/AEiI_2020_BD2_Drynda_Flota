@@ -191,7 +191,7 @@ namespace FirmaTransportowa.Views
             return String.Compare(first.carSupervisor, second.carSupervisor);
         }
 
-        private void AddCar(object sender, RoutedEventArgs e)
+        private void BuyCar(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new DodajPojazd(this);
@@ -340,7 +340,7 @@ namespace FirmaTransportowa.Views
 
             view.Filter += UserFilter;
         }
-        private void BuyCar(object sender, RoutedEventArgs e)
+        private void RepurchaseCar(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;

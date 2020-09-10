@@ -41,7 +41,7 @@ namespace FirmaTransportowa.Views
             }
         }
 
-        private void Dodaj_Pojazd(object sender, RoutedEventArgs e)
+        private void BuyCar(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
@@ -63,9 +63,14 @@ namespace FirmaTransportowa.Views
                 }
             }
 
-            //todo: walidacja daty (czy jest)
+            if (DataZakupu.SelectedDate != null)
+                newCar.purchaseDate = DataZakupu.SelectedDate.Value;
+            else
+            {
+                MessageBox.Show("Wprowadź datę zakupu!");
+                return;
+            }
 
-            newCar.purchaseDate = DataZakupu.SelectedDate.Value;
             newCar.inspectionValidUntil = DataZakupu.SelectedDate.Value;
             newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
 
@@ -105,8 +110,6 @@ namespace FirmaTransportowa.Views
                 newSupervisor.carId = newCar.id;
                 newSupervisor.beginDate = DateTime.Today;
                 newSupervisor.endDate = null;
-                /*newSupervisor.beginDate = Convert.ToDateTime(DataZakupu.Text);
-                newSupervisor.endDate = Convert.ToDateTime(DataZakupu.Text);*/
 
                 var People = db.People;
 
@@ -128,7 +131,7 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
 
-        private void Anuluj(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = prevWindow;
