@@ -36,11 +36,11 @@ namespace FirmaTransportowa.Views
                     this.reservationChange = reserv;
 
             }
-            ReservationDate.Text = reservationChange.reservationDate.ToString().Substring(0, 10);
-            ReservationDate.IsReadOnly = true;
-
-            ReservationStart.Text = reservationChange.lendDate.ToString().Substring(0, 10);
-            ReservationEnd.Text = reservationChange.returnDate.ToString().Substring(0, 10);
+            ReservationDate.SelectedDate = reservationChange.reservationDate;
+            ReservationStart.BlackoutDates.AddDatesInPast();
+            ReservationEnd.BlackoutDates.AddDatesInPast();
+            ReservationStart.SelectedDate = reservationChange.lendDate;
+            ReservationEnd.SelectedDate = reservationChange.returnDate;
 
             var people = db.People;
 
@@ -50,7 +50,7 @@ namespace FirmaTransportowa.Views
                 if (car.onService == false)  //gdy w sewisie nie wypożyczamy
                     PojazdID.Items.Add(car.id.ToString());
             }
-            PojazdID.Text = reservationChange.carId.ToString();
+            PojazdID.SelectedItem = reservationChange.carId.ToString();
             int index = -1;
             foreach (var human in people)
             {
@@ -123,11 +123,10 @@ namespace FirmaTransportowa.Views
             bool doReservationCar = true;
             bool doReservationPerson = true;
 
-            if (!ReservationStart.Text.Equals("") && DateTime.TryParse(ReservationStart.Text, out temp) &&
-                !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
-                Convert.ToDateTime(ReservationEnd.Text) > Convert.ToDateTime(ReservationStart.Text) && Convert.ToDateTime(ReservationStart.Text) > DateTime.Now.AddDays(-1)
-                && (datePersonOut > Convert.ToDateTime(ReservationEnd.Text) || datePersonOut == null))  //sprawdzanie poprawności danych
-
+            if (ReservationEnd.SelectedDate != null && datePersonOut < ReservationEnd.SelectedDate)
+                MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
+            else if (ReservationStart.SelectedDate != null && ReservationEnd.SelectedDate != null &&
+                ReservationEnd.SelectedDate > ReservationStart.SelectedDate && ReservationStart.SelectedDate > DateTime.Now.AddDays(-1))  //sprawdzanie poprawności danych
             {
 
                 foreach (var reserv in reservations)
@@ -137,7 +136,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                         {
                             doReservationCar = true;
@@ -157,7 +156,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > Convert.ToDateTime(ReservationEnd.Text))
+                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                         {
                             doReservationPerson = true;
@@ -183,9 +182,9 @@ namespace FirmaTransportowa.Views
                     }
 
                     reservationChange.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
-                    reservationChange.reservationDate = Convert.ToDateTime(ReservationDate.Text);
-                    reservationChange.lendDate = Convert.ToDateTime(ReservationStart.Text);
-                    reservationChange.returnDate = Convert.ToDateTime(ReservationEnd.Text);
+                    reservationChange.reservationDate = ReservationDate.SelectedDate.Value;
+                    reservationChange.lendDate = ReservationStart.SelectedDate.Value;
+                    reservationChange.returnDate = ReservationEnd.SelectedDate;
                     reservationChange.ended = false;
 
                     if (PrywatneBox.IsChecked == true)
@@ -226,14 +225,7 @@ namespace FirmaTransportowa.Views
                 }
             }
             else
-            {
-                if (!ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
-                    !ReservationEnd.Text.Equals("") && DateTime.TryParse(ReservationEnd.Text, out temp) &&
-                    datePersonOut < Convert.ToDateTime(ReservationEnd.Text))
-                    MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
-                else
-                    MessageBox.Show("Błędne dane.", "Komunikat");
-            }
+                MessageBox.Show("Błędne dane.", "Komunikat");
 
         }
 
@@ -247,6 +239,20 @@ namespace FirmaTransportowa.Views
         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
         {
             Dane_Pojzadu();
+        }
+
+        private CalendarDateRange reservationEndBlackoutRange = null;
+        private void ReservationStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+            if (ReservationEnd.SelectedDate < ReservationStart.SelectedDate)
+                ReservationEnd.SelectedDate = null;
+            if (reservationEndBlackoutRange == null) {
+                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)ReservationStart.SelectedDate).AddDays(-1));
+                ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
+            }
+            else {
+                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(-1);
+                ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
+            }
         }
     }
 }

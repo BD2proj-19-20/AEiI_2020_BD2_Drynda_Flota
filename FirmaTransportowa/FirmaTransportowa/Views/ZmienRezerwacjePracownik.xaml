@@ -10,14 +10,14 @@
     <Grid Margin="0,-20,0,-100" >
         <Button Content="Modyfikuj" HorizontalAlignment="Left" Margin="326,513,0,0" VerticalAlignment="Top" Width="75" Click="Zmien_Dane_Rezerwacji"/>
         <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="181,56,0,0" VerticalAlignment="Top" Width="112"/>
-        <TextBox x:Name="ReservationStart" HorizontalAlignment="Left" Height="23" Margin="306,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <DatePicker x:Name="ReservationStart" HorizontalAlignment="Left" Height="23" Margin="306,56,0,0" VerticalAlignment="Top" Width="120" SelectedDateChanged="ReservationStart_SelectedDateChanged"/>
+        <DatePicker x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,138,0,0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,135,0,0" VerticalAlignment="Top" Width="97"/>
         <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="197,226,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="173,284,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="306,185,0,0" VerticalAlignment="Top" Width="120" x:Name="PojazdID" SelectionChanged="Function_SelectionChanged"/>
         <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="181,96,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,100,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <DatePicker x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,100,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,562,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
         <TextBox x:Name="PojemnoscSilnika" HorizontalAlignment="Left" Height="23" Margin="306,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Model" HorizontalAlignment="Left" Margin="204,330,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
