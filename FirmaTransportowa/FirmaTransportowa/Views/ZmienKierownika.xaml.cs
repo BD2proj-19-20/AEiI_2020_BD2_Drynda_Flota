@@ -21,20 +21,14 @@ namespace FirmaTransportowa.Views
     public partial class ZmienKierownika : Window
     {
         Person toChange;
-        bool changeDate = false;
         public ZmienKierownika(Person changePerson)
         {
             InitializeComponent();
 
-
-     
-
-            
             toChange = changePerson;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            //    var permissionCompany = db.Permissions;
             var peoplePermission = db.PeoplesPermissions;
 
             foreach (var permissionWorker in peoplePermission)
@@ -42,35 +36,23 @@ namespace FirmaTransportowa.Views
                 if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
                    permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
                 {
-                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
-                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
-
                     newKierownikEnd.BlackoutDates.AddDatesInPast();
-                    newKierownikStart.IsEnabled = false; //jeśli jest w trakcie nie możemy zmienić początku
-                 //   newKierownikStart.BlackoutDates.AddDatesInPast();
-                    changeDate = true;
+                    newKierownikStart.BlackoutDates.AddDatesInPast();
+                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
+                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
                 }
                 else if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
                    permissionWorker.grantDate > DateTime.Now)
                 {
-                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
-                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
-
                     newKierownikEnd.BlackoutDates.AddDatesInPast();
                     newKierownikStart.BlackoutDates.AddDatesInPast();
-                    changeDate = true;
+
+
+                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
+                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
                 }
             }
          
-            if(changeDate==false)
-            {
-
-                newKierownikEnd.SelectedDate = DateTime.Today;
-                newKierownikStart.SelectedDate = DateTime.Today;
-                newKierownikEnd.BlackoutDates.AddDatesInPast();
-                newKierownikStart.BlackoutDates.AddDatesInPast();
-                changeDate = true;
-            }
 
         }
         private void Anuluj(object sender, RoutedEventArgs e)
@@ -80,10 +62,8 @@ namespace FirmaTransportowa.Views
         private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;
         private void DzienKierownictwaStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (changeDate == true)
-            {
-                if (newKierownikEnd.SelectedDate < newKierownikStart.SelectedDate)
-                    newKierownikEnd.SelectedDate = newKierownikStart.SelectedDate;
+            if (newKierownikEnd.SelectedDate < newKierownikStart.SelectedDate)
+                newKierownikEnd.SelectedDate = newKierownikStart.SelectedDate;
                 if (dzienKierownictwaEndBlackoutRange == null)
                 {
                     dzienKierownictwaEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)newKierownikStart.SelectedDate).AddDays(-1));

@@ -22,7 +22,7 @@ namespace FirmaTransportowa.Views
 
         private void Dodaj_Zwolnienie(object sender, RoutedEventArgs e)
         {
-            DateTime temp;
+          
             if (Kalendarz.SelectedDate != null)
             { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -64,10 +64,11 @@ namespace FirmaTransportowa.Views
                 var permissions = db.PeoplesPermissions;
                 foreach (var permission in permissions)
                 {
-                    if (permission.personId == personChange.id)
+                    if (permission.personId == personChange.id && Kalendarz.SelectedDate > permission.grantDate)
                         permission.revokeDate = Kalendarz.SelectedDate; //zamykamy wszyskie uprawnienia pracownika
                 }
-                    db.SaveChanges();
+                MessageBox.Show("Ustawiono zwolnienie!", "Komunikat");
+                db.SaveChanges();
             }
             else
                 MessageBox.Show("Zła data zwolnienia!", "Komunikat");
