@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FirmaTransportowa.Views"
         mc:Ignorable="d"
-        
-        Title="DataZwolnienia" Height="274.209" Width="460.899">
-    <Grid Background="#FF646464" Margin="0,0,2,2">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="697*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Data zwolnienia" HorizontalAlignment="Left" Margin="113,98,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
-        <Button Content="OK" HorizontalAlignment="Left" Margin="113,144,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Zwolnienie" Height="20"/>
-        <Button Content="Anuluj" HorizontalAlignment="Left" Margin="255,144,0,0" VerticalAlignment="Top" Width="75" Click="Anuluj"/>
-        <TextBox HorizontalAlignment="Left" Height="23"  Name="DataZwolnieniaPracownika" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Margin="235,101,0,0"/>
+        Background="#FF646464"
+        Title="DataZwolnienia" Height="300" Width="200">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="30"/>
+		</Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Data zwolnienia:" />
+		<Calendar Name="Kalendarz" Grid.Row="1"/>
+		<Button Grid.Row="2" Content="OK" Width="75" Height="24" Click="Dodaj_Zwolnienie"/>
+		<Button Grid.Row="3" Content="Anuluj"  Width="75" Height="24" Click="Anuluj"/>
 
-    </Grid>
+	</Grid>
 </Window>
