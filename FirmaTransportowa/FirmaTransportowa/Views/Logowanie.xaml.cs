@@ -80,7 +80,8 @@ namespace FirmaTransportowa.Views
                 {
                     if (person.systemLogin == login)
                     {
-                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate <= DateTime.Now || person.layoffDate == null)) //zwolniony nie może się zalogować
+                   
+                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate > DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
                         {
 
                             if (KierownikButton.IsChecked == true)

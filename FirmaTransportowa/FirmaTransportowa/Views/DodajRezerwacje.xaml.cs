@@ -77,11 +77,10 @@ namespace FirmaTransportowa.Views
 
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {
-
             int id = Logowanie.actualUser.id;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            DateTime temp;
+            //DateTime temp;
             var reservations = db.Reservations;
             var lends = db.Lends;
             var people = db.People;
@@ -211,16 +210,35 @@ namespace FirmaTransportowa.Views
         }
 
         private CalendarDateRange reservationEndBlackoutRange = null;
+
+        private CalendarDateRange dzienKierownictwaEndBlackoutRange2 = null;
+
         private void ReservationStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
             if (ReservationEnd.SelectedDate < ReservationStart.SelectedDate)
                 ReservationEnd.SelectedDate = null;
             if (reservationEndBlackoutRange == null) {
                 reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)ReservationStart.SelectedDate).AddDays(-1));
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
+
+                if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+                {
+                    dzienKierownictwaEndBlackoutRange2 = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate).AddDays(1),
+                       DateTime.MaxValue);
+                    ReservationEnd.BlackoutDates.Insert(2, dzienKierownictwaEndBlackoutRange2);
+
+                }
             }
             else {
                 reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(-1);
                 ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
+
+                if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+                {
+                    dzienKierownictwaEndBlackoutRange2 = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate).AddDays(1),
+                       DateTime.MaxValue);
+                    ReservationEnd.BlackoutDates.Insert(2, dzienKierownictwaEndBlackoutRange2);
+
+                }
             }
         }
 	}

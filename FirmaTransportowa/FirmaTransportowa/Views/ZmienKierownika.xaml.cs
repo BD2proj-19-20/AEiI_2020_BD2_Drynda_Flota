@@ -30,21 +30,17 @@ namespace FirmaTransportowa.Views
             toChange = changePerson;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-
             var peoplePermission = db.PeoplesPermissions;
 
             newKierownikEnd.BlackoutDates.AddDatesInPast();
             newKierownikStart.BlackoutDates.AddDatesInPast();
 
-
-             
             if (dzienKierownictwaStartBlackoutRange == null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
             {
                 if (toChange.layoffDate != null)
                 {
                     dzienKierownictwaStartBlackoutRange = new CalendarDateRange(((DateTime)toChange.layoffDate).AddDays(1),   DateTime.MaxValue);
                     newKierownikStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
-
                 }
             }
             else
@@ -56,31 +52,23 @@ namespace FirmaTransportowa.Views
                 }
             }
 
-
-
-
             foreach (var permissionWorker in peoplePermission)
             {
                 if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
                    permissionWorker.grantDate <= DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
                 {
-                
                     newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
                     newKierownikStart.IsEnabled = false;
                     newKierownikStart.BlackoutDates.Clear();
-                      newKierownikStart.SelectedDate = permissionWorker.grantDate;
-                    //   newKierownikStart.Text = permissionWorker.grantDate.ToString().Substring(0,10);
+                    newKierownikStart.SelectedDate = permissionWorker.grantDate;  //jeśli jest przed datą dzisiejszą pozwalamy na jej ustawienie ale nie zmienianie przez użytk.
                 }
                 else if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
                    permissionWorker.grantDate > DateTime.Now)
                 {
-
                     newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
                     newKierownikStart.SelectedDate = permissionWorker.grantDate;
                 }
             }
-         
-
         }
         private void Anuluj(object sender, RoutedEventArgs e)
         {
@@ -123,8 +111,7 @@ namespace FirmaTransportowa.Views
             
         }
 
-      
-       
+
         private void Zmien(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();

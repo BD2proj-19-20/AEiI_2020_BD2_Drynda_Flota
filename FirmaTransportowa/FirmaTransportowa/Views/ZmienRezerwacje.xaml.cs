@@ -21,11 +21,23 @@ namespace FirmaTransportowa.Views
                 if (reserv.id == reservationChange.id)
                     this.reservationChange = reserv;
             }
+
             ReservationDate.SelectedDate = reservationChange.reservationDate;
-            ReservationStart.BlackoutDates.AddDatesInPast();
+
+
             ReservationEnd.BlackoutDates.AddDatesInPast();
-            ReservationStart.SelectedDate = reservationChange.lendDate;
+            ReservationStart.BlackoutDates.AddDatesInPast();
+
             ReservationEnd.SelectedDate = reservationChange.returnDate;
+
+            if (reservationChange.lendDate < DateTime.Now.Date)
+            {
+                ReservationStart.IsEnabled = false;
+                ReservationStart.BlackoutDates.Clear();
+            }
+            ReservationStart.SelectedDate = reservationChange.lendDate;
+
+
 
             var people = db.People;
 
@@ -83,7 +95,6 @@ namespace FirmaTransportowa.Views
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e) {
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            DateTime temp;
             var reservations = db.Reservations;
             var lends = db.Lends;
             var people = db.People;
