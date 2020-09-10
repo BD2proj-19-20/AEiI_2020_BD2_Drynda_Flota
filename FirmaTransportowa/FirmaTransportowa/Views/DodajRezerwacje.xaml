@@ -6,18 +6,17 @@
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
              d:DesignHeight="580" d:DesignWidth="750">
-    <Grid Margin="0,-20,0,-99" >
+    <Grid Margin="0,-18,0,-101" >
         <Button Content="Dodaj" HorizontalAlignment="Left" Margin="326,500,0,0" VerticalAlignment="Top" Width="75" Click="Dodaj_Rezerwacje"/>
-        <Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="178,66,0,0" VerticalAlignment="Top" Width="115"/>
-
-        <TextBox x:Name="ReservationStart" HorizontalAlignment="Left" Height="24" Margin="306,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="ReservationDate" HorizontalAlignment="Left" Height="23" Margin="306,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,150,0,0" VerticalAlignment="Top" Width="112"/>
-        <Label Content="Rejestracja" HorizontalAlignment="Left" Margin="192,250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="172,294,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <ComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,202,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="Function_SelectionChanged"/>
+		<Label Content="Data Rozpoczęcia" HorizontalAlignment="Left" Margin="178,66,0,0" VerticalAlignment="Top" Width="115"/>
+		<DatePicker x:Name="ReservationStart" HorizontalAlignment="Left" Height="24" Margin="306,66,0,0" VerticalAlignment="Top" Width="120" SelectedDateChanged="ReservationStart_SelectedDateChanged"/>
+		<DatePicker x:Name="ReservationDate" HorizontalAlignment="Left" Height="24" Margin="306,153,0,0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+		<Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,150,0,0" VerticalAlignment="Top" Width="112"/>
+		<Label Content="Rejestracja" HorizontalAlignment="Left" Margin="192,250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+		<Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="172,294,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
+		<ComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,202,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="Function_SelectionChanged"/>
         <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="181,108,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ReservationEnd" HorizontalAlignment="Left" Height="22" Margin="306,108,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <DatePicker x:Name="ReservationEnd" HorizontalAlignment="Left" Height="24" Margin="306,108,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,546,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>
         <TextBox x:Name="PojemnoscSilnika" HorizontalAlignment="Left" Height="23" Margin="306,297,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Model" HorizontalAlignment="Left" Margin="197,340,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
