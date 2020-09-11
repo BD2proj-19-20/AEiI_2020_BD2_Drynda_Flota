@@ -124,13 +124,21 @@ namespace FirmaTransportowa.Views
             }
             var carModels = db.CarModels;
 
+            bool found = false;
             foreach (var carModel in carModels)
             {
                 string fullName = carModel.make + " " + carModel.model;
-                if (fullName.Equals(Model.Text))
+                if (fullName.Contains(Model.Text))
                 {
                     newCar.modelId = carModel.id;
+                    found = true;
                 }
+            }
+
+            if(found == false)
+            {
+                MessageBox.Show("Wprowadzony model pojazdu nie istnieje!", "Brak takiego modelu pojazdu!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
             //MODEL
 
@@ -144,12 +152,20 @@ namespace FirmaTransportowa.Views
 
             var carDests = db.CarDestinations;
 
+            found = false;
             foreach (var carDest in carDests)
             {
-                if (carDest.name.Equals(Zastosowanie.Text))
+                if (carDest.name.Contains(Zastosowanie.Text))
                 {
                     newCar.destinationId = carDest.id;
+                    found = true;
                 }
+            }
+
+            if (found == false)
+            {
+                MessageBox.Show("Wprowadzone zastosowanie pojazdu nie istnieje!", "Brak takiego zastosowania pojazdu!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
             //ZASTOSOWANIE
 
