@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="FirmaTransportowa.Views.RezerwacjePojazdu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FirmaTransportowa.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="Yellow">
+        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="254,333,0,0" VerticalAlignment="Top" Width="229" Click="cofnij" Height="92"/>
+        <Label Content="Rezerwacje pojazdu" HorizontalAlignment="Left" Margin="317,57,0,0" VerticalAlignment="Top" Width="119"/>
+
+    </Grid>
+</UserControl>

@@ -12,10 +12,12 @@ namespace FirmaTransportowa.Views
     public partial class StatystykiPojazdu : UserControl
     {
         int permission = 0;
+        Car car1;
         public StatystykiPojazdu(Car car, int userPermission)
         {
             InitializeComponent();
             permission = userPermission;
+            car1 = car;
             Rejestracja.Text = car.Registration;
             Pojemnosc_silnika.Text = car.engineCapacity.ToString();
 
@@ -85,6 +87,24 @@ namespace FirmaTransportowa.Views
                 default:
                     break;
             }
+        }
+
+        private void rezerwacjeClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new RezerwacjePojazdu(permission, car1);
+        }
+
+        private void historiaClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new HistoriaPojazdu(permission, car1);
+        }
+
+        private void UsterkiClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new Usterkipojazdu(permission, car1);
         }
     }
 }

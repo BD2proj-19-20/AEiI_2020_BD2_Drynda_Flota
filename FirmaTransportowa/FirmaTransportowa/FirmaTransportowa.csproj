@@ -161,6 +161,9 @@
     <Compile Include="Views\DodajZlecenie.xaml.cs">
       <DependentUpon>DodajZlecenie.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HistoriaPojazdu.xaml.cs">
+      <DependentUpon>HistoriaPojazdu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListaPojazdow.xaml.cs">
       <DependentUpon>ListaPojazdow.xaml</DependentUpon>
     </Compile>
@@ -191,11 +194,17 @@
     <Compile Include="Views\Rezerwacje.xaml.cs">
       <DependentUpon>Rezerwacje.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RezerwacjePojazdu.xaml.cs">
+      <DependentUpon>RezerwacjePojazdu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatystykiPojazdu.xaml.cs">
       <DependentUpon>StatystykiPojazdu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatystykiPracownika.xaml.cs">
       <DependentUpon>StatystykiPracownika.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Usterkipojazdu.xaml.cs">
+      <DependentUpon>Usterkipojazdu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Wypozyczenia.xaml.cs">
       <DependentUpon>Wypozyczenia.xaml</DependentUpon>
@@ -259,6 +268,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\HistoriaPojazdu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ListaPojazdow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -299,11 +312,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RezerwacjePojazdu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\StatystykiPojazdu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatystykiPracownika.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Usterkipojazdu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
