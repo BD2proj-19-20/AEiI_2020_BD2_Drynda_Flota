@@ -620,7 +620,10 @@ namespace FirmaTransportowa.Views
                         foreach (var reserv in reservations)
                         {
                             if (lendChange.id == reserv.lendId)
+                            {
                                 reserv.ended = true;
+
+                            }
                       
                         }
                         db.SaveChanges();
