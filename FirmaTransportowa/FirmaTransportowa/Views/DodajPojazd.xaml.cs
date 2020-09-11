@@ -1,5 +1,6 @@
 ﻿using FirmaTransportowa.Model;
 using System;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,21 +21,21 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carModels = db.CarModels;
 
-            foreach(var carModel in carModels)
+            foreach (var carModel in carModels)
             {
-                Model.Items.Add(carModel.make+" "+carModel.model);
+                Model.Items.Add(carModel.make + " " + carModel.model);
             }
 
             var carDests = db.CarDestinations;
 
-            foreach(var carDest in carDests)
+            foreach (var carDest in carDests)
             {
                 Zastosowanie.Items.Add(carDest.name);
             }
 
             var people = db.People;
 
-            foreach(var human in people)
+            foreach (var human in people)
             {
                 if (!(human.layoffDate <= DateTime.Now)) // wyświetlamy tych co nie są zwolnieni
                     Opiekunowie.Items.Add(human.firstName + " " + human.lastName);
@@ -47,62 +48,127 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             var newCar = new Car();
 
+            //REJESTRACJA
+            if(Rejestracja.Text.Length == 0)
+            {
+                System.Windows.MessageBox.Show("Nie wprowadzono numeru rejestracyjnego!", "Niepoprawny numer rejestracyjny!",MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             newCar.Registration = Rejestracja.Text;
 
-            foreach(var car in cars)
+            foreach (var car in cars)
             {
                 if (car.Registration.Contains(newCar.Registration))
                 {
-                    Warning.Content = "Pojazd z takim numerem rejestracyjnym już istnieje!";
+                    System.Windows.MessageBox.Show("Pojazd z takim numerem rejestracyjnym już istnieje!", "Niepoprawny numer rejestracyjny!", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                if(newCar.Registration.Length>8)
+                if (newCar.Registration.Length > 8)
                 {
-                    Warning.Content = "Nieprawidłowa długość numeru rejestracyjnego!";
+                    MessageBox.Show("Nieprawidłowa długość numeru rejestracyjnego!", "Niepoprawny numer rejestracyjny!", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
             }
+            //REJESTRACJA
 
-            if (DataZakupu.SelectedDate != null)
-                newCar.purchaseDate = DataZakupu.SelectedDate.Value;
-            else
+
+            //POJEMNOŚĆ SILNIKA
+            if (PojemnoscSilnika.Text.Length == 0)
             {
-                MessageBox.Show("Wprowadź datę zakupu!");
+                MessageBox.Show("Wprowadź pojemność silnika!", "Nieprawidłowa pojemność silnika!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            try
+            {
+                newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nieprawidłowy format pojemności silnika!", "Nieprawidłowa pojemność silnika!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
-            newCar.inspectionValidUntil = DataZakupu.SelectedDate.Value;
-            newCar.engineCapacity = Int16.Parse(PojemnoscSilnika.Text);
+            //POJEMNOŚĆ SILNIKA
 
 
-            var carDests = db.CarDestinations;
-            string temp = Zastosowanie.Text;
-
-            foreach(var carDest in carDests)
+            //DATA ZAKUPU
+            if (DataZakupu.SelectedDate != null)
             {
-                if(carDest.name.Equals(temp))
-                {
-                    newCar.destinationId = carDest.id;
-                }
+                newCar.purchaseDate = DataZakupu.SelectedDate.Value;
             }
-
-            var carModels = db.CarModels;
-            temp = Model.Text;
-
-            foreach (var carModel in carModels)
+            else
             {
-                string fullName = carModel.make + " " + carModel.model;
-                if (fullName.Equals(temp))
+                MessageBox.Show("Wprowadź datę zakupu!", "Brak daty zakupu!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            //DATA ZAKUPU
+
+
+            //DATA WAŻNOŚCI PRZEGLĄDU
+            if (DataPrzegladu.SelectedDate != null)
+            {
+                newCar.inspectionValidUntil = DataPrzegladu.SelectedDate.Value;
+            }
+            else
+            {
+                MessageBox.Show("Wprowadź datę ważności badania technicznego!","Brak daty badania technicznego", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            //DATA WAŻNOŚCI PRZEGLĄDU
+
+
+            //Dla poprawy juzer ekspiriens (nie pytam 2 razy jak nie wprowadzil modelu i zastosowania)
+            if (Model.Text.Length == 0 && Zastosowanie.Text.Length == 0)
+            {
+                var answer = MessageBox.Show("Nie wprowadzono modelu pojazdu i zastosowania, czy chcesz kontynuować?", "Brak modelu pojazdu i zastosowania!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (answer == MessageBoxResult.No)
+                    return;
+            }
+            else
+            {
+                //MODEL
+                if (Model.Text.Length == 0)
                 {
-                    newCar.modelId = carModel.id;
+                    var answer = MessageBox.Show("Nie wprowadzono modelu pojazdu, czy chcesz kontynuować?", "Brak modelu pojazdu!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (answer == MessageBoxResult.No)
+                        return;
                 }
+
+                var carModels = db.CarModels;
+
+                foreach (var carModel in carModels)
+                {
+                    string fullName = carModel.make + " " + carModel.model;
+                    if (fullName.Equals(Model.Text))
+                    {
+                        newCar.modelId = carModel.id;
+                    }
+                }
+                //MODEL
+
+
+                //ZASTOSOWANIE
+                if (Zastosowanie.Text.Length == 0)
+                {
+                    var answer = MessageBox.Show("Nie wprowadzono zastosowania, czy chcesz kontynuować?", "Brak zastosowania!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (answer == MessageBoxResult.No)
+                        return;
+                }
+
+                var carDests = db.CarDestinations;
+
+                foreach (var carDest in carDests)
+                {
+                    if (carDest.name.Equals(Zastosowanie.Text))
+                    {
+                        newCar.destinationId = carDest.id;
+                    }
+                }
+                //ZASTOSOWANIE
             }
 
             cars.Add(newCar);
-            db.SaveChanges();
 
-            temp = Opiekunowie.Text;
-            if (!temp.Equals(""))
+            //OPIEKUN
+            if (!Opiekun.Text.Equals(""))
             {
                 var carSupervisors = db.CarSupervisors;
 
@@ -116,7 +182,7 @@ namespace FirmaTransportowa.Views
                 foreach (var human in People)
                 {
                     string fullName = human.firstName + " " + human.lastName;
-                    if (fullName.Equals(temp))
+                    if (fullName.Equals(Opiekun.Text))
                     {
                         newSupervisor.personId = human.id;
                         newSupervisor.Person = human;
@@ -124,6 +190,7 @@ namespace FirmaTransportowa.Views
                 }
                 carSupervisors.Add(newSupervisor);
             }
+            //OPIEKUN
 
             db.SaveChanges();
 
