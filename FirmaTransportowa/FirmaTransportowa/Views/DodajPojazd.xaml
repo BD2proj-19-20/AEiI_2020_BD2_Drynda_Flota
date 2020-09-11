@@ -13,7 +13,7 @@
         <DatePicker HorizontalAlignment="Left" Height="40" Margin="340,230,0,0" VerticalAlignment="Top" Width="280" Name="DataPrzegladu" FontSize="25"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,280,0,0" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,330,0,0" VerticalAlignment="Top" Width="280"  Height="40"  Name="Zastosowanie" FontSize="25"/>
-        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,380,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekun" FontSize="25"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="340,380,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekunowie" FontSize="25"/>
         <Label Content="Rejestracja:" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <Label Content="Pojemność silnika:" HorizontalAlignment="Left" Margin="120,130,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <Label Content="Data zakupu:" HorizontalAlignment="Left" Margin="120,180,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>

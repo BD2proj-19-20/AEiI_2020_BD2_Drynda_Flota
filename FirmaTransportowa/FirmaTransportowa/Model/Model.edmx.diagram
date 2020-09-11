@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3905a90a1c724f0bb7659ebbcc6b7604" Name="Diagram1" ZoomLevel="34">
+      <Diagram DiagramId="3905a90a1c724f0bb7659ebbcc6b7604" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Activity" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarDestination" Width="1.5" PointX="1.5" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AEiI_2020_BD2_Drynda_FlotaModel.CarExtra" Width="1.5" PointX="6" PointY="16" IsExpanded="true" />

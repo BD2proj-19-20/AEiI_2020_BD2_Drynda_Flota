@@ -49,9 +49,9 @@ namespace FirmaTransportowa.Views
             var newCar = new Car();
 
             //REJESTRACJA
-            if(Rejestracja.Text.Length == 0)
+            if (Rejestracja.Text.Length == 0)
             {
-                System.Windows.MessageBox.Show("Nie wprowadzono numeru rejestracyjnego!", "Niepoprawny numer rejestracyjny!",MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Nie wprowadzono numeru rejestracyjnego!", "Niepoprawny numer rejestracyjny!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             newCar.Registration = Rejestracja.Text;
@@ -76,6 +76,7 @@ namespace FirmaTransportowa.Views
             if (PojemnoscSilnika.Text.Length == 0)
             {
                 MessageBox.Show("Wprowadź pojemność silnika!", "Nieprawidłowa pojemność silnika!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
             try
             {
@@ -109,66 +110,54 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                MessageBox.Show("Wprowadź datę ważności badania technicznego!","Brak daty badania technicznego", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Wprowadź datę ważności badania technicznego!", "Brak daty badania technicznego", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             //DATA WAŻNOŚCI PRZEGLĄDU
 
 
-            //Dla poprawy juzer ekspiriens (nie pytam 2 razy jak nie wprowadzil modelu i zastosowania)
-            if (Model.Text.Length == 0 && Zastosowanie.Text.Length == 0)
+            //MODEL
+            if (Model.Text.Length == 0)
             {
-                var answer = MessageBox.Show("Nie wprowadzono modelu pojazdu i zastosowania, czy chcesz kontynuować?", "Brak modelu pojazdu i zastosowania!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (answer == MessageBoxResult.No)
-                    return;
+                MessageBox.Show("Wprowadź model pojazdu!", "Brak modelu pojazdu!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
-            else
+            var carModels = db.CarModels;
+
+            foreach (var carModel in carModels)
             {
-                //MODEL
-                if (Model.Text.Length == 0)
+                string fullName = carModel.make + " " + carModel.model;
+                if (fullName.Equals(Model.Text))
                 {
-                    var answer = MessageBox.Show("Nie wprowadzono modelu pojazdu, czy chcesz kontynuować?", "Brak modelu pojazdu!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (answer == MessageBoxResult.No)
-                        return;
+                    newCar.modelId = carModel.id;
                 }
-
-                var carModels = db.CarModels;
-
-                foreach (var carModel in carModels)
-                {
-                    string fullName = carModel.make + " " + carModel.model;
-                    if (fullName.Equals(Model.Text))
-                    {
-                        newCar.modelId = carModel.id;
-                    }
-                }
-                //MODEL
-
-
-                //ZASTOSOWANIE
-                if (Zastosowanie.Text.Length == 0)
-                {
-                    var answer = MessageBox.Show("Nie wprowadzono zastosowania, czy chcesz kontynuować?", "Brak zastosowania!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (answer == MessageBoxResult.No)
-                        return;
-                }
-
-                var carDests = db.CarDestinations;
-
-                foreach (var carDest in carDests)
-                {
-                    if (carDest.name.Equals(Zastosowanie.Text))
-                    {
-                        newCar.destinationId = carDest.id;
-                    }
-                }
-                //ZASTOSOWANIE
             }
+            //MODEL
+
+
+            //ZASTOSOWANIE
+            if (Zastosowanie.Text.Length == 0)
+            {
+                MessageBox.Show("Wprowadź zastosowanie pojazdu!", "Brak zastosowania pojazdu!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var carDests = db.CarDestinations;
+
+            foreach (var carDest in carDests)
+            {
+                if (carDest.name.Equals(Zastosowanie.Text))
+                {
+                    newCar.destinationId = carDest.id;
+                }
+            }
+            //ZASTOSOWANIE
+
 
             cars.Add(newCar);
 
             //OPIEKUN
-            if (!Opiekun.Text.Equals(""))
+            if (!Opiekunowie.Text.Equals(""))
             {
                 var carSupervisors = db.CarSupervisors;
 
@@ -182,7 +171,7 @@ namespace FirmaTransportowa.Views
                 foreach (var human in People)
                 {
                     string fullName = human.firstName + " " + human.lastName;
-                    if (fullName.Equals(Opiekun.Text))
+                    if (fullName.Equals(Opiekunowie.Text))
                     {
                         newSupervisor.personId = human.id;
                         newSupervisor.Person = human;
