@@ -76,8 +76,7 @@ namespace FirmaTransportowa.Views
             var peoplePermission = db.PeoplesPermissions;
 
 
-          //  KierownikEndPanel.Visibility = Visibility.Visible;
-          //  KierownikStartPanel.Visibility = Visibility.Visible;
+  
 
             Kierownik.Text = "Nie";
             foreach (var permissionWorker in peoplePermission)
@@ -86,16 +85,22 @@ namespace FirmaTransportowa.Views
                       permissionWorker.grantDate <= DateTime.Now.Date && (permissionWorker.revokeDate >= DateTime.Now.Date || permissionWorker.revokeDate == null))
                 {
 
-
+                    KierownikEndPanel.Visibility = Visibility.Visible;
+                    KierownikStartPanel.Visibility = Visibility.Visible;
                     Kierownik.Text = "Tak";
                     KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
                     if (permissionWorker.revokeDate != null)
                         KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
 
+                    break;
+
                 }
                 else if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
                       permissionWorker.grantDate > DateTime.Now)
                 {
+                    KierownikEndPanel.Visibility = Visibility.Visible;
+                    KierownikStartPanel.Visibility = Visibility.Visible;
+
                     if (((permissionWorker.grantDate - DateTime.Now).Days + 1) == 1)
                         Kierownik.Text = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dzień";
                     else
@@ -104,8 +109,10 @@ namespace FirmaTransportowa.Views
                     KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
                     if (permissionWorker.revokeDate != null)
                         KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
+
+                    break;
                 }
-                else if (permissionWorker.personId == changePerson.id)
+                else 
                 {
                     KierownikEndPanel.Visibility = Visibility.Hidden;
                     KierownikStartPanel.Visibility = Visibility.Hidden;
