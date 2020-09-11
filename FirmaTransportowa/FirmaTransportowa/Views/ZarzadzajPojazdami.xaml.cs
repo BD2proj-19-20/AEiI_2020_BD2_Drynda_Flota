@@ -319,63 +319,9 @@ namespace FirmaTransportowa.Views
                             CarId = car.id,
                             SaleDate = car.saleDate
                         };
-            /*var carCount = cars.Count();
-            int queryCount = query.Count();
-            foreach (var car in query)
-            {
-                Console.WriteLine("Auto o id " + car.CarId + " ma opiekuna: " + car.SupervisorName);
-            }*/
-
-            //var carSupervisorsToCheck = carSupervisors.Where(s => (s.endDate == null) || (s.endDate > DateTime.Today));
 
             foreach (var car in query)
             {
-                string supervisorString = car.SupervisorName;
-
-                //CZAS 1.7
-                /*var supervisor = carSupervisors.Where(s => ((s.endDate == null) || (s.endDate > DateTime.Today)) && s.carId == car.id).FirstOrDefault();
-                if (supervisor != null)
-                {
-                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                }*/
-
-                //CZAS 1.75
-                /*var supervisor = carSupervisorsToCheck.SingleOrDefault(s => s.carId == car.id);
-                if (supervisor != null)
-                {
-                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                }*/
-
-                //CZAS 1.7
-                /*var supervisor = carSupervisorsToCheck.FirstOrDefault(s => s.carId == car.id);
-                if (supervisor != null)
-                {
-                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                }*/
-
-                //CZAS 2.2
-                /*var tempSuper =
-                    from num in carSupervisorsToCheck
-                    where num.carId == car.id
-                    select num;
-                if (tempSuper.Count() != 0)
-                {
-                    var supervisor = tempSuper.First();
-                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                }*/
-
-
-                //PRZYDAŁABY SIĘ OPTYMALIZAJA
-                //CZAS 1.7
-                /*foreach (var supervisor in carSupervisorsToCheck)
-                {
-                    if (supervisor.carId == car.id)
-                    {
-                        supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                        break;
-                    }
-                }*/
-
                 ListViewItem OneItem = new ListViewItem();
                 string saleDate = "";
                 if (car.SaleDate != null)
@@ -395,6 +341,7 @@ namespace FirmaTransportowa.Views
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
             view.Filter += UserFilter;
+
             stoper.Stop();
             Title.Text = stoper.Elapsed.ToString();
         }
