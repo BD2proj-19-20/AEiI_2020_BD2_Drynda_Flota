@@ -28,6 +28,10 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             car1 = car;
             userPermission = permission;
+            label.Content = "Data rezerwacji: " + car.Reservations.ElementAt(0).reservationDate + "\nOsoba wypożyczająca"+
+                 car.Reservations.ElementAt(0).Person.lastName+" "+car.Reservations.ElementAt(0).Person.lastName+"\nData wypożyczenia"+
+                 car.Reservations.ElementAt(0).lendDate+"\nData zwrotu"+
+                 car.Reservations.ElementAt(0).returnDate;
         }
 
         private void cofnij(object sender, RoutedEventArgs e)

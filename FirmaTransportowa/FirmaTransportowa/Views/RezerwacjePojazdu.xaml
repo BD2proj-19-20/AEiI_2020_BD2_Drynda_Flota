@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Yellow">
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="254,333,0,0" VerticalAlignment="Top" Width="229" Click="cofnij" Height="92"/>
-        <Label Content="Rezerwacje pojazdu" HorizontalAlignment="Left" Margin="317,57,0,0" VerticalAlignment="Top" Width="119"/>
+        <Label x:Name="label" Content="Rezerwacje pojazdu" HorizontalAlignment="Left" Margin="30,57,0,0" VerticalAlignment="Top" Width="739" Height="212"/>
 
     </Grid>
 </UserControl>
