@@ -101,6 +101,12 @@ namespace FirmaTransportowa.Views
                     if (permissionWorker.revokeDate != null)
                         KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
                 }
+                else
+                {
+                    KierownikEndPanel.Visibility = Visibility.Hidden;
+                    KierownikStartPanel.Visibility = Visibility.Hidden;
+
+                }
 
             }
 
