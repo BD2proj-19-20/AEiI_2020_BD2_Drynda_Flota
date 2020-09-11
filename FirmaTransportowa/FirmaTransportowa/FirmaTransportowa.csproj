@@ -206,8 +206,11 @@
     <Compile Include="Views\Zlecenia.xaml.cs">
       <DependentUpon>Zlecenia.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZmaianaDanychLogowania.xaml.cs">
-      <DependentUpon>ZmaianaDanychLogowania.xaml</DependentUpon>
+    <Compile Include="Views\ZmienHaslo.xaml.cs">
+      <DependentUpon>ZmienHaslo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZmienLogin.xaml.cs">
+      <DependentUpon>ZmienLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZmianaOpiekuna.xaml.cs">
       <DependentUpon>ZmianaOpiekuna.xaml</DependentUpon>
@@ -316,7 +319,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZmaianaDanychLogowania.xaml">
+    <Page Include="Views\ZmienHaslo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ZmienLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

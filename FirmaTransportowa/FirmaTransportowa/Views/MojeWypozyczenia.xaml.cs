@@ -572,5 +572,70 @@ namespace FirmaTransportowa.Views
                 return DateTime.Compare(secondDate, firstDate);
             }
         }
+
+
+        private void Zakoncz_Wypozyczenie(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
+
+            if (selected != null)
+            {
+                MyReservationList selectedObj = (MyReservationList)selected.Content;
+
+                int selectedId = selectedObj.ReservationId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                //    var reservations = db.Reservations;
+                //  Reservation reservationChange = null;
+
+                Lend lendChange = null;
+
+
+                var lends = db.Lends;
+                foreach (var lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+
+                if (lendChange.returnDate >= DateTime.Now)
+                    MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
+                else
+                {
+
+                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc wypożyczenie ?"
+                        , "Komunikat", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        lendChange.returnDate = Convert.ToDateTime(DateTime.Now);
+
+                        lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
+                            Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString()+"\n";
+                        //   reservationChange.ended = true;
+                        //   var lends = db.Lends;
+                        var reservations = db.Reservations;
+
+                        foreach (var reserv in reservations)
+                        {
+                            if (lendChange.id == reserv.lendId)
+                                reserv.ended = true;
+                      
+                        }
+                        db.SaveChanges();
+
+                        ListViewMyLends.ItemsSource = null;
+                        items.Clear();
+                        UpdateView();
+
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                    }
+                }
+            }
+            else
+                MessageBox.Show("Nic nie wybrano !", "Komunikat");
+        }
+
     }
 }
+
