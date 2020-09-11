@@ -76,12 +76,16 @@ namespace FirmaTransportowa.Views
             var peoplePermission = db.PeoplesPermissions;
 
 
+          //  KierownikEndPanel.Visibility = Visibility.Visible;
+          //  KierownikStartPanel.Visibility = Visibility.Visible;
+
             Kierownik.Text = "Nie";
             foreach (var permissionWorker in peoplePermission)
             {
                 if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
                       permissionWorker.grantDate <= DateTime.Now.Date && (permissionWorker.revokeDate >= DateTime.Now.Date || permissionWorker.revokeDate == null))
                 {
+
 
                     Kierownik.Text = "Tak";
                     KierownikDateStart.Text = permissionWorker.grantDate.ToString().Substring(0, 10);
@@ -101,7 +105,7 @@ namespace FirmaTransportowa.Views
                     if (permissionWorker.revokeDate != null)
                         KierownikDateEnd.Text = permissionWorker.revokeDate.ToString().Substring(0, 10);
                 }
-                else
+                else if (permissionWorker.personId == changePerson.id)
                 {
                     KierownikEndPanel.Visibility = Visibility.Hidden;
                     KierownikStartPanel.Visibility = Visibility.Hidden;
