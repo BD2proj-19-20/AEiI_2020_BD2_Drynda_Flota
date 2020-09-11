@@ -133,9 +133,10 @@
                 </Border>
             </StackPanel>
             <StackPanel Margin="25,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Zmień Dane Logowania" Margin="100 0 0 0" Width="143" Click="Zmien_Dane" x:Name="zmienDaneButton"/>
                 <Button Content="Cofnij" Margin="50 0 0 0" Width="105"  Click="Cofnij"/>
-                <Button Content="Zmień Kierownictwo" Margin="30 0 0 0" Width="143" Click="Zmien_Kierownika" x:Name="zmienKierownikaButton"/>
+                <Button Content="Zmień Login" Margin="50 0 0 0" Width="105" Click="Zmien_login" x:Name="zmienLoginButton"/>
+                <Button Content="Zmień Hasło" Margin="50 0 0 0" Width="105" Click="Zmien_haslo" x:Name="zmienpassowrdButton"/>
+                <Button Content="Zmień Kierownictwo" Margin="50 0 0 0" Width="143" Click="Zmien_Kierownika" x:Name="zmienKierownikaButton"/>
             </StackPanel>
         </StackPanel>
     </Grid>

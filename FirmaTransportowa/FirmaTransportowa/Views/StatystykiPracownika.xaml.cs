@@ -25,7 +25,8 @@ namespace FirmaTransportowa.Views
 
                 KierownikStartPanel.Visibility = Visibility.Hidden;
                 KierownikEndPanel.Visibility = Visibility.Hidden;
-                zmienDaneButton.Visibility = Visibility.Hidden;
+               zmienLoginButton.Visibility = Visibility.Hidden;
+                zmienpassowrdButton.Visibility = Visibility.Hidden;
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
                 AktywnosciPanel.Visibility = Visibility.Hidden; //chpowiemy ilość obecnych aktywności
@@ -207,12 +208,46 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new Pracownicy();
 
         }
-
-        private void Zmien_Dane(object sender, RoutedEventArgs e)
+        private void Zmien_haslo(object sender, RoutedEventArgs e)
         {
             Person newPerson = new Person();
             int id = changePerson.id;
-            ZmaianaDanychLogowania zmianaView = new ZmaianaDanychLogowania(changePerson);
+            ZmienHaslo zmianaView = new ZmienHaslo(changePerson);
+            zmianaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            zmianaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            zmianaView.ShowDialog();
+            while (zmianaView.IsActive)
+            {
+
+            }
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var people = db.People;
+
+
+            // toChange.systemLogin = newLogin.Text;
+
+            foreach (var person in people)
+            {
+                if (person.id == changePerson.id)
+                {
+
+                    newPerson = person;
+                    break;
+
+                }
+
+            }
+
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new StatystykiPracownika(newPerson);
+            return;
+        }
+        private void Zmien_login(object sender, RoutedEventArgs e)
+        {
+            Person newPerson = new Person();
+            int id = changePerson.id;
+            ZmienLogin zmianaView = new ZmienLogin(changePerson);
             zmianaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
             zmianaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
             zmianaView.ShowDialog();

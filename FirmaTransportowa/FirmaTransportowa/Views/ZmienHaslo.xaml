@@ -1,0 +1,30 @@
+﻿<Window x:Class="FirmaTransportowa.Views.ZmienHaslo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirmaTransportowa.Views"
+        mc:Ignorable="d"
+        Title="Zmiana Hasła" Height="247.123" Width="350">
+    <Grid Margin="0,0,2,6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="51*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="227*"/>
+                <ColumnDefinition Width="86*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Zmień" HorizontalAlignment="Left" Margin="51,153,0,0" VerticalAlignment="Top" Width="75" Click="Zmien" />
+            <Button Grid.ColumnSpan="2" Content="Anuluj" HorizontalAlignment="Left" Margin="202,153,0,0" VerticalAlignment="Top" Width="75" Click="Anuluj" />
+            <Label Content="Nowe hasło" HorizontalAlignment="Left" Margin="51,52,0,0" VerticalAlignment="Top" Width="95"/>
+            <PasswordBox x:Name="newHaslo1" HorizontalAlignment="Left" Height="23" Margin="179,55,0,0"   VerticalAlignment="Top"
+                 Width="120" Grid.ColumnSpan="2" />
+            <Label Content="Powtórz nowe hasło" HorizontalAlignment="Left" Margin="32,105,0,0" VerticalAlignment="Top" Width="125"/>
+            <PasswordBox x:Name="newHaslo2" HorizontalAlignment="Left" Height="23" Margin="179,105,0,0"   VerticalAlignment="Top"
+                Width="120" Grid.ColumnSpan="2" />
+
+        </Grid>
+    </Grid>
+</Window>
