@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -307,40 +308,86 @@ namespace FirmaTransportowa.Views
 
             items.Clear();
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            var carSupervisors = db.CarSupervisors;
-            var people = db.People;
-            var carSupervisorsToCheck = carSupervisors.Where(s => (s.endDate == null) && (s.endDate > DateTime.Today));
 
-            foreach (var car in cars)
+            var query = from car in db.Cars
+                        join supervisor in db.CarSupervisors on car.id equals supervisor.carId into final
+                        from f in final.DefaultIfEmpty() where f.endDate == null || f.endDate > DateTime.Today
+                        select new
+                        {
+                            SupervisorName = f == null ? "Brak" : f.Person.firstName + " " + f.Person.lastName,
+                            CarRegistration = car.Registration,
+                            CarId = car.id,
+                            SaleDate = car.saleDate
+                        };
+            /*var carCount = cars.Count();
+            int queryCount = query.Count();
+            foreach (var car in query)
             {
-                string supervisorString = "Brak";
+                Console.WriteLine("Auto o id " + car.CarId + " ma opiekuna: " + car.SupervisorName);
+            }*/
 
-                //Działa gorzej niż moja petla? No tak, dziwne
-                //var supervisor = carSupervisorsToCheck.FirstOrDefault(s => s.carId == car.id);
+            //var carSupervisorsToCheck = carSupervisors.Where(s => (s.endDate == null) || (s.endDate > DateTime.Today));
+
+            foreach (var car in query)
+            {
+                string supervisorString = car.SupervisorName;
+
+                //CZAS 1.7
+                /*var supervisor = carSupervisors.Where(s => ((s.endDate == null) || (s.endDate > DateTime.Today)) && s.carId == car.id).FirstOrDefault();
+                if (supervisor != null)
+                {
+                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                }*/
+
+                //CZAS 1.75
+                /*var supervisor = carSupervisorsToCheck.SingleOrDefault(s => s.carId == car.id);
+                if (supervisor != null)
+                {
+                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                }*/
+
+                //CZAS 1.7
+                /*var supervisor = carSupervisorsToCheck.FirstOrDefault(s => s.carId == car.id);
+                if (supervisor != null)
+                {
+                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                }*/
+
+                //CZAS 2.2
+                /*var tempSuper =
+                    from num in carSupervisorsToCheck
+                    where num.carId == car.id
+                    select num;
+                if (tempSuper.Count() != 0)
+                {
+                    var supervisor = tempSuper.First();
+                    supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
+                }*/
+
 
                 //PRZYDAŁABY SIĘ OPTYMALIZAJA
-                foreach (var supervisor in carSupervisorsToCheck)
+                //CZAS 1.7
+                /*foreach (var supervisor in carSupervisorsToCheck)
                 {
                     if (supervisor.carId == car.id)
                     {
                         supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
                         break;
                     }
-                }
+                }*/
 
                 ListViewItem OneItem = new ListViewItem();
                 string saleDate = "";
-                if (car.saleDate != null)
+                if (car.SaleDate != null)
                 {
-                    if (car.saleDate <= DateTime.Today)
+                    if (car.SaleDate <= DateTime.Today)
                     {
                         OneItem.Background = Brushes.LightGray;
                     }
-                    DateTime temp = (DateTime)car.saleDate;
+                    DateTime temp = (DateTime)car.SaleDate;
                     saleDate = temp.ToShortDateString();
                 }
-                OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = saleDate };
+                OneItem.Content = new ItemList { carId = car.CarId, registration = car.CarRegistration, carSupervisor = car.SupervisorName, saleDate = saleDate };
                 items.Add(OneItem);
             }
             Array.Sort(items.ToArray(), CompareCarsByIdAscending);
