@@ -7,10 +7,11 @@
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
              d:DesignHeight="580" d:DesignWidth="750">
+
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Foreground="White" Text="Zarządzaj pojazdami:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Name="Title"/>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="28,0,0,0">
                 <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="IdFilterTextChanged"/>

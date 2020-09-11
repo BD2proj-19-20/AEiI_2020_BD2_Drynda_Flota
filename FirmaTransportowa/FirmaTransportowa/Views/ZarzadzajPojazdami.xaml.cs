@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -73,6 +74,7 @@ namespace FirmaTransportowa.Views
         private SortAdorner listViewSortAdorner = null;
         private GridViewColumnHeader listViewSortCol = null;
         private GridViewColumnHeader sortingColumn = null;
+        Stopwatch stoper;
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -300,19 +302,27 @@ namespace FirmaTransportowa.Views
 
         private void InitializeList()
         {
+            stoper = new Stopwatch();
+            stoper.Start();
+
             items.Clear();
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
             var carSupervisors = db.CarSupervisors;
             var people = db.People;
+            var carSupervisorsToCheck = carSupervisors.Where(s => (s.endDate == null) && (s.endDate > DateTime.Today));
 
             foreach (var car in cars)
             {
                 string supervisorString = "Brak";
 
-                foreach (var supervisor in carSupervisors)
+                //Działa gorzej niż moja petla? No tak, dziwne
+                //var supervisor = carSupervisorsToCheck.FirstOrDefault(s => s.carId == car.id);
+
+                //PRZYDAŁABY SIĘ OPTYMALIZAJA
+                foreach (var supervisor in carSupervisorsToCheck)
                 {
-                    if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
+                    if (supervisor.carId == car.id)
                     {
                         supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
                         break;
@@ -338,6 +348,8 @@ namespace FirmaTransportowa.Views
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
             view.Filter += UserFilter;
+            stoper.Stop();
+            Title.Text = stoper.Elapsed.ToString();
         }
         private void RepurchaseCar(object sender, RoutedEventArgs e)
         {
