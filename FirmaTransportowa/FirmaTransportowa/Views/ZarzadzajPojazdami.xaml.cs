@@ -286,9 +286,9 @@ namespace FirmaTransportowa.Views
             }
 
             carList.ItemsSource = tempItems;
+            carList.Items.Refresh();
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
 
             view.Filter += UserFilter;
         }
@@ -333,11 +333,10 @@ namespace FirmaTransportowa.Views
                 OneItem.Content = new ItemList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString, saleDate = saleDate };
                 items.Add(OneItem);
             }
+            Array.Sort(items.ToArray(), CompareCarsByIdAscending);
             carList.ItemsSource = items;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
-
             view.Filter += UserFilter;
         }
         private void RepurchaseCar(object sender, RoutedEventArgs e)
