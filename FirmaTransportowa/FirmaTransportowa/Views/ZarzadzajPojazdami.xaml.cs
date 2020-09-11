@@ -314,7 +314,7 @@ namespace FirmaTransportowa.Views
                         from f in final.DefaultIfEmpty() where f.endDate == null || f.endDate > DateTime.Today
                         select new
                         {
-                            SupervisorName = f == null ? "Brak" : f.Person.firstName + " " + f.Person.lastName,
+                            SupervisorName = f == null ? "Brak" : f.Person.lastName + " " + f.Person.firstName,
                             CarRegistration = car.Registration,
                             CarId = car.id,
                             SaleDate = car.saleDate
