@@ -156,6 +156,7 @@ namespace FirmaTransportowa.Views
                     newReservation.lendDate = ReservationStart.SelectedDate.Value;
                     newReservation.returnDate = ReservationEnd.SelectedDate;
                     newReservation.ended = false;
+                   
 
                     if (PrywatneBox.IsChecked == true)
                         newReservation.@private = true;
@@ -177,8 +178,10 @@ namespace FirmaTransportowa.Views
                     newLend.reservationId = newReservation.id;
                     newLend.comments = "Zainicjowane przez kierownika";
                     lends.Add(newLend);
-                    
-                   db.SaveChanges();
+
+                    newReservation.lendId = newLend.id;
+
+                  db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
                 }
