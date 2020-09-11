@@ -580,9 +580,10 @@ namespace FirmaTransportowa.Views
 
             if (selected != null)
             {
-                MyReservationList selectedObj = (MyReservationList)selected.Content;
 
-                int selectedId = selectedObj.ReservationId - 1;
+                MyLendList selectedObj = (MyLendList)selected.Content;
+
+                int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 //    var reservations = db.Reservations;
                 //  Reservation reservationChange = null;
@@ -597,7 +598,9 @@ namespace FirmaTransportowa.Views
                         lendChange = lend;
                 }
 
-                if (lendChange.returnDate >= DateTime.Now)
+                if(lendChange.lendDate > DateTime.Now)
+                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
+                else if (lendChange.returnDate >= DateTime.Now)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
                 else
                 {
