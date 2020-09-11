@@ -51,9 +51,6 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             UpdateView();
         }
-
-
-
         public void ListaRezerwacji()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -234,7 +231,8 @@ namespace FirmaTransportowa.Views
                                 lend.returnDate = Convert.ToDateTime(DateTime.Now);
                                 lend.plannedReturnDate = Convert.ToDateTime(DateTime.Now);
 
-                                lend.comments = "Zakończono przez zakończenie rezerwacji - " + DateTime.Now.ToString();
+                                lend.comments += "Zakończono przez zakończenie\nrezerwacji przez Kierownika " + Logowanie.actualUser.id + ") " +
+                        Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
                             }
 
                         }
@@ -252,9 +250,7 @@ namespace FirmaTransportowa.Views
                 }
             }
             else
-            {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }
         }
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
@@ -359,11 +355,9 @@ namespace FirmaTransportowa.Views
 
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {
-
             ListViewReservations.ItemsSource = null;
             items.Clear();
             UpdateView();
-
         }
         private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
         {
@@ -371,9 +365,6 @@ namespace FirmaTransportowa.Views
             ListViewReservations.ItemsSource = null;
             items.Clear();
             UpdateView();
-
-
-
         }
         private void PozostałeBox_Click(object sender, RoutedEventArgs e)
         {
@@ -667,8 +658,6 @@ namespace FirmaTransportowa.Views
             else
                 secondDate = DateTime.MinValue;
             return DateTime.Compare(firstDate, secondDate);
-
-
         }
         int ComparePeopleByDateReservationDescending(ListViewItem a, ListViewItem b)
         {
