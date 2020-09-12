@@ -61,13 +61,11 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
             var query = from reserv in db.Reservations
-                        join person in db.People on reserv.personId equals person.id
-                        join car in db.Cars on reserv.carId equals car.id
                         select new
                         {
                             ReservationId = reserv.id,
                             Owner = reserv.Person.lastName + " " + reserv.Person.firstName,
-                            Vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n",
+                            Vehicle = reserv.Car.CarModel.make + "/" + reserv.Car.CarModel.model + "/" + reserv.Car.Registration + "\n",
                             Private = reserv.@private,
                             Ended = reserv.ended,
                             LendDate = reserv.lendDate,
