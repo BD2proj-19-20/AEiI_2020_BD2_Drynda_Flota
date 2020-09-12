@@ -15,7 +15,7 @@ namespace FirmaTransportowa.Views
         public DodajPojazd(ZarzadzajPojazdami prevWindow)
         {
             InitializeComponent();
-
+            DataZakupu.SelectedDate = DateTime.Today;
             this.prevWindow = prevWindow;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
