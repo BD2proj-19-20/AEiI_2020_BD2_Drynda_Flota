@@ -17,10 +17,12 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
 
-            foreach (var reserv in reservations) {
-                if (reserv.id == reservationChange.id)
-                    this.reservationChange = reserv;
-            }
+            //foreach (var reserv in reservations) {
+            //    if (reserv.id == reservationChange.id)
+            //        this.reservationChange = reserv;
+            //}
+
+            this.reservationChange = reservationChange;
 
             ReservationDate.SelectedDate = reservationChange.reservationDate;
 

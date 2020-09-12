@@ -204,6 +204,9 @@
     <Compile Include="Views\StatystykiPracownika.xaml.cs">
       <DependentUpon>StatystykiPracownika.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StatystykiWypozyczenia.xaml.cs">
+      <DependentUpon>StatystykiWypozyczenia.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Usterkipojazdu.xaml.cs">
       <DependentUpon>Usterkipojazdu.xaml</DependentUpon>
     </Compile>
@@ -322,6 +325,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatystykiPracownika.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatystykiWypozyczenia.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

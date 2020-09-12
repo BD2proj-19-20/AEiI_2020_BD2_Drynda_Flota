@@ -142,7 +142,7 @@ namespace FirmaTransportowa.Views
                 else
                 {
                     System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                    glowneOkno.DataContext = new ZmienRezerwacje(lendChange);
+                    glowneOkno.DataContext = new StatystykiWypozyczenia(lendChange);
                 }
             }
             else
