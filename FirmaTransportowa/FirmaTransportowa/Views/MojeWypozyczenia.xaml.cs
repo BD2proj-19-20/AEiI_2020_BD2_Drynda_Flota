@@ -76,10 +76,9 @@ namespace FirmaTransportowa.Views
                 if (dateTime.Length > 0)
                     date = dateTime.Substring(0, 10);
 
-                OneItem.Content = new LendList
+                OneItem.Content = new MyLendList
                 {
                     LendId = lend.LendId + 1,
-                    Person = lend.Owner,
                     LendStart = date,
                     LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
                     LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
@@ -109,7 +108,7 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
             }
-            Array.Sort(items.ToArray(), CompareLendByIdAscending);
+           // Array.Sort(items.ToArray(), CompareLendByIdAscending);
             ListViewMyLends.ItemsSource = items;
 
             stoper.Stop();
