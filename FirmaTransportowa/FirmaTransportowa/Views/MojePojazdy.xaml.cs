@@ -224,8 +224,7 @@ namespace FirmaTransportowa.Views
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
             {
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new DodajUsterke();
+
             }
             else
             {

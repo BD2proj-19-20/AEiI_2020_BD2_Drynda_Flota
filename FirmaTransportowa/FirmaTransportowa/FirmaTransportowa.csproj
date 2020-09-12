@@ -159,9 +159,6 @@
     <Compile Include="Views\DodajRezerwacje.xaml.cs">
       <DependentUpon>DodajRezerwacje.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DodajUsterke.xaml.cs">
-      <DependentUpon>DodajUsterke.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\DodajZlecenie.xaml.cs">
       <DependentUpon>DodajZlecenie.xaml</DependentUpon>
     </Compile>
@@ -265,10 +262,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DodajRezerwacje.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DodajUsterke.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
