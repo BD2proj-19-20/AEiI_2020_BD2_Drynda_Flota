@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FirmaTransportowa.Model;
+using FirmaTransportowa.ViewModels;
 
 namespace FirmaTransportowa.Views
 {
@@ -20,9 +22,15 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class ZglosUsterke : UserControl
     {
-        public ZglosUsterke()
+        public ZglosUsterke(Car car)
         {
             InitializeComponent();
+        }
+
+        private void cofnij(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new MojePojazdyModel();
         }
     }
 }

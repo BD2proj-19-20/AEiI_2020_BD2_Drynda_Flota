@@ -36,7 +36,8 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             car1 = car;
             userPermission = permission;
-            Title.Content = "Rezerwacje pojazdu: " + car.CarModel.make + " " + car.CarModel.model +" "+car.Registration;
+
+          
             loadTable();
         }
 
@@ -48,15 +49,16 @@ namespace FirmaTransportowa.Views
 
         private void changeAktualne(object sender, RoutedEventArgs e)
         {
-            if (AktualneBox.IsChecked == true)
-                Title.Content = "Aktualne rezerwacje pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
-            else
-                Title.Content = "Zakończone rezerwacje pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
+        
 
             loadTable();
         }
         void loadTable()
         {
+            if (AktualneBox.IsChecked == true)
+                Title.Content = "Aktualne rezerwacje pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
+            else
+                Title.Content = "Zakończone rezerwacje pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
             this.ListViewReservations.Items.Clear();
             for (int i = 0; i < car1.Reservations.Count; i++)
             {
