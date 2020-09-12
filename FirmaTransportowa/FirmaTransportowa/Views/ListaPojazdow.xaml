@@ -10,7 +10,7 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" Height="50" Width="700">
-                <TextBlock Foreground="White" Text="Lista samochodów:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                <TextBlock Name="Title" Foreground="White" Text="Lista samochodów:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold"/>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
                 <TextBox Text="" Height="20" Width="150" Name="idFilter" TextChanged="idFilter_TextChanged"/>

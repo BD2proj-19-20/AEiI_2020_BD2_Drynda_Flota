@@ -12,6 +12,8 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 using System.Windows.Forms;
 using FirmaTransportowa.ViewModels;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -52,102 +54,112 @@ namespace FirmaTransportowa.Views
         {
             int id = Logowanie.actualUser.id;
 
+            Stopwatch stoper = new Stopwatch();
+            stoper.Start();
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+            var query = from reserv in db.Reservations where reserv.personId == id
+                        select new
+                        {
+                            ReservationId = reserv.id,
+                            Owner = reserv.Person.lastName + " " + reserv.Person.firstName,
+                            Vehicle = reserv.Car.CarModel.make + "/" + reserv.Car.CarModel.model + "/" + reserv.Car.Registration + "\n",
+                            Private = reserv.@private,
+                            Ended = reserv.ended,
+                            LendDate = reserv.lendDate,
+                            ReturnDate = reserv.returnDate,
+                            ReservationDate = reserv.reservationDate
+                        };
+
             var people = db.People;
             var reservations = db.Reservations;
             var cars = db.Cars;
-            foreach (var reserv in reservations)
+
+            var queryCount = query.Count();
+            var reservCount = reservations.Count();
+
+            foreach (var reserv in query)
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
 
-                var vehicle = "";
-                if (reserv.personId == id)
+                if (reserv.Private == false && reserv.Ended == true && ZakonczoneBox.IsChecked.Value == true)
                 {
 
-                    foreach (var car in cars)
+                    OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+                    string dateTime = reserv.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
                     {
-                        if (car.id == reserv.carId)
-                        {
-                            vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                            break;
-                        }
-                    }
-                    if (reserv.ended == true && ZakonczoneBox.IsChecked.Value == true && reserv.@private == true)
-                    { 
-                            OneItem.Background = Brushes.Red;  //zakonczone prywatne
-          
-                         
-                        string dateTime = reserv.lendDate.ToString();
-                        date = dateTime.Substring(0, 10);
-
-                        OneItem.Content = new MyReservationList
-                        {
-                            ReservationId = reserv.id + 1,
-
-                            ReservationStart = date,
-                            ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
-                            ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                    else if (reserv.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true && reserv.@private == false)
-                    {
-                
-                        OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                        string dateTime = reserv.lendDate.ToString();
-                        date = dateTime.Substring(0, 10);
-
-                        OneItem.Content = new MyReservationList
-                        {
-                            ReservationId = reserv.id + 1,
-
-                            ReservationStart = date,
-                            ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
-                            ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                    else if (reserv.@private == true && PrywatneBox.IsChecked.Value == true && reserv.ended == false)
-                    {
-                        OneItem.Background = Brushes.BlueViolet;  //prywatne
-                        string dateTime = reserv.lendDate.ToString();
-                        date = dateTime.Substring(0, 10);
-
-                        OneItem.Content = new MyReservationList
-                        {
-                            ReservationId = reserv.id + 1,
-                            ReservationStart = date,
-                            ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
-                            ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-
-                    else if (PozostałeBox.IsChecked.Value == true && reserv.ended == false && reserv.@private == false)
-                    {
-                        string dateTime = reserv.lendDate.ToString();
-                        date = dateTime.Substring(0, 10);
-
-                        OneItem.Content = new MyReservationList
-                        {
-                            ReservationId = reserv.id + 1,
-                            ReservationStart = date,
-                            ReservationEnd = reserv.returnDate.ToString().Substring(0, 10),
-                            ReservationDate = reserv.reservationDate.ToString().Substring(0, 10),
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
+                        ReservationId = reserv.ReservationId + 1,
+                        Person = reserv.Owner,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.ReservationDate.ToString().Substring(0, 10),
+                        Vehicle = reserv.Vehicle
+                    };
+                    items.Add(OneItem);
                 }
+                else if (reserv.Private == true && reserv.Ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
+                {
+                    OneItem.Background = Brushes.Red; // zakonczone prywante
+                    string dateTime = reserv.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.ReservationId + 1,
+                        Person = reserv.Owner,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.ReservationDate.ToString().Substring(0, 10),
+                        Vehicle = reserv.Vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if (reserv.Private == true && PrywatneBox.IsChecked.Value == true && reserv.Ended == false)
+                {
+                    OneItem.Background = Brushes.BlueViolet;  //prywatne
+                    string dateTime = reserv.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.ReservationId + 1,
+                        Person = reserv.Owner,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.ReservationDate.ToString().Substring(0, 10),
+                        Vehicle = reserv.Owner
+                    };
+                    items.Add(OneItem);
+                }
+
+                else if (PozostałeBox.IsChecked.Value == true && reserv.Ended == false && reserv.Private == false)
+                {
+                    string dateTime = reserv.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new ReservationList
+                    {
+                        ReservationId = reserv.ReservationId + 1,
+                        Person = reserv.Owner,
+                        ReservationStart = date,
+                        ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
+                        ReservationDate = reserv.ReservationDate.ToString().Substring(0, 10),
+                        Vehicle = reserv.Owner
+                    };
+                    items.Add(OneItem);
+                }
+
             }
 
             ListViewMyReservations.ItemsSource = items;
 
-
+            stoper.Stop();
+            Title.Text = stoper.Elapsed.ToString();
         }
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {

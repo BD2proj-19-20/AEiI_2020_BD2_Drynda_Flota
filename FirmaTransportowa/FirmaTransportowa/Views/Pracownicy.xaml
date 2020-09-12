@@ -9,7 +9,7 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,474,0" Height="57" Width="251">
-                <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,-3,-445,0" RenderTransformOrigin="0.5,0.5" Height="60" HorizontalAlignment="Left" Width="696">
+                <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="0,-3,-445,0" RenderTransformOrigin="0.5,0.5" Height="60" HorizontalAlignment="Left" Width="696" Name="Title">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>

@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -35,35 +37,37 @@ namespace FirmaTransportowa.Views
 
         private void initializeList()
         {
+            Stopwatch stoper = new Stopwatch();
+            stoper.Start();
 
+            items.Clear();
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            var carSupervisors = db.CarSupervisors;
-            var people = db.People;
 
-            foreach (var car in cars)
+            var query = from car in db.Cars where car.saleDate == null
+                        join supervisor in db.CarSupervisors on car.id equals supervisor.carId into final
+                        from f in final.DefaultIfEmpty()
+                        where f.endDate == null || f.endDate > DateTime.Today
+                        select new
+                        {
+                            SupervisorName = f == null ? "Brak" : f.Person.lastName + " " + f.Person.firstName,
+                            CarRegistration = car.Registration,
+                            CarId = car.id,
+                        };
+
+            foreach (var car in query)
             {
-                string supervisorString = "Brak";
-
-                foreach (var supervisor in carSupervisors)
-                {
-                    if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
-                    {
-                        supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                        break;
-                    }
-                }
-
                 ListViewItem OneItem = new ListViewItem();
-                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, carSupervisor = supervisorString};
+                OneItem.Content = new CarList { carId = car.CarId, registration = car.CarRegistration, carSupervisor = car.SupervisorName};
                 items.Add(OneItem);
             }
+            Array.Sort(items.ToArray(), CompareCarsByIdAscending);
             carList.ItemsSource = items;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
-            view.SortDescriptions.Add(new SortDescription("carId", ListSortDirection.Descending));
-
             view.Filter += UserFilter;
+
+            stoper.Stop();
+            Title.Text = stoper.Elapsed.ToString();
         }
 
         private bool UserFilter(object item)

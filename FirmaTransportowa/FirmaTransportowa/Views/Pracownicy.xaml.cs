@@ -13,6 +13,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace FirmaTransportowa.Views
 {
@@ -49,6 +50,8 @@ namespace FirmaTransportowa.Views
 
         public List<ListViewItem> ListaPracownikow()
         {
+            Stopwatch stoper = new Stopwatch();
+            stoper.Start();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
@@ -81,6 +84,10 @@ namespace FirmaTransportowa.Views
                 }
 
             }
+
+            stoper.Stop();
+            Title.Text = stoper.Elapsed.ToString();
+
             return items;
         }
 

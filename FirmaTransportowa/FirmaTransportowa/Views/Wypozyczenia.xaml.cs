@@ -72,9 +72,6 @@ namespace FirmaTransportowa.Views
                             ReservationDate = lend.Reservation.reservationDate
                         };
 
-            var queryCount = query.Count();
-            var lendCount = db.Lends.Count();
-
             foreach (var lend in query)
             {
                 ListViewItem OneItem = new ListViewItem();
