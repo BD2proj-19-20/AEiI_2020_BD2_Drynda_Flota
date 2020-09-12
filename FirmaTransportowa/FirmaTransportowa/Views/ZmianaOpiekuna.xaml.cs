@@ -41,14 +41,15 @@ namespace FirmaTransportowa.Views
                 //Szukam dotychczasowego opiekuna i ustawiam mu date konca
                 foreach (var carSupervisor in carSupervisors)
                 {
-                    if (carSupervisor.carId == toChange.id)
+                    if (carSupervisor.carId == toChange.id && carSupervisor.endDate == null)
                     {
-                        carSupervisor.endDate = DateTime.Today;
+                        carSupervisor.endDate = DateTime.Now;
+                        break;
                     }
                 }
 
                 newSupervisor.carId = toChange.id;
-                newSupervisor.beginDate = DateTime.Today;
+                newSupervisor.beginDate = DateTime.Now;
                 newSupervisor.endDate = null;
 
                 var People = db.People;

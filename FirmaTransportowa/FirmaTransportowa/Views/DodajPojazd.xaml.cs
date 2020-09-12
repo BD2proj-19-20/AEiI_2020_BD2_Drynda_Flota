@@ -186,7 +186,7 @@ namespace FirmaTransportowa.Views
 
                 var newSupervisor = new CarSupervisor();
                 newSupervisor.carId = newCar.id;
-                newSupervisor.beginDate = DateTime.Today;
+                newSupervisor.beginDate = DateTime.Now;
                 newSupervisor.endDate = null;
 
                 var People = db.People;
