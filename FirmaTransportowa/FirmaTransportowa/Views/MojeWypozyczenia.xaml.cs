@@ -125,8 +125,8 @@ namespace FirmaTransportowa.Views
             ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
             if (selected != null)
             {
-                ReservationList selectedObj = (ReservationList)selected.Content;
-                int selectedId = selectedObj.ReservationId - 1;
+                MyLendList selectedObj = (MyLendList)selected.Content;
+                int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 //var people = db.People;
                 var lends = db.Lends;
@@ -137,12 +137,12 @@ namespace FirmaTransportowa.Views
                     if (lend.id == selectedId)
                         lendChange = lend;
                 }
-                if (lendChange.lendDate < DateTime.Now || lendChange.returnDate > lendChange.lendDate)
-                    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+                if (lendChange.lendDate < DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate)
+                    MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
                 {
                     System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                    glowneOkno.DataContext = new StatystykiWypozyczenia(lendChange);
+                    glowneOkno.DataContext = new StatystykiWypozyczenia(lendChange,false);
                 }
             }
             else

@@ -144,6 +144,35 @@ namespace FirmaTransportowa.Views
             items.Clear();
             UpdateView();
         }
+        private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewLends.SelectedItem;
+            if (selected != null)
+            {
+                LendList selectedObj = (LendList)selected.Content;
+                int selectedId = selectedObj.LendId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var lends = db.Lends;
+                Lend lendChange = null;
+
+                foreach (var lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+                if (lendChange.lendDate < DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate)
+                    MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
+                else
+                {
+                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                    glowneOkno.DataContext = new StatystykiWypozyczenia(lendChange,true);
+                }
+            }
+            else
+
+                MessageBox.Show("Niczego nie wybrano !", "Komunikat");
+        }
+
         private bool UserFilter(object item)
         {
             ListViewItem toFilter = (ListViewItem)item;
