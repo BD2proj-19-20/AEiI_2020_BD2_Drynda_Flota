@@ -15,7 +15,7 @@ namespace FirmaTransportowa.Views
         public DodajPojazd(ZarzadzajPojazdami prevWindow)
         {
             InitializeComponent();
-
+            DataZakupu.SelectedDate = DateTime.Today;
             this.prevWindow = prevWindow;
 
             DataZakupu.SelectedDate = DateTime.Today;
