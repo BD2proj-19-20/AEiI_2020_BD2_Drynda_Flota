@@ -69,7 +69,8 @@ namespace FirmaTransportowa.Views
                             LendDate = lend.lendDate,
                             ReturnDate = lend.returnDate,
                             PlannedReturnDate = lend.plannedReturnDate,
-                            ReservationDate = lend.Reservation.reservationDate
+                            ReservationDate = lend.Reservation.reservationDate,
+                         LendEnded = lend.Reservation.ended
                         };
 
             foreach (var lend in query)
@@ -92,13 +93,12 @@ namespace FirmaTransportowa.Views
                     Vehicle = lend.Vehicle
                 };
 
-
-                if (lend.ReturnDate <= DateTime.Now && ZakonczoneBox.IsChecked.Value == true && lend.Private == true) //zakończone
+                if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded==true) && ZakonczoneBox.IsChecked.Value == true && lend.Private == true ) //zakończone
                 {
                     OneItem.Background = Brushes.Red;  //zakonczone prywatne
                     items.Add(OneItem);
                 }
-                else if (lend.ReturnDate <= DateTime.Now && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
+                else if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
                 {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     items.Add(OneItem);

@@ -126,7 +126,7 @@ namespace FirmaTransportowa.Views
             if (ReservationEnd.SelectedDate != null && datePersonOut < ReservationEnd.SelectedDate)
                 MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
             else if (ReservationStart.SelectedDate != null && ReservationEnd.SelectedDate != null &&
-                ReservationEnd.SelectedDate > ReservationStart.SelectedDate && ReservationStart.SelectedDate > DateTime.Now.AddDays(-1))  //sprawdzanie poprawności danych
+                ReservationEnd.SelectedDate > ReservationStart.SelectedDate) //sprawdzanie poprawności danych
             {
 
                 foreach (var reserv in reservations)

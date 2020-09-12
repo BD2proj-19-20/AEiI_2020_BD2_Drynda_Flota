@@ -117,7 +117,7 @@ namespace FirmaTransportowa.Views
              if (datePersonOut != null && ReservationEnd.SelectedDate != null && datePersonOut < ReservationEnd.SelectedDate)
                 MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
             else if (ReservationStart.SelectedDate != null && ReservationEnd.SelectedDate != null &&
-                ReservationEnd.SelectedDate > ReservationStart.SelectedDate && ReservationStart.SelectedDate > DateTime.Now.AddDays(-1) //prawdopodobnie zbędna linia, DatePickery chyba przed tym bronią
+                ReservationEnd.SelectedDate > ReservationStart.SelectedDate //prawdopodobnie zbędna linia, DatePickery chyba przed tym bronią
                 )   //sprawdzanie poprawności danych
             {
 
