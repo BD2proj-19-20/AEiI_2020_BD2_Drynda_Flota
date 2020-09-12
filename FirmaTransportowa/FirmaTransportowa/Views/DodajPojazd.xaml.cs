@@ -54,7 +54,7 @@ namespace FirmaTransportowa.Views
                 System.Windows.MessageBox.Show("Nie wprowadzono numeru rejestracyjnego!", "Niepoprawny numer rejestracyjny!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if(Rejestracja.Text.Length != 4 || Rejestracja.Text.Length != 7)
+            if(Rejestracja.Text.Length != 4 && Rejestracja.Text.Length != 7)
             {
                 System.Windows.MessageBox.Show("Wprowadzony numer ma niepoprawną ilość znaków!", "Niepoprawny numer rejestracyjny!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
