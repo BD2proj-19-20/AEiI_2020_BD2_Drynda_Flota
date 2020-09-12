@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using FirmaTransportowa.Model;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Microsoft.Win32;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace FirmaTransportowa.Views
@@ -119,38 +120,60 @@ namespace FirmaTransportowa.Views
 
         private void GenerateRaport(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.Filter = "Dokument pdf|*.pdf";
+            saveFileDialog.Title = "Zapisz raport na temat pojazdów";
+            saveFileDialog.ShowDialog();
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var carSupervisors = db.CarSupervisors;
             var cars = db.Cars;
-            var people = db.People;
 
             iTextSharp.text.Font times = FontFactory.GetFont("Arial", 32, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times3.Size = 14;
-            FileStream fs = new FileStream("Raport na temat pojazdow " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
 
             foreach (var car in cars)
             {
+                //SAMOCHÓD
                 doc.Add(new iTextSharp.text.Paragraph(car.id + " " + car.Registration + " " + car.CarModel.make + " " + car.CarModel.model, times));
-                doc.Add(new iTextSharp.text.Paragraph("Opiekunowie: ", times2));
+                //SAMOCHÓD
+
+                //HISTORIA OPIEKUNÓW
+                var carSupervisors = from carSupervisor in db.CarSupervisors
+                                     where carSupervisor.carId == car.id
+                                     orderby carSupervisor.beginDate
+                                     select new
+                                     {
+                                         Person = carSupervisor.Person,
+                                         CarId = carSupervisor.carId,
+                                         BeginDate = carSupervisor.beginDate,
+                                         EndDate = carSupervisor.endDate
+                                     };
+
+                if (carSupervisors.Count() != 0)
+                    doc.Add(new iTextSharp.text.Paragraph("Opiekunowie: ", times2));
                 foreach (var carSupervisor in carSupervisors)
                 {
-                    if (car.id == carSupervisor.carId)
+                    if (car.id == carSupervisor.CarId)
                     {
-                        carSupervisor.beginDate.ToShortDateString();
+                        carSupervisor.BeginDate.ToShortDateString();
                         string endDate = "";
-                        if (carSupervisor.endDate != null)
+                        if (carSupervisor.EndDate != null)
                         {
-                            DateTime temp = (DateTime)carSupervisor.endDate;
-                            endDate = temp.ToShortDateString();
+                            endDate = carSupervisor.EndDate.ToString();
                         }
-                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " " + carSupervisor.Person.lastName + ": " + carSupervisor.beginDate.ToShortDateString() + " - " + endDate + "\n", times3));
+                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " "
+                            + carSupervisor.Person.lastName + ": \t\t\t" + carSupervisor.BeginDate.ToString() + " - "
+                            + endDate + "\n", times3));
                     }
                 }
+                //HISTORIA OPIEKUNÓW
 
             }
             doc.Close();
@@ -229,7 +252,7 @@ namespace FirmaTransportowa.Views
 
             var query = from car in db.Cars
                         join supervisor in db.CarSupervisors on car.id equals supervisor.carId into final
-                        from f in final.DefaultIfEmpty() where f.endDate == null || f.endDate > DateTime.Today
+                        from f in final.DefaultIfEmpty() where f.endDate == null
                         select new
                         {
                             SupervisorName = f == null ? "Brak" : f.Person.lastName + " " + f.Person.firstName,
