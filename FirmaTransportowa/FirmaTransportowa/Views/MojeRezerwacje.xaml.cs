@@ -152,7 +152,7 @@ namespace FirmaTransportowa.Views
                     MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
             }
             else
-                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+                MessageBox.Show("Niczego nie wybrano !", "Komunikat");
         }
         private void Zakoncz_Rezerwacje(object sender, RoutedEventArgs e)
         {

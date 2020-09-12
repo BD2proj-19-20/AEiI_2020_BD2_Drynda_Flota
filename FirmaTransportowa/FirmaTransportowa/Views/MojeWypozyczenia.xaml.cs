@@ -129,28 +129,25 @@ namespace FirmaTransportowa.Views
                 int selectedId = selectedObj.ReservationId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 //var people = db.People;
-                var lend = db.Reservations;
+                var lends = db.Lends;
                 Lend lendChange = null;
 
-                //foreach (var reserv in reservations)
-                //{
-                //    if (lend.id == selectedId)
-                //        reservationChange = reserv;
-                //}
-                //if (reservationChange.ended == false)
-                //{
-                //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                //    glowneOkno.DataContext = new ZmienRezerwacje(reservationChange);
-
-                //}
-                //else
-                //    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+                foreach (var  lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+                if (lendChange.lendDate < DateTime.Now || lendChange.returnDate > lendChange.lendDate)
+                    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+                else
+                {
+                    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                    glowneOkno.DataContext = new ZmienRezerwacje(lendChange);
+                }
             }
             else
 
-                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
+                MessageBox.Show("Niczego nie wybrano !", "Komunikat");
         }
 
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
