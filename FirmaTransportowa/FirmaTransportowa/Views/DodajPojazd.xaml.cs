@@ -18,6 +18,8 @@ namespace FirmaTransportowa.Views
 
             this.prevWindow = prevWindow;
 
+            DataZakupu.SelectedDate = DateTime.Today;
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carModels = db.CarModels;
 
