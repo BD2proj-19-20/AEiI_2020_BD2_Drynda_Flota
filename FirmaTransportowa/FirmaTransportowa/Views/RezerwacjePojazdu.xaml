@@ -13,7 +13,7 @@
             </Border>
             <StackPanel Orientation="Horizontal" Margin="25,0,25,0" Height="20">
                
-                <CheckBox x:Name="ZakonczoneBox" Content="Zakończone" Width="127" IsChecked="True" Height="20" VerticalAlignment="Top"  />
+                <CheckBox x:Name="AktualneBox" Content="Aktualne" Width="127" IsChecked="True" Height="20" VerticalAlignment="Top" Click="changeAktualne"  />
           
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="25,0,25,0">
