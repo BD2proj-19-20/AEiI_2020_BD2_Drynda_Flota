@@ -21,22 +21,35 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class RezerwacjePojazdu : UserControl
     {
+        public class Reservation
+        {
+            public string Person { get; set; }
+            public string ReservationStart { get; set; }
+            public string ReservationEnd { get; set; }
+            public string ReservationDate { get; set; }
+        }
+
         private Car car1;
         private int userPermission;
         public RezerwacjePojazdu(int permission, Car car)
         {
+            
             InitializeComponent();
             car1 = car;
             userPermission = permission;
-            if (car.Reservations.Count > 0)
-                label.Content = car.Reservations.Count;
-                for (int i = 0; i < car.Reservations.Count; i++)
+            Title.Content = "Rezerwacje pojazdu: " + car.CarModel.make + " " + car.CarModel.model +" "+car.Registration;
+            for (int i = 0; i < car.Reservations.Count; i++)
+            {
+                this.ListViewReservations.Items.Add(new Reservation
                 {
-                label.Content += "Data rezerwacji: " + car.Reservations.ElementAt(0).reservationDate + "\nOsoba wypożyczająca" +
-                     car.Reservations.ElementAt(0).Person.lastName + " " + car.Reservations.ElementAt(0).Person.lastName + "\nData wypożyczenia" +
-                     car.Reservations.ElementAt(0).lendDate + "\nData zwrotu" +
-                     car.Reservations.ElementAt(0).returnDate + "\n\n";
-                }
+                    Person = car.Reservations.ElementAt(i).Person.firstName + " " + car.Reservations.ElementAt(i).Person.lastName,
+                    ReservationStart = car.Reservations.ElementAt(i).lendDate.ToString(),
+                    ReservationEnd = car.Reservations.ElementAt(i).reservationDate.ToString(),
+                    ReservationDate = car.Reservations.ElementAt(i).returnDate.ToString()
+                }) ;
+            }
+
+
         }
 
         private void cofnij(object sender, RoutedEventArgs e)

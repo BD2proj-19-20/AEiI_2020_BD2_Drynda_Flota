@@ -6,9 +6,61 @@
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Yellow">
-        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="254,333,0,0" VerticalAlignment="Top" Width="229" Click="cofnij" Height="92"/>
-        <Label x:Name="label" Content="Rezerwacje pojazdu" HorizontalAlignment="Left" Margin="30,57,0,0" VerticalAlignment="Top" Width="201" Height="368"/>
+    <Grid Background="#FF646464" Margin="0,0,0,-129">
+        <StackPanel Orientation="Vertical">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,20,25,0" Height="46" Width="700" RenderTransformOrigin="0.494,-0.141">
+                <Label Foreground="White" Content="Rezerwacje:"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10,0,0,6" RenderTransformOrigin="0.834,1.025" Name="Title"/>
+            </Border>
+            <StackPanel Orientation="Horizontal" Margin="25,0,25,0" Height="20">
+               
+                <CheckBox x:Name="ZakonczoneBox" Content="Zakończone" Width="127" IsChecked="True" Height="20" VerticalAlignment="Top"  />
+          
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="25,0,25,0">
 
+                <TextBox Text="" Height="20" Width="155" x:Name="personFilter" />
+                <TextBox Text="" Height="20" Width="100" x:Name="dataStartFilter"/>
+                <TextBox Text="" Height="20" Width="100" x:Name="dataEndFilter" />
+                <TextBox Text="" Height="20" Width="100" x:Name="dataReservationFilter" />
+
+            </StackPanel>
+
+            <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="700">
+                <ListView.View>
+                    <GridView>
+                       
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Person}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Person" >Pracownik</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding ReservationStart}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader  Tag="DateStart" >Data rozpoczęcia</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding ReservationEnd}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="DateEnd" >Data zakończenia</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" DisplayMemberBinding="{Binding ReservationDate}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="DateReservation" >Data rezerwacji</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                       
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
+
+                <Button Content="Cofnij" Margin="250,0,250,0"  Width="200"  VerticalAlignment="Top"  Click="cofnij" Height="50"/>
+
+            </StackPanel>
+        </StackPanel>
+        
+        
     </Grid>
+    
 </UserControl>
