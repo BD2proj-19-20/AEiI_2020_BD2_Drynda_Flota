@@ -60,15 +60,15 @@ namespace FirmaTransportowa.Views
             this.ListViewReservations.Items.Clear();
             for (int i = 0; i < car1.Reservations.Count; i++)
             {
-               if ((AktualneBox.IsChecked == true && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) <0)
-                    || (AktualneBox.IsChecked == false))
+               if ((AktualneBox.IsChecked == true && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) >0)
+                    || (AktualneBox.IsChecked == false && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) < 0))
                 {
                     this.ListViewReservations.Items.Add(new Reservation
                     {
                         Person = car1.Reservations.ElementAt(i).Person.firstName + " " + car1.Reservations.ElementAt(i).Person.lastName,
                         ReservationStart = car1.Reservations.ElementAt(i).lendDate.ToString(),
-                        ReservationEnd = car1.Reservations.ElementAt(i).reservationDate.ToString(),
-                        ReservationDate = car1.Reservations.ElementAt(i).returnDate.ToString()
+                        ReservationEnd = car1.Reservations.ElementAt(i).returnDate.ToString(),
+                        ReservationDate = car1.Reservations.ElementAt(i).reservationDate.ToString()
                     }) ;
                 }
             }
