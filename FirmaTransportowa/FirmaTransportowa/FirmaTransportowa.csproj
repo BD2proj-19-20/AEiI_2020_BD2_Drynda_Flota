@@ -216,6 +216,9 @@
     <Compile Include="Views\ZarzadzajPojazdami.xaml.cs">
       <DependentUpon>ZarzadzajPojazdami.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZglosUsterke.xaml.cs">
+      <DependentUpon>ZglosUsterke.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Zlecenia.xaml.cs">
       <DependentUpon>Zlecenia.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZarzadzajPojazdami.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZglosUsterke.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

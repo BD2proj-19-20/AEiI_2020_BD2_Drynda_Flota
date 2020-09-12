@@ -220,11 +220,26 @@ namespace FirmaTransportowa.Views
 
         private void zglos(object sender, RoutedEventArgs e)
         {
-            //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
             {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
 
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+                
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car);
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = zglosUsterke;
+                        return;
+                    }
+                }
             }
             else
             {
