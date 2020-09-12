@@ -110,82 +110,7 @@ namespace FirmaTransportowa.Views
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
 
-        int CompareCarsByIdAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return first.carId.CompareTo(second.carId);
-        }
-
-        int CompareCarsByIdDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return second.carId.CompareTo(first.carId);
-        }
-
-        int CompareCarsByRegistrationAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(second.registration, first.registration);
-        }
-
-        int CompareCarsByRegistrationDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(first.registration, second.registration);
-        }
-
-        int CompareCarsBySaleDateAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            DateTime firstDate;
-            DateTime secondDate;
-            if (first.saleDate.CompareTo("") != 0)
-                firstDate = Convert.ToDateTime(first.saleDate);
-            else
-                firstDate = DateTime.MinValue;
-            if (second.saleDate.CompareTo("") != 0)
-                secondDate = Convert.ToDateTime(second.saleDate);
-            else
-                secondDate = DateTime.MinValue;
-            return DateTime.Compare(secondDate, firstDate);
-        }
-
-        int CompareCarsBySaleDateDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            DateTime firstDate;
-            DateTime secondDate;
-            if (first.saleDate.CompareTo("") != 0)
-                firstDate = Convert.ToDateTime(first.saleDate);
-            else
-                firstDate = DateTime.MinValue;
-            if (second.saleDate.CompareTo("") != 0)
-                secondDate = Convert.ToDateTime(second.saleDate);
-            else
-                secondDate = DateTime.MinValue;
-            return DateTime.Compare(firstDate, secondDate);
-        }
-
-        int CompareCarsBySupervisorAscending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(second.carSupervisor, first.carSupervisor);
-        }
-
-        int CompareCarsBySupervisorDescending(ListViewItem a, ListViewItem b)
-        {
-            ItemList first = (ItemList)a.Content;
-            ItemList second = (ItemList)b.Content;
-            return String.Compare(first.carSupervisor, second.carSupervisor);
-        }
-
+        
         private void BuyCar(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
@@ -250,34 +175,35 @@ namespace FirmaTransportowa.Views
             listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
             AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
 
+            CarComparator carComparator = new CarComparator();
             var tempItems = items.ToArray();
             if (sortBy == "carId")
             {
                 if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsByIdAscending);
+                    Array.Sort(tempItems, carComparator.CompareCarsByIdAscending);
                 else
-                    Array.Sort(tempItems, CompareCarsByIdDescending);
+                    Array.Sort(tempItems, carComparator.CompareCarsByIdDescending);
             }
             else if (sortBy == "registration")
             {
                 if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsByRegistrationAscending);
+                    Array.Sort(tempItems, carComparator.CompareCarsByRegistrationAscending);
                 else
-                    Array.Sort(tempItems, CompareCarsByRegistrationDescending);
+                    Array.Sort(tempItems, carComparator.CompareCarsByRegistrationDescending);
             }
             else if (sortBy == "carSupervisor")
             {
                 if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsBySupervisorAscending);
+                    Array.Sort(tempItems, carComparator.CompareCarsBySupervisorAscending);
                 else
-                    Array.Sort(tempItems, CompareCarsBySupervisorDescending);
+                    Array.Sort(tempItems, carComparator.CompareCarsBySupervisorDescending);
             }
             else if (sortBy == "saleDate")
             {
                 if (newDir.ToString() == "Ascending")
-                    Array.Sort(tempItems, CompareCarsBySaleDateAscending);
+                    Array.Sort(tempItems, carComparator.CompareCarsBySaleDateAscending);
                 else
-                    Array.Sort(tempItems, CompareCarsBySaleDateDescending);
+                    Array.Sort(tempItems, carComparator.CompareCarsBySaleDateDescending);
             }
 
             carList.ItemsSource = tempItems;
@@ -328,7 +254,7 @@ namespace FirmaTransportowa.Views
                 OneItem.Content = new ItemList { carId = car.CarId, registration = car.CarRegistration, carSupervisor = car.SupervisorName, saleDate = saleDate };
                 items.Add(OneItem);
             }
-            Array.Sort(items.ToArray(), CompareCarsByIdAscending);
+            Array.Sort(items.ToArray(), new CarComparator().CompareCarsByIdAscending);
             carList.ItemsSource = items;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(carList.ItemsSource);
@@ -355,7 +281,13 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
+                        if(car.saleDate == null)
+                        {
+                            MessageBox.Show("Nie można kupić niesprzedanego samochodu!", "Błąd przy zakupie!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }    
                         car.saleDate = null;
+                        car.purchaseDate = DateTime.Today;
                         break;
                     }
                 }
@@ -397,6 +329,11 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
+                        if (car.saleDate != null)
+                        {
+                            MessageBox.Show("Nie można sprzedać sprzedanego samochodu!", "Błąd przy sprzedaży!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                         car.saleDate = DateTime.Today;
                         break;
                     }
