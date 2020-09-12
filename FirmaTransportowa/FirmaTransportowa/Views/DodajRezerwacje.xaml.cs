@@ -102,7 +102,7 @@ namespace FirmaTransportowa.Views
             bool doReservationCar = true;
             bool doReservationPerson = true;
 
-                if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
+                if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate >= ReservationStart.SelectedDate
                     && (datePersonOut > ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
                 {
 
