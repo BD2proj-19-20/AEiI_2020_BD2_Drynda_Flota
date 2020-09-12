@@ -52,7 +52,8 @@ namespace FirmaTransportowa.Views
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            var query = from lend in db.Lends where lend.personId == id
+            var query = from lend in db.Lends
+                        where lend.personId == id
                         select new
                         {
                             LendId = lend.id,
@@ -68,93 +69,36 @@ namespace FirmaTransportowa.Views
             foreach (var lend in query)
             {
                 ListViewItem OneItem = new ListViewItem();
-                var date = "";
+                string dateTime = lend.LendDate.ToString();
+                string date = "";
 
+                if (dateTime.Length > 0)
+                    date = dateTime.Substring(0, 10);
+
+                OneItem.Content = new MyLendList
+                {
+                    LendId = lend.LendId + 1,
+                    LendStart = date,
+                    LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
+                    LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
+                    ReservationDate = lend.ReservationDate.ToShortDateString(),
+                    Vehicle = lend.Vehicle
+                };
 
                 if (lend.ReturnDate <= DateTime.Now && ZakonczoneBox.IsChecked.Value == true && lend.Private == true) //zakończone
                 {
                     OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                    string dateTime = lend.LendDate.ToString();
-
-                    if (dateTime.Length > 0)
-                        date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new LendList
-                    {
-                        LendId = lend.LendId + 1,
-                        Person = lend.Owner,
-                        LendStart = date,
-                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
-                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
-                        ReservationDate = lend.ReservationDate.ToShortDateString(),
-                        Vehicle = lend.Vehicle
-                    };
-                    items.Add(OneItem);
                 }
                 else if (lend.ReturnDate <= DateTime.Now && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
                 {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                    string dateTime = lend.LendDate.ToString();
-
-                    if (dateTime.Length > 0)
-                        date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new LendList
-                    {
-                        LendId = lend.LendId + 1,
-                        Person = lend.Owner,
-                        LendStart = date,
-                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
-                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
-                        ReservationDate = lend.ReservationDate.ToShortDateString(),
-                        Vehicle = lend.Vehicle
-                    };
-                    items.Add(OneItem);
                 }
                 else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) &&
                     PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
-                    string dateTime = lend.LendDate.ToString();
-                    date = dateTime.Substring(0, 10);
-
-                    if (dateTime.Length > 0)
-                        date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new LendList
-                    {
-                        LendId = lend.LendId + 1,
-                        Person = lend.Owner,
-                        LendStart = date,
-                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
-                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
-                        ReservationDate = lend.ReservationDate.ToShortDateString(),
-                        Vehicle = lend.Vehicle
-                    };
-                    items.Add(OneItem);
                 }
-                else if (PozostałeBox.IsChecked.Value == true && lend.Private == false
-                    && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
-                {
-                    string dateTime = lend.LendDate.ToString();
-                    date = dateTime.Substring(0, 10);
-
-                    if (dateTime.Length > 0)
-                        date = dateTime.Substring(0, 10);
-
-                    OneItem.Content = new LendList
-                    {
-                        LendId = lend.LendId + 1,
-                        Person = lend.Owner,
-                        LendStart = date,
-                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
-                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
-                        ReservationDate = lend.ReservationDate.ToShortDateString(),
-                        Vehicle = lend.Vehicle
-                    };
-                    items.Add(OneItem);
-                }
-
+                items.Add(OneItem);
             }
 
             ListViewMyLends.ItemsSource = items;
@@ -390,7 +334,7 @@ namespace FirmaTransportowa.Views
                 MyLendList second = (MyLendList)b.Content;
                 return second.LendId.CompareTo(first.LendId);
             }
-         
+
 
 
             int CompareCarAscending(ListViewItem a, ListViewItem b)
@@ -570,7 +514,7 @@ namespace FirmaTransportowa.Views
                         lendChange = lend;
                 }
 
-                if(lendChange.lendDate > DateTime.Now)
+                if (lendChange.lendDate > DateTime.Now)
                     MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
                 else if (lendChange.returnDate >= DateTime.Now)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
@@ -584,7 +528,7 @@ namespace FirmaTransportowa.Views
                         lendChange.returnDate = Convert.ToDateTime(DateTime.Now);
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
-                            Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString()+"\n";
+                            Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
                         //   reservationChange.ended = true;
                         //   var lends = db.Lends;
                         var reservations = db.Reservations;
@@ -596,7 +540,7 @@ namespace FirmaTransportowa.Views
                                 reserv.ended = true;
 
                             }
-                      
+
                         }
                         db.SaveChanges();
 

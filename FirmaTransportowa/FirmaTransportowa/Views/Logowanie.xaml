@@ -9,7 +9,6 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Content="Pracownik" Margin="0 20 0 0" Click="Worker_Click"/>
             <Button Content="Kierownik" Margin="0 20 0 0" Click="Leader_Click"/>
             <Button Content="Opiekun" Margin="0 20 0 0" Click="Supervisor_Click"/>
             <Label Content="Login:" Foreground="White" Margin="0 20 0 0"/>
