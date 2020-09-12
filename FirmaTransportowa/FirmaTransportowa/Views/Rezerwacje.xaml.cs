@@ -96,18 +96,22 @@ namespace FirmaTransportowa.Views
                 if (reserv.Private == false && reserv.Ended == true && ZakonczoneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+                    items.Add(OneItem);
                 }
                 else if (reserv.Private == true && reserv.Ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.Red; // zakonczone prywante
+                    items.Add(OneItem);
                 }
                 else if (reserv.Private == true && PrywatneBox.IsChecked.Value == true && reserv.Ended == false)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
+                    items.Add(OneItem);
                 }
-                items.Add(OneItem);
+                else if (PozostałeBox.IsChecked.Value == true &&
+                    reserv.Ended == false && reserv.Private == false)
+                    items.Add(OneItem);
             }
-            Array.Sort(items.ToArray(), CompareReservationByIdAscending);
             ListViewReservations.ItemsSource = items;
 
             stoper.Stop();

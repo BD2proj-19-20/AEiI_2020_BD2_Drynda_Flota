@@ -115,7 +115,6 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
             }
-
             ListViewLends.ItemsSource = items;
 
             stoper.Stop();
@@ -343,185 +342,185 @@ namespace FirmaTransportowa.Views
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewLends.ItemsSource);
             view.Filter += UserFilter;
 
-            int CompareLendByIdAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return first.LendId.CompareTo(second.LendId);
-            }
-            int CompareLendByIdDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return second.LendId.CompareTo(first.LendId);
-            }
-
-            int CompareLendByPersonAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return String.Compare(first.Person, second.Person);
-
-            }
-            int CompareLendByPersonDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return String.Compare(second.Person, first.Person);
-            }
-
-            int CompareCarAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return String.Compare(first.Vehicle, second.Vehicle);
-
-            }
-            int CompareCarDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                return String.Compare(second.Vehicle, first.Vehicle);
-            }
-            int CompareLendByDateStartAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendStart.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendStart);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendStart.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendStart);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(firstDate, secondDate);
-            }
-            int CompareLendByDateStartDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendStart.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendStart);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendStart.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendStart);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(secondDate, firstDate);
-            }
-            int CompareLendByDatePlannedEndAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendPlannedEnd.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendPlannedEnd);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendPlannedEnd.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendPlannedEnd);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(firstDate, secondDate);
-
-
-            }
-            int CompareLendByDatePlannedEndDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendPlannedEnd.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendPlannedEnd);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendPlannedEnd.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendPlannedEnd);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(secondDate, firstDate);
-            }
-
-
-            int CompareLendByDateEndAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendEnd.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendEnd);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendEnd.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendEnd);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(firstDate, secondDate);
-
-
-            }
-            int CompareLendByDateEndDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.LendEnd.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.LendEnd);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.LendEnd.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.LendEnd);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(secondDate, firstDate);
-            }
-
-            int CompareLendByDateReservationAscending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.ReservationDate.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.ReservationDate);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.ReservationDate.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.ReservationDate);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(firstDate, secondDate);
-
-
-            }
-            int CompareLendByDateReservationDescending(ListViewItem a, ListViewItem b)
-            {
-                LendList first = (LendList)a.Content;
-                LendList second = (LendList)b.Content;
-                DateTime firstDate;
-                DateTime secondDate;
-                if (first.ReservationDate.CompareTo("") != 0)
-                    firstDate = Convert.ToDateTime(first.ReservationDate);
-                else
-                    firstDate = DateTime.MinValue;
-                if (second.ReservationDate.CompareTo("") != 0)
-                    secondDate = Convert.ToDateTime(second.ReservationDate);
-                else
-                    secondDate = DateTime.MinValue;
-                return DateTime.Compare(secondDate, firstDate);
-            }
+          
+        }
+        int CompareLendByIdAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return first.LendId.CompareTo(second.LendId);
+        }
+        int CompareLendByIdDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return second.LendId.CompareTo(first.LendId);
         }
 
+        int CompareLendByPersonAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return String.Compare(first.Person, second.Person);
+
+        }
+        int CompareLendByPersonDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return String.Compare(second.Person, first.Person);
+        }
+
+        int CompareCarAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return String.Compare(first.Vehicle, second.Vehicle);
+
+        }
+        int CompareCarDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            return String.Compare(second.Vehicle, first.Vehicle);
+        }
+        int CompareLendByDateStartAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendStart.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendStart);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendStart.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendStart);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+        }
+        int CompareLendByDateStartDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendStart.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendStart);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendStart.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendStart);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+        int CompareLendByDatePlannedEndAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendPlannedEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendPlannedEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendPlannedEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendPlannedEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+
+        }
+        int CompareLendByDatePlannedEndDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendPlannedEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendPlannedEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendPlannedEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendPlannedEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+
+
+        int CompareLendByDateEndAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+
+        }
+        int CompareLendByDateEndDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.LendEnd.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.LendEnd);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.LendEnd.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.LendEnd);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
+
+        int CompareLendByDateReservationAscending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(firstDate, secondDate);
+
+
+        }
+        int CompareLendByDateReservationDescending(ListViewItem a, ListViewItem b)
+        {
+            LendList first = (LendList)a.Content;
+            LendList second = (LendList)b.Content;
+            DateTime firstDate;
+            DateTime secondDate;
+            if (first.ReservationDate.CompareTo("") != 0)
+                firstDate = Convert.ToDateTime(first.ReservationDate);
+            else
+                firstDate = DateTime.MinValue;
+            if (second.ReservationDate.CompareTo("") != 0)
+                secondDate = Convert.ToDateTime(second.ReservationDate);
+            else
+                secondDate = DateTime.MinValue;
+            return DateTime.Compare(secondDate, firstDate);
+        }
         private void Zakoncz_Wypozyczenie(object sender, RoutedEventArgs e)
         {
             ListViewItem selected = (ListViewItem)ListViewLends.SelectedItem;
