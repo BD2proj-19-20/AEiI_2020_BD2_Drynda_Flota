@@ -64,7 +64,7 @@ namespace FirmaTransportowa.Views
                             ReturnDate = lend.returnDate,
                             PlannedReturnDate = lend.plannedReturnDate,
                             ReservationDate = lend.Reservation.reservationDate,
-                              LendEnded = lend.Reservation.ended
+                            LendEnded = lend.Reservation.ended
                         };
 
             foreach (var lend in query)
@@ -108,7 +108,7 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
             }
-           // Array.Sort(items.ToArray(), CompareLendByIdAscending);
+            // Array.Sort(items.ToArray(), CompareLendByIdAscending);
             ListViewMyLends.ItemsSource = items;
 
             stoper.Stop();
@@ -118,6 +118,39 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             UpdateView();
+        }
+
+        private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
+            if (selected != null)
+            {
+                ReservationList selectedObj = (ReservationList)selected.Content;
+                int selectedId = selectedObj.ReservationId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                //var people = db.People;
+                var lend = db.Reservations;
+                Lend lendChange = null;
+
+                //foreach (var reserv in reservations)
+                //{
+                //    if (lend.id == selectedId)
+                //        reservationChange = reserv;
+                //}
+                //if (reservationChange.ended == false)
+                //{
+                //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                //    glowneOkno.DataContext = new ZmienRezerwacje(reservationChange);
+
+                //}
+                //else
+                //    MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
+            }
+            else
+
+                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+            //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
         }
 
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
@@ -330,7 +363,7 @@ namespace FirmaTransportowa.Views
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewMyLends.ItemsSource);
             view.Filter += UserFilter;
 
-           
+
         }
 
         int CompareLendByIdAscending(ListViewItem a, ListViewItem b)

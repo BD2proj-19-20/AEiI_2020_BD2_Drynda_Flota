@@ -26,7 +26,8 @@ namespace FirmaTransportowa.Views
             {
 
                 if(car.onService==false)  //gdy w sewisie nie wypożyczamy
-                PojazdID.Items.Add(car.id);
+                    PojazdID.Items.Add(car.id.ToString());
+
 
             }
             PojazdID.SelectedIndex = 0;
