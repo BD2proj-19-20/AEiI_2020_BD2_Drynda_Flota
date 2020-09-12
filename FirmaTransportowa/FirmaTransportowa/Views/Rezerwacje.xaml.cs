@@ -147,7 +147,7 @@ namespace FirmaTransportowa.Views
             }
             else
 
-                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+                MessageBox.Show("Niczego nie wybrano !", "Komunikat");
             //    System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             // glowneOkno.DataContext = new ModyfikujRezerwacjeModel();
         }
@@ -219,7 +219,7 @@ namespace FirmaTransportowa.Views
                 }
             }
             else
-                MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
+                MessageBox.Show("Niczego nie wybrano !", "Komunikat");
         }
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
