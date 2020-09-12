@@ -61,12 +61,12 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
             var query = from reserv in db.Reservations
-                        join person in db.People on reserv.personId equals person.id into tableA
+                        join person in db.People on reserv.personId equals person.id
                         join car in db.Cars on reserv.carId equals car.id
                         select new
                         {
-                            ReservationIdTemp = reserv.id,
-                            Owner = reserv.Person.firstName + " " + reserv.Person.lastName,
+                            ReservationId = reserv.id,
+                            Owner = reserv.Person.lastName + " " + reserv.Person.firstName,
                             Vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n",
                             Private = reserv.@private,
                             Ended = reserv.ended,
@@ -96,7 +96,7 @@ namespace FirmaTransportowa.Views
 
                     OneItem.Content = new ReservationList
                     {
-                        ReservationId = reserv.ReservationIdTemp + 1,
+                        ReservationId = reserv.ReservationId + 1,
                         Person = reserv.Owner,
                         ReservationStart = date,
                         ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
@@ -113,7 +113,7 @@ namespace FirmaTransportowa.Views
 
                     OneItem.Content = new ReservationList
                     {
-                        ReservationId = reserv.ReservationIdTemp + 1,
+                        ReservationId = reserv.ReservationId + 1,
                         Person = reserv.Owner,
                         ReservationStart = date,
                         ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
@@ -130,7 +130,7 @@ namespace FirmaTransportowa.Views
 
                     OneItem.Content = new ReservationList
                     {
-                        ReservationId = reserv.ReservationIdTemp + 1,
+                        ReservationId = reserv.ReservationId + 1,
                         Person = reserv.Owner,
                         ReservationStart = date,
                         ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),
@@ -147,7 +147,7 @@ namespace FirmaTransportowa.Views
 
                     OneItem.Content = new ReservationList
                     {
-                        ReservationId = reserv.ReservationIdTemp + 1,
+                        ReservationId = reserv.ReservationId + 1,
                         Person = reserv.Owner,
                         ReservationStart = date,
                         ReservationEnd = reserv.ReturnDate.ToString().Substring(0, 10),

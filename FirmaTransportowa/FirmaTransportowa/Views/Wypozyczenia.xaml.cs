@@ -12,7 +12,9 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 using System.Windows.Forms;
 using FirmaTransportowa.ViewModels;
-
+using System.Diagnostics;
+using System.Linq;
+using System.Data.Entity.Core.Common.CommandTrees;
 
 namespace FirmaTransportowa.Views
 {
@@ -51,162 +53,124 @@ namespace FirmaTransportowa.Views
         }
         public void ListaWypozyczen()
         {
-          //  int id = Logowanie.actualUser.id;
+            //  int id = Logowanie.actualUser.id;
+            Stopwatch stoper = new Stopwatch();
+            stoper.Start();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
-            var reservations = db.Reservations;
-            var lends = db.Lends;
-            var cars = db.Cars;
-            foreach (var lend in lends)
+
+            var query = from lend in db.Lends
+                        select new
+                        {
+                            LendId = lend.id,
+                            Owner = lend.Person.lastName + " " + lend.Person.firstName,
+                            Vehicle = lend.Car.CarModel.make + "/" + lend.Car.CarModel.model + "/" + lend.Car.Registration + "\n",
+                            Private = lend.@private,
+                            LendDate = lend.lendDate,
+                            ReturnDate = lend.returnDate,
+                            PlannedReturnDate = lend.plannedReturnDate,
+                            ReservationDate = lend.Reservation.reservationDate
+                        };
+
+            var queryCount = query.Count();
+            var lendCount = db.Lends.Count();
+
+            foreach (var lend in query)
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
 
-                var vehicle = "";
-                var własciciel = "";
-              
-                    foreach (var car in cars)
-                    {
-                        if (car.id == lend.carId)
-                        {
-                            vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                            break;
-                        }
-                    }
 
-                    foreach (var person in people)
-                    {
-                        if (lend.personId == person.id)
-                        {
-                            własciciel = person.lastName + " " + person.firstName;
-                            break;
-                        }
+                if (lend.ReturnDate <= DateTime.Now && ZakonczoneBox.IsChecked.Value == true && lend.Private == true) //zakończone
+                {
+                    OneItem.Background = Brushes.Red;  //zakonczone prywatne
+                    string dateTime = lend.LendDate.ToString();
 
-                    }
-
-
-                    if (lend.returnDate <= DateTime.Now && ZakonczoneBox.IsChecked.Value == true && lend.@private == true) //zakończone
-                    {
-                        OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                        string dateTime = lend.lendDate.ToString();
-
-                        if (dateTime.Length > 0)
-                            date = dateTime.Substring(0, 10);
-
-                        foreach (var reservation in reservations)
-                        {
-                            if (lend.reservationId == reservation.id)
-                            {
-                                dateTime = reservation.reservationDate.ToShortDateString();
-                                break;
-                            }
-                        }
-                        OneItem.Content = new LendList
-                        {
-                            LendId = lend.id + 1,
-                            Person = własciciel,
-                            LendStart = date,
-                            LendPlannedEnd = lend.plannedReturnDate.ToString().Substring(0, 10),
-                            LendEnd = lend.returnDate != null ? lend.returnDate.ToString().Substring(0, 10) : "",
-                            ReservationDate = dateTime,
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                    else if (lend.returnDate <= DateTime.Now && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.@private == false) //zakończone
-                    {
-                        OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                        string dateTime = lend.lendDate.ToString();
-
-                        if (dateTime.Length > 0)
-                            date = dateTime.Substring(0, 10);
-
-                        foreach (var reservation in reservations)
-                        {
-                            if (lend.reservationId == reservation.id)
-                            {
-                                dateTime = reservation.reservationDate.ToShortDateString();
-                                break;
-                            }
-                        }
-                        OneItem.Content = new LendList
-                        {
-                            LendId = lend.id + 1,
-                            Person = własciciel,
-                            LendStart = date,
-                            LendPlannedEnd = lend.plannedReturnDate.ToString().Substring(0, 10),
-                            LendEnd = lend.returnDate != null ? lend.returnDate.ToString().Substring(0, 10) : "",
-                            ReservationDate = dateTime,
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                    else if (lend.@private == true && (lend.returnDate > DateTime.Now || lend.returnDate == null) &&
-                        PrywatneBox.IsChecked.Value == true)
-                    {
-                        OneItem.Background = Brushes.BlueViolet;  //prywatne
-                        string dateTime = lend.lendDate.ToString();
+                    if (dateTime.Length > 0)
                         date = dateTime.Substring(0, 10);
 
-                        if (dateTime.Length > 0)
-                            date = dateTime.Substring(0, 10);
-
-                        foreach (var reservation in reservations)
-                        {
-                            if (lend.reservationId == reservation.id)
-                            {
-                                dateTime = reservation.reservationDate.ToShortDateString();
-                                break;
-                            }
-                        }
-                        OneItem.Content = new LendList
-                        {
-                            LendId = lend.id + 1,
-                            Person = własciciel,
-                            LendStart = date,
-                            LendPlannedEnd = lend.plannedReturnDate.ToString().Substring(0, 10),
-                            LendEnd = lend.returnDate != null ? lend.returnDate.ToString().Substring(0, 10) : "",
-                            ReservationDate = dateTime,
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                    else if (PozostałeBox.IsChecked.Value == true && lend.@private == false
-                        && (lend.returnDate > DateTime.Now || lend.returnDate == null))
+                    OneItem.Content = new LendList
                     {
-                        string dateTime = lend.lendDate.ToString();
+                        LendId = lend.LendId + 1,
+                        Person = lend.Owner,
+                        LendStart = date,
+                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
+                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
+                        ReservationDate = lend.ReservationDate.ToShortDateString(),
+                        Vehicle = lend.Vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if (lend.ReturnDate <= DateTime.Now && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
+                {
+                    OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
+                    string dateTime = lend.LendDate.ToString();
+
+                    if (dateTime.Length > 0)
                         date = dateTime.Substring(0, 10);
 
-                        if (dateTime.Length > 0)
-                            date = dateTime.Substring(0, 10);
+                    OneItem.Content = new LendList
+                    {
+                        LendId = lend.LendId + 1,
+                        Person = lend.Owner,
+                        LendStart = date,
+                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
+                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
+                        ReservationDate = lend.ReservationDate.ToShortDateString(),
+                        Vehicle = lend.Vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) &&
+                    PrywatneBox.IsChecked.Value == true)
+                {
+                    OneItem.Background = Brushes.BlueViolet;  //prywatne
+                    string dateTime = lend.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
 
-                        foreach (var reservation in reservations)
-                        {
-                            if (lend.reservationId == reservation.id)
-                            {
-                                dateTime = reservation.reservationDate.ToShortDateString();
-                                break;
-                            }
-                        }
-                        OneItem.Content = new LendList
-                        {
-                            LendId = lend.id + 1,
-                            Person = własciciel,
-                            LendStart = date,
-                            LendPlannedEnd = lend.plannedReturnDate.ToString().Substring(0, 10),
-                            LendEnd = lend.returnDate != null ? lend.returnDate.ToString().Substring(0, 10) : "",
-                            ReservationDate = dateTime,
-                            Vehicle = vehicle
-                        };
-                        items.Add(OneItem);
-                    }
-                
+                    if (dateTime.Length > 0)
+                        date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new LendList
+                    {
+                        LendId = lend.LendId + 1,
+                        Person = lend.Owner,
+                        LendStart = date,
+                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
+                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
+                        ReservationDate = lend.ReservationDate.ToShortDateString(),
+                        Vehicle = lend.Vehicle
+                    };
+                    items.Add(OneItem);
+                }
+                else if (PozostałeBox.IsChecked.Value == true && lend.Private == false
+                    && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
+                {
+                    string dateTime = lend.LendDate.ToString();
+                    date = dateTime.Substring(0, 10);
+
+                    if (dateTime.Length > 0)
+                        date = dateTime.Substring(0, 10);
+
+                    OneItem.Content = new LendList
+                    {
+                        LendId = lend.LendId + 1,
+                        Person = lend.Owner,
+                        LendStart = date,
+                        LendPlannedEnd = lend.PlannedReturnDate.ToString().Substring(0, 10),
+                        LendEnd = lend.ReturnDate != null ? lend.ReturnDate.ToString().Substring(0, 10) : "",
+                        ReservationDate = lend.ReservationDate.ToShortDateString(),
+                        Vehicle = lend.Vehicle
+                    };
+                    items.Add(OneItem);
+                }
+
             }
 
             ListViewLends.ItemsSource = items;
 
-
+            stoper.Stop();
+            Title.Text = stoper.Elapsed.ToString();
         }
         private void PrywatneBox_Click(object sender, RoutedEventArgs e)
         {

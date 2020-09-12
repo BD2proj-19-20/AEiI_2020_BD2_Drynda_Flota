@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity.Core.Common.CommandTrees;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,17 +9,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace FirmaTransportowa.Views
 {
-    /// <summary>
-    /// Interaction logic for ZarzadzajPojazdami.xaml
-    /// </summary>
-    /// 
     public class ItemList : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -75,7 +68,6 @@ namespace FirmaTransportowa.Views
         private SortAdorner listViewSortAdorner = null;
         private GridViewColumnHeader listViewSortCol = null;
         private GridViewColumnHeader sortingColumn = null;
-        Stopwatch stoper;
         public ZarzadzajPojazdami()
         {
             InitializeComponent();
@@ -303,7 +295,7 @@ namespace FirmaTransportowa.Views
 
         private void InitializeList()
         {
-            stoper = new Stopwatch();
+            Stopwatch stoper = new Stopwatch();
             stoper.Start();
 
             items.Clear();

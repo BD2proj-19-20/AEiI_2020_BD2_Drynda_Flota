@@ -9,7 +9,7 @@
     <Grid Background="#FF646464">
         <StackPanel Orientation="Vertical">
             <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,0,25,0" Height="46" Width="700" RenderTransformOrigin="0.494,-0.141">
-                <TextBlock Foreground="White" Text="Wypożyczenia:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="10,0,0,6" RenderTransformOrigin="0.834,1.025"/>
+                <TextBlock Foreground="White" Text="Wypożyczenia:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Margin="10,0,0,6" RenderTransformOrigin="0.834,1.025" Name="Title"/>
             </Border>
 
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="20">
