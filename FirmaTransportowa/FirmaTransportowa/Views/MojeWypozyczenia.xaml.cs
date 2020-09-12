@@ -63,7 +63,7 @@ namespace FirmaTransportowa.Views
                             LendDate = lend.lendDate,
                             ReturnDate = lend.returnDate,
                             PlannedReturnDate = lend.plannedReturnDate,
-                            ReservationDate = lend.Reservation.reservationDate
+                            ReservationDate = lend.Reservation.reservationDate,
                               LendEnded = lend.Reservation.ended
                         };
 
