@@ -20,6 +20,7 @@ namespace FirmaTransportowa.Views
             public int carId { get; set; }
 
             public string registration { get; set; }
+            public int fault { get; set; }
         }
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
@@ -52,7 +53,8 @@ namespace FirmaTransportowa.Views
                 }
 
                 ListViewItem OneItem = new ListViewItem();
-                OneItem.Content = new CarList { carId = car.id, registration = car.Registration};
+                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault=car.Activities.Count};
+                
                 items.Add(OneItem);
             }
             carList.ItemsSource = items;
@@ -203,6 +205,20 @@ namespace FirmaTransportowa.Views
         }
 
         private void Activate_Disactivate_Click(object sender, RoutedEventArgs e)
+        {
+            //Pobieram zaznaczony samochód
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
+        private void zglos(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
