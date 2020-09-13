@@ -103,31 +103,17 @@ namespace FirmaTransportowa.Views
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     items.Add(OneItem);
                 }
-                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) &&
+                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false  &&
                     PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
                     items.Add(OneItem);
                 }
-
-
-
-
-
-                else if(PozostałeBox.IsChecked.Value == true && lend.Private == false
+                else if(PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
                         && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
                 {
                     items.Add(OneItem);
                 }
-
-                if (lend.LendDate > DateTime.Now.Date || lend.ReturnDate < lend.LendDate)
-                items.RemoveRange(items.Count-1, 1);
-               
-
-
-
-
-
             }
             ListViewLends.ItemsSource = items;
 
@@ -575,11 +561,7 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                //    var reservations = db.Reservations;
-                //  Reservation reservationChange = null;
-
                 Lend lendChange = null;
-
 
                 var lends = db.Lends;
                 foreach (var lend in lends)

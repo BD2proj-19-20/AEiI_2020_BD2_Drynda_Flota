@@ -96,13 +96,13 @@ namespace FirmaTransportowa.Views
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     items.Add(OneItem);
                 }
-                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) &&
-                    PrywatneBox.IsChecked.Value == true)
+                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false &&
+                  PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
                     items.Add(OneItem);
                 }
-                else if (PozostałeBox.IsChecked.Value == true && lend.Private == false
+                else if (PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
                         && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
                 {
                     items.Add(OneItem);
