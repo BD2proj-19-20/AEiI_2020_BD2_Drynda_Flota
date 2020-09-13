@@ -106,10 +106,6 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock FontSize="15" FontWeight="Bold" Text=" Inne"/>
                         </StackPanel>
-                        <StackPanel Name="AktywnosciPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Obecne aktywności:" Width="150"/>
-                            <TextBlock FontSize="15" x:Name="Aktywnosci"/>
-                        </StackPanel>
                         <StackPanel Name="OpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
                             <ScrollViewer MaxHeight="70"  

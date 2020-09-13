@@ -29,7 +29,6 @@ namespace FirmaTransportowa.Views
                 zmienpassowrdButton.Visibility = Visibility.Hidden;
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
-                AktywnosciPanel.Visibility = Visibility.Hidden; //chpowiemy ilość obecnych aktywności
                 Thickness margin = BylyOpiekunPanel.Margin;
                 margin.Top = margin.Top - 40;
                 BylyOpiekunPanel.Margin = margin; //przesuwamy w górę panel z byłymi opiekunami
@@ -53,7 +52,7 @@ namespace FirmaTransportowa.Views
             var activities = db.Activities;
             var carSupervisior = db.CarSupervisors;
 
-            int aktywnosci = 0;
+            //int aktywnosci = 0;
             var lends = db.Lends;
             var cars = db.Cars;
             string textOpiekun = "";
@@ -70,14 +69,14 @@ namespace FirmaTransportowa.Views
                             bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                 }
             }
-            if (!(changePerson.layoffDate <= DateTime.Now))
-                Opiekun.Text = textOpiekun;
-            BylyOpiekun.Text = bylyOpiekun;
+
+
+                if (!(changePerson.layoffDate <= DateTime.Now))
+                    Opiekun.Text = textOpiekun;
+                BylyOpiekun.Text = bylyOpiekun;
 
             var peoplePermission = db.PeoplesPermissions;
 
-
-  
 
             Kierownik.Text = "Nie";
             foreach (var permissionWorker in peoplePermission)
@@ -122,13 +121,13 @@ namespace FirmaTransportowa.Views
 
             }
 
-            foreach (var aktyw in activities)
-            {
-                if (aktyw.reporterId == people.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
-                    aktywnosci++;
-            }
+            //foreach (var aktyw in activities)
+            //{
+            //    if (aktyw.reporterId == people.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
+            //        aktywnosci++;
+            //}
 
-            Aktywnosci.Text = aktywnosci.ToString();
+            //Aktywnosci.Text = aktywnosci.ToString();
 
             int zleceniaPrywatne = 0;
             int przejechaneKm = 0;
