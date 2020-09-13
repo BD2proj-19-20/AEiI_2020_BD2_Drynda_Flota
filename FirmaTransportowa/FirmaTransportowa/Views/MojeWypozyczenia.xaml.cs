@@ -598,6 +598,43 @@ namespace FirmaTransportowa.Views
             else
                 MessageBox.Show("Nic nie wybrano !", "Komunikat");
         }
+        private void Zglos_usterke(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
+            if (selected != null)
+            {
+                MyLendList selectedObj = (MyLendList)selected.Content;
+
+                int selectedId = selectedObj.LendId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+                var cars = db.Cars;
+
+                Lend lendChange = null;
+
+                var lends = db.Lends;
+                foreach (var lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+
+                foreach (var car in cars)
+                {
+                    if (lendChange.carId==car.id)
+                    {
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car);
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = zglosUsterke;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
 
     }
 }
