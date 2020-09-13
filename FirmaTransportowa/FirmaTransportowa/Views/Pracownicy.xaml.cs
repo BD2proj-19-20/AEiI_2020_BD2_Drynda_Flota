@@ -210,14 +210,11 @@ namespace FirmaTransportowa.Views
                         System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
                         mainWindow.DataContext = new StatystykiPracownika(person);
                         return;
-
                     }
                 }
             }
             else
-            {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }
         }
 
         private void ZwolnieniBox_Click(object sender, RoutedEventArgs e)
@@ -225,22 +222,18 @@ namespace FirmaTransportowa.Views
             workersList.ItemsSource = null;
 
             items.Clear();
-            // workersList.ItemsSource = ListaPracownikow();
-
             UpdateView();
         }
         private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            // workersList.ItemsSource = ListaPracownikow();
             UpdateView();
         }
         private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
             items.Clear();
-            //  workersList.ItemsSource = ListaPracownikow();
             UpdateView();
         }
 
@@ -441,9 +434,7 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                // var zlecenia ="Brak";
                 int przejechaneKm = 0;
-                //  var aktualnyPojazd = "Brak";
                 int zleceniaPrywatne = 0;
                 int zleceniaSluzbowe = 0;
                 int przejechaneKmSluzbowe = 0;
@@ -455,18 +446,31 @@ namespace FirmaTransportowa.Views
                 var pojazd = "";
                 var pojazdSluzbowy = "";
 
+                double koszty = 0;
+                double kosztySluzbowe = 0;
+
                 foreach (var lend in lends)
                 {
 
-                    if (lend.personId == person.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today) //lend ktore były
+                    if (lend.personId == person.id && lend.Reservation.ended == true && lend.returnDate != null) //lend ktore były
                     {
                         if (lend.@private == true)
                         {
                             zleceniaPrywatne++;
                             if (lend.endOdometer != null)
                                 przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
-                            TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
-                            dni += (int)t.TotalDays;
+                            if (lend.returnDate > lend.lendDate)
+                            {
+                                TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                                dni += (int)t.TotalDays;
+                            }
+                            else if (lend.returnDate == lend.lendDate)
+                                dni++;
+
+                            //jaki to samochód;
+
+                            koszty = (przejechaneKm * 4.75)+ (0.05 * lend.Car.engineCapacity); ;
+
 
                         }
                         else
@@ -474,49 +478,48 @@ namespace FirmaTransportowa.Views
                             zleceniaSluzbowe++;
                             if (lend.endOdometer != null)
                                 przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
-                            TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
-                            dniSluzbowe += (int)t.TotalDays;
-                        }
+                            if (lend.returnDate > lend.lendDate)
+                            {
+                                TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                                dniSluzbowe += (int)t.TotalDays;
+                            }
+                            else if (lend.returnDate == lend.lendDate)
+                                dniSluzbowe++;
 
+                            kosztySluzbowe = (przejechaneKmSluzbowe * 4.75)+(0.05 * lend.Car.engineCapacity); ;
+                        }
                     }
+
                     foreach (var car in cars)
                     {
                         if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
-                        { //jedno wypozyczenie?
+                        { 
                             if (lend.@private == true)
                                 pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                             else
                                 pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         }
-                        //dodanie kosztów zależności różnych kategorii - model typ ...
                     }
                 }
 
-                int aktywnosci = 0;
-
-                foreach (var aktyw in activities)
-                {
-                    if (aktyw.reporterId == person.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
-                        aktywnosci++;
-                }
+            
                 doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
                 times3.Size = 20;
                 doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));
                 doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazd, times3));
                 doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaPrywatne.ToString(), times3));
                 doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dni.ToString() + " dni", times3));
-                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + ((double)(przejechaneKm * 4.75)).ToString() + " PLN", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + koszty.ToString() + " PLN", times3));
 
                 doc.Add(new iTextSharp.text.Paragraph("Cele służbowe:", times));
                 doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKmSluzbowe.ToString() + " km", times3));
                 doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazdSluzbowy, times3));
                 doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaSluzbowe.ToString(), times3));
                 doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dniSluzbowe.ToString() + " dni", times3));
-                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + ((double)(przejechaneKmSluzbowe * 4.75)).ToString() + " PLN", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + kosztySluzbowe.ToString() + " PLN", times3));
                 times3.Size = 26;
 
-                times.Size = 26;
-                doc.Add(new iTextSharp.text.Paragraph("Obecne aktywności: " + aktywnosci.ToString(), times));
+
                 times.Size = 32;
             }
 

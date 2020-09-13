@@ -121,13 +121,6 @@ namespace FirmaTransportowa.Views
 
             }
 
-            //foreach (var aktyw in activities)
-            //{
-            //    if (aktyw.reporterId == people.id && aktyw.closeDate > DateTime.Today && aktyw.orderDate < DateTime.Today)
-            //        aktywnosci++;
-            //}
-
-            //Aktywnosci.Text = aktywnosci.ToString();
 
             int zleceniaPrywatne = 0;
             int przejechaneKm = 0;
@@ -141,21 +134,34 @@ namespace FirmaTransportowa.Views
             var pojazd = "";
             var pojazdSluzbowy = "";
 
-            //double koszty=0;
-            // double kosztySluzbowe = 0;
+            double koszty=0;
+            double kosztySluzbowe = 0;
+
+          //  double pojemnoscSilnika = 1;
 
             foreach (var lend in lends)
             {
 
-                if (lend.personId == people.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today) //lend ktore były
+                if (lend.personId == people.id &&  lend.Reservation.ended ==true && lend.returnDate !=null) //lend ktore były
                 {
                     if (lend.@private == true)
                     {
                         zleceniaPrywatne++;
                         if (lend.endOdometer != null)
                             przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
-                        TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
-                        dni += (int)t.TotalDays;
+                        if (lend.returnDate > lend.lendDate)
+                        {
+                            TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                            dni += (int)t.TotalDays;
+                        }
+                        else if (lend.returnDate == lend.lendDate)
+                            dni++;
+
+                        //jaki to samochód;
+
+                        koszty = (przejechaneKm * 4.75) +(0.05*lend.Car.engineCapacity);
+
+
 
                     }
                     else
@@ -163,17 +169,32 @@ namespace FirmaTransportowa.Views
                         zleceniaSluzbowe++;
                         if (lend.endOdometer != null)
                             przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
-                        TimeSpan t = (DateTime)lend.returnDate - (DateTime)lend.lendDate;
-                        dniSluzbowe += (int)t.TotalDays;
+                        if (lend.returnDate > lend.lendDate)
+                        {
+                            TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                            dniSluzbowe += (int)t.TotalDays;
+                        }
+                        else if (lend.returnDate == lend.lendDate)
+                            dniSluzbowe++;
+
+                        kosztySluzbowe = (przejechaneKmSluzbowe * 4.75)+(0.05 * lend.Car.engineCapacity); ;
                     }
+                  
+
 
                 }
-
+                string cos="";
+                var carDest = db.CarDestinations;
+                foreach (var carD in carDest)
+                {
+                    cos += carD.name + "PP"; // do poprawy
+                }
 
                 foreach (var car in cars)
                 {
-                    if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
-                    { //jedno wypozyczenie?
+                    if (lend.carId == car.id && (lend.returnDate < DateTime.Today.Date || lend.returnDate== null) && lend.lendDate > DateTime.Today.Date
+                        && lend.Reservation.ended == false) //aktualny pojazd
+                    { 
                         if (lend.@private == true)
                             pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
                         else
@@ -196,8 +217,8 @@ namespace FirmaTransportowa.Views
             PrzejechaneSluzobowe.Text = przejechaneKmSluzbowe.ToString() + " km";
             ZleceniaSluzbowe.Text = zleceniaSluzbowe.ToString();
 
-            Koszty.Text = ((double)(przejechaneKm * 4.75)).ToString() + " PLN";
-            KosztySluzbowe.Text = ((double)(przejechaneKmSluzbowe * 4.75)).ToString() + " PLN";
+            Koszty.Text = koszty.ToString() + " PLN";
+            KosztySluzbowe.Text = kosztySluzbowe.ToString() + " PLN";
 
         }
         private void Cofnij(object sender, RoutedEventArgs e)
