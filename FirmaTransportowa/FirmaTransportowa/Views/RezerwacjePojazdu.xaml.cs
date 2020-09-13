@@ -62,7 +62,7 @@ namespace FirmaTransportowa.Views
             this.ListViewReservations.Items.Clear();
             for (int i = 0; i < car1.Reservations.Count; i++)
             {
-               if ((AktualneBox.IsChecked == true && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) >0)
+               if ((AktualneBox.IsChecked == true && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) >=0)
                     || (AktualneBox.IsChecked == false && DateTime.Compare((DateTime)car1.Reservations.ElementAt(i).returnDate, DateTime.Now) < 0))
                 {
                     this.ListViewReservations.Items.Add(new Reservation

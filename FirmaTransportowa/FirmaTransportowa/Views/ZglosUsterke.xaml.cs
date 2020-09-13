@@ -50,11 +50,6 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                if(Logowanie.actualUser==null)
-                {
-                    MessageBox.Show("null", "null");
-                    return;
-                }
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var activities = db.Activities;
                 var activity = new Activity();
@@ -63,7 +58,10 @@ namespace FirmaTransportowa.Views
                 activity.reportDate = DateTime.Now;
                 activity.service = false;
                 activity.carId = car1.id;
-                activity.reporterId = Logowanie.actualUser.id;
+                if (Logowanie.actualUser != null)
+                    activity.reporterId = Logowanie.actualUser.id;
+                else
+                    activity.reporterId = 47;
                 activities.Add(activity);
                 db.SaveChanges();
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
