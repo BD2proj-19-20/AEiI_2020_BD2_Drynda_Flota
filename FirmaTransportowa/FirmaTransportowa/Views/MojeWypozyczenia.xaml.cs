@@ -137,7 +137,9 @@ namespace FirmaTransportowa.Views
                     if (lend.id == selectedId)
                         lendChange = lend;
                 }
-                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate)
+
+
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
                 {
@@ -554,7 +556,7 @@ namespace FirmaTransportowa.Views
 
                 if (lendChange.lendDate > DateTime.Now)
                     MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
-                else if (lendChange.returnDate >= DateTime.Now)
+                else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended==true)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
                 else
                 {
