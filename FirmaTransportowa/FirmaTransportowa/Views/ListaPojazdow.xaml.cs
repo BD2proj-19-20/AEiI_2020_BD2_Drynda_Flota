@@ -226,27 +226,18 @@ namespace FirmaTransportowa.Views
             return String.Compare(second.carSupervisor, first.carSupervisor);
         }
 
-        private void Rent_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-                
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
-
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
+
+            CarList selectedObj = (CarList)selected.Content;
+            int selectedId = selectedObj.carId;
+          
             if (selected != null)
             {
-
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new DodajRezerwacjeDlaPojazdu(selectedId);
             }
             else
             {
