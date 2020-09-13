@@ -36,8 +36,6 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             car1 = car;
             userPermission = permission;
-
-          
             loadTable();
         }
 
@@ -49,11 +47,9 @@ namespace FirmaTransportowa.Views
 
         private void changeAktualne(object sender, RoutedEventArgs e)
         {
-        
-
             loadTable();
         }
-        void loadTable()
+        private void loadTable()
         {
             if (AktualneBox.IsChecked == true)
                 Title.Content = "Aktualne rezerwacje pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;

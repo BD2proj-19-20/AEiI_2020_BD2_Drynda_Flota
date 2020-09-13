@@ -14,7 +14,7 @@
 
 
 
-            <ListView Name="ListViewReservations" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="450" Width="700">
+            <ListView Name="ListViewActivities" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="450" Width="700">
                 <ListView.View>
                     <GridView>
 
@@ -43,7 +43,7 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="50,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" Width="700">
-                <Button Content="Cofnij" Margin="2,0,250,0"  Width="158"  VerticalAlignment="Top"   Height="51"/>
+                <Button Content="Cofnij" Margin="2,0,250,0"  Width="130"  VerticalAlignment="Top"   Height="51" Click="cofnij"/>
 
             </StackPanel>
         </StackPanel>
