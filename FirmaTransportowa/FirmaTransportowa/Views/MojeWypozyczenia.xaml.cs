@@ -133,6 +133,8 @@ namespace FirmaTransportowa.Views
         public MojeWypozyczenia()
         {
             InitializeComponent();
+
+           
             UpdateView();
         }
 
@@ -168,30 +170,13 @@ namespace FirmaTransportowa.Views
                 MessageBox.Show("Niczego nie wybrano !", "Komunikat");
         }
 
-        private void PrywatneBox_Click(object sender, RoutedEventArgs e)
+        private void Box_Click(object sender, RoutedEventArgs e)
         {
             ListViewMyLends.ItemsSource = null;
             items.Clear();
             UpdateView();
         }
-        private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewMyLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void PozostałeBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewMyLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewMyLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
+      
         private bool UserFilter(object item)
         {
             ListViewItem toFilter = (ListViewItem)item;

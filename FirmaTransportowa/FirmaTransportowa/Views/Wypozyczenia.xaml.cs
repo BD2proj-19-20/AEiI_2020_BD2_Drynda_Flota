@@ -135,30 +135,13 @@ namespace FirmaTransportowa.Views
             stoper.Stop();
             Title.Text = stoper.Elapsed.ToString();
         }
-        private void PrywatneBox_Click(object sender, RoutedEventArgs e)
+        private void Box_Click(object sender, RoutedEventArgs e)
         {
             ListViewLends.ItemsSource = null;
             items.Clear();
             UpdateView();
         }
-        private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void PozostałeBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewLends.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
+
         private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)
         {
             ListViewItem selected = (ListViewItem)ListViewLends.SelectedItem;

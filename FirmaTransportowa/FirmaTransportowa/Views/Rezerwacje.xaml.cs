@@ -321,31 +321,13 @@ namespace FirmaTransportowa.Views
             doc.Close();
         }
 
-        private void PrywatneBox_Click(object sender, RoutedEventArgs e)
+        private void Box_Click(object sender, RoutedEventArgs e)
         {
             ListViewReservations.ItemsSource = null;
             items.Clear();
             UpdateView();
         }
-        private void ZakonczoneBox_Click(object sender, RoutedEventArgs e)
-        {
-
-            ListViewReservations.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void PozostałeBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewReservations.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void Zakonczone_i_PrywatneBox_Click(object sender, RoutedEventArgs e)
-        {
-            ListViewReservations.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
+     
         private bool UserFilter(object item)
         {
             ListViewItem toFilter = (ListViewItem)item;

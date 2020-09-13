@@ -217,25 +217,14 @@ namespace FirmaTransportowa.Views
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
         }
 
-        private void ZwolnieniBox_Click(object sender, RoutedEventArgs e)
+        private void Box_Click(object sender, RoutedEventArgs e)
         {
             workersList.ItemsSource = null;
 
             items.Clear();
             UpdateView();
         }
-        private void DataZwolnieniaBox_Click(object sender, RoutedEventArgs e)
-        {
-            workersList.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
-        private void BezZwolnieniaBox_Click(object sender, RoutedEventArgs e)
-        {
-            workersList.ItemsSource = null;
-            items.Clear();
-            UpdateView();
-        }
+
 
         private bool UserFilter(object item)
         {

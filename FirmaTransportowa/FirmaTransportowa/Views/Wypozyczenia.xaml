@@ -13,11 +13,11 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="20">
-                <CheckBox x:Name="PrywatneBox" Content="Prywate" Width="100"  IsChecked="True" Click="PrywatneBox_Click" Height="20" VerticalAlignment="Top" />
-                <CheckBox x:Name="ZakonczoneBox" Content="Zakończone" Width="127" IsChecked="True"  Click="ZakonczoneBox_Click"/>
-                <CheckBox x:Name="PozostałeBox" Content="Pozostałe" Width="116" IsChecked="True" Click="PozostałeBox_Click"/>
-                <CheckBox x:Name="Zakonczone_i_PrywatneBox" Content="Zakończone i Prywatne" Width="157" IsChecked="True" Click="Zakonczone_i_PrywatneBox_Click"/>
-                <CheckBox x:Name="RozpoczeteBox" Content="Tylko Rozpoczęte" Width="157" IsChecked="False" Click="Zakonczone_i_PrywatneBox_Click"/>
+                <CheckBox x:Name="PrywatneBox" Content="Prywate" Width="100"  IsChecked="True" Click="Box_Click" Height="20" VerticalAlignment="Top" />
+                <CheckBox x:Name="ZakonczoneBox" Content="Zakończone" Width="127" IsChecked="True"  Click="Box_Click"/>
+                <CheckBox x:Name="PozostałeBox" Content="Pozostałe" Width="116" IsChecked="True" Click="Box_Click"/>
+                <CheckBox x:Name="Zakonczone_i_PrywatneBox" Content="Zakończone i Prywatne" Width="157" IsChecked="True" Click="Box_Click"/>
+                <CheckBox x:Name="RozpoczeteBox" Content="Tylko Rozpoczęte" Width="157" IsChecked="False" Click="Box_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="28,0,25,0" Height="43">
                 <TextBox Text="" Height="20" Width="40" x:Name="idFilter" TextChanged="idFilter_TextChanged"/>

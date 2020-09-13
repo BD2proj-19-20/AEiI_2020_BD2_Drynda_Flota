@@ -25,9 +25,9 @@
                 <TextBox Text="" Height="20" Width="100" x:Name="idFilter" TextChanged="idFilter_TextChanged"/>
                 <TextBox Text="" Height="20" Width="99" x:Name="personFilter" TextChanged="personFilter_TextChanged" />
                 <TextBox Text="" Height="20" Width="116" x:Name="dataOutFilter" TextChanged="dataOutFilter_TextChanged"/>
-                <CheckBox x:Name="ZwolnieniBox" Content="Zwolnieni" Width="100"  IsChecked="True" Click="ZwolnieniBox_Click" />
-                <CheckBox x:Name="DataZwolnieniaBox" Content="Z datą zwolnienia" Width="127" IsChecked="True"  Click="DataZwolnieniaBox_Click"/>
-                <CheckBox x:Name="BezZwolnieniaBox" Content="Bez zwolnienia" Width="116" IsChecked="True" Click="BezZwolnieniaBox_Click"/>
+                <CheckBox x:Name="ZwolnieniBox" Content="Zwolnieni" Width="100"  IsChecked="True" Click="Box_Click" />
+                <CheckBox x:Name="DataZwolnieniaBox" Content="Z datą zwolnienia" Width="127" IsChecked="True"  Click="Box_Click"/>
+                <CheckBox x:Name="BezZwolnieniaBox" Content="Bez zwolnienia" Width="116" IsChecked="True" Click="Box_Click"/>
             </StackPanel>
             <ListView x:Name="workersList" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" Height="399" Width="700" Margin="25,0">
                 <ListView.View>
