@@ -103,13 +103,13 @@ namespace FirmaTransportowa.Views
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
                     items.Add(OneItem);
                 }
-                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) &&
+                else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false  &&
                     PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
                     items.Add(OneItem);
                 }
-                else if(PozostałeBox.IsChecked.Value == true && lend.Private == false
+                else if(PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
                         && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
                 {
                     items.Add(OneItem);
@@ -160,7 +160,7 @@ namespace FirmaTransportowa.Views
                     if (lend.id == selectedId)
                         lendChange = lend;
                 }
-                if (lendChange.lendDate < DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate)
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
                 {
@@ -561,11 +561,7 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                //    var reservations = db.Reservations;
-                //  Reservation reservationChange = null;
-
                 Lend lendChange = null;
-
 
                 var lends = db.Lends;
                 foreach (var lend in lends)
@@ -576,7 +572,7 @@ namespace FirmaTransportowa.Views
 
                 if (lendChange.lendDate > DateTime.Now)
                     MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
-                else if (lendChange.returnDate >= DateTime.Now)
+                  else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended == true)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
                 else
                 {

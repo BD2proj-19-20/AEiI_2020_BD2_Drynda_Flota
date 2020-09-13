@@ -22,15 +22,49 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class ZglosUsterke : UserControl
     {
+        private Car car1;
         public ZglosUsterke(Car car)
         {
             InitializeComponent();
+            car1 = car;
+          
         }
 
         private void cofnij(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new MojePojazdyModel();
+        }
+
+        private void zglos(object sender, RoutedEventArgs e)
+        {
+            if (comment.Text.Length == 0)
+            {
+                MessageBox.Show("Wprowadz opis usterki","Brak opisu usterki");
+                return;
+            }
+            else
+            {
+                if(Logowanie.actualUser==null)
+                {
+                    MessageBox.Show("null", "null");
+                    return;
+                }
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var activities = db.Activities;
+                var activity = new Activity();
+                activity.critical = (bool)krytyczna.IsChecked;
+                activity.comments = comment.Text;
+                activity.reportDate = DateTime.Now;
+                activity.service = false;
+                activity.carId = car1.id;
+                activity.reporterId = Logowanie.actualUser.id;
+                activities.Add(activity);
+                db.SaveChanges();
+                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                glowneOkno.DataContext = new MojePojazdyModel();
+
+            }
         }
     }
 }

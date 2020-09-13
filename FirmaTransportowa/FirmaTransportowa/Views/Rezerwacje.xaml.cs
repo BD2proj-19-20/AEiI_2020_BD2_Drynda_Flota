@@ -196,8 +196,7 @@ namespace FirmaTransportowa.Views
                         {
                             if (lend.reservationId == reservationChange.id)
                             {
-                                lend.returnDate = Convert.ToDateTime(DateTime.Now);
-
+                                lend.returnDate = DateTime.Now.Date;
                                 if (Logowanie.actualUser != null)
                                     lend.comments += "Zakończono przez zakończenie\nrezerwacji przez Kierownika " + Logowanie.actualUser.id + ") " +
                               Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
