@@ -22,18 +22,23 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class ZglosUsterke : UserControl
     {
+        int whereGo;
         private Car car1;
-        public ZglosUsterke(Car car)
+        public ZglosUsterke(Car car,int window)
         {
             InitializeComponent();
             car1 = car;
-          
+            whereGo = window;
+         //   1 dal moje pojazdy , 2 dla mojeWypozyczenia
         }
 
         private void cofnij(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            if(whereGo==1)
             glowneOkno.DataContext = new MojePojazdyModel();
+            else if(whereGo==2)
+                glowneOkno.DataContext = new MojeWypozyczenia();
         }
 
         private void zglos(object sender, RoutedEventArgs e)
@@ -62,7 +67,11 @@ namespace FirmaTransportowa.Views
                 activities.Add(activity);
                 db.SaveChanges();
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new MojePojazdyModel();
+                if (whereGo == 1)
+                    glowneOkno.DataContext = new MojePojazdyModel();
+                else if (whereGo == 2)
+                    glowneOkno.DataContext = new MojeWypozyczenia();
+                //glowneOkno.DataContext = new MojePojazdyModel();
 
             }
         }

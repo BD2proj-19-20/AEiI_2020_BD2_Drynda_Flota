@@ -570,8 +570,6 @@ namespace FirmaTransportowa.Views
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
                             Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
-                        //   reservationChange.ended = true;
-                        //   var lends = db.Lends;
                         var reservations = db.Reservations;
 
                         foreach (var reserv in reservations)
@@ -619,11 +617,18 @@ namespace FirmaTransportowa.Views
                         lendChange = lend;
                 }
 
+
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
+                    //usterkę można zgłosic w tym oknie dla rozpoczętych wypozyczeń
+                {
+                    MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
+                    return;
+                }
                 foreach (var car in cars)
                 {
                     if (lendChange.carId==car.id)
                     {
-                        ZglosUsterke zglosUsterke = new ZglosUsterke(car);
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car,2);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = zglosUsterke;
                         return;

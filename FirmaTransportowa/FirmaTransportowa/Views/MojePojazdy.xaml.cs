@@ -234,7 +234,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
-                        ZglosUsterke zglosUsterke = new ZglosUsterke(car);
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car,1);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = zglosUsterke;
                         return;
