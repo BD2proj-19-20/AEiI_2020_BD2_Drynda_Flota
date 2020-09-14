@@ -25,6 +25,15 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             ReservationStart.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
+
+            if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+            {
+                reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate).AddDays(1),
+                   DateTime.MaxValue);
+                ReservationStart.BlackoutDates.Insert(1, reservationStartBlackoutRange);
+
+            }
+
             ReservationEnd.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
             ReservationDate.SelectedDate = DateTime.Today;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -206,6 +215,7 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new ListaPojazdow();
 
         }
+        private CalendarDateRange reservationStartBlackoutRange = null;
 
         private CalendarDateRange reservationEndBlackoutRange = null;
 
