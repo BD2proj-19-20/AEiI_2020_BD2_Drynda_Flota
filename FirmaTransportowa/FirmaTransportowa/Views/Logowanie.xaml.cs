@@ -117,7 +117,7 @@ namespace FirmaTransportowa.Views
                                     && (carSupervisor.endDate >DateTime.Now.Date || carSupervisor.endDate ==null))
                                     {
                                     opiekunLogin = true;
-                                    break;
+                                  //  break;
                                     }
                                 }
 
