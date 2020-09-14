@@ -38,5 +38,26 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new Usterkipojazdu(userPermission,car1);
         }
+
+        private void SerwisowaClick(object sender, RoutedEventArgs e)
+        {
+            if (this.Serwisowa.IsChecked == true)
+                this.Eksploatacyjna.IsChecked = false;
+            else
+                this.Eksploatacyjna.IsChecked = true;
+        }
+
+        private void EksploatacyjnaClick(object sender, RoutedEventArgs e)
+        {
+            if (this.Eksploatacyjna.IsChecked == true)
+                this.Serwisowa.IsChecked = false;
+            else
+                this.Serwisowa.IsChecked = true;
+        }
+
+        private void zlec(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
