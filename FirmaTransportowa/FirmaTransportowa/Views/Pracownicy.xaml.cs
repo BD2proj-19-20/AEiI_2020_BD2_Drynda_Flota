@@ -295,58 +295,109 @@ namespace FirmaTransportowa.Views
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
 
+            //Tutaj beda wszyscy pracownicy z ich uprawnieniami
+            var query = from person in db.People
+                        join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
 
-            //var query = from person in db.People
-            //            join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
+                        from permissionPeople in permissionTable.DefaultIfEmpty()
+                            /*join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
 
-            //            from permissionPeople in permissionTable.DefaultIfEmpty()
-            //            join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
+                            from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
+                            join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
 
-            //            from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
-            //            join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
+                            from carsPeople in carsTable.DefaultIfEmpty()
+                            join lend in db.Lends on person.id equals lend.personId into lendTable
 
-            //            from carsPeople in carsTable.DefaultIfEmpty()
-            //            join lend in db.Lends on person.id equals lend.personId into lendTable
+                            from lendsPeople in lendTable.DefaultIfEmpty()
+                            where lendsPeople.lendDate != null
+                            join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
 
-            //            from lendsPeople in lendTable.DefaultIfEmpty()
-            //            where lendsPeople.lendDate != null
-            //            join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
+                            from lendsCar in lendCarTable.DefaultIfEmpty()*/
+                        select new
+                        {
+                            Id = person.id,
+                            LastName = person.lastName,
+                            FirstName = person.firstName,
+                            EmploymentData = person.employmentData,
+                            LayoffDate = person.layoffDate,
 
-            //            from lendsCar in lendCarTable.DefaultIfEmpty()
-            //            select new
-            //            {
-            //                LayoffDate = person.layoffDate,
-            //                LastName = person.lastName,
-            //                FirstName = person.firstName,
-            //                Id = person.id,
-            //                EmploymentData = person.employmentData,
-            //                PermissionName = permissionPeople.Permission.name,
-            //                PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
-            //                RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
-            //                EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
-            //                SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
-            //                MakeCar = carsPeople.CarModel.make,
-            //                ModelCar = carsPeople.CarModel.model,
-            //                RegistrationCar = carsPeople.Registration,
-            //                LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
-            //                EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
-            //                ReservationEnd = lendsPeople.Reservation.ended,
-            //                ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
-            //                Private = lendsPeople.@private,
-            //                StartOdometer = lendsPeople.startOdometer,
-            //                StartFuel = lendsPeople.startFuel,
-            //                EndOdometer = lendsPeople.endOdometer,
-            //                EndFuel = lendsPeople.endFuel,
-            //                PlannedReturnDate = lendsPeople.plannedReturnDate
-            //            };
-            //foreach (var person in query)
-            //{
-            //    var dateO = person.PermissionName;
-            //    Debug.WriteLine(person.PermissionName);
-            //    Debug.WriteLine(person.RevokeDate);
-            //}
-            //Debug.WriteLine("Koniec");
-            //Debug.WriteLine("Koniec");
+                            PermissionName = permissionPeople.Permission.name,
+                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+                            /*EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
+                            SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
+                            MakeCar = carsPeople.CarModel.make,
+                            ModelCar = carsPeople.CarModel.model,
+                            RegistrationCar = carsPeople.Registration,
+
+                            LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
+                            EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
+                            ReservationEnd = lendsPeople.Reservation.ended,
+                            ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
+                            Private = lendsPeople.@private,
+                            StartOdometer = lendsPeople.startOdometer,
+                            StartFuel = lendsPeople.startFuel,
+                            EndOdometer = lendsPeople.endOdometer,
+                            EndFuel = lendsPeople.endFuel,
+                            PlannedReturnDate = lendsPeople.plannedReturnDate*/
+                        };
+
+            var lbLudzi = db.People.Count();
+            var lbQuery = query.Count();
+
+            foreach (var person in query)
+            {
+                Debug.WriteLine(person.Id + " " + person.LastName + " " + person.FirstName + " zatr. " + person.EmploymentData
+                    + " zwolniony: " + person.LayoffDate + " \t stanowisko: " + person.PermissionName + " zatr. " + person.PermissionGrant +
+                    " utracone: " + person.RevokeDate);
+
+                //Tutaj beda wszystkie pojazdy, jakich pracownik byl opiekunem
+                var query2 = from supervisor in db.CarSupervisors
+                             where person.Id == supervisor.personId
+                             join car in db.Cars on supervisor.carId equals car.id
+                             select new
+                             {
+                                 BeginDate = supervisor.beginDate == null ? DateTime.MinValue : supervisor.beginDate,
+                                 EndDate = supervisor.endDate == null ? DateTime.MinValue : supervisor.endDate,
+                                 SaleDate = car.saleDate == null ? DateTime.MinValue : car.saleDate,
+                                 CarMake = car.CarModel.make,
+                                 CarModel = car.CarModel.model,
+                                 CarRegistration = car.Registration,
+                             };
+
+                Debug.WriteLine("Opiekun:");
+                foreach (var supervisor in query2)
+                {
+                    Debug.WriteLine(supervisor.BeginDate + " - " + supervisor.EndDate + " " + supervisor.CarMake + "/" + supervisor.CarModel +
+                        "/" + supervisor.CarRegistration + " sprzedane: " + supervisor.SaleDate);
+                }
+
+                var query3 = from lends2 in db.Lends
+                             where lends2.personId == person.Id
+                             select new
+                             {
+                                 LendDate = lends2.lendDate == null ? DateTime.MinValue : lends2.lendDate,
+                                 EngineCar = lends2.Car.engineCapacity, // == null ? 0 : lends2.Car.engineCapacity,
+                                 ReservationEnd = lends2.Reservation.ended,
+                                 ReturnDate = lends2.returnDate == null ? DateTime.MinValue : lends2.returnDate,
+                                 Private = lends2.@private,
+                                 StartOdometer = lends2.startOdometer,
+                                 StartFuel = lends2.startFuel,
+                                 EndOdometer = lends2.endOdometer,
+                                 EndFuel = lends2.endFuel,
+                                 PlannedReturnDate = lends2.plannedReturnDate,
+                                 LendedCar = lends2.Car
+                             };
+                Debug.WriteLine("Wypozyczenia:");
+                foreach (var lend in query3)
+                {
+                    Debug.WriteLine(lend.LendedCar.Registration + ": " + lend.LendDate + " - " + lend.ReturnDate);
+                }
+                //Linia przerwy miedzy pracownikami
+                Debug.WriteLine("");
+            }
+            Debug.WriteLine("Koniec");
+            Debug.WriteLine("Breakpoint");
 
             //{
             //    Chunk c = new Chunk((person.Id + 1) + ") " + person.LastName + " " + person.FirstName, times);
