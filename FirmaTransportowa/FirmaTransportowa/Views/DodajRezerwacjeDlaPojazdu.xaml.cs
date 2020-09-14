@@ -25,6 +25,15 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             ReservationStart.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
+
+            if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
+            {
+                reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate).AddDays(1),
+                   DateTime.MaxValue);
+                ReservationStart.BlackoutDates.Insert(1, reservationStartBlackoutRange);
+
+            }
+
             ReservationEnd.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
             ReservationDate.SelectedDate = DateTime.Today;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -96,7 +105,7 @@ namespace FirmaTransportowa.Views
             bool doReservationCar = true;
             bool doReservationPerson = true;
 
-            if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate >= ReservationStart.SelectedDate
+            if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
                 && (datePersonOut > ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
             {
 
@@ -107,7 +116,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate <=  ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                         {
                             doReservationCar = true;
@@ -127,7 +136,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                             doReservationPerson = true;
                         else
@@ -206,6 +215,7 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new ListaPojazdow();
 
         }
+        private CalendarDateRange reservationStartBlackoutRange = null;
 
         private CalendarDateRange reservationEndBlackoutRange = null;
 

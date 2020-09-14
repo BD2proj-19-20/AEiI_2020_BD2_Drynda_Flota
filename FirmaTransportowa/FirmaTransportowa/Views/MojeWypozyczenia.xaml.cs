@@ -542,11 +542,7 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                //    var reservations = db.Reservations;
-                //  Reservation reservationChange = null;
-
                 Lend lendChange = null;
-
 
                 var lends = db.Lends;
                 foreach (var lend in lends)
