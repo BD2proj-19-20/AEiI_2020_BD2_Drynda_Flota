@@ -123,10 +123,12 @@ namespace FirmaTransportowa.Views
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            saveFileDialog.Filter = "Dokument pdf|*.pdf";
-            saveFileDialog.Title = "Zapisz raport na temat pojazdów";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Dokument pdf|*.pdf",
+                Title = "Zapisz raport na temat pojazdów"
+            };
             saveFileDialog.ShowDialog();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
