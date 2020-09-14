@@ -38,6 +38,16 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             car1 = car;
             userPermission = permission;
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var cars = db.Cars;
+            foreach(var car3 in cars)
+            {
+                if (car3.id == car1.id)
+                {
+                    car1 = car3;
+                    break;
+                }
+            }
             loadTable();
         }
 

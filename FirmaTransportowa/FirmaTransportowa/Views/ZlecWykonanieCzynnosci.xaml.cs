@@ -74,6 +74,7 @@ namespace FirmaTransportowa.Views
                         activity.service = true;
                     else
                         activity.service = false;
+
                 }
             }
             db.SaveChanges();
