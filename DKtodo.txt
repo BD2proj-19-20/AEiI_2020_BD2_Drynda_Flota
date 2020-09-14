@@ -1,2 +1,2 @@
 Dodawanie zastosowania z poziomu dodawania pojazdu,
-Generowanie raportu dla modelu/marki
+Generowanie raportu dla modelu/marki/pojedynczego pojazdu w zadanym okresie lub/i w przeliczeniu na 1 km
