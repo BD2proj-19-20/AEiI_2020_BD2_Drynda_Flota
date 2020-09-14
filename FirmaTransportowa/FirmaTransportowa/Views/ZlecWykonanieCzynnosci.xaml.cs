@@ -58,6 +58,29 @@ namespace FirmaTransportowa.Views
         private void zlec(object sender, RoutedEventArgs e)
         {
 
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var activities = db.Activities;
+
+            foreach (var activity in activities)
+            {
+                if (activity.id == activity1.id)
+                {
+                    activity.orderDate = DateTime.Now;
+                    if (Logowanie.actualUser != null)
+                        activity.contractorId = Logowanie.actualUser.id;
+                    else
+                        activity.contractorId = 1;
+                    if (this.Serwisowa.IsChecked == true)
+                        activity.service = true;
+                    else
+                        activity.service = false;
+
+                }
+            }
+            db.SaveChanges();
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new Usterkipojazdu(userPermission, car1);
+
         }
     }
 }
