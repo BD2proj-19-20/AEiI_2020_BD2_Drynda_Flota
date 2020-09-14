@@ -58,24 +58,6 @@ namespace FirmaTransportowa.Views
 
             var permissionFlota = db.Permissions;
 
-            //var permissionName1 = new Permission();
-            //var permissionName2 = new Permission();
-            //var permissionName3 = new Permission();
-            //permissionName1.name = "Kierownik";
-            //permissionName2.name = "Opiekun";
-            //permissionName3.name = "Pracownik";
-
-            //permissionFlota.Add(permissionName1);
-            //permissionFlota.Add(permissionName2);
-            //permissionFlota.Add(permissionName3);
-            //db.SaveChanges();
-
-            //foreach (var permission in permissionFlota)
-            //{           
-            //    cos += permission.name;
-            //}
-            // MessageBox.Show(cos, "Komunikat");
-
             int permissionLevel = 0;
             bool kierownikLogin = false;
             bool opiekunLogin = false;
@@ -118,10 +100,7 @@ namespace FirmaTransportowa.Views
                                 if (carSupervisor.personId == person.id)
                                     if (carSupervisor.personId==person.id && carSupervisor.beginDate <= DateTime.Now.Date
                                     && (carSupervisor.endDate >DateTime.Now.Date || carSupervisor.endDate ==null))
-                                    {
                                     opiekunLogin = true;
-                                  //  break;
-                                    }
                                 }
 
 
@@ -184,7 +163,7 @@ namespace FirmaTransportowa.Views
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             string login = loginBox.Text;
-            var permissionId = getPermission(login, passwordBox.Password); //zwracana wartość to id dostępu
+            var permissionId = getPermission(login, passwordBox.Password);
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
 
             if (permissionId != 0)

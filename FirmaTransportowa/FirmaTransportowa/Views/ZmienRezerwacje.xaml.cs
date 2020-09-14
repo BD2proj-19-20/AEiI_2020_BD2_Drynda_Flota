@@ -17,11 +17,6 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
 
-            //foreach (var reserv in reservations) {
-            //    if (reserv.id == reservationChange.id)
-            //        this.reservationChange = reserv;
-            //}
-
             this.reservationChange = reservationChange;
 
             ReservationDate.SelectedDate = reservationChange.reservationDate;
@@ -106,7 +101,6 @@ namespace FirmaTransportowa.Views
             Person personReservation = null;
             foreach (var person in people) {
                 string name = person.id.ToString() + ") " + person.firstName + " " + person.lastName;
-                // string check = Pracownicy.Text;
                 if (name.Equals(Pracownicy.Text)) {
                     datePersonOut = person.layoffDate;
                     personReservation = person;
@@ -161,8 +155,6 @@ namespace FirmaTransportowa.Views
 
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 {
-                    //var newReservation = new Reservation();
-                    //var newLend = new Lend(); //?
                     Reservation reservationChange = null;
                     foreach (var reserv in reservations) {
                         if (reserv.id == this.reservationChange.id) {
@@ -200,7 +192,6 @@ namespace FirmaTransportowa.Views
                             lend.lendDate = reservationChange.reservationDate;
                             lend.plannedReturnDate = reservationChange.returnDate;
                             lend.@private = (bool)reservationChange.@private;
-                            //lend.reservationId = reservationChange.id;
                             lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
                         }
                     }

@@ -300,19 +300,6 @@ namespace FirmaTransportowa.Views
                         join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
 
                         from permissionPeople in permissionTable.DefaultIfEmpty()
-                            /*join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
-
-                            from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
-                            join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
-
-                            from carsPeople in carsTable.DefaultIfEmpty()
-                            join lend in db.Lends on person.id equals lend.personId into lendTable
-
-                            from lendsPeople in lendTable.DefaultIfEmpty()
-                            where lendsPeople.lendDate != null
-                            join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
-
-                            from lendsCar in lendCarTable.DefaultIfEmpty()*/
                         select new
                         {
                             Id = person.id,
@@ -324,22 +311,7 @@ namespace FirmaTransportowa.Views
                             PermissionName = permissionPeople.Permission.name,
                             PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
                             RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
-                            /*EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
-                            SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
-                            MakeCar = carsPeople.CarModel.make,
-                            ModelCar = carsPeople.CarModel.model,
-                            RegistrationCar = carsPeople.Registration,
-
-                            LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
-                            EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
-                            ReservationEnd = lendsPeople.Reservation.ended,
-                            ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
-                            Private = lendsPeople.@private,
-                            StartOdometer = lendsPeople.startOdometer,
-                            StartFuel = lendsPeople.startFuel,
-                            EndOdometer = lendsPeople.endOdometer,
-                            EndFuel = lendsPeople.endFuel,
-                            PlannedReturnDate = lendsPeople.plannedReturnDate*/
+                        
                         };
 
             var lbLudzi = db.People.Count();
@@ -347,8 +319,6 @@ namespace FirmaTransportowa.Views
 
             foreach (var person in query)
             {
-
-
                 //Tutaj beda wszystkie pojazdy, jakich pracownik byl opiekunem
                 var query2 = from supervisor in db.CarSupervisors
                              where person.Id == supervisor.personId
@@ -380,11 +350,6 @@ namespace FirmaTransportowa.Views
                                  PlannedReturnDate = lends2.plannedReturnDate,
                                  LendedCar = lends2.Car
                              };
-
-              
-            
-                
-          
                 Chunk c = new Chunk((person.Id + 1) + ") " + person.LastName + " " + person.FirstName, times);
                 var dateO = "";
                 var dateE = "";
@@ -572,7 +537,8 @@ namespace FirmaTransportowa.Views
 
                 }
 
-                //Koszty???
+                //Koszty??? jeszcze do dodania
+
                 doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
                 times3.Size = 20;
                 doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));
@@ -593,9 +559,6 @@ namespace FirmaTransportowa.Views
                 times.Size = 32;
 
             }
-
-
-         
 
             Chunk c1 = new Chunk("");
             doc.Add(c1); //doc nie może być pusty 
@@ -648,7 +611,6 @@ namespace FirmaTransportowa.Views
             workersList.ItemsSource = tempItems;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(workersList.ItemsSource);
-            //   view.SortDescriptions.Add(new SortDescription("PersonId", ListSortDirection.Descending));
             view.Filter += UserFilter;
 
         }

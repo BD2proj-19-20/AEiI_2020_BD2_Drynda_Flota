@@ -172,8 +172,7 @@ namespace FirmaTransportowa.Views
 
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 {
-                    //var newReservation = new Reservation();
-                    //var newLend = new Lend(); //?
+
                     Reservation reservationChange = null;
                     foreach (var reserv in reservations)
                     {
@@ -205,7 +204,6 @@ namespace FirmaTransportowa.Views
                             lend.lendDate = reservationChange.reservationDate;
                             lend.plannedReturnDate = reservationChange.returnDate;
                             lend.@private = (bool)reservationChange.@private;
-                            //lend.reservationId = reservationChange.id;
                             lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
                         }
                     }

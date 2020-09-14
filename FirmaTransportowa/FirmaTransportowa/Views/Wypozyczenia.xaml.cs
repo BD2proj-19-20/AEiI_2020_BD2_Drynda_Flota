@@ -55,7 +55,6 @@ namespace FirmaTransportowa.Views
         }
         public void ListaWypozyczen()
         {
-            //  int id = Logowanie.actualUser.id;
             Stopwatch stoper = new Stopwatch();
             stoper.Start();
 
@@ -98,40 +97,28 @@ namespace FirmaTransportowa.Views
                 if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded==true) && ZakonczoneBox.IsChecked.Value == true && lend.Private == true ) //zakończone
                 {
                     OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                                                       // items.Add(OneItem);
                     addItem = true;
                 }
                 else if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
                 {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                                                            //  items.Add(OneItem);
                     addItem = true;
                 }
                 else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false  &&
                     PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
-                                                              //  items.Add(OneItem);
                     addItem = true;
                 }
                 else if(PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
                         && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
-                {
-
-                    //  items.Add(OneItem);
                     addItem = true;
-                }
 
                 if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate > DateTime.Now.Date 
-                    || lend.ReturnDate <= lend.LendDate.Date )
-                 &&  addItem==true && lend.LendEnded== true)
-                {
+                    || lend.ReturnDate <= lend.LendDate.Date ) &&  addItem==true && lend.LendEnded== true)
                     addItem = false;
-                }
                 else if (addItem==true)
-                {
                     items.Add(OneItem);
-                }
             }
             ListViewLends.ItemsSource = items;
 
@@ -148,11 +135,7 @@ namespace FirmaTransportowa.Views
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            //var carSupervisors = db.CarSupervisors;
-            //var lends = db.Lends;
-            //var people = db.People;
-            //var cars = db.Cars;
-            //var reservations = db.Reservations;
+
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
@@ -165,9 +148,6 @@ namespace FirmaTransportowa.Views
             doc.Open();
             string namePerson = "";
             var vehicle = "";
-
-
-
 
             var query = from lend in db.Lends
                         select new
@@ -725,8 +705,6 @@ namespace FirmaTransportowa.Views
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
                             Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
-                        //   reservationChange.ended = true;
-                        //   var lends = db.Lends;
                         var reservations = db.Reservations;
 
                         foreach (var reserv in reservations)

@@ -2,7 +2,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using FirmaTransportowa.ViewModels;
 using System.Security.Cryptography;
 
 namespace FirmaTransportowa.Views
@@ -18,12 +17,9 @@ namespace FirmaTransportowa.Views
             DzienKierownictwaEnd.BlackoutDates.AddDatesInPast();
             DzienKierownictwaStart.BlackoutDates.AddDatesInPast();
             DzienZatrudnienia.BlackoutDates.AddDatesInPast();
-         //   DzienKierownictwaEnd.SelectedDate = DateTime.Today;
             DzienKierownictwaStart.SelectedDate = DateTime.Today;
             DzienZatrudnienia.SelectedDate = DateTime.Today;
-            
         }
-
         public byte[] getHash(string password)
         {
             byte[] passwordSalt = { 67,128,62,208,147,77,143,197 };
@@ -41,11 +37,8 @@ namespace FirmaTransportowa.Views
             var workers = db.People;
             var newWorker = new Person();
             bool loginCheck = true;
-
             if(Hasło1.Password != Hasło2.Password )
-            {
                 MessageBox.Show("Hasła są różne!", "Komunikat");
-            }
             else 
             if (Imie.Text.Length >= 3 && Nazwisko.Text.Length >= 3 && Login.Text.Length >= 6 && Hasło1.Password.Length >= 6)
             {
@@ -90,8 +83,7 @@ namespace FirmaTransportowa.Views
                             workerPermission.revokeDate = (System.DateTime)DzienKierownictwaEnd.SelectedDate;
                         else
                             workerPermission.revokeDate = null;
-                       // workerPermission.revokeDate = DzienKierownictwaEnd.SelectedDate;
-                        
+
                         foreach (var permissionComp in permissionCompany)
                         {
                             if (permissionComp.name == "Kierownik")
@@ -114,10 +106,8 @@ namespace FirmaTransportowa.Views
 
         private void Cofnij(object sender, RoutedEventArgs e)
         {
-
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new Pracownicy();
-
         }
 
         private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;

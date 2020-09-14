@@ -118,30 +118,23 @@ namespace FirmaTransportowa.Views
                     else
                         bylyOpiekun += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
 
-
                 }
-
 
                 if (!(changePerson.layoffDate <= DateTime.Now))
                     Opiekun.Text = textOpiekun;
                 BylyOpiekun.Text = bylyOpiekun;
-
-
-
 
                 Kierownik.Text = "Nie";
 
                 if (person.PermissionName == "Kierownik" &&
                person.PermissionGrant <= DateTime.Now.Date && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
                 {
-
                         KierownikEndPanel.Visibility = Visibility.Visible;
                         KierownikStartPanel.Visibility = Visibility.Visible;
                         Kierownik.Text = "Tak";
                         KierownikDateStart.Text = person.PermissionGrant.ToString().Substring(0, 10);
                     if (person.RevokeDate != null)
                         KierownikDateEnd.Text = person.RevokeDate.ToString().Substring(0, 10);
-
 
                     }
                 else if (person.PermissionName == "Kierownik" && person.PermissionGrant > DateTime.Now.Date)
@@ -161,7 +154,6 @@ namespace FirmaTransportowa.Views
                     {
                         KierownikEndPanel.Visibility = Visibility.Hidden;
                         KierownikStartPanel.Visibility = Visibility.Hidden;
-
                     }
                 int zleceniaPrywatne = 0;
                 int przejechaneKm = 0;
@@ -197,7 +189,6 @@ namespace FirmaTransportowa.Views
                             //jaki to samochód;
 
                             koszty = (przejechaneKm * 4.75) + (0.05 * personLend.EngineCar);
-
 
                         }
                         else
@@ -273,8 +264,6 @@ namespace FirmaTransportowa.Views
             var people = db.People;
 
 
-            // toChange.systemLogin = newLogin.Text;
-
             foreach (var person in people)
             {
                 if (person.id == changePerson.id)
@@ -306,10 +295,6 @@ namespace FirmaTransportowa.Views
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var people = db.People;
-
-
-            // toChange.systemLogin = newLogin.Text;
-
             foreach (var person in people)
             {
                 if (person.id == changePerson.id)

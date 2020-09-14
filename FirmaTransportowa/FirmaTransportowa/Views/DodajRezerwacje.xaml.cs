@@ -1,5 +1,4 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +15,6 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             ReservationStart.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
 
-
             if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
             {
                 reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate),
@@ -24,7 +22,6 @@ namespace FirmaTransportowa.Views
                 ReservationStart.BlackoutDates.Insert(1, reservationStartBlackoutRange);
 
             }
-
 
             ReservationEnd.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości
             ReservationDate.SelectedDate = DateTime.Today;
@@ -35,11 +32,8 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
-
                 if(car.onService==false)  //gdy w sewisie nie wypożyczamy
                     PojazdID.Items.Add(car.id.ToString());
-
-
             }
             PojazdID.SelectedIndex = 0;
             Dane_Pojzadu();
@@ -158,7 +152,7 @@ namespace FirmaTransportowa.Views
 
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 { 
-                        var newReservation = new Reservation();
+                    var newReservation = new Reservation();
                     var newLend = new Lend(); 
 
 
@@ -177,9 +171,8 @@ namespace FirmaTransportowa.Views
 
                     newReservation.personId = id;
 
-
-                   reservations.Add(newReservation);
-                   db.SaveChanges();
+                    reservations.Add(newReservation);
+                    db.SaveChanges();
 
                     newLend.carId = newReservation.carId;
                     newLend.personId = newReservation.personId;
@@ -192,7 +185,7 @@ namespace FirmaTransportowa.Views
 
                     newReservation.lendId = newLend.id;
 
-                  db.SaveChanges();
+                    db.SaveChanges();
 
                     MessageBox.Show("Dodano rezerwację.", "Komunikat");
                 }

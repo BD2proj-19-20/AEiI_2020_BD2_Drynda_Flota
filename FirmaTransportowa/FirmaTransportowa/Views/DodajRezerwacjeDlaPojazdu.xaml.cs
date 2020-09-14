@@ -31,7 +31,6 @@ namespace FirmaTransportowa.Views
                 reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate),
                    DateTime.MaxValue);
                 ReservationStart.BlackoutDates.Insert(1, reservationStartBlackoutRange);
-
             }
 
             ReservationEnd.BlackoutDates.AddDatesInPast(); //uniemożliwia wybór dat z przeszłości

@@ -28,7 +28,6 @@ namespace FirmaTransportowa.Views
             newLogin.Text = changePerson.systemLogin;
             toChange = changePerson;
 
-       
         }
 
         private void Zmien(object sender, RoutedEventArgs e)

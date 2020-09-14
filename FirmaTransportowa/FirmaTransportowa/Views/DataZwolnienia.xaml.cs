@@ -26,8 +26,6 @@ namespace FirmaTransportowa.Views
             { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var carSupervisors = db.CarSupervisors;
-                // var newSupervisor = new CarSupervisor();
-
 
                 foreach (var carS in carSupervisors)
                 {
