@@ -81,7 +81,6 @@ namespace FirmaTransportowa.Views
             int id = Logowanie.actualUser.id;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            //DateTime temp;
             var reservations = db.Reservations;
             var lends = db.Lends;
             var people = db.People;
@@ -91,7 +90,6 @@ namespace FirmaTransportowa.Views
             Person personReservation=null;
             foreach (var person in people)
             {
-               // string check = Pracownicy.Text;
                 if (person.id==id)
                 {
                     datePersonOut = person.layoffDate;
@@ -102,7 +100,7 @@ namespace FirmaTransportowa.Views
             bool doReservationCar = true;
             bool doReservationPerson = true;
 
-                if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate >= ReservationStart.SelectedDate
+                if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
                     && (datePersonOut > ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
                 {
 
@@ -113,7 +111,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate <= ReservationStart.SelectedDate || actualCarLendDate >= ReservationEnd.SelectedDate
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                         {
                             doReservationCar = true;
@@ -133,7 +131,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < Convert.ToDateTime(ReservationStart.Text) || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate <= ReservationStart.SelectedDate || actualCarLendDate >= ReservationEnd.SelectedDate
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
                             doReservationPerson = true;
                         else
@@ -149,7 +147,7 @@ namespace FirmaTransportowa.Views
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 { 
                         var newReservation = new Reservation();
-                    var newLend = new Lend(); //?
+                    var newLend = new Lend(); 
 
 
                     newReservation.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
@@ -221,7 +219,7 @@ namespace FirmaTransportowa.Views
             if (ReservationEnd.SelectedDate < ReservationStart.SelectedDate)
                 ReservationEnd.SelectedDate = null;
             if (reservationEndBlackoutRange == null) {
-                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)ReservationStart.SelectedDate).AddDays(-1));
+                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)ReservationStart.SelectedDate).AddDays(0));
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
 
                 if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
@@ -233,7 +231,7 @@ namespace FirmaTransportowa.Views
                 }
             }
             else {
-                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(-1);
+                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(0);
                 ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
 
                 if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją

@@ -22,8 +22,6 @@ namespace FirmaTransportowa.Views
     /// </summary>
     /// 
 
-
-
     public partial class Logowanie : UserControl
     {
         public static Person actualUser;
@@ -85,7 +83,7 @@ namespace FirmaTransportowa.Views
                     if (person.systemLogin == login)
                     {
                    
-                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate > DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
+                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate >= DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
                         {
 
                             actualUser = person;
@@ -95,7 +93,7 @@ namespace FirmaTransportowa.Views
                                 foreach (var permission in permissions)
                                 {
                                     if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date && 
-                                    permission.revokeDate >= DateTime.Now.Date)
+                                    permission.revokeDate > DateTime.Now.Date)
                                     {
                                         foreach (var permissionWorkers in permissionComapny)
                                         {
@@ -110,16 +108,13 @@ namespace FirmaTransportowa.Views
 
                                     }
                                 }
-                              
-                            
-                                                         
                                
                                 //opiekuna sprawdzamy po CarSupervisior
                                 foreach(var carSupervisor in carSupervisors)
                                 {
                                 if (carSupervisor.personId == person.id)
                                     if (carSupervisor.personId==person.id && carSupervisor.beginDate <= DateTime.Now.Date
-                                    && (carSupervisor.endDate >=DateTime.Now.Date || carSupervisor.endDate ==null))
+                                    && (carSupervisor.endDate >DateTime.Now.Date || carSupervisor.endDate ==null))
                                     {
                                     opiekunLogin = true;
                                     break;
