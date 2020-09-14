@@ -485,10 +485,10 @@ namespace FirmaTransportowa.Views
 
                 foreach (var personSup in query2)
 
-                {  
-                if ((personSup.EndDate > DateTime.Today || personSup.EndDate == null) &&
-                        (personSup.SaleDate > DateTime.Today || personSup.SaleDate == null))
-                    textOpiekun += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
+                {
+                    if ((personSup.EndDate > DateTime.Today || personSup.EndDate == null || personSup.EndDate == DateTime.MinValue) &&
+                        (personSup.SaleDate > DateTime.Today || personSup.SaleDate == null || personSup.SaleDate == DateTime.MinValue))
+                        textOpiekun += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
                 else
                     bylyOpiekun += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
 
