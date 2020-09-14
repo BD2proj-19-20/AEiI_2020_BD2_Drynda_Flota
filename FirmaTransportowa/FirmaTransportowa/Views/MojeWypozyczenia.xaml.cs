@@ -132,8 +132,6 @@ namespace FirmaTransportowa.Views
         public MojeWypozyczenia()
         {
             InitializeComponent();
-
-           
             UpdateView();
         }
 
@@ -156,7 +154,7 @@ namespace FirmaTransportowa.Views
                 }
 
 
-                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate <= lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
                 {
@@ -168,6 +166,112 @@ namespace FirmaTransportowa.Views
 
                 MessageBox.Show("Niczego nie wybrano !", "Komunikat");
         }
+        private void Zakoncz_Wypozyczenie(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
+
+            if (selected != null)
+            {
+
+                MyLendList selectedObj = (MyLendList)selected.Content;
+
+                int selectedId = selectedObj.LendId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                Lend lendChange = null;
+
+                var lends = db.Lends;
+                foreach (var lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+
+                if (lendChange.lendDate > DateTime.Now)
+                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
+                else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended == true)
+                    MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
+                else
+                {
+
+                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc wypożyczenie ?"
+                        , "Komunikat", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                    {
+                        lendChange.returnDate = DateTime.Now.Date;
+
+                        lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
+                            Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
+                        var reservations = db.Reservations;
+
+                        foreach (var reserv in reservations)
+                        {
+                            if (lendChange.id == reserv.lendId)
+                            {
+                                reserv.ended = true;
+
+                            }
+
+                        }
+                        db.SaveChanges();
+
+                        ListViewMyLends.ItemsSource = null;
+                        items.Clear();
+                        UpdateView();
+
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                    }
+                }
+            }
+            else
+                MessageBox.Show("Nic nie wybrano !", "Komunikat");
+        }
+        private void Zglos_usterke(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
+            if (selected != null)
+            {
+                MyLendList selectedObj = (MyLendList)selected.Content;
+
+                int selectedId = selectedObj.LendId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+                var cars = db.Cars;
+
+                Lend lendChange = null;
+
+                var lends = db.Lends;
+                foreach (var lend in lends)
+                {
+                    if (lend.id == selectedId)
+                        lendChange = lend;
+                }
+
+
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
+                //usterkę można zgłosic w tym oknie dla rozpoczętych wypozyczeń
+                {
+                    MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
+                    return;
+                }
+                foreach (var car in cars)
+                {
+                    if (lendChange.carId == car.id)
+                    {
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car, 2);
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = zglosUsterke;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+
 
         private void Box_Click(object sender, RoutedEventArgs e)
         {
@@ -530,112 +634,7 @@ namespace FirmaTransportowa.Views
                 secondDate = DateTime.MinValue;
             return DateTime.Compare(secondDate, firstDate);
         }
-        private void Zakoncz_Wypozyczenie(object sender, RoutedEventArgs e)
-        {
-            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
-
-            if (selected != null)
-            {
-
-                MyLendList selectedObj = (MyLendList)selected.Content;
-
-                int selectedId = selectedObj.LendId - 1;
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                Lend lendChange = null;
-
-                var lends = db.Lends;
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
-
-                if (lendChange.lendDate > DateTime.Now)
-                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
-                else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended==true)
-                    MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
-                else
-                {
-
-                    DialogResult result = MessageBox.Show("Czy chcesz zakonczyc wypożyczenie ?"
-                        , "Komunikat", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
-                    {
-                        lendChange.returnDate = Convert.ToDateTime(DateTime.Now);
-
-                        lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
-                            Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
-                        var reservations = db.Reservations;
-
-                        foreach (var reserv in reservations)
-                        {
-                            if (lendChange.id == reserv.lendId)
-                            {
-                                reserv.ended = true;
-
-                            }
-
-                        }
-                        db.SaveChanges();
-
-                        ListViewMyLends.ItemsSource = null;
-                        items.Clear();
-                        UpdateView();
-
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                    }
-                }
-            }
-            else
-                MessageBox.Show("Nic nie wybrano !", "Komunikat");
-        }
-        private void Zglos_usterke(object sender, RoutedEventArgs e)
-        {
-            ListViewItem selected = (ListViewItem)ListViewMyLends.SelectedItem;
-            if (selected != null)
-            {
-                MyLendList selectedObj = (MyLendList)selected.Content;
-
-                int selectedId = selectedObj.LendId - 1;
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-
-                var cars = db.Cars;
-
-                Lend lendChange = null;
-
-                var lends = db.Lends;
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
-
-
-                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
-                    //usterkę można zgłosic w tym oknie dla rozpoczętych wypozyczeń
-                {
-                    MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
-                    return;
-                }
-                foreach (var car in cars)
-                {
-                    if (lendChange.carId==car.id)
-                    {
-                        ZglosUsterke zglosUsterke = new ZglosUsterke(car,2);
-                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                        glowneOkno.DataContext = zglosUsterke;
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
-
+       
     }
 }
 

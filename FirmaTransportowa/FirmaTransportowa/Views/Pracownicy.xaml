@@ -45,12 +45,13 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Dodaj" Margin="25 0 0 0" Width="115"  Click="Dodaj_Pracownika"/>
-                <Button Content="Zwolnij" Margin="25 0 0 0" Width="139" Click="Zwolnij_Pracownika"/>
-                <Button Content="Analuj Zwolnienie" Margin="25 0 0 0" Width="139" Click="Usun_zwolnienie"/>
-                <Button Content="Statystyki" Margin="25 0 0 0" Width="123" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
+                <Button Content="Dodaj" Margin="25 0 0 0" Width="100"  Click="Dodaj_Pracownika"/>
+                <Button Content="Zwolnij" Margin="25 0 0 0" Width="100" Click="Zwolnij_Pracownika"/>
+                <Button Content="Analuj Zwolnienie" Margin="25 0 0 0" Width="110" Click="Usun_zwolnienie"/>
+                <Button Content="Statystyki" Margin="25 0 0 0" Width="110" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
+                <Button Content="Generuj raport"  Margin="25 0 0 0" Click="Generuj_Raport_Pracownicy" Width="110"/>
             </StackPanel>
         </StackPanel>
-        <Button Content="Generuj raport" Click="Generuj_Raport_Pracownicy" Margin="325,5,325,550" Width="100"/>
+  
     </Grid>
 </UserControl>

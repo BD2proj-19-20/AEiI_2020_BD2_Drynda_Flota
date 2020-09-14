@@ -53,6 +53,7 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
+                if(PojazdID.SelectedItem!=null)
                 if ((car.id).ToString() == PojazdID.SelectedItem.ToString())
                 {
                     Rejestracja.Text = car.Registration;

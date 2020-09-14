@@ -296,7 +296,7 @@ namespace FirmaTransportowa.Views
             doc.Open();
 
             //Tutaj beda wszyscy pracownicy z ich uprawnieniami
-            var query = from person in db.People
+            var query = from person in db.People 
                         join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
 
                         from permissionPeople in permissionTable.DefaultIfEmpty()
@@ -453,19 +453,19 @@ namespace FirmaTransportowa.Views
                 string kierownikEnd = "";
 
                 if (person.PermissionName == "Kierownik" &&
-                      person.PermissionGrant <= DateTime.Now && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
+                      person.PermissionGrant <= DateTime.Now.Date && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
                 {
                     kierownik = "Tak";
                     kierownikStart = person.PermissionGrant.ToString().Substring(0, 10);
                     if (person.RevokeDate != null)
                         kierownikEnd = person.RevokeDate.ToString().Substring(0, 10);
                 }
-                else if (person.PermissionName == "Kierownik" && person.PermissionGrant > DateTime.Now)
+                else if (person.PermissionName == "Kierownik" && person.PermissionGrant > DateTime.Now.Date)
                 {
                     if (((person.PermissionGrant - DateTime.Now).Days + 1) == 1)
-                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now).Days + 1) + " dzień";
+                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now.Date).Days + 1) + " dzień";
                     else
-                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now).Days + 1) + " dni";
+                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now.Date).Days + 1) + " dni";
                     kierownikStart = person.PermissionGrant.ToString().Substring(0, 10);
                     if (person.RevokeDate != null)
                         kierownikEnd = person.RevokeDate.ToString().Substring(0, 10);
@@ -572,7 +572,7 @@ namespace FirmaTransportowa.Views
 
                 }
 
-
+                //Koszty???
                 doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
                 times3.Size = 20;
                 doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));

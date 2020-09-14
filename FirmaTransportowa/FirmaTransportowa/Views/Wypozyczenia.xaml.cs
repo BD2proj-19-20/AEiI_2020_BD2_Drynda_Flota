@@ -120,7 +120,7 @@ namespace FirmaTransportowa.Views
                     addItem = true;
                 }
 
-                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
+                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date)
                  &&  addItem==true)
                 {
                     addItem = false;
@@ -158,7 +158,7 @@ namespace FirmaTransportowa.Views
                     if (lend.id == selectedId)
                         lendChange = lend;
                 }
-                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
+                if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate <= lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
                 {
@@ -579,7 +579,7 @@ namespace FirmaTransportowa.Views
                         , "Komunikat", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
-                        lendChange.returnDate = Convert.ToDateTime(DateTime.Now);
+                        lendChange.returnDate = DateTime.Now.Date;
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
                             Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
