@@ -31,7 +31,7 @@ namespace FirmaTransportowa.Views
                 zmienKierownikaButton.Visibility = Visibility.Hidden;
                 OpiekunPanel.Visibility = Visibility.Hidden; //nie może byc opiekunem zwolniony pracownik
                 Thickness margin = BylyOpiekunPanel.Margin;
-                margin.Top = margin.Top - 40;
+                margin.Top = margin.Top - 20;
                 BylyOpiekunPanel.Margin = margin; //przesuwamy w górę panel z byłymi opiekunami
             }
             else

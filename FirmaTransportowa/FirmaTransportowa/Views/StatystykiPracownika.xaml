@@ -65,7 +65,7 @@
                             <TextBlock FontSize="15" x:Name="Pojazd" Height="Auto" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wykonane zlecenia:" Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Ilość wypożyczeń:" Width="150"/>
                             <TextBlock FontSize="15" Name="Zlecenia"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
@@ -91,7 +91,7 @@
                             <TextBlock FontSize="15" x:Name="PojazdSluzbowe" Height="Auto" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wykonane zlecenia: " Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Ilość wypożyczeń: " Width="150"/>
                             <TextBlock FontSize="15" Name="ZleceniaSluzbowe" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
@@ -107,7 +107,7 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text=" Inne"/>
                         </StackPanel>
                         <StackPanel Name="OpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Opiekun:" Width="130"/>
                             <ScrollViewer MaxHeight="70"  
               Width="Auto" 
               HorizontalScrollBarVisibility="Disabled"
@@ -116,7 +116,7 @@
                             </ScrollViewer>
                         </StackPanel>
                         <StackPanel Name="BylyOpiekunPanel" Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock Name="BylyOpiekunText" FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="150"/>
+                            <TextBlock Name="BylyOpiekunText" FontSize="15" FontWeight="Bold" Text="Były opiekun:" Width="130"/>
                             <ScrollViewer Height="140"   Name="ScrolllBylyOpiekun"
               Width="Auto" 
               HorizontalScrollBarVisibility="Disabled"
