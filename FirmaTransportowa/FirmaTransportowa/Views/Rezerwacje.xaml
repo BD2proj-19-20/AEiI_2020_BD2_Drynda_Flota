@@ -65,8 +65,9 @@
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Modyfikuj" Margin="50 0" Width="125" Click="Modyfikuj_Rezerwacje"/>
                 <Button Content="Zakończ" Margin="50 0" Width="125" Click="Zakoncz_Rezerwacje"/>
+                <Button Content="Generuj raport" Margin="50 0"  Click="Generuj_Raport_Rezerwacje"  Width="125" />
             </StackPanel>
         </StackPanel>
-        <Button Content="Generuj raport" Click="Generuj_Raport_Rezerwacje" Margin="325,5,325,550" Width="100"/>
+
     </Grid>
 </UserControl>
