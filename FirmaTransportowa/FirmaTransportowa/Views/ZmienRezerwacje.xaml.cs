@@ -129,7 +129,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate =< ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true) {
                             doReservationCar = true;
                         }
@@ -147,7 +147,7 @@ namespace FirmaTransportowa.Views
                         actualCarLendDate = reserv.lendDate;
                         actualCarReturnDate = reserv.returnDate;
 
-                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
+                        if (actualCarReturnDate =< ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
                              || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true) {
                             doReservationPerson = true;
                         }

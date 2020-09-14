@@ -453,7 +453,7 @@ namespace FirmaTransportowa.Views
                 string kierownikEnd = "";
 
                 if (person.PermissionName == "Kierownik" &&
-                      person.PermissionGrant < DateTime.Now && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
+                      person.PermissionGrant <= DateTime.Now && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
                 {
                     kierownik = "Tak";
                     kierownikStart = person.PermissionGrant.ToString().Substring(0, 10);
