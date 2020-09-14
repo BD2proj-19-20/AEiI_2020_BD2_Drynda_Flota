@@ -21,7 +21,9 @@ namespace FirmaTransportowa.Views
 
             public string registration { get; set; }
             public int fault { get; set; }
-        }
+
+            public String isUsed { get; set; }
+    }
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
 
@@ -39,6 +41,7 @@ namespace FirmaTransportowa.Views
             var carSupervisors = db.CarSupervisors;
             var people = db.People;
 
+            String isCarUsed;
             foreach (var car in cars)
             {
                 string supervisorString = "Brak";
@@ -53,7 +56,11 @@ namespace FirmaTransportowa.Views
                 }
 
                 ListViewItem OneItem = new ListViewItem();
-                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault=car.Activities.Count};
+                if (car.onService)
+                    isCarUsed = "Nie";
+                else
+                    isCarUsed = "Tak";
+                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault=car.Activities.Count,isUsed=isCarUsed};
                 
                 items.Add(OneItem);
             }
@@ -189,20 +196,7 @@ namespace FirmaTransportowa.Views
             return String.Compare(second.registration, first.registration);
         }
 
-        private void Send_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-                System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                glowneOkno.DataContext = new DodajZlecenie();
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
+       
 
         private void Activate_Disactivate_Click(object sender, RoutedEventArgs e)
         {
