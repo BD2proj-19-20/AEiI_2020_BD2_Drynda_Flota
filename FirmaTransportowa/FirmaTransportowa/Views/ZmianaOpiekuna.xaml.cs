@@ -43,13 +43,13 @@ namespace FirmaTransportowa.Views
                 {
                     if (carSupervisor.carId == toChange.id && carSupervisor.endDate == null)
                     {
-                        carSupervisor.endDate = DateTime.Now;
+                        carSupervisor.endDate = DateTime.Today;
                         break;
                     }
                 }
 
                 newSupervisor.carId = toChange.id;
-                newSupervisor.beginDate = DateTime.Now;
+                newSupervisor.beginDate = DateTime.Today;
                 newSupervisor.endDate = null;
 
                 var People = db.People;
