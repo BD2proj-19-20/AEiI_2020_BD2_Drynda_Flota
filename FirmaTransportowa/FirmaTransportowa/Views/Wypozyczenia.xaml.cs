@@ -148,11 +148,11 @@ namespace FirmaTransportowa.Views
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var carSupervisors = db.CarSupervisors;
-            var lends = db.Lends;
-            var people = db.People;
-            var cars = db.Cars;
-            var reservations = db.Reservations;
+            //var carSupervisors = db.CarSupervisors;
+            //var lends = db.Lends;
+            //var people = db.People;
+            //var cars = db.Cars;
+            //var reservations = db.Reservations;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
@@ -165,104 +165,118 @@ namespace FirmaTransportowa.Views
             doc.Open();
             string namePerson = "";
             var vehicle = "";
-            foreach (var lend in lends)
+
+
+
+
+            var query = from lend in db.Lends
+                        select new
+                        {
+                            LendId = lend.id,
+                            Owner = lend.Person.lastName + " " + lend.Person.firstName,
+                            Vehicle = lend.Car.CarModel.make + "/" + lend.Car.CarModel.model + "/" + lend.Car.Registration + "\n",
+                            Private = lend.@private,
+                            LendDate = lend.lendDate,
+                            ReturnDate = lend.returnDate,
+                            PlannedReturnDate = lend.plannedReturnDate,
+                            ReservationDate = lend.Reservation.reservationDate,
+                            LendEnded = lend.Reservation.ended,
+                            StartOdometer = lend.startOdometer,
+                            EndOdometer = lend.endOdometer,
+                            StartFuel = lend.startFuel,
+                            EndFuel = lend.endFuel
+
+                        };
+
+            foreach (var lend in query)
             {
-                foreach (var person in people)
-                {
-                    if (person.id == lend.personId)
-                        namePerson = person.lastName + " " + person.firstName;
-                }
-                Chunk c = new Chunk((lend.id + 1) + ")\n" + namePerson, times);
-                foreach (var car in cars)
-                {
-                    if (car.id == lend.carId)
-                        vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-                }
+               
+                Chunk c = new Chunk((lend.LendId + 1) + ")\n" + lend.Owner, times);
 
-
-
-
+                vehicle = lend.Vehicle;
 
                 if ((Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
-                    && (Regex.IsMatch(lend.lendDate.ToShortDateString(), dateStartFilter.Text, RegexOptions.IgnoreCase))
-                     && (lend.returnDate == null ||  Regex.IsMatch(lend.returnDate.ToString().Substring(0, 10), dateEndFilter.Text, RegexOptions.IgnoreCase))
-                       && (Regex.IsMatch(lend.Reservation.reservationDate.ToString().Substring(0, 10), dateReservationFilter.Text, RegexOptions.IgnoreCase))
-                        && (Regex.IsMatch(lend.plannedReturnDate.ToString().Substring(0, 10), datePlannedEndFilter.Text, RegexOptions.IgnoreCase))
-                   && Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch((lend.id + 1).ToString(), idFilter.Text))
+                    && (Regex.IsMatch(lend.LendDate.ToShortDateString(), dateStartFilter.Text, RegexOptions.IgnoreCase))
+                     && (lend.ReturnDate == null || Regex.IsMatch(lend.ReturnDate.ToString().Substring(0, 10), dateEndFilter.Text, RegexOptions.IgnoreCase))
+                       && (Regex.IsMatch(lend.ReservationDate.ToString().Substring(0, 10), dateReservationFilter.Text, RegexOptions.IgnoreCase))
+                        && (Regex.IsMatch(lend.PlannedReturnDate.ToString().Substring(0, 10), datePlannedEndFilter.Text, RegexOptions.IgnoreCase))
+                   && Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch((lend.LendId + 1).ToString(), idFilter.Text))
                 {
 
-                    if (RozpoczeteBox.IsChecked.Value == true && (lend.lendDate >= DateTime.Now.Date || lend.returnDate < lend.lendDate.Date))
+                    if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date))
                         continue;
 
-                    if (lend.@private == false && lend.Reservation.ended == true && ZakonczoneBox.IsChecked.Value == true)
+                    if (lend.Private == false && lend.LendEnded == true && ZakonczoneBox.IsChecked.Value == true)
                     {
                         c.SetBackground(BaseColor.ORANGE);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0,29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
-                        if (lend.returnDate != null)
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.LendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.PlannedReturnDate).Substring(0, 33), times));
+                        if (lend.ReturnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.ReturnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.ReservationDate).Substring(0, 29), times));
 
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
                     }
-                    else if (lend.@private == true && lend.Reservation.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
+                    else if (lend.Private == true && lend.LendEnded == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
                     {
                         c.SetBackground(BaseColor.RED);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
-                        if (lend.returnDate != null)
-                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.LendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.PlannedReturnDate).Substring(0, 33), times));
+                        if (lend.ReturnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.ReturnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.ReservationDate).Substring(0, 29), times));
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
                     }
-                    else if (lend.@private == true && PrywatneBox.IsChecked.Value == true && lend.Reservation.ended == false)
+                    else if (lend.Private == true && PrywatneBox.IsChecked.Value == true && lend.LendEnded == false)
                     {
                         c.SetBackground(BaseColor.BLUE);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
-                        if (lend.returnDate != null)
-                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.LendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.PlannedReturnDate).Substring(0, 33), times));
+                        if (lend.ReturnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.ReturnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.ReservationDate).Substring(0, 29), times));
+
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
                     }
-                    else if (PozostałeBox.IsChecked.Value == true && lend.Reservation.ended == false && lend.@private == false)
+                    else if (PozostałeBox.IsChecked.Value == true && lend.LendEnded == false && lend.Private == false)
                     {
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
-                        if (lend.returnDate != null)
-                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
-                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.LendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.PlannedReturnDate).Substring(0, 33), times));
+                        if (lend.ReturnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.ReturnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.ReservationDate).Substring(0, 29), times));
 
 
-                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
 
                     }
+
+                    times.Size = 26;
+                    if (lend.LendDate > DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date)
+                        continue;
+                    doc.Add(new iTextSharp.text.Paragraph("Początek drogomierza (km): " + lend.StartOdometer, times));
+                    if (lend.EndOdometer != null)
+                        doc.Add(new iTextSharp.text.Paragraph("Koniec drogomierza (km): " + lend.EndOdometer, times));
+                    doc.Add(new iTextSharp.text.Paragraph("Początek paliwa (litry): " + lend.StartFuel, times));
+                    if (lend.EndFuel != null)
+                        doc.Add(new iTextSharp.text.Paragraph("Koniec paliwa (litry): " + lend.EndFuel, times));
+                    times.Size = 32;
                 }
-
-                if (lend.lendDate > DateTime.Now.Date|| lend.returnDate <= lend.lendDate.Date)
-                    continue;
-                doc.Add(new iTextSharp.text.Paragraph("Początek drogomierza (km): " + lend.startOdometer, times));
-                if(lend.endOdometer!=null)
-                doc.Add(new iTextSharp.text.Paragraph("Koniec drogomierza (km): " + lend.endOdometer, times));
-                    doc.Add(new iTextSharp.text.Paragraph("Początek paliwa (litry): " + lend.startFuel, times));
-                if (lend.endFuel != null)
-                    doc.Add(new iTextSharp.text.Paragraph("Koniec paliwa (litry): " + lend.endFuel, times));
-
             }
             Chunk c1 = new Chunk("");
             doc.Add(c1); //doc nie może być pusty 

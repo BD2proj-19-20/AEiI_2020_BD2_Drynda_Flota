@@ -220,11 +220,6 @@ namespace FirmaTransportowa.Views
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var carSupervisors = db.CarSupervisors;
-            var lends = db.Lends;
-            var people = db.People;
-            var cars = db.Cars;
-            var reservations = db.Reservations;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
@@ -237,7 +232,22 @@ namespace FirmaTransportowa.Views
             doc.Open();
             string namePerson = "";
             var vehicle = "";
-            foreach (var reserv in reservations)
+
+            var query = from reserv in db.Reservations
+                        select new
+                        {
+                            ReservationId = reserv.id,
+                            Owner = reserv.Person.lastName + " " + reserv.Person.firstName,
+                            Vehicle = reserv.Car.CarModel.make + "/" + reserv.Car.CarModel.model + "/" + reserv.Car.Registration + "\n",
+                            Private = reserv.@private,
+                            Ended = reserv.ended,
+                            LendDate = reserv.lendDate,
+                            ReturnDate = reserv.returnDate,
+                            ReservationDate = reserv.reservationDate
+                        };
+
+
+            foreach (var reserv in query)
             {
                 foreach (var person in people)
                 {
