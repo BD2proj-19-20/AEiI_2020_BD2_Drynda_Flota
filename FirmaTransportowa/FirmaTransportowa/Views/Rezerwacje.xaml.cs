@@ -72,8 +72,6 @@ namespace FirmaTransportowa.Views
                             ReservationDate = reserv.reservationDate
                         };
 
-            /*var queryCount = query.Count();
-            var reservCount = db.Reservations.Count();*/
 
             foreach (var reserv in query)
             {
@@ -224,10 +222,8 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
             var lends = db.Lends;
-            //  var people = db.People.ToList().OrderBy(t => t.lastName);
             var people = db.People;
             var cars = db.Cars;
-            //  var activities = db.Activities;
             var reservations = db.Reservations;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
@@ -266,9 +262,9 @@ namespace FirmaTransportowa.Views
                         c.SetBackground(BaseColor.ORANGE);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + reserv.lendDate).Substring(0,29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + reserv.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + reserv.reservationDate).Substring(0, 29), times));
 
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
@@ -279,9 +275,9 @@ namespace FirmaTransportowa.Views
                         c.SetBackground(BaseColor.RED);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + reserv.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + reserv.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + reserv.reservationDate).Substring(0, 29), times));
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
@@ -291,9 +287,9 @@ namespace FirmaTransportowa.Views
                         c.SetBackground(BaseColor.BLUE);
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + reserv.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + reserv.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + reserv.reservationDate).Substring(0, 29), times));
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
                         times.Size = 32;
@@ -302,9 +298,9 @@ namespace FirmaTransportowa.Views
                     {
                         times.Size = 26;
                         doc.Add(new iTextSharp.text.Paragraph(c));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rozpoczęcia: " + reserv.lendDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Zakończenia: " + reserv.returnDate, times));
-                        doc.Add(new iTextSharp.text.Paragraph("Dzień Rezerwacji: " + reserv.reservationDate, times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + reserv.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + reserv.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + reserv.reservationDate).Substring(0, 29), times));
 
 
                         doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));

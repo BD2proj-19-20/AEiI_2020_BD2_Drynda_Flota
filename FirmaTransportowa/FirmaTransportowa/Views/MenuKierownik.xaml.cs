@@ -25,8 +25,6 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
 
-
-           Kierownik.Items.RemoveAt(2);
         }
 
         private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
