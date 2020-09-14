@@ -103,7 +103,7 @@ namespace FirmaTransportowa.Views
                         db.SaveChanges();
                     }
 
-                    MessageBox.Show("Dodano Pracownika: " + newWorker.id+1 + " " + newWorker.firstName + "\n" + newWorker.lastName, "Komunikat");
+                    MessageBox.Show("Dodano Pracownika: " + (newWorker.id+1).ToString() + " " + newWorker.firstName + "\n" + newWorker.lastName, "Komunikat");
                 }
                 else
                     MessageBox.Show("Zła data zatrudnienia!", "Komunikat");

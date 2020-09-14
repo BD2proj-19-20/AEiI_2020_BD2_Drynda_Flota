@@ -114,7 +114,7 @@ namespace FirmaTransportowa.Views
                     addItem = true;
                 }
 
-                if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate > DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
+                if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
                  && addItem == true)
                 {
                     addItem = false;
@@ -124,7 +124,6 @@ namespace FirmaTransportowa.Views
                     items.Add(OneItem);
                 }
             }
-            // Array.Sort(items.ToArray(), CompareLendByIdAscending);
             ListViewMyLends.ItemsSource = items;
 
             stoper.Stop();

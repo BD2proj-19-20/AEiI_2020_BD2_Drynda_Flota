@@ -111,7 +111,7 @@ namespace FirmaTransportowa.Views
             CollectionViewSource.GetDefaultView(carList.ItemsSource).Refresh();
         }
 
-        
+
         private void BuyCar(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
@@ -120,6 +120,9 @@ namespace FirmaTransportowa.Views
 
         private void GenerateRaport(object sender, RoutedEventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             saveFileDialog.Filter = "Dokument pdf|*.pdf";
@@ -129,8 +132,10 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
 
-            iTextSharp.text.Font times = FontFactory.GetFont("Arial", 32, new BaseColor(System.Drawing.Color.Black));
-            iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
+            iTextSharp.text.Font times = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
+            times.Size = 32;
+            iTextSharp.text.Font times2 = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
+            times2.Size = 20;
             iTextSharp.text.Font times3 = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times3.Size = 14;
             FileStream fs = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -141,8 +146,27 @@ namespace FirmaTransportowa.Views
             foreach (var car in cars)
             {
                 //SAMOCHÓD
-                doc.Add(new iTextSharp.text.Paragraph(car.id + " " + car.Registration + " " + car.CarModel.make + " " + car.CarModel.model, times));
+                doc.Add(new iTextSharp.text.Paragraph(car.id + "   " + car.Registration + "\n", times));
                 //SAMOCHÓD
+
+                //DATA ZAKUPU I SPRZEDAŻY
+                doc.Add(new iTextSharp.text.Paragraph("Data zakupu: " + car.purchaseDate.ToShortDateString(), times2));
+                if (car.saleDate != null)
+                    doc.Add(new iTextSharp.text.Paragraph("Data sprzedaży: " + car.saleDate, times2));
+                //DATA ZAKUPU I SPRZEDAŻY
+
+                //CZY SPRAWNY
+                string onService = car.onService == false ? "Tak" : "Nie";
+                doc.Add(new iTextSharp.text.Paragraph("Sprawny? " + onService, times2));
+                //CZY SPRAWNY
+
+                //DANE POJAZDU
+                doc.Add(new iTextSharp.text.Chunk("Marka: " + car.CarModel.make + "\n", times3));
+                doc.Add(new iTextSharp.text.Chunk("Model: " + car.CarModel.model + "\n", times3));
+                doc.Add(new iTextSharp.text.Chunk("Pojemność silnika: " + car.engineCapacity + "\n", times3));
+                doc.Add(new iTextSharp.text.Chunk("Zastosowanie: " + car.CarDestination.name + "\n", times3));
+                doc.Add(new iTextSharp.text.Chunk("Przegląd ważny do: " + car.inspectionValidUntil.ToShortDateString() + "\n\n", times3));
+                //DANE POJAZDU
 
                 //HISTORIA OPIEKUNÓW
                 var carSupervisors = from carSupervisor in db.CarSupervisors
@@ -150,33 +174,85 @@ namespace FirmaTransportowa.Views
                                      orderby carSupervisor.beginDate
                                      select new
                                      {
-                                         Person = carSupervisor.Person,
-                                         CarId = carSupervisor.carId,
+                                         carSupervisor.Person,
                                          BeginDate = carSupervisor.beginDate,
                                          EndDate = carSupervisor.endDate
                                      };
 
                 if (carSupervisors.Count() != 0)
-                    doc.Add(new iTextSharp.text.Paragraph("Opiekunowie: ", times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Historia opiekunów: ", times2));
                 foreach (var carSupervisor in carSupervisors)
                 {
-                    if (car.id == carSupervisor.CarId)
+                    carSupervisor.BeginDate.ToShortDateString();
+                    string endDate = "";
+                    if (carSupervisor.EndDate != null)
                     {
-                        carSupervisor.BeginDate.ToShortDateString();
-                        string endDate = "";
-                        if (carSupervisor.EndDate != null)
-                        {
-                            endDate = carSupervisor.EndDate.ToString();
-                        }
-                        doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " "
-                            + carSupervisor.Person.lastName + ": \t\t\t" + carSupervisor.BeginDate.ToString() + " - "
-                            + endDate + "\n", times3));
+                        endDate = carSupervisor.EndDate.ToString();
                     }
+                    doc.Add(new iTextSharp.text.Chunk(carSupervisor.Person.id + " " + carSupervisor.Person.firstName + " "
+                        + carSupervisor.Person.lastName + ": " + carSupervisor.BeginDate.ToString() + " - "
+                        + endDate + "\n", times3));
                 }
                 //HISTORIA OPIEKUNÓW
 
+                //HISTORIA WYPOŻYCZEŃ
+                var carLends = from carLend in db.Lends
+                               where carLend.carId == car.id
+                               orderby carLend.lendDate
+                               select new
+                               {
+                                   carLend.Person,
+                                   BeginDate = carLend.lendDate,
+                                   EndDate = carLend.returnDate
+                               };
+
+                if (carLends.Count() != 0)
+                    doc.Add(new iTextSharp.text.Paragraph("\nHistoria wypożyczeń: ", times2));
+                foreach (var carLend in carLends)
+                {
+                    carLend.BeginDate.ToShortDateString();
+                    string endDate = "";
+                    if (carLend.EndDate != null)
+                    {
+                        endDate = carLend.EndDate.ToString();
+                    }
+                    doc.Add(new iTextSharp.text.Chunk(carLend.Person.id + " " + carLend.Person.firstName + " "
+                        + carLend.Person.lastName + ": " + carLend.BeginDate.ToString() + " - "
+                        + endDate + "\n", times3));
+                }
+                //HISTORIA WYPOŻYCZEŃ
+
+                //HISTORIA AKTYWNOŚCI
+                var carActivities = from carActivity in db.Activities
+                               where carActivity.carId == car.id
+                               orderby carActivity.reportDate
+                               select new
+                               {
+                                   Name = carActivity.comments,
+                                   BeginDate = carActivity.reportDate,
+                                   EndDate = carActivity.closeDate
+                               };
+
+                if (carActivities.Count() != 0)
+                    doc.Add(new iTextSharp.text.Paragraph("\nHistoria aktywności: ", times2));
+                foreach (var carActivity in carActivities)
+                {
+                    carActivity.BeginDate.ToShortDateString();
+                    string endDate = "";
+                    if (carActivity.EndDate != null)
+                    {
+                        endDate = carActivity.EndDate.ToString();
+                    }
+                    doc.Add(new iTextSharp.text.Chunk(carActivity.Name + " " + carActivity.BeginDate.ToString() + " - "
+                        + endDate + "\n", times3));
+                }
+                //HISTORIA AKTYWNOŚCI
+
+                doc.NewPage();
             }
             doc.Close();
+            stopwatch.Stop();
+            MessageBox.Show("Raport wygenerowany w czasie " + stopwatch.Elapsed + "!");
         }
 
         private void GridViewColumnHeaderClick(object sender, RoutedEventArgs e)
@@ -252,7 +328,8 @@ namespace FirmaTransportowa.Views
 
             var query = from car in db.Cars
                         join supervisor in db.CarSupervisors on car.id equals supervisor.carId into final
-                        from f in final.DefaultIfEmpty() where f.endDate == null
+                        from f in final.DefaultIfEmpty()
+                        where f.endDate == null
                         select new
                         {
                             SupervisorName = f == null ? "Brak" : f.Person.lastName + " " + f.Person.firstName,
@@ -304,11 +381,11 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
-                        if(car.saleDate == null)
+                        if (car.saleDate == null)
                         {
                             MessageBox.Show("Nie można kupić niesprzedanego samochodu!", "Błąd przy zakupie!", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
-                        }    
+                        }
                         car.saleDate = null;
                         car.purchaseDate = DateTime.Today;
                         break;
@@ -357,7 +434,7 @@ namespace FirmaTransportowa.Views
                             MessageBox.Show("Nie można sprzedać sprzedanego samochodu!", "Błąd przy sprzedaży!", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
-                        car.saleDate = DateTime.Today;
+                        car.saleDate = DateTime.Now;
                         break;
                     }
                 }

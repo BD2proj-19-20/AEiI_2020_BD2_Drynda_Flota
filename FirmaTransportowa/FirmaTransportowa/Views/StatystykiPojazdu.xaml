@@ -80,10 +80,11 @@
                 </Border>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="36">
-                <Button Content="Usterki"  Margin="20,0,20,0" Width="145" Click="UsterkiClick"/>
-                <Button Content="Historia"   Margin="20,0,20,0" Width="145" Click="historiaClick"/>
-                <Button Content="Rezerwacje"    Margin="20,0,20,0" Width="145" Click="rezerwacjeClick"/>
-                <Button Content="Cofnij"  Click="Cofnij"  Margin="20,0,20,0" Width="145"/>
+                <Button Content="Usterki"  Margin="15,0,20,0" Width="120" Click="UsterkiClick"/>
+                <Button Content="Historia"   Margin="10,0,20,0" Width="120" Click="historiaClick"/>
+                <Button Content="Rezerwacje"    Margin="10,0,20,0" Width="120" Click="rezerwacjeClick"/>
+                <Button Content="Raport"  Click="GenerateRaport"  Margin="10,0,20,0" Width="120"/>
+                <Button Content="Cofnij"  Click="Cofnij"  Margin="10,0,20,0" Width="120"/>
 
             </StackPanel>
         </StackPanel>

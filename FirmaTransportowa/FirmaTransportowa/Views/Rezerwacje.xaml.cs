@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Linq;
 using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using System.Windows.Forms;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.Forms.MessageBox;
