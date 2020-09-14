@@ -234,7 +234,7 @@ namespace FirmaTransportowa.Views
             if (ReservationEnd.SelectedDate <= ReservationStart.SelectedDate)
                 ReservationEnd.SelectedDate = null;
             if (reservationEndBlackoutRange == null) {
-                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(0), ((DateTime)ReservationStart.SelectedDate));
+                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today, ((DateTime)ReservationStart.SelectedDate));
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
 
                 if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją

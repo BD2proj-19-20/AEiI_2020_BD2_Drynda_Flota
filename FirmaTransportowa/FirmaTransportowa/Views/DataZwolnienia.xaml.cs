@@ -14,7 +14,6 @@ namespace FirmaTransportowa.Views
         public DataZwolnienia(Person personChange)
         {
             InitializeComponent();
-            // if(!carSupervisiorChange.Equals(null))
             Kalendarz.BlackoutDates.AddDatesInPast();
             this.personChange = personChange;
 
