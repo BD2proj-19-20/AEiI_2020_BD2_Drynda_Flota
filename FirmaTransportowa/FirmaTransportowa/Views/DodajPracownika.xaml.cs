@@ -18,7 +18,7 @@ namespace FirmaTransportowa.Views
             DzienKierownictwaEnd.BlackoutDates.AddDatesInPast();
             DzienKierownictwaStart.BlackoutDates.AddDatesInPast();
             DzienZatrudnienia.BlackoutDates.AddDatesInPast();
-            DzienKierownictwaEnd.SelectedDate = DateTime.Today;
+         //   DzienKierownictwaEnd.SelectedDate = DateTime.Today;
             DzienKierownictwaStart.SelectedDate = DateTime.Today;
             DzienZatrudnienia.SelectedDate = DateTime.Today;
             
@@ -120,32 +120,16 @@ namespace FirmaTransportowa.Views
 
         }
 
-
-      //  private CalendarDateRange dzienKierownictwaStartBlackoutRange = null;
-        //private void DzienZatrudnienia_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
-        //    if (DzienKierownictwaStart.SelectedDate < DzienZatrudnienia.SelectedDate)
-        //        DzienKierownictwaStart.SelectedDate = DzienZatrudnienia.SelectedDate;
-        //    if (dzienKierownictwaStartBlackoutRange == null) {
-        //        dzienKierownictwaStartBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1));
-        //        DzienKierownictwaStart.BlackoutDates.Insert(1, dzienKierownictwaStartBlackoutRange);
-        //    }
-        //    else {
-        //        dzienKierownictwaStartBlackoutRange.End = ((DateTime)DzienZatrudnienia.SelectedDate).AddDays(-1);
-        //        DzienKierownictwaStart.BlackoutDates[1] = dzienKierownictwaStartBlackoutRange;
-        //    }
-        //}
-
-
         private CalendarDateRange dzienKierownictwaEndBlackoutRange = null;
         private void DzienKierownictwaStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
-            if (DzienKierownictwaEnd.SelectedDate < DzienKierownictwaStart.SelectedDate)
-                DzienKierownictwaEnd.SelectedDate = DzienKierownictwaStart.SelectedDate;
+            if (DzienKierownictwaEnd.SelectedDate <= DzienKierownictwaStart.SelectedDate)
+                DzienKierownictwaEnd.SelectedDate = null;
             if (dzienKierownictwaEndBlackoutRange == null) {
-                dzienKierownictwaEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)DzienKierownictwaStart.SelectedDate).AddDays(-1));
+                dzienKierownictwaEndBlackoutRange = new CalendarDateRange(DateTime.Today, ((DateTime)DzienKierownictwaStart.SelectedDate));
                 DzienKierownictwaEnd.BlackoutDates.Insert(1, dzienKierownictwaEndBlackoutRange);
             }
             else {
-                dzienKierownictwaEndBlackoutRange.End = ((DateTime)DzienKierownictwaStart.SelectedDate).AddDays(-1);
+                dzienKierownictwaEndBlackoutRange.End = ((DateTime)DzienKierownictwaStart.SelectedDate);
                 DzienKierownictwaEnd.BlackoutDates[1] = dzienKierownictwaEndBlackoutRange;
             }
         }

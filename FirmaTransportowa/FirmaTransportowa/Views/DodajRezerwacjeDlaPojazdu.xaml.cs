@@ -28,7 +28,7 @@ namespace FirmaTransportowa.Views
 
             if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
             {
-                reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate).AddDays(1),
+                reservationStartBlackoutRange = new CalendarDateRange(((DateTime)Logowanie.actualUser.layoffDate),
                    DateTime.MaxValue);
                 ReservationStart.BlackoutDates.Insert(1, reservationStartBlackoutRange);
 
@@ -223,11 +223,13 @@ namespace FirmaTransportowa.Views
 
         private void ReservationStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ReservationEnd.SelectedDate < ReservationStart.SelectedDate)
+            if (ReservationEnd.SelectedDate == null)
+                ReservationEnd.IsEnabled = true;
+            if (ReservationEnd.SelectedDate <= ReservationStart.SelectedDate)
                 ReservationEnd.SelectedDate = null;
             if (reservationEndBlackoutRange == null)
             {
-                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today.AddDays(-1), ((DateTime)ReservationStart.SelectedDate).AddDays(-1));
+                reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today, ((DateTime)ReservationStart.SelectedDate));
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
 
                 if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją
@@ -240,7 +242,7 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(-1);
+                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate);
                 ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
 
                 if (Logowanie.actualUser.layoffDate != null) //uwzględnienie daty zwolnienia dla pracownika posiadającą ją

@@ -66,7 +66,6 @@ namespace FirmaTransportowa.Views
                 && Int32.Parse(startOdometer.Text) < Int32.Parse(endOdometer.Text) && Int32.Parse(startFuel.Text) < Int32.Parse(endFuel.Text))
 
             {
-                // MessageBox.Show("Dobre", "Komunikat");
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var lends = db.Lends;
                 foreach (var lend in lends)

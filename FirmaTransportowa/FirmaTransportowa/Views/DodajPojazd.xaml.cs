@@ -215,5 +215,18 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = prevWindow;
         }
+
+        private void NewCarModel(object sender, RoutedEventArgs e)
+        {
+            DodanieModeluPojazdu dodanieModeluPojazdu = new DodanieModeluPojazdu(this);
+            dodanieModeluPojazdu.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            dodanieModeluPojazdu.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            dodanieModeluPojazdu.ShowDialog();
+        }
+
+        private void NewCarDestination(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

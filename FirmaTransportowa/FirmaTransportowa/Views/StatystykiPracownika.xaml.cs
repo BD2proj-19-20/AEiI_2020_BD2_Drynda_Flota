@@ -52,7 +52,6 @@ namespace FirmaTransportowa.Views
             var activities = db.Activities;
             var carSupervisior = db.CarSupervisors;
 
-            //int aktywnosci = 0;
             var lends = db.Lends;
             var cars = db.Cars;
             string textOpiekun = "";
@@ -82,7 +81,7 @@ namespace FirmaTransportowa.Views
             foreach (var permissionWorker in peoplePermission)
             {
                 if (permissionWorker.personId == changePerson.id && permissionWorker.Permission.name == "Kierownik" &&
-                      permissionWorker.grantDate <= DateTime.Now.Date && (permissionWorker.revokeDate >= DateTime.Now.Date || permissionWorker.revokeDate == null))
+                      permissionWorker.grantDate <= DateTime.Now.Date && (permissionWorker.revokeDate > DateTime.Now.Date || permissionWorker.revokeDate == null))
                 {
 
                     KierownikEndPanel.Visibility = Visibility.Visible;
@@ -178,12 +177,6 @@ namespace FirmaTransportowa.Views
                   
 
 
-                }
-                string cos="";
-                var carDest = db.CarDestinations;
-                foreach (var carD in carDest)
-                {
-                    cos += carD.name + "PP"; // do poprawy
                 }
 
                 foreach (var car in cars)
