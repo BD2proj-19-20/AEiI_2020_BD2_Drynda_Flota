@@ -73,6 +73,7 @@
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Statystyki Wypożyczenie" Margin="50 0" Width="130" Click="Statystyki_Wypozyczenia"/>
                 <Button Content="Zakończ Wypożyczenie" Margin="50 0" Width="130" Click="Zakoncz_Wypozyczenie"/>
+                <Button Content="Generuj raport" Margin="50 0"  Click="Generuj_Raport_Rezerwacje"  Width="125" />
             </StackPanel>
         </StackPanel>
     </Grid>

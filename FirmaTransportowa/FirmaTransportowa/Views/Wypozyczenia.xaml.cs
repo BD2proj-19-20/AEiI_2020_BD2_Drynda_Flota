@@ -11,10 +11,12 @@ using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 using System.Windows.Forms;
-using FirmaTransportowa.ViewModels;
 using System.Diagnostics;
 using System.Linq;
-using System.Data.Entity.Core.Common.CommandTrees;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FirmaTransportowa.Views
 {
@@ -120,8 +122,9 @@ namespace FirmaTransportowa.Views
                     addItem = true;
                 }
 
-                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date)
-                 &&  addItem==true)
+                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate > DateTime.Now.Date 
+                    || lend.ReturnDate <= lend.LendDate.Date )
+                 &&  addItem==true && lend.LendEnded== true)
                 {
                     addItem = false;
                 }
@@ -140,6 +143,131 @@ namespace FirmaTransportowa.Views
             ListViewLends.ItemsSource = null;
             items.Clear();
             UpdateView();
+        }
+
+        private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var carSupervisors = db.CarSupervisors;
+            var lends = db.Lends;
+            var people = db.People;
+            var cars = db.Cars;
+            var reservations = db.Reservations;
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
+
+            Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
+            times.Size = 32;
+            FileStream fs = new FileStream(path + "Raport na temat wypożyczeń - " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+            string namePerson = "";
+            var vehicle = "";
+            foreach (var lend in lends)
+            {
+                foreach (var person in people)
+                {
+                    if (person.id == lend.personId)
+                        namePerson = person.lastName + " " + person.firstName;
+                }
+                Chunk c = new Chunk((lend.id + 1) + ")\n" + namePerson, times);
+                foreach (var car in cars)
+                {
+                    if (car.id == lend.carId)
+                        vehicle = car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                }
+
+
+
+
+
+                if ((Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase))
+                    && (Regex.IsMatch(lend.lendDate.ToShortDateString(), dateStartFilter.Text, RegexOptions.IgnoreCase))
+                     && (lend.returnDate == null ||  Regex.IsMatch(lend.returnDate.ToString().Substring(0, 10), dateEndFilter.Text, RegexOptions.IgnoreCase))
+                       && (Regex.IsMatch(lend.Reservation.reservationDate.ToString().Substring(0, 10), dateReservationFilter.Text, RegexOptions.IgnoreCase))
+                        && (Regex.IsMatch(lend.plannedReturnDate.ToString().Substring(0, 10), datePlannedEndFilter.Text, RegexOptions.IgnoreCase))
+                   && Regex.IsMatch(vehicle, carFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch((lend.id + 1).ToString(), idFilter.Text))
+                {
+
+                    if (RozpoczeteBox.IsChecked.Value == true && (lend.lendDate >= DateTime.Now.Date || lend.returnDate < lend.lendDate.Date))
+                        continue;
+
+                    if (lend.@private == false && lend.Reservation.ended == true && ZakonczoneBox.IsChecked.Value == true)
+                    {
+                        c.SetBackground(BaseColor.ORANGE);
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0,29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
+                        if (lend.returnDate != null)
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+
+
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (lend.@private == true && lend.Reservation.ended == true && Zakonczone_i_PrywatneBox.IsChecked.Value == true)
+                    {
+                        c.SetBackground(BaseColor.RED);
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
+                        if (lend.returnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (lend.@private == true && PrywatneBox.IsChecked.Value == true && lend.Reservation.ended == false)
+                    {
+                        c.SetBackground(BaseColor.BLUE);
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
+                        if (lend.returnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle + "\n", times));
+                        times.Size = 32;
+                    }
+                    else if (PozostałeBox.IsChecked.Value == true && lend.Reservation.ended == false && lend.@private == false)
+                    {
+                        times.Size = 26;
+                        doc.Add(new iTextSharp.text.Paragraph(c));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rozpoczęcia: " + lend.lendDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Planowane Zakończenie: " + lend.plannedReturnDate).Substring(0, 33), times));
+                        if (lend.returnDate != null)
+                            doc.Add(new iTextSharp.text.Paragraph(("Dzień Zakończenia: " + lend.returnDate).Substring(0, 29), times));
+                        doc.Add(new iTextSharp.text.Paragraph(("Dzień Rezerwacji: " + lend.Reservation.reservationDate).Substring(0, 29), times));
+
+
+                        doc.Add(new iTextSharp.text.Paragraph("Pojazd: " + vehicle, times));
+                        times.Size = 32;
+
+                    }
+                }
+
+                if (lend.lendDate > DateTime.Now.Date|| lend.returnDate <= lend.lendDate.Date)
+                    continue;
+                doc.Add(new iTextSharp.text.Paragraph("Początek drogomierza (km): " + lend.startOdometer, times));
+                if(lend.endOdometer!=null)
+                doc.Add(new iTextSharp.text.Paragraph("Koniec drogomierza (km): " + lend.endOdometer, times));
+                    doc.Add(new iTextSharp.text.Paragraph("Początek paliwa (litry): " + lend.startFuel, times));
+                if (lend.endFuel != null)
+                    doc.Add(new iTextSharp.text.Paragraph("Koniec paliwa (litry): " + lend.endFuel, times));
+
+            }
+            Chunk c1 = new Chunk("");
+            doc.Add(c1); //doc nie może być pusty 
+
+            doc.Close();
         }
 
         private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)
