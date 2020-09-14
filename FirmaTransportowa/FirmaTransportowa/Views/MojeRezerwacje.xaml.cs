@@ -11,7 +11,6 @@ using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.Forms.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
 using System.Windows.Forms;
-using FirmaTransportowa.ViewModels;
 using System.Diagnostics;
 using System.Linq;
 

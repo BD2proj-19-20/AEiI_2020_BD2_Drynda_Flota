@@ -534,8 +534,6 @@ namespace FirmaTransportowa.Views
                                 TimeSpan t = (DateTime)personLend.ReturnDate - personLend.LendDate;
                                 dni += (int)t.TotalDays;
                             }
-                            else if (personLend.ReturnDate == personLend.LendDate)
-                                dni++;
 
                             //jaki to samochód;
 
@@ -553,8 +551,6 @@ namespace FirmaTransportowa.Views
                                 TimeSpan t = (DateTime)personLend.ReturnDate - personLend.LendDate;
                                 dniSluzbowe += (int)t.TotalDays;
                             }
-                            else if (personLend.ReturnDate == personLend.LendDate)
-                                dniSluzbowe++;
 
                             kosztySluzbowe = (przejechaneKmSluzbowe * 4.75) + (0.05 * personLend.EngineCar);
                         }

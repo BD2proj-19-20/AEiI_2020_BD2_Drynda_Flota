@@ -120,7 +120,7 @@ namespace FirmaTransportowa.Views
                     addItem = true;
                 }
 
-                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate > DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
+                if(RozpoczeteBox.IsChecked.Value ==true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
                  &&  addItem==true)
                 {
                     addItem = false;
