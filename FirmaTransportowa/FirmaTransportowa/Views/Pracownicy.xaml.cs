@@ -295,22 +295,22 @@ namespace FirmaTransportowa.Views
 
 
             var query = from person in db.People
-
                         join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
+
                         from permissionPeople in permissionTable.DefaultIfEmpty()
+                        join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
 
-                        join supervisor in db.CarSupervisors on person.id equals supervisor.carId into supervisiorsTable
                         from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
-
                         join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
-                        from carsPeople in carsTable.DefaultIfEmpty()
 
+                        from carsPeople in carsTable.DefaultIfEmpty()
                         join lend in db.Lends on person.id equals lend.personId into lendTable
+
                         from lendsPeople in lendTable.DefaultIfEmpty()
                         where lendsPeople.lendDate != null
                         join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
-                        from lendsCar in lendCarTable.DefaultIfEmpty()
 
+                        from lendsCar in lendCarTable.DefaultIfEmpty()
                         select new
                         {
                             LayoffDate = person.layoffDate,
@@ -319,17 +319,17 @@ namespace FirmaTransportowa.Views
                             Id = person.id,
                             EmploymentData = person.employmentData,
                             PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate,
-                            EndDate = supervisorPeople.endDate,
-                            SaleDate = carsPeople.saleDate,
+                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+                            EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
+                            SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
                             MakeCar = carsPeople.CarModel.make,
                             ModelCar = carsPeople.CarModel.model,
                             RegistrationCar = carsPeople.Registration,
-                            LendDate = lendsPeople.lendDate,
-                             EngineCar = lendsCar.Car.engineCapacity,
+                            LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
+                            EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
                             ReservationEnd = lendsPeople.Reservation.ended,
-                            ReturnDate = lendsPeople.returnDate,
+                            ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
                             Private = lendsPeople.@private,
                             StartOdometer = lendsPeople.startOdometer,
                             StartFuel = lendsPeople.startFuel,
@@ -339,8 +339,12 @@ namespace FirmaTransportowa.Views
                         };
             foreach (var person in query)
             {
-                var dateO = ""; //sprawdzam czy okej te query 
+                var dateO = person.PermissionName;
+                Debug.WriteLine(person.PermissionName);
+                Debug.WriteLine(person.RevokeDate);
             }
+            Debug.WriteLine("Koniec");
+            Debug.WriteLine("Koniec");
 
             //{
             //    Chunk c = new Chunk((person.Id + 1) + ") " + person.LastName + " " + person.FirstName, times);
