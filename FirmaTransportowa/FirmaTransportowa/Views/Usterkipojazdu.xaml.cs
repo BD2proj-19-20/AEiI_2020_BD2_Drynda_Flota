@@ -92,7 +92,8 @@ namespace FirmaTransportowa.Views
                 {
                     if (activity.id == selectedId)
                     {
-                        MessageBox.Show("usterka "+ activity.comments , "Komunikat");
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = new ZlecWykonanieCzynnosci(userPermission,car1,activity);
                     }
                 }
             }

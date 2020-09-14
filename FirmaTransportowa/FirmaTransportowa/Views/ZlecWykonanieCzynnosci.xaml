@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Background="White">
+        <Label Content="Label" HorizontalAlignment="Left" Margin="23,21,0,0" VerticalAlignment="Top" Name="Title"/>
+        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="23,415,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="-0.065,1.756" Height="25" Click="cofnij"/>
+
     </Grid>
 </UserControl>

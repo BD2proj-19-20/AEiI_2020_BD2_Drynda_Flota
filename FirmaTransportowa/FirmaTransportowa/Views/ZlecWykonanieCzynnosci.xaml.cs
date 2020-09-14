@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using FirmaTransportowa.Model;
 namespace FirmaTransportowa.Views
 {
     /// <summary>
@@ -20,9 +20,23 @@ namespace FirmaTransportowa.Views
     /// </summary>
     public partial class ZlecWykonanieCzynnosci : UserControl
     {
-        public ZlecWykonanieCzynnosci()
+        private int userPermission;
+        private Car car1;
+        private Activity activity1;
+        public ZlecWykonanieCzynnosci(int permission, Car car, Activity activity)
         {
             InitializeComponent();
+            userPermission = permission;
+            car1 = car;
+            activity1 = activity;
+            this.Title.Content = "Zleć wykonanie czynności dla samochodu: "+ car1.CarModel.make+ " "+car1.CarModel.model + " " + car1.Registration + "\n"
+                + "Usterka: " + activity1.comments;
+        }
+
+        private void cofnij(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+            glowneOkno.DataContext = new Usterkipojazdu(userPermission,car1);
         }
     }
 }
