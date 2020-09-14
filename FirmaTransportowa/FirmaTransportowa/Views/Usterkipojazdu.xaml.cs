@@ -23,10 +23,13 @@ namespace FirmaTransportowa.Views
     {
         public class Activity
         {
+            public int IDusterki { get; set; }
             public string Opis { get; set; }
             public string Krytyczna { get; set; }
             public string DataZgloszenia { get; set; }
             public int ID { get; set; }
+            public String Serwisowana { get; set; }
+            
         }
         int userPermission = 0;
         Car car1;
@@ -48,21 +51,54 @@ namespace FirmaTransportowa.Views
 
            Title.Content = "Usterki pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
             this.ListViewActivities.Items.Clear();
-            String czyKrytyczna;
+            String czyKrytyczna, czySerwisowana;
             for (int i = 0; i < car1.Activities.Count; i++)
             {
                 if (car1.Activities.ElementAt(i).critical)
                     czyKrytyczna = "Tak";
                 else
                     czyKrytyczna = "Nie";
+
+                if (car1.Activities.ElementAt(i).orderDate==null)
+                    czySerwisowana = "Nie";
+                else
+                    czySerwisowana = "Tak";
                 this.ListViewActivities.Items.Add(new Activity
                 {
+                    IDusterki = car1.Activities.ElementAt(i).id,
                     Opis = car1.Activities.ElementAt(i).comments,
                     Krytyczna = czyKrytyczna,
                     DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
                     ID = car1.Activities.ElementAt(i).reporterId,
+                    Serwisowana = czySerwisowana
+
                 }) ; 
                 
+            }
+        }
+
+        private void zlec(object sender, RoutedEventArgs e)
+        {
+            Activity selected = (Activity)ListViewActivities.SelectedItem;
+            if (selected != null)
+            {
+                
+                int selectedId = selected.IDusterki;
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var activities = db.Activities;
+
+                foreach (var activity in activities)
+                {
+                    if (activity.id == selectedId)
+                    {
+                        MessageBox.Show("usterka "+ activity.comments , "Komunikat");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano usterki!", "Komunikat");
             }
         }
     }

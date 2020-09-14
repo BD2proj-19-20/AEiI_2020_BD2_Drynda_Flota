@@ -18,7 +18,12 @@
                 <ListView.View>
                     <GridView>
 
-                        <GridViewColumn Width="450" DisplayMemberBinding="{Binding Opis}">
+                        <GridViewColumn Width="30" DisplayMemberBinding="{Binding IDusterki}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="IDusterk" >ID</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="340" DisplayMemberBinding="{Binding Opis}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Opis" >Opis usterki</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -38,12 +43,18 @@
                                 <GridViewColumnHeader Tag="ID" >Zgłaszający</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding Serwisowana}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Serwisowana" >Serwisowana</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
 
                     </GridView>
                 </ListView.View>
             </ListView>
             <StackPanel Margin="50,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" Width="700">
-                <Button Content="Cofnij" Margin="2,0,250,0"  Width="130"  VerticalAlignment="Top"   Height="51" Click="cofnij"/>
+                <Button Content="Cofnij" Margin="2,0,25,0"  Width="130"  VerticalAlignment="Top"   Height="51" Click="cofnij"/>
+                <Button Content="Zleć wykonanie czynności"  Width="150" Click="zlec"/>
 
             </StackPanel>
         </StackPanel>

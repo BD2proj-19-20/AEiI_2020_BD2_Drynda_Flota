@@ -154,8 +154,6 @@ namespace FirmaTransportowa.Views
                             TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
                             dni += (int)t.TotalDays;
                         }
-                        else if (lend.returnDate == lend.lendDate)
-                            dni++;
 
                         //jaki to samochód;
 
@@ -174,8 +172,6 @@ namespace FirmaTransportowa.Views
                             TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
                             dniSluzbowe += (int)t.TotalDays;
                         }
-                        else if (lend.returnDate == lend.lendDate)
-                            dniSluzbowe++;
 
                         kosztySluzbowe = (przejechaneKmSluzbowe * 4.75)+(0.05 * lend.Car.engineCapacity); ;
                     }

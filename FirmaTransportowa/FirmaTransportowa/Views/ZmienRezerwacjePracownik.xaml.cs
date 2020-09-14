@@ -250,7 +250,7 @@ namespace FirmaTransportowa.Views
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
             }
             else {
-                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(-1);
+                reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate).AddDays(0);
                 ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
             }
         }
