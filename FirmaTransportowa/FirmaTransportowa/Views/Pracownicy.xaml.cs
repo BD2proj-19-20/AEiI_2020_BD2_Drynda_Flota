@@ -12,6 +12,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace FirmaTransportowa.Views
 {
@@ -275,11 +276,12 @@ namespace FirmaTransportowa.Views
         private void Generuj_Raport_Pracownicy(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            //var carSupervisors = db.CarSupervisors;
+            var carSupervisors = db.CarSupervisors;
 
-            //var people = db.People.ToList().OrderBy(t => t.lastName);
-            //var cars = db.Cars;
-            //var activities = db.Activities;
+            var people = db.People.ToList().OrderBy(t => t.lastName);
+            var cars = db.Cars;
+            var activities = db.Activities;
+            var lends = db.Lends;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
@@ -294,57 +296,57 @@ namespace FirmaTransportowa.Views
             doc.Open();
 
 
-            var query = from person in db.People
-                        join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
+            //var query = from person in db.People
+            //            join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
 
-                        from permissionPeople in permissionTable.DefaultIfEmpty()
-                        join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
+            //            from permissionPeople in permissionTable.DefaultIfEmpty()
+            //            join supervisor in db.CarSupervisors on permissionPeople.personId equals supervisor.personId into supervisiorsTable
 
-                        from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
-                        join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
+            //            from supervisorPeople in supervisiorsTable.DefaultIfEmpty()
+            //            join car in db.Cars on supervisorPeople.carId equals car.id into carsTable
 
-                        from carsPeople in carsTable.DefaultIfEmpty()
-                        join lend in db.Lends on person.id equals lend.personId into lendTable
+            //            from carsPeople in carsTable.DefaultIfEmpty()
+            //            join lend in db.Lends on person.id equals lend.personId into lendTable
 
-                        from lendsPeople in lendTable.DefaultIfEmpty()
-                        where lendsPeople.lendDate != null
-                        join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
+            //            from lendsPeople in lendTable.DefaultIfEmpty()
+            //            where lendsPeople.lendDate != null
+            //            join lendcar in db.Lends on carsPeople.id equals lendcar.id into lendCarTable
 
-                        from lendsCar in lendCarTable.DefaultIfEmpty()
-                        select new
-                        {
-                            LayoffDate = person.layoffDate,
-                            LastName = person.lastName,
-                            FirstName = person.firstName,
-                            Id = person.id,
-                            EmploymentData = person.employmentData,
-                            PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
-                            EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
-                            SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
-                            MakeCar = carsPeople.CarModel.make,
-                            ModelCar = carsPeople.CarModel.model,
-                            RegistrationCar = carsPeople.Registration,
-                            LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
-                            EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
-                            ReservationEnd = lendsPeople.Reservation.ended,
-                            ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
-                            Private = lendsPeople.@private,
-                            StartOdometer = lendsPeople.startOdometer,
-                            StartFuel = lendsPeople.startFuel,
-                            EndOdometer = lendsPeople.endOdometer,
-                            EndFuel = lendsPeople.endFuel,
-                            PlannedReturnDate = lendsPeople.plannedReturnDate
-                        };
-            foreach (var person in query)
-            {
-                var dateO = person.PermissionName;
-                Debug.WriteLine(person.PermissionName);
-                Debug.WriteLine(person.RevokeDate);
-            }
-            Debug.WriteLine("Koniec");
-            Debug.WriteLine("Koniec");
+            //            from lendsCar in lendCarTable.DefaultIfEmpty()
+            //            select new
+            //            {
+            //                LayoffDate = person.layoffDate,
+            //                LastName = person.lastName,
+            //                FirstName = person.firstName,
+            //                Id = person.id,
+            //                EmploymentData = person.employmentData,
+            //                PermissionName = permissionPeople.Permission.name,
+            //                PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
+            //                RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+            //                EndDate = supervisorPeople.endDate == null ? DateTime.MinValue : supervisorPeople.endDate,
+            //                SaleDate = carsPeople.saleDate == null ? DateTime.MinValue : carsPeople.saleDate,
+            //                MakeCar = carsPeople.CarModel.make,
+            //                ModelCar = carsPeople.CarModel.model,
+            //                RegistrationCar = carsPeople.Registration,
+            //                LendDate = lendsPeople.lendDate == null ? DateTime.MinValue : lendsPeople.lendDate,
+            //                EngineCar = lendsCar.Car.engineCapacity == null ? 0 : lendsCar.Car.engineCapacity,
+            //                ReservationEnd = lendsPeople.Reservation.ended,
+            //                ReturnDate = lendsPeople.returnDate == null ? DateTime.MinValue : lendsPeople.returnDate,
+            //                Private = lendsPeople.@private,
+            //                StartOdometer = lendsPeople.startOdometer,
+            //                StartFuel = lendsPeople.startFuel,
+            //                EndOdometer = lendsPeople.endOdometer,
+            //                EndFuel = lendsPeople.endFuel,
+            //                PlannedReturnDate = lendsPeople.plannedReturnDate
+            //            };
+            //foreach (var person in query)
+            //{
+            //    var dateO = person.PermissionName;
+            //    Debug.WriteLine(person.PermissionName);
+            //    Debug.WriteLine(person.RevokeDate);
+            //}
+            //Debug.WriteLine("Koniec");
+            //Debug.WriteLine("Koniec");
 
             //{
             //    Chunk c = new Chunk((person.Id + 1) + ") " + person.LastName + " " + person.FirstName, times);
@@ -549,222 +551,222 @@ namespace FirmaTransportowa.Views
             //}
 
 
-            //foreach (var person in people)
-            //{
-            //    Chunk c = new Chunk((person.id + 1) + ") " + person.lastName + " " + person.firstName, times);
-            //    var dateO = "";
-            //    var dateE = "";
-            //    var date = "";
-            //    string namePerson = person.lastName + " " + person.firstName;
+            foreach (var person in people)
+            {
+                Chunk c = new Chunk((person.id + 1) + ") " + person.lastName + " " + person.firstName, times);
+                var dateO = "";
+                var dateE = "";
+                var date = "";
+                string namePerson = person.lastName + " " + person.firstName;
 
-            //    if (person.layoffDate != null)
-            //    {
+                if (person.layoffDate != null)
+                {
 
-            //        string dateTime = person.layoffDate.ToString();
-            //        date = dateTime.Substring(0, 10);
-            //    }
+                    string dateTime = person.layoffDate.ToString();
+                    date = dateTime.Substring(0, 10);
+                }
 
-            //    if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
-            //       && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
-            //        && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
+                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true && Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase)
+                   && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                    && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
 
-            //    {
-            //        string dateTime = person.layoffDate.ToString();
-            //        dateO = dateTime.Substring(0, 10);
-            //        dateTime = person.employmentData.ToString();
-            //        dateE = dateTime.Substring(0, 10);
-
-
-            //        c.SetBackground(BaseColor.RED);
-            //        doc.Add(new iTextSharp.text.Paragraph(c));
-            //        doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
-            //        doc.Add(new iTextSharp.text.Paragraph("Zwolniony: " + dateO, times2));
-
-            //    }
-            //    else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true &&
-            //        Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
-            //        && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
-            //    {
-
-            //        string dateTime = person.layoffDate.ToString();
-            //        dateO = dateTime.Substring(0, 10);
-            //        dateTime = person.employmentData.ToString();
-            //        dateE = dateTime.Substring(0, 10);
+                {
+                    string dateTime = person.layoffDate.ToString();
+                    dateO = dateTime.Substring(0, 10);
+                    dateTime = person.employmentData.ToString();
+                    dateE = dateTime.Substring(0, 10);
 
 
-            //        c.SetBackground(BaseColor.ORANGE);
-            //        doc.Add(new iTextSharp.text.Paragraph(c));
-            //        doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
-            //        doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie: " + dateO, times2));
-            //    }
-            //    else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
-            //        Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
-            //             && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
-            //    {
+                    c.SetBackground(BaseColor.RED);
+                    doc.Add(new iTextSharp.text.Paragraph(c));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zwolniony: " + dateO, times2));
 
-            //        string dateTime = person.employmentData.ToString();
-            //        dateE = dateTime.Substring(0, 10);
+                }
+                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true &&
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                    && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
+                {
 
-            //        doc.Add(new iTextSharp.text.Paragraph(c));
-            //        doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
-            //    }
-            //    else
-            //    {
-            //        continue;
-            //    }
-            //    var peoplePermission = db.PeoplesPermissions;
+                    string dateTime = person.layoffDate.ToString();
+                    dateO = dateTime.Substring(0, 10);
+                    dateTime = person.employmentData.ToString();
+                    dateE = dateTime.Substring(0, 10);
 
 
-            //    string kierownik = "";
-            //    string kierownikStart = "";
-            //    string kierownikEnd = "";
-            //    foreach (var permissionWorker in peoplePermission)
-            //    {
-            //        if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
-            //              permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
-            //        {
-            //            kierownik = "Tak";
-            //            kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
-            //            if (permissionWorker.revokeDate != null)
-            //                kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
-            //        }
-            //        else if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
-            //              permissionWorker.grantDate > DateTime.Now)
-            //        {
-            //            if (((permissionWorker.grantDate - DateTime.Now).Days + 1) == 1)
-            //                kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dzień";
-            //            else
-            //                kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dni";
-            //            kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
-            //            if (permissionWorker.revokeDate != null)
-            //                kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
-            //        }
-            //    }
-            //    if (kierownik != "")
-            //        doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
-            //    if (kierownikStart != "")
-            //        doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
-            //    if (kierownikEnd != "")
-            //        doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
+                    c.SetBackground(BaseColor.ORANGE);
+                    doc.Add(new iTextSharp.text.Paragraph(c));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
+                    doc.Add(new iTextSharp.text.Paragraph("Zwolnionienie: " + dateO, times2));
+                }
+                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null) &&
+                    Regex.IsMatch(namePerson, personFilter.Text, RegexOptions.IgnoreCase) && Regex.IsMatch(date, dataOutFilter.Text, RegexOptions.IgnoreCase)
+                         && Regex.IsMatch((person.id + 1).ToString(), idFilter.Text))
+                {
+
+                    string dateTime = person.employmentData.ToString();
+                    dateE = dateTime.Substring(0, 10);
+
+                    doc.Add(new iTextSharp.text.Paragraph(c));
+                    doc.Add(new iTextSharp.text.Paragraph("Zatrudniony: " + dateE, times2));
+                }
+                else
+                {
+                    continue;
+                }
+                var peoplePermission = db.PeoplesPermissions;
+
+
+                string kierownik = "";
+                string kierownikStart = "";
+                string kierownikEnd = "";
+                foreach (var permissionWorker in peoplePermission)
+                {
+                    if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
+                          permissionWorker.grantDate < DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
+                    {
+                        kierownik = "Tak";
+                        kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
+                        if (permissionWorker.revokeDate != null)
+                            kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                    }
+                    else if (permissionWorker.personId == person.id && permissionWorker.Permission.name == "Kierownik" &&
+                          permissionWorker.grantDate > DateTime.Now)
+                    {
+                        if (((permissionWorker.grantDate - DateTime.Now).Days + 1) == 1)
+                            kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dzień";
+                        else
+                            kierownik = "Za " + ((permissionWorker.grantDate - DateTime.Now).Days + 1) + " dni";
+                        kierownikStart = permissionWorker.grantDate.ToString().Substring(0, 10);
+                        if (permissionWorker.revokeDate != null)
+                            kierownikEnd = permissionWorker.revokeDate.ToString().Substring(0, 10);
+                    }
+                }
+                if (kierownik != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
+                if (kierownikStart != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Data rozopoczęcia: " + kierownikStart, times2));
+                if (kierownikEnd != "")
+                    doc.Add(new iTextSharp.text.Paragraph("Data zakończenia: " + kierownikEnd, times2));
 
 
 
-            //    string textOpiekun = "";
-            //    string bylyOpiekun = "";
+                string textOpiekun = "";
+                string bylyOpiekun = "";
 
-            //    foreach (var carS in carSupervisors)
-            //    {
-            //        if (carS.personId == person.id)
-            //        {
+                foreach (var carS in carSupervisors)
+                {
+                    if (carS.personId == person.id)
+                    {
 
-            //            foreach (var car in cars)
-            //                if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
-            //                    textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-            //                else if (car.id == carS.carId)
-            //                    bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-            //        }
+                        foreach (var car in cars)
+                            if (car.id == carS.carId && (carS.endDate > DateTime.Today || carS.endDate == null) && (car.saleDate > DateTime.Today || car.saleDate == null))
+                                textOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            else if (car.id == carS.carId)
+                                bylyOpiekun += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                    }
 
-            //    }
-            //    if (textOpiekun != "")
-            //    {
-            //        doc.Add(new iTextSharp.text.Paragraph("Opiekun: ", times3));
-            //        doc.Add(new iTextSharp.text.Paragraph(textOpiekun, times2));
-            //    }
-            //    if (bylyOpiekun != "")
-            //    {
-            //        doc.Add(new iTextSharp.text.Paragraph("Byly Opiekun: ", times3));
-            //        doc.Add(new iTextSharp.text.Paragraph(bylyOpiekun, times2));
-            //    }
-
-
-            //    int przejechaneKm = 0;
-            //    int zleceniaPrywatne = 0;
-            //    int zleceniaSluzbowe = 0;
-            //    int przejechaneKmSluzbowe = 0;
+                }
+                if (textOpiekun != "")
+                {
+                    doc.Add(new iTextSharp.text.Paragraph("Opiekun: ", times3));
+                    doc.Add(new iTextSharp.text.Paragraph(textOpiekun, times2));
+                }
+                if (bylyOpiekun != "")
+                {
+                    doc.Add(new iTextSharp.text.Paragraph("Byly Opiekun: ", times3));
+                    doc.Add(new iTextSharp.text.Paragraph(bylyOpiekun, times2));
+                }
 
 
-            //    int dni = 0;
-            //    int dniSluzbowe = 0;
-
-            //    var pojazd = "";
-            //    var pojazdSluzbowy = "";
-
-            //    double koszty = 0;
-            //    double kosztySluzbowe = 0;
-
-            //    foreach (var lend in lends)
-            //    {
-
-            //        if (lend.personId == person.id && lend.Reservation.ended == true && lend.returnDate != null) //lend ktore były
-            //        {
-            //            if (lend.@private == true)
-            //            {
-            //                zleceniaPrywatne++;
-            //                if (lend.endOdometer != null)
-            //                    przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
-            //                if (lend.returnDate > lend.lendDate)
-            //                {
-            //                    TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
-            //                    dni += (int)t.TotalDays;
-            //                }
-            //                else if (lend.returnDate == lend.lendDate)
-            //                    dni++;
-
-            //                //jaki to samochód;
-
-            //                koszty = (przejechaneKm * 4.75)+ (0.05 * lend.Car.engineCapacity); ;
+                int przejechaneKm = 0;
+                int zleceniaPrywatne = 0;
+                int zleceniaSluzbowe = 0;
+                int przejechaneKmSluzbowe = 0;
 
 
-            //            }
-            //            else
-            //            {
-            //                zleceniaSluzbowe++;
-            //                if (lend.endOdometer != null)
-            //                    przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
-            //                if (lend.returnDate > lend.lendDate)
-            //                {
-            //                    TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
-            //                    dniSluzbowe += (int)t.TotalDays;
-            //                }
-            //                else if (lend.returnDate == lend.lendDate)
-            //                    dniSluzbowe++;
+                int dni = 0;
+                int dniSluzbowe = 0;
 
-            //                kosztySluzbowe = (przejechaneKmSluzbowe * 4.75)+(0.05 * lend.Car.engineCapacity); ;
-            //            }
-            //        }
+                var pojazd = "";
+                var pojazdSluzbowy = "";
 
-            //        foreach (var car in cars)
-            //        {
-            //            if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
-            //            { 
-            //                if (lend.@private == true)
-            //                    pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-            //                else
-            //                    pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
-            //            }
-            //        }
-            //    }
+                double koszty = 0;
+                double kosztySluzbowe = 0;
 
+                foreach (var lend in lends)
+                {
 
-            //    doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
-            //    times3.Size = 20;
-            //    doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazd, times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaPrywatne.ToString(), times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dni.ToString() + " dni", times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Koszty: " + koszty.ToString() + " PLN", times3));
+                    if (lend.personId == person.id && lend.Reservation.ended == true && lend.returnDate != null) //lend ktore były
+                    {
+                        if (lend.@private == true)
+                        {
+                            zleceniaPrywatne++;
+                            if (lend.endOdometer != null)
+                                przejechaneKm += lend.endOdometer.Value - lend.startOdometer;
+                            if (lend.returnDate > lend.lendDate)
+                            {
+                                TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                                dni += (int)t.TotalDays;
+                            }
+                            else if (lend.returnDate == lend.lendDate)
+                                dni++;
 
-            //    doc.Add(new iTextSharp.text.Paragraph("Cele służbowe:", times));
-            //    doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKmSluzbowe.ToString() + " km", times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazdSluzbowy, times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaSluzbowe.ToString(), times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dniSluzbowe.ToString() + " dni", times3));
-            //    doc.Add(new iTextSharp.text.Paragraph("Koszty: " + kosztySluzbowe.ToString() + " PLN", times3));
-            //    times3.Size = 26;
+                            //jaki to samochód;
+
+                            koszty = (przejechaneKm * 4.75) + (0.05 * lend.Car.engineCapacity); ;
 
 
-            //    times.Size = 32;
-            //}
+                        }
+                        else
+                        {
+                            zleceniaSluzbowe++;
+                            if (lend.endOdometer != null)
+                                przejechaneKmSluzbowe += lend.endOdometer.Value - lend.startOdometer;
+                            if (lend.returnDate > lend.lendDate)
+                            {
+                                TimeSpan t = (DateTime)lend.returnDate - lend.lendDate;
+                                dniSluzbowe += (int)t.TotalDays;
+                            }
+                            else if (lend.returnDate == lend.lendDate)
+                                dniSluzbowe++;
+
+                            kosztySluzbowe = (przejechaneKmSluzbowe * 4.75) + (0.05 * lend.Car.engineCapacity); ;
+                        }
+                    }
+
+                    foreach (var car in cars)
+                    {
+                        if (lend.carId == car.id && lend.returnDate < DateTime.Today && lend.plannedReturnDate < DateTime.Today && lend.lendDate > DateTime.Today) //aktualny pojazd
+                        {
+                            if (lend.@private == true)
+                                pojazd += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                            else
+                                pojazdSluzbowy += car.CarModel.make + "/" + car.CarModel.model + "/" + car.Registration + "\n";
+                        }
+                    }
+                }
+
+
+                doc.Add(new iTextSharp.text.Paragraph("Cele prywatne:", times));
+                times3.Size = 20;
+                doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKm.ToString() + " km", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazd, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaPrywatne.ToString(), times3));
+                doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dni.ToString() + " dni", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + koszty.ToString() + " PLN", times3));
+
+                doc.Add(new iTextSharp.text.Paragraph("Cele służbowe:", times));
+                doc.Add(new iTextSharp.text.Paragraph("Przejechane: " + przejechaneKmSluzbowe.ToString() + " km", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Aktualny pojazd: " + pojazdSluzbowy, times3));
+                doc.Add(new iTextSharp.text.Paragraph("Wykonane zlecenia: " + zleceniaSluzbowe.ToString(), times3));
+                doc.Add(new iTextSharp.text.Paragraph("Czas jazdy " + dniSluzbowe.ToString() + " dni", times3));
+                doc.Add(new iTextSharp.text.Paragraph("Koszty: " + kosztySluzbowe.ToString() + " PLN", times3));
+                times3.Size = 26;
+
+
+                times.Size = 32;
+            }
 
             Chunk c1 = new Chunk("");
             doc.Add(c1); //doc nie może być pusty 

@@ -24,6 +24,9 @@ namespace FirmaTransportowa.Views
         public MenuKierownik()
         {
             InitializeComponent();
+
+
+           Kierownik.Items.RemoveAt(2);
         }
 
         private void Workers_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

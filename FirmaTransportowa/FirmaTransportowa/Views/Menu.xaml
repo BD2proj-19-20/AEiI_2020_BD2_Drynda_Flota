@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="FirmaTransportowa.Views.MenuKierownik"
+﻿<UserControl x:Class="FirmaTransportowa.Views.Menu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="250">
+              d:DesignHeight="600" d:DesignWidth="250">
     <Grid>
         <ListView Height="600" Width="250" BorderBrush="White" Name="Kierownik">
-            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Workers" MouseLeftButtonUp="Workers_MouseLeftButtonUp">
+            <ListViewItem   HorizontalAlignment="Center" Width="200" Height="50" Name="Workers" MouseLeftButtonUp="Workers_MouseLeftButtonUp">
                 <TextBlock Text="Pracownicy (kierownik)"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Lends" MouseLeftButtonUp="Lend_MouseLeftButtonUp">
@@ -20,6 +20,21 @@
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Manage" MouseLeftButtonUp="Manage_MouseLeftButtonUp">
                 <TextBlock Text="Zarządzaj pojazdami (kierownik)"/>
+            </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyLends" MouseLeftButtonUp="Lends_MouseLeftButtonUp">
+                <TextBlock Text="Moje wypożyczenia (pracownik)"/>
+            </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
+                <TextBlock Text="Moje rezerwacje (pracownik)"/>
+            </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
+                <TextBlock Text="Lista pojazdów (pracownik)"/>
+            </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
+                <TextBlock Text="Moje pojazdy (opiekun)"/>
+            </ListViewItem>
+            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Activities" MouseLeftButtonUp="Activities_MouseLeftButtonUp">
+                <TextBlock Text="Zlecenia (opiekun)"/>
             </ListViewItem>
         </ListView>
         <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
@@ -38,3 +53,4 @@
         </ListView>
     </Grid>
 </UserControl>
+

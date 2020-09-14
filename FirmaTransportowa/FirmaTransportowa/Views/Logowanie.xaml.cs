@@ -75,6 +75,10 @@ namespace FirmaTransportowa.Views
             //}
             // MessageBox.Show(cos, "Komunikat");
 
+            int permissionLevel = 0;
+            bool kierownikLogin = false;
+            bool opiekunLogin = false;
+
             if (login.Length >= 6 && password.Length >= 6)
                 foreach (var person in people)
                 {
@@ -84,55 +88,69 @@ namespace FirmaTransportowa.Views
                         if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate > DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
                         {
 
-                            if (KierownikButton.IsChecked == true)
-                            // MessageBox.Show("Logowanie udało się ", "Komunikat");
-                            {
+                            actualUser = person;
+                            permissionLevel++; //każdy jest pracownikiem
+
+
                                 foreach (var permission in permissions)
                                 {
-                                    if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date)
+                                    if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date && 
+                                    permission.revokeDate >= DateTime.Now.Date)
                                     {
                                         foreach (var permissionWorkers in permissionComapny)
                                         {
 
                                             if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
                                             {
-                                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Kierownik)", "Komunikat");
                                                 actualUser = person;
-                                                return 1;
+                                                kierownikLogin = true;
                                             }
 
                                         }
 
                                     }
                                 }
-                                MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
-                                return 3;
-                            }
-                            else if (PracownikButton.IsChecked == true)
-                            {
-                                //przykładowe logowanie dla pracownika login: kamBach hasło: kamBach
-                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " ! \n(Pracownik)", "Komunikat");
-                                actualUser = person;
-                                return 0;
-                            }
-                            else if (OpiekunButton.IsChecked == true)
-                            {
+                              
+                            
+                                                         
+                               
                                 //opiekuna sprawdzamy po CarSupervisior
-                                return 2;
-                            }
+                                foreach(var carSupervisor in carSupervisors)
+                                {
+                                if (carSupervisor.personId == person.id)
+                                    if (carSupervisor.personId==person.id && carSupervisor.beginDate <= DateTime.Now.Date
+                                    && (carSupervisor.endDate >=DateTime.Now.Date || carSupervisor.endDate ==null))
+                                    {
+                                    opiekunLogin = true;
+                                    break;
+                                    }
+                                }
+
+
+                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " !", "Komunikat");
+
+
+                            if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
+                                permissionLevel = 2;
+                           else if (kierownikLogin == true && opiekunLogin == false) //tylko kierownik
+                                permissionLevel = 3;
+                          else  if (kierownikLogin == true && opiekunLogin == true) // oby dwa 
+                                permissionLevel = 4;
+
+                            return permissionLevel;
 
                         }
                         else
                         {
                             MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
-                            return 3;
+                            return 0;
                         }
                     }
                 }
 
             else
                 MessageBox.Show("Błędne dane logowania.", "Komunikat");
-            return 3;
+            return 0;
         }
 
         private void Worker_Click(object sender, RoutedEventArgs e)
@@ -170,32 +188,16 @@ namespace FirmaTransportowa.Views
             string login = loginBox.Text;
             var permissionId = getPermission(login, passwordBox.Password); //zwracana wartość to id dostępu
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            switch (permissionId)
+
+            if (permissionId != 0)
             {
-                case 0:
-                    glowneOkno.Width = 1000;
-                    glowneOkno.Height = 600;
-                    CenterWindowOnScreen();
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuPracownik();
-                    break;
-                case 1:
-                    glowneOkno.Width = 1000;
-                    glowneOkno.Height = 600;
-                    CenterWindowOnScreen();
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuKierownik();
-                    break;
-                case 2:
-                    glowneOkno.Width = 1000;
-                    glowneOkno.Height = 600;
-                    CenterWindowOnScreen();
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-                    ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuOpiekun();
-                    break;
-                default:
-                    break;
+                glowneOkno.Width = 1000;
+                glowneOkno.Height = 600;
+                CenterWindowOnScreen();
+                ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new Menu(permissionId);
             }
+
         }
         private void CenterWindowOnScreen()
         {
