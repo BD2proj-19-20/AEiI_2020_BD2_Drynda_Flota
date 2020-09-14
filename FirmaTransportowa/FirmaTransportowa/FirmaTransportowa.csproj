@@ -165,6 +165,9 @@
     <Compile Include="Views\DodajZlecenie.xaml.cs">
       <DependentUpon>DodajZlecenie.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DodanieModeluPojazdu.xaml.cs">
+      <DependentUpon>DodanieModeluPojazdu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HistoriaPojazdu.xaml.cs">
       <DependentUpon>HistoriaPojazdu.xaml</DependentUpon>
     </Compile>
@@ -285,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DodajZlecenie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DodanieModeluPojazdu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
