@@ -226,7 +226,10 @@ namespace FirmaTransportowa.Views
 
         private void NewCarDestination(object sender, RoutedEventArgs e)
         {
-
+            DodajZastosowaniePojazdu dodajZastosowaniePojazdu = new DodajZastosowaniePojazdu(this);
+            dodajZastosowaniePojazdu.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+            dodajZastosowaniePojazdu.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+            dodajZastosowaniePojazdu.ShowDialog();
         }
     }
 }

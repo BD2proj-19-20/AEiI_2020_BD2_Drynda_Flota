@@ -38,9 +38,9 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var CarModels = db.CarModels;
 
-            CarModel newModel = new CarModel();
             if (Marka.Text.Length > 0 && Model.Text.Length > 0)
             {
+                CarModel newModel = new CarModel();
                 newModel.make = Marka.Text;
                 newModel.model = Model.Text;
                 CarModels.Add(newModel);
