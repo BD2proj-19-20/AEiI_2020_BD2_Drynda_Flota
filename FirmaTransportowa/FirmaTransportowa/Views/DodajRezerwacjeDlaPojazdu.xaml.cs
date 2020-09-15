@@ -105,7 +105,7 @@ namespace FirmaTransportowa.Views
             bool doReservationPerson = true;
 
             if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
-                && (datePersonOut > ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
+                && (datePersonOut >= ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
             {
 
                 foreach (var reserv in reservations)  //sprawdzanie rezerwacji wybranego pojazdu
