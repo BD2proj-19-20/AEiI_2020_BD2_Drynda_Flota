@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="FirmaTransportowa.Views.WybierzTypRaportu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FirmaTransportowa.Views" xmlns:controls="clr-namespace:THE.Controls;assembly=FilteredComboBox"
+             mc:Ignorable="d"
+        d:DesignHeight="580" d:DesignWidth="750">
+    <Grid>
+        <Button Content="Ogólny" Click="GeneralRaport" Height="40" Width="200" Margin="430,368,120,172" RenderTransformOrigin="0.205,-1.075" />
+        <Label Content="Od:" HorizontalAlignment="Left" Margin="-123,54,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
+        <DatePicker HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="280" Name="RaportOd" FontSize="25" Margin="92,80,0,0"/>
+        <Label Content="Do:" HorizontalAlignment="Left" Margin="215,76,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
+        <DatePicker HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="280" Name="RaportDo" FontSize="25" Margin="430,80,0,0"/>
+        <Label Name="MarkaLabel" Content="Marka: " HorizontalAlignment="Left" Margin="172,148,0,0" VerticalAlignment="Top" Width="364" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Marka" FontSize="25" Margin="256,148,0,0"/>
+        <Label Name="ModelLabel" Content="Model: " HorizontalAlignment="Left" Margin="172,226,0,0" VerticalAlignment="Top" Width="364" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25" Margin="256,226,0,0"/>
+        <Label Name ="ZastosowanieLabel" Content="Zastosowanie: " HorizontalAlignment="Left" Margin="92,292,0,0" VerticalAlignment="Top" Width="496" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
+        <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Zastosowanie" FontSize="25" Margin="256,292,0,0"/>
+        <Button Content="Kosztów" Click="CostsRaport" Height="40" Width="200" Margin="172,368,378,172"/>
+        <Button Content="Anuluj" Click="Cancel" Height="40" Width="200" Margin="272,450,278,90"/>
+    </Grid>
+</UserControl>

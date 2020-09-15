@@ -138,6 +138,7 @@
     <Compile Include="Model\Reservation.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="RaportGenerator.cs" />
     <Compile Include="SortAdorner.cs" />
     <Compile Include="ViewModels\DodajPojazdModel.cs" />
     <Compile Include="ViewModels\ListaPojazdowModel.cs" />
@@ -221,6 +222,9 @@
     </Compile>
     <Compile Include="Views\Usterkipojazdu.xaml.cs">
       <DependentUpon>Usterkipojazdu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WybierzTypRaportu.xaml.cs">
+      <DependentUpon>WybierzTypRaportu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Wypozyczenia.xaml.cs">
       <DependentUpon>Wypozyczenia.xaml</DependentUpon>
@@ -367,6 +371,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Usterkipojazdu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WybierzTypRaportu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
