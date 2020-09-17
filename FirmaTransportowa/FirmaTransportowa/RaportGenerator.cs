@@ -207,50 +207,76 @@ namespace FirmaTransportowa
         private static void CostInfoAboutCar(Car car, Document doc, DateTime? raportBegin, DateTime? raportEnd)
         {
             var distance = 0;
-            var carCosts = 0.0;
+            var fuelCost = 0.0;
+            var serviceCost = 0.0;
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
+            //KOSZTA PALIWA
             var lends = from Lends in db.Lends
                         where car.id == Lends.carId
                         select Lends;
 
             if (raportBegin != null)
-            {
                 lends = lends.Where(x => x.lendDate >= raportBegin);
-            }
             if (raportEnd != null)
-            {
                 lends = lends.Where(x => x.returnDate <= raportEnd);
-            }
-
-
 
             foreach (var lend in lends)
             {
                 if (lend.endOdometer != null)
                     distance += lend.endOdometer.Value - lend.startOdometer;
 
-                carCosts += (distance * 4.75) + (0.05 * lend.Car.engineCapacity);
+                fuelCost += (distance * 4.75) + (0.05 * lend.Car.engineCapacity);
             }
 
-            carCosts = Math.Round(carCosts, 2, MidpointRounding.AwayFromZero);
+            fuelCost = Math.Round(fuelCost, 2, MidpointRounding.AwayFromZero);
 
-            var costPerKm = 0.0;
+            var fuelCostPerKm = 0.0;
 
             if (distance != 0)
-                costPerKm = carCosts / distance;
+                fuelCostPerKm = fuelCost / distance;
 
-            costPerKm = Math.Round(costPerKm, 2, MidpointRounding.AwayFromZero);
+            fuelCostPerKm = Math.Round(fuelCostPerKm, 2, MidpointRounding.AwayFromZero);
+            //KOSZTA PALIWA
+
+            //KOSZTA SERWISU
+            var services = from Services in db.Activities
+                           where car.id == Services.carId
+                           select Services;
+
+            if (raportBegin != null)
+                services = services.Where(x => x.reportDate >= raportBegin);
+            if (raportEnd != null)
+                services = services.Where(x => x.reportDate >= raportBegin);
+
+            foreach(var service in services)
+            {
+                serviceCost += service.price == null? 0 : (double)service.price;
+            }
+
+            serviceCost = Math.Round(serviceCost, 2, MidpointRounding.AwayFromZero);
+
+            var serviceCostPerKm = 0.0;
+
+            if (distance != 0)
+                serviceCostPerKm = serviceCost / distance;
+
+            serviceCostPerKm = Math.Round(serviceCostPerKm, 2, MidpointRounding.AwayFromZero);
+            //KOSZTA SERWISU
 
             //SAMOCHÓD
-            doc.Add(new iTextSharp.text.Paragraph(car.id + "   " + car.Registration + "\n", Font32));
+            doc.Add(new iTextSharp.text.Paragraph(car.id + "   " + car.Registration + "\n\n", Font32));
             //SAMOCHÓD
 
             //O KOSZTACH
-            doc.Add(new iTextSharp.text.Paragraph("Przejechany dystans: " + distance + "\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + carCosts + "\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + costPerKm + "\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Przejechany dystans: " + distance + "\n\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + fuelCost + "\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + fuelCostPerKm + "\n\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + serviceCost + "\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + serviceCostPerKm + "\n\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (fuelCost + serviceCost) + "\n", Font14));
+            doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (fuelCostPerKm + serviceCostPerKm) + "\n", Font14));
             //O KOSZTACH
 
             doc.NewPage();
