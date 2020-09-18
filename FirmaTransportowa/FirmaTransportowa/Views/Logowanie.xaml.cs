@@ -79,7 +79,7 @@ namespace FirmaTransportowa.Views
                                 foreach (var permission in permissions)
                                 {
                                     if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date && 
-                                    permission.revokeDate > DateTime.Now.Date)
+                                    permission.revokeDate > DateTime.Now.Date || permission.revokeDate ==null)
                                     {
                                         foreach (var permissionWorkers in permissionComapny)
                                         {
