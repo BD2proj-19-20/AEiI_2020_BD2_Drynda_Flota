@@ -51,62 +51,70 @@ namespace FirmaTransportowa.Views
         private int getPermission(string login, string password)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
-            var permissions = db.PeoplesPermissions;
-            var carSupervisors = db.CarSupervisors;
-            var permissionComapny = db.Permissions;
-
-            var permissionFlota = db.Permissions;
 
             int permissionLevel = 0;
             bool kierownikLogin = false;
             bool opiekunLogin = false;
 
-			//todo: LINQ
-            if (login.Length >= 6 && password.Length >= 6)
-                foreach (var person in people)
+
+
+            var query = from person in db.People
+                        join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
+
+                        from permissionPeople in permissionTable.DefaultIfEmpty()
+                        select new
+                        {
+                            Person = person,
+                            Id = person.id,
+                            LastName = person.lastName,
+                            FirstName = person.firstName,
+                            Login = person.systemLogin,
+                            PasswordHash= person.passwordHash,
+                            LayoffDate = person.layoffDate ==  null ? DateTime.MaxValue : person.layoffDate,
+                            PermissionName = permissionPeople.Permission.name,
+                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MaxValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MaxValue : permissionPeople.revokeDate,
+
+                        };
+
+                //todo: LINQ
+                if (login.Length >= 6 && password.Length >= 6)
+                foreach (var person in query)
                 {
-                    if (person.systemLogin == login)
+                    if (person.Login == login)
                     {
                    
-                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate >= DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
+                        if (person.PasswordHash.SequenceEqual(getHash(password)) && (person.LayoffDate >= DateTime.Now || person.LayoffDate == null )) //zwolniony nie może się zalogować
                         {
 
-                            actualUser = person;
+                            actualUser = person.Person;
                             permissionLevel++; //każdy jest pracownikiem
 
 
-                                foreach (var permission in permissions)
-                                {
-                                    if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date && 
-                                    permission.revokeDate > DateTime.Now.Date || permission.revokeDate ==null)
-                                    {
-                                        foreach (var permissionWorkers in permissionComapny)
-                                        {
+                             if( person.PermissionGrant.Date <= DateTime.Now.Date &&  person.RevokeDate > DateTime.Now.Date 
+                                || person.RevokeDate == null)
 
-                                            if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
-                                            {
-                                                actualUser = person;
+                                            if (person.PermissionName == "Kierownik")
                                                 kierownikLogin = true;
-                                            }
 
-                                        }
 
-                                    }
-                                }
-                               
-                                //opiekuna sprawdzamy po CarSupervisior
-                                foreach(var carSupervisor in carSupervisors)
-                                {
-                                if (carSupervisor.personId == person.id)
-                                    if (carSupervisor.personId==person.id && carSupervisor.beginDate <= DateTime.Now.Date
-                                    && (carSupervisor.endDate >DateTime.Now.Date || carSupervisor.endDate ==null))
+                            var query2 = from supervisor in db.CarSupervisors
+                                         where person.Id == supervisor.personId
+                                         join car in db.Cars on supervisor.carId equals car.id
+                                         select new
+                                         {
+                                             BeginDate = supervisor.beginDate == null ? DateTime.MinValue : supervisor.beginDate,
+                                             EndDate = supervisor.endDate == null ? DateTime.MinValue : supervisor.endDate,
+                                         };
+
+                            foreach (var personSup in query2)
+
+                            {
+                                 if( personSup.BeginDate <= DateTime.Now.Date && (personSup.EndDate > DateTime.Now.Date || personSup.EndDate == null))
                                     opiekunLogin = true;
-                                }
+                            }
 
-
-                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " !", "Komunikat");
-
+                                MessageBox.Show("Witaj " + person.FirstName + " " + person.LastName + " !", "Komunikat");
 
                             if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
                                 permissionLevel = 2;

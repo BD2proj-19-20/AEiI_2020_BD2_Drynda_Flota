@@ -278,10 +278,10 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
 
-            var people = db.People.ToList().OrderBy(t => t.lastName);
-            var cars = db.Cars;
-            var activities = db.Activities;
-            var lends = db.Lends;
+           // var people = db.People.ToList().OrderBy(t => t.lastName);
+            //var cars = db.Cars;
+            //var activities = db.Activities;
+            //var lends = db.Lends;
 
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
 
