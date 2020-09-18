@@ -289,7 +289,7 @@ namespace FirmaTransportowa.Views
             times.Size = 32;
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
-            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None); //todo: obsługa błędów
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
@@ -309,8 +309,8 @@ namespace FirmaTransportowa.Views
                             LayoffDate = person.layoffDate,
 
                             PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+                            PermissionGrant = permissionPeople.grantDate,// == null ? DateTime.MinValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate// == null ? DateTime.MinValue : permissionPeople.revokeDate,
                         
                         };
 
