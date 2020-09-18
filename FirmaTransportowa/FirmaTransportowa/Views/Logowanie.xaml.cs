@@ -30,11 +30,11 @@ namespace FirmaTransportowa.Views
 
             InitializeComponent();
             CenterWindowOnScreen();
-            //  loginBox.Text= "kamBach";
-            //   passwordBox.Password = "kamBach";
+            loginBox.Text= "kamBach";
+			passwordBox.Password = "kamBach";
 
-              loginBox.Text= "rancisek";
-               passwordBox.Password = "rancisek";
+			//loginBox.Text= "rancisek";
+			//passwordBox.Password = "rancisek";
         }
 
         static public byte[] getHash(string password)
@@ -52,87 +52,49 @@ namespace FirmaTransportowa.Views
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            int permissionLevel = 0;
-            bool kierownikLogin = false;
+            int permissionLevel = 1; //każdy jest pracownikiem, jak nim nie jest to i tak rzuci zero
+			bool kierownikLogin = false;
             bool opiekunLogin = false;
 
+			if (login.Length >= 6 && password.Length >= 6) {
+				Person person = db.People.Where(p => p.systemLogin == login && (p.layoffDate == null || p.layoffDate < DateTime.Now)).SingleOrDefault();
+				if (person != null) {
+					if (person.passwordHash.SequenceEqual(getHash(password))) { //sprawdzenie hasła
 
+						actualUser = person;
 
-            var query = from person in db.People
-                        join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
+						var dateNow = DateTime.Now.Date;
 
-                        from permissionPeople in permissionTable.DefaultIfEmpty()
-                        select new
-                        {
-                            Person = person,
-                            Id = person.id,
-                            LastName = person.lastName,
-                            FirstName = person.firstName,
-                            Login = person.systemLogin,
-                            PasswordHash= person.passwordHash,
-                            LayoffDate = person.layoffDate ==  null ? DateTime.MaxValue : person.layoffDate,
-                            PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MaxValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MaxValue : permissionPeople.revokeDate,
+						int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => pp.personId == person.id && pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
 
-                        };
+						//liczba uprawnień kierowniczych, powinno być zawsze jedno, bądź zero
 
-                //todo: LINQ
-                if (login.Length >= 6 && password.Length >= 6)
-                foreach (var person in query)
-                {
-                    if (person.Login == login)
-                    {
-                   
-                        if (person.PasswordHash.SequenceEqual(getHash(password)) && (person.LayoffDate >= DateTime.Now || person.LayoffDate == null )) //zwolniony nie może się zalogować
-                        {
+						if (kierownikPermissionsCount > 0)
+							kierownikLogin = true;
 
-                            actualUser = person.Person;
-                            permissionLevel++; //każdy jest pracownikiem
+						int supervisedCarsCount = db.CarSupervisors.Where(cs => cs.personId == person.id && cs.beginDate <= dateNow && (cs.endDate == null || cs.endDate > dateNow)).Count();
+						if (supervisedCarsCount > 0)
+							opiekunLogin = true;
 
+						MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " !", "Komunikat");
 
-                             if( person.PermissionGrant.Date <= DateTime.Now.Date &&  person.RevokeDate > DateTime.Now.Date 
-                                || person.RevokeDate == null)
+						if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
+							permissionLevel = 2;
+						else if (kierownikLogin == true && opiekunLogin == false) //tylko kierownik
+							permissionLevel = 3;
+						else if (kierownikLogin == true && opiekunLogin == true) // oby dwa 
+							permissionLevel = 4;
 
-                                            if (person.PermissionName == "Kierownik")
-                                                kierownikLogin = true;
+						return permissionLevel; //ten permissionLevel mógłby być jakąś elegancką flagą bitową, trzy bity, jeden czy sukces, jeden czy kierownik, jeden czy opiekun
+												//ale piszemy w C#, a nie assemblerze, więc tutaj nikt się w coś takiego nie bawi, int jest ok
 
-
-                            var query2 = from supervisor in db.CarSupervisors
-                                         where person.Id == supervisor.personId
-                                         join car in db.Cars on supervisor.carId equals car.id
-                                         select new
-                                         {
-                                             BeginDate = supervisor.beginDate == null ? DateTime.MinValue : supervisor.beginDate,
-                                             EndDate = supervisor.endDate == null ? DateTime.MinValue : supervisor.endDate,
-                                         };
-
-                            foreach (var personSup in query2)
-
-                            {
-                                 if( personSup.BeginDate <= DateTime.Now.Date && (personSup.EndDate > DateTime.Now.Date || personSup.EndDate == null))
-                                    opiekunLogin = true;
-                            }
-
-                                MessageBox.Show("Witaj " + person.FirstName + " " + person.LastName + " !", "Komunikat");
-
-                            if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
-                                permissionLevel = 2;
-                           else if (kierownikLogin == true && opiekunLogin == false) //tylko kierownik
-                                permissionLevel = 3;
-                          else  if (kierownikLogin == true && opiekunLogin == true) // oby dwa 
-                                permissionLevel = 4;
-
-                            return permissionLevel;
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
-                            return 0;
-                        }
-                    }
+					}
+					else {
+						MessageBox.Show("Logowanie nie udało się :-(", "Komunikat"); //złe hasło
+						return 0;
+					}
 				}
+			}
 			MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 0;
         }
