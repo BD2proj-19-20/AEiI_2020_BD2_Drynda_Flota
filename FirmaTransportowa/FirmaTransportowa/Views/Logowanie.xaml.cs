@@ -62,6 +62,7 @@ namespace FirmaTransportowa.Views
             bool kierownikLogin = false;
             bool opiekunLogin = false;
 
+			//todo: LINQ
             if (login.Length >= 6 && password.Length >= 6)
                 foreach (var person in people)
                 {
@@ -123,10 +124,8 @@ namespace FirmaTransportowa.Views
                             return 0;
                         }
                     }
-                }
-
-            else
-                MessageBox.Show("Błędne dane logowania.", "Komunikat");
+				}
+			MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 0;
         }
 
