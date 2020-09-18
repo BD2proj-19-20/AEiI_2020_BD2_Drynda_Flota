@@ -155,5 +155,10 @@ namespace FirmaTransportowa.Views
             glowneOkno.Left = (screenWidth / 2) - (windowWidth / 2);
             glowneOkno.Top = (screenHeight / 2) - (windowHeight / 2);
         }
-    }
+
+		private void TextBox_KeyDown(object sender, KeyEventArgs e) {
+			if (e.Key == System.Windows.Input.Key.Enter)
+				Login_Click(sender, e);
+		}
+	}
 }
