@@ -44,18 +44,17 @@ namespace FirmaTransportowa.Views
         {
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
 
             if (newHaslo1.Password == newHaslo2.Password)
             if (newHaslo1.Password.Length>=6)
             {
-                foreach (var person in people)
-                {
-                     if (person.id == toChange.id)
+                    var person = (from people in db.People
+                                  where people.id == toChange.id
+                                  select people).FirstOrDefault();
 
-                        person.passwordHash= getHash(newHaslo1.Password);
 
-                }
+                    if (person != null)
+                        person.passwordHash = getHash(newHaslo1.Password);
 
                 MessageBox.Show("Udało sie zmienić\nhasło!", "Komunikat");
                 db.SaveChanges();

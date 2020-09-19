@@ -115,13 +115,16 @@ namespace FirmaTransportowa.Views
         private void Zmien(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
             var peoplePermission = db.PeoplesPermissions;
 
             bool newPermission = true;
-            foreach (var person in people)
-            {
-                if (person.id == toChange.id)
+
+            var person = (from people in db.People
+                          where people.id == toChange.id
+                          select people).FirstOrDefault();
+
+
+                if (person!=null)
                 {
                     foreach (var permissionWorker in peoplePermission)
                     {
@@ -149,12 +152,9 @@ namespace FirmaTransportowa.Views
                             workerPermission.revokeDate = null;
 
                         workerPermission.personId = person.id;
-
                         peoplePermission.Add(workerPermission);
-                        // db.SaveChanges();
                     }
                 }
-            }
             MessageBox.Show("Zmienieono!", "Komunikat");
             db.SaveChanges();
         }

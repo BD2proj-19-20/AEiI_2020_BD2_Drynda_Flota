@@ -250,7 +250,7 @@ namespace FirmaTransportowa.Views
         private void Zmien_haslo(object sender, RoutedEventArgs e)
         {
             Person newPerson = new Person();
-            int id = changePerson.id;
+         //   int id = changePerson.id;
             ZmienHaslo zmianaView = new ZmienHaslo(changePerson);
             zmianaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
             zmianaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
@@ -261,20 +261,15 @@ namespace FirmaTransportowa.Views
             }
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
+
+            var person = (from people in db.People
+                          where people.id == changePerson.id
+                          select people).FirstOrDefault();
 
 
-            foreach (var person in people)
-            {
-                if (person.id == changePerson.id)
-                {
-
+            if(person!=null)
                     newPerson = person;
-                    break;
 
-                }
-
-            }
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new StatystykiPracownika(newPerson);
@@ -283,7 +278,6 @@ namespace FirmaTransportowa.Views
         private void Zmien_login(object sender, RoutedEventArgs e)
         {
             Person newPerson = new Person();
-            int id = changePerson.id;
             ZmienLogin zmianaView = new ZmienLogin(changePerson);
             zmianaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
             zmianaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
@@ -294,18 +288,13 @@ namespace FirmaTransportowa.Views
             }
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
-            foreach (var person in people)
-            {
-                if (person.id == changePerson.id)
-                {
+            var person = (from people in db.People
+                          where people.id == changePerson.id
+                          select people).FirstOrDefault();
 
-                    newPerson = person;
-                    break;
 
-                }
-
-            }
+            if (person != null)
+                newPerson = person;
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new StatystykiPracownika(newPerson);
@@ -314,7 +303,6 @@ namespace FirmaTransportowa.Views
         private void Zmien_Kierownika(object sender, RoutedEventArgs e)
         {
             Person newPerson = new Person();
-            int id = changePerson.id;
             ZmienKierownika zmianaOpiekunaView = new ZmienKierownika(changePerson);
             zmianaOpiekunaView.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2;
             zmianaOpiekunaView.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2;
@@ -324,19 +312,13 @@ namespace FirmaTransportowa.Views
 
             }
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
+            var person = (from people in db.People
+                          where people.id == changePerson.id
+                          select people).FirstOrDefault();
 
-            foreach (var person in people)
-            {
-                if (person.id == changePerson.id)
-                {
 
-                    newPerson = person;
-                    break;
-
-                }
-
-            }
+            if (person != null)
+                newPerson = person;
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new StatystykiPracownika(newPerson);

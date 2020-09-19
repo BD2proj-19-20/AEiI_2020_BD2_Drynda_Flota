@@ -730,7 +730,7 @@ namespace FirmaTransportowa.Views
                                            where lendChange.id == reserv.lendId
                                            select reserv).FirstOrDefault();
 
-
+                        
                         reservation.ended = true;
                         db.SaveChanges();
 

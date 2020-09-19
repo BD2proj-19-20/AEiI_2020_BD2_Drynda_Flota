@@ -110,16 +110,12 @@ namespace FirmaTransportowa.Views
                 Person personChange = null;
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var people = db.People;
-                var carSupervisor = db.CarSupervisors;
-                foreach (var person in people)
-                {
-                    if (person.id == selectedId)
-                    {
+                var person = (from people in db.People
+                                   where people.id == selectedId
+                              select people).FirstOrDefault();
+               
+                    if (person !=null)
                         personChange = person;
-                        break;
-                    }
-                }
 
                 if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
                 {
@@ -157,25 +153,19 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.PersonId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var people = db.People;
-                var carSupervisor = db.CarSupervisors;
 
-                foreach (var person in people)
+                var person = (from people in db.People
+                              where people.id == selectedId
+                              select people).FirstOrDefault();
+
+                if (person.layoffDate > DateTime.Today)
                 {
-                    if (person.id == selectedId)
-                    {
-
-                        if (person.layoffDate > DateTime.Today)
-                        {
-                            person.layoffDate = null;
-                            MessageBox.Show("Usunieto zwolnienie", "Komunikat");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Ta osoba została zwolniona!", "Komunikat");
-                        }
-                    }
+                    person.layoffDate = null;
+                    MessageBox.Show("Usunieto zwolnienie", "Komunikat");
                 }
+                else
+                    MessageBox.Show("Ta osoba została zwolniona!", "Komunikat");
+
                 db.SaveChanges();
 
                 //aktualizacja widoku pracowników 
@@ -183,11 +173,8 @@ namespace FirmaTransportowa.Views
                 items.Clear();
                 UpdateView();
             }
-
             else
-            {
                 MessageBox.Show("Nikogo nie wybrano !", "Komunikat");
-            }
         }
 
         private void WorkerStatistics_Click(object sender, RoutedEventArgs e)
@@ -200,17 +187,16 @@ namespace FirmaTransportowa.Views
 
                 int selectedId = selectedObj.PersonId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var people = db.People;
-                // var carSupervisor = db.CarSupervisors;
 
-                foreach (var person in people)
+
+                var person = (from people in db.People
+                              where people.id == selectedId
+                              select people).FirstOrDefault();
+                if (person != null)
                 {
-                    if (person.id == selectedId)
-                    {
-                        System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
-                        mainWindow.DataContext = new StatystykiPracownika(person);
-                        return;
-                    }
+                    System.Windows.Window mainWindow = System.Windows.Application.Current.MainWindow;
+                    mainWindow.DataContext = new StatystykiPracownika(person);
+                    return;
                 }
             }
             else
