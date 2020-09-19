@@ -3,6 +3,7 @@ using FirmaTransportowa.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -213,7 +214,32 @@ namespace FirmaTransportowa.Views
                     MessageBox.Show("Błędne dane.", "Komunikat");
 
         }
+        private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
+            var car = (from cars in db.Cars
+                       where cars.id.ToString() == PojazdID.Text
+                       select cars).FirstOrDefault();
+
+            if (car != null)
+            {
+                Rejestracja.Text = car.Registration;
+                PojemnoscSilnika.Text = car.engineCapacity.ToString();
+                Marka.Text = car.CarModel.make;
+                Model.Text = car.CarModel.model;
+                Zastosowanie.Text = car.CarDestination.name;
+            }
+            else
+            {
+                Rejestracja.Text = "";
+                PojemnoscSilnika.Text = "";
+                Marka.Text = "";
+                Model.Text = "";
+                Zastosowanie.Text = "";
+            }
+
+        }
         private void Cofnij(object sender, RoutedEventArgs e) {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
