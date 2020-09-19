@@ -124,14 +124,15 @@ namespace FirmaTransportowa.Views
                 ReservationList selectedObj = (ReservationList)selected.Content;
                 int selectedId = selectedObj.ReservationId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var reservations = db.Reservations;
+
                 Reservation reservationChange = null;
 
-                foreach (var reserv in reservations)
-                {
-                    if (reserv.id == selectedId)
-                        reservationChange = reserv;
-                }
+                var reservation = (from reserv in db.Reservations
+                                   where reserv.id == selectedId
+                                   select reserv).FirstOrDefault();
+
+                if (reservation != null)
+                    reservationChange = reservation;
                 if (reservationChange.ended == false)
                 {
                     System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
@@ -159,15 +160,16 @@ namespace FirmaTransportowa.Views
                 int selectedId = selectedObj.ReservationId - 1;
                 var reservationPerson = selectedObj.Person;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var people = db.People;
-                var reservations = db.Reservations;
+             
                 Reservation reservationChange = null;
 
-                foreach (var reserv in reservations)
-                {
-                    if (reserv.id == selectedId)
-                        reservationChange = reserv;
-                }
+                var reservation = (from reserv in db.Reservations
+                                   where reserv.id == selectedId
+                                   select reserv).FirstOrDefault();
+
+
+                if (reservation != null)
+                    reservationChange = reservation;
 
                 if (reservationChange.ended == true)
                     MessageBox.Show("Rezerwacja się zakończyła!", "Komunikat");
@@ -181,17 +183,19 @@ namespace FirmaTransportowa.Views
                     {
 
                         reservationChange.ended = true;
-                        var lends = db.Lends;
-                        foreach (var lend in lends)
+                        var lend = (from lends in db.Lends
+                                    where lends.reservationId == reservationChange.id
+                                    select lends).FirstOrDefault();
+
+
+                        if (lend != null)
                         {
-                            if (lend.reservationId == reservationChange.id)
-                            {
-                                lend.returnDate = DateTime.Now.Date;
+                            lend.returnDate = DateTime.Now.Date;
                                 if (Logowanie.actualUser != null)
                                     lend.comments += "Zakończono przez zakończenie\nrezerwacji przez Kierownika " + Logowanie.actualUser.id + ") " +
                               Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
 
-                            }
+                            
 
                         }
                         db.SaveChanges();
