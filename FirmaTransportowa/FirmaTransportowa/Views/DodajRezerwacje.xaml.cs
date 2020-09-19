@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -32,7 +33,7 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
-                if(car.onService==false)  //gdy w sewisie nie wypożyczamy
+                if (car.onService == false)  //gdy w sewisie nie wypożyczamy
                     PojazdID.Items.Add(car.id.ToString());
             }
             PojazdID.SelectedIndex = 0;
@@ -47,28 +48,28 @@ namespace FirmaTransportowa.Views
             var cars = db.Cars;
             foreach (var car in cars)
             {
-                if(PojazdID.SelectedItem!=null) 
-                if ((car.id).ToString() == PojazdID.SelectedItem.ToString())
-                {
-                    Rejestracja.Text = car.Registration;
-                    PojemnoscSilnika.Text = car.engineCapacity.ToString();
-
-                    var carmodel = db.CarModels;
-                    foreach (var carModel in carmodel)
+                if (PojazdID.SelectedItem != null)
+                    if ((car.id).ToString() == PojazdID.SelectedItem.ToString())
                     {
-                        if (car.modelId == carModel.id)
+                        Rejestracja.Text = car.Registration;
+                        PojemnoscSilnika.Text = car.engineCapacity.ToString();
+
+                        var carmodel = db.CarModels;
+                        foreach (var carModel in carmodel)
                         {
-                            Marka.Text = car.CarModel.make;
-                            Model.Text = car.CarModel.model;
+                            if (car.modelId == carModel.id)
+                            {
+                                Marka.Text = car.CarModel.make;
+                                Model.Text = car.CarModel.model;
+                            }
+                        }
+                        var carDes = db.CarDestinations;
+                        foreach (var cardes in carDes)
+                        {
+                            if (car.destinationId == cardes.id)
+                                Zastosowanie.Text = cardes.name;
                         }
                     }
-                    var carDes = db.CarDestinations;
-                    foreach(var cardes in carDes)
-                    {
-                        if (car.destinationId == cardes.id)
-                            Zastosowanie.Text = cardes.name;      
-                    }
-                }
             }
             Rejestracja.IsReadOnly = true;
             PojemnoscSilnika.IsReadOnly = true;
@@ -77,9 +78,27 @@ namespace FirmaTransportowa.Views
             Zastosowanie.IsReadOnly = true;
 
         }
-         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
+
+        private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            Dane_Pojzadu();
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+            var car = (from cars in db.Cars
+                       where cars.id.ToString() == PojazdID.Text
+                       select cars).FirstOrDefault();
+
+            if (car != null)
+            {
+                Rejestracja.Text = car.Registration;
+                PojemnoscSilnika.Text = car.engineCapacity.ToString();
+                Marka.Text = car.CarModel.make;
+                Model.Text = car.CarModel.model;
+                Zastosowanie.Text = car.CarDestination.name;
+            }
+        }
+        private void Function_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            //Dane_Pojzadu();
         }
 
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
@@ -90,13 +109,13 @@ namespace FirmaTransportowa.Views
             var reservations = db.Reservations;
             var lends = db.Lends;
             var people = db.People;
-            DateTime? datePersonOut = null ;
+            DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
-            Person personReservation=null;
+            Person personReservation = null;
             foreach (var person in people)
             {
-                if (person.id==id)
+                if (person.id == id)
                 {
                     datePersonOut = person.layoffDate;
                     personReservation = person;
@@ -106,9 +125,9 @@ namespace FirmaTransportowa.Views
             bool doReservationCar = true;
             bool doReservationPerson = true;
 
-                if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
-                    && (datePersonOut >= ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
-                {
+            if (ReservationStart != null && ReservationEnd != null && ReservationEnd.SelectedDate > ReservationStart.SelectedDate
+                && (datePersonOut >= ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
+            {
 
                 foreach (var reserv in reservations)  //sprawdzanie rezerwacji wybranego pojazdu
                 {
@@ -151,9 +170,9 @@ namespace FirmaTransportowa.Views
 
 
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
-                { 
+                {
                     var newReservation = new Reservation();
-                    var newLend = new Lend(); 
+                    var newLend = new Lend();
 
 
                     newReservation.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
@@ -161,7 +180,7 @@ namespace FirmaTransportowa.Views
                     newReservation.lendDate = ReservationStart.SelectedDate.Value;
                     newReservation.returnDate = ReservationEnd.SelectedDate;
                     newReservation.ended = false;
-                   
+
 
                     if (PrywatneBox.IsChecked == true)
                         newReservation.@private = true;
@@ -191,9 +210,9 @@ namespace FirmaTransportowa.Views
                 }
                 else
                 {
-                    if(doReservationCar == false)
-                    MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
-                    else if  (doReservationPerson == false)
+                    if (doReservationCar == false)
+                        MessageBox.Show("Samochód w tym czasie \njest już zarezerwowany!", "Komunikat");
+                    else if (doReservationPerson == false)
                         MessageBox.Show("Pracownik w tym czasie \njest zajęty!", "Komunikat");
                     else
                         MessageBox.Show("Pracownik i samochód w tym czasie \nsą zajęci!", "Komunikat");
@@ -201,9 +220,9 @@ namespace FirmaTransportowa.Views
             }
             else
             {
-                if(ReservationEnd == null && datePersonOut < ReservationEnd.SelectedDate)
+                if (ReservationEnd == null && datePersonOut < ReservationEnd.SelectedDate)
                     MessageBox.Show("Wybrany pracownik zostaje zwolniony\nw czasie nowej rezerwacji.", "Komunikat");
-               else
+                else
                     MessageBox.Show("Błędne dane.", "Komunikat");
             }
 
@@ -221,13 +240,15 @@ namespace FirmaTransportowa.Views
 
         private CalendarDateRange dzienKierownictwaEndBlackoutRange2 = null;
 
-        private void ReservationStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+        private void ReservationStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
 
             if (ReservationEnd.SelectedDate == null)
                 ReservationEnd.IsEnabled = true;
             if (ReservationEnd.SelectedDate <= ReservationStart.SelectedDate)
                 ReservationEnd.SelectedDate = null;
-            if (reservationEndBlackoutRange == null) {
+            if (reservationEndBlackoutRange == null)
+            {
                 reservationEndBlackoutRange = new CalendarDateRange(DateTime.Today, ((DateTime)ReservationStart.SelectedDate));
                 ReservationEnd.BlackoutDates.Insert(1, reservationEndBlackoutRange);
 
@@ -239,7 +260,8 @@ namespace FirmaTransportowa.Views
 
                 }
             }
-            else {
+            else
+            {
                 reservationEndBlackoutRange.End = ((DateTime)ReservationStart.SelectedDate);
                 ReservationEnd.BlackoutDates[1] = reservationEndBlackoutRange;
 
@@ -252,5 +274,5 @@ namespace FirmaTransportowa.Views
                 }
             }
         }
-	}
+    }
 }
