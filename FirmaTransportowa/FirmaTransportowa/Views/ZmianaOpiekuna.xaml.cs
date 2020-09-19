@@ -38,6 +38,13 @@ namespace FirmaTransportowa.Views
                 var carSupervisors = db.CarSupervisors;
                 var newSupervisor = new CarSupervisor();
 
+                var carSupervisorsList = Opiekunowie.Items;
+                if(!carSupervisorsList.Contains(temp))
+                {
+                    MessageBox.Show("Wybrany opiekun nie istnieje!", "Nie można przypisać opiekuna", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 //Szukam dotychczasowego opiekuna i ustawiam mu date konca
                 foreach (var carSupervisor in carSupervisors)
                 {
@@ -59,7 +66,6 @@ namespace FirmaTransportowa.Views
                     string fullName = human.firstName + " " + human.lastName;
                     if (fullName.Equals(temp))
                     {
-                        newSupervisor.personId = human.id;
                         newSupervisor.Person = human;
                         itemToChange.carSupervisor = fullName;
                     }

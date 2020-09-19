@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -23,7 +24,7 @@ namespace FirmaTransportowa.Views
             public int fault { get; set; }
 
             public String isUsed { get; set; }
-    }
+        }
         private GridViewColumnHeader listViewSortCol = null;
         private SortAdorner listViewSortAdorner = null;
 
@@ -35,33 +36,24 @@ namespace FirmaTransportowa.Views
         }
         private void initializeList()
         {
-
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            var carSupervisors = db.CarSupervisors;
-            var people = db.People;
+
+            var query = from car in db.Cars
+                        where car.id == Logowanie.actualUser.id
+                        select car;
+
 
             String isCarUsed;
-            foreach (var car in cars)
+
+            foreach (var car in query)
             {
-                string supervisorString = "Brak";
-
-                foreach (var supervisor in carSupervisors)
-                {
-                        if (supervisor.carId == car.id && (supervisor.endDate > DateTime.Today || supervisor.endDate == null))
-                        {
-                            supervisorString = supervisor.Person.firstName + " " + supervisor.Person.lastName;
-                            break;
-                        }
-                }
-
                 ListViewItem OneItem = new ListViewItem();
                 if (car.onService)
                     isCarUsed = "Nie";
                 else
                     isCarUsed = "Tak";
-                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault=car.Activities.Count,isUsed=isCarUsed};
-                
+                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault = car.Activities.Count, isUsed = isCarUsed };
+
                 items.Add(OneItem);
             }
             carList.ItemsSource = items;
@@ -196,7 +188,7 @@ namespace FirmaTransportowa.Views
             return String.Compare(second.registration, first.registration);
         }
 
-       
+
 
         private void Activate_Disactivate_Click(object sender, RoutedEventArgs e)
         {
@@ -222,13 +214,13 @@ namespace FirmaTransportowa.Views
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var cars = db.Cars;
-                
+
                 //Usuwam datę sprzedaży
                 foreach (var car in cars)
                 {
                     if (car.id == selectedId)
                     {
-                        ZglosUsterke zglosUsterke = new ZglosUsterke(car,1);
+                        ZglosUsterke zglosUsterke = new ZglosUsterke(car, 1);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = zglosUsterke;
                         return;

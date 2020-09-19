@@ -304,11 +304,7 @@ namespace FirmaTransportowa.Views
             times.Size = 32;
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
-<<<<<<< HEAD
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-=======
-            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None); //todo: obsługa błędów
->>>>>>> f6a2a8598bed798cb95097447cdf3876cd8f4390
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);

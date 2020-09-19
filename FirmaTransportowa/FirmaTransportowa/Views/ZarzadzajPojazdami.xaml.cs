@@ -386,6 +386,12 @@ namespace FirmaTransportowa.Views
             {
                 ItemList selectedObj = (ItemList)selected.Content;
                 int selectedId = selectedObj.carId;
+                MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz usunąć pojazd " + selectedObj.registration + "?"
+                                                          ,"Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
                 //Usuwam zaznaczony samochód z listy
                 items.Remove((ListViewItem)carList.SelectedItem);
                 carList.ItemsSource = items;
@@ -413,6 +419,13 @@ namespace FirmaTransportowa.Views
                     {
                         if (reservation.carId == selectedId)
                         {
+                            result = MessageBox.Show("Istnieją rezerwacje powiązane z " + selectedObj.registration 
+                                                                        + ", które również zostaną usunięte, czy chcesz kontynuować?"
+                                                                        , "Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                            if (result != MessageBoxResult.Yes)
+                            {
+                                return;
+                            }
                             db.Reservations.Remove(reservation);
                         }
                     }
@@ -422,6 +435,13 @@ namespace FirmaTransportowa.Views
                     {
                         if (lend.carId == selectedId)
                         {
+                            result = MessageBox.Show("Istnieją wypożyczenia powiązane z " + selectedObj.registration
+                                                                        + ", które również zostaną usunięte, czy chcesz kontynuować?"
+                                                                        , "Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                            if (result != MessageBoxResult.Yes)
+                            {
+                                return;
+                            }
                             db.Lends.Remove(lend);
                         }
                     }

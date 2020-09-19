@@ -17,7 +17,7 @@
         <Button Content="Nowe" Margin="615,324,75,216" Width="60"  Height="40"  Click="NewCarDestination" RenderTransformOrigin="-0.133,0.55"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" Margin="330,374,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Opiekunowie" FontSize="25"/>
         <Label Content="Rejestracja:" HorizontalAlignment="Left" Margin="110,74,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
-        <Label Content="Pojemność silnika:" HorizontalAlignment="Left" Margin="110,124,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
+        <Label Content="Pojemność silnika (cm3):" HorizontalAlignment="Left" Margin="40,124,0,0" VerticalAlignment="Top" Width="280" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <Label Content="Data zakupu:" HorizontalAlignment="Left" Margin="110,174,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <Label Content="Przegląd ważny do:" HorizontalAlignment="Left" Margin="110,224,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="23" HorizontalContentAlignment="Right"/>
         <Label Content="Model:" HorizontalAlignment="Left" Margin="110,274,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
