@@ -132,16 +132,31 @@ namespace FirmaTransportowa.Views
             UpdateView();
         }
 
+        private string GetPath()
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.Filter = "Dokument pdf|*.pdf";
+            saveFileDialog.Title = "Zapisz raport na temat wypożyczeń";
+            saveFileDialog.FileName = "Raport na temat wypożyczeń - " + DateTime.Now.ToShortDateString(); 
+            saveFileDialog.ShowDialog();
+
+
+            return saveFileDialog.FileName;
+        }
+
         private void Generuj_Raport_Rezerwacje(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
+            string path = GetPath();
 
             Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times.Size = 32;
-            FileStream fs = new FileStream(path + "Raport na temat wypożyczeń - " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            //FileStream fs = new FileStream(path + "Raport na temat wypożyczeń - " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);

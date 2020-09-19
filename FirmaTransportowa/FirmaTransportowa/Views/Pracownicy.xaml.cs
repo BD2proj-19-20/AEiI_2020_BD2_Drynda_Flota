@@ -13,6 +13,7 @@ using iTextSharp.text.pdf;
 using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Microsoft.Win32;
 
 namespace FirmaTransportowa.Views
 {
@@ -273,6 +274,20 @@ namespace FirmaTransportowa.Views
         {
             CollectionViewSource.GetDefaultView(workersList.ItemsSource).Refresh();
         }
+
+        private string GetPath()
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.Filter = "Dokument pdf|*.pdf";
+            saveFileDialog.Title = "Zapisz raport na temat pracowników";
+            saveFileDialog.FileName = "Raport na temat pracowników - " + DateTime.Now.ToShortDateString();
+            saveFileDialog.ShowDialog();
+
+            return saveFileDialog.FileName;
+        }
+
         private void Generuj_Raport_Pracownicy(object sender, RoutedEventArgs e)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
@@ -283,13 +298,13 @@ namespace FirmaTransportowa.Views
             var activities = db.Activities;
             var lends = db.Lends;
 
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";  //pobranie lokalizacji pulpitu
+            string path = GetPath();
 
             Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times.Size = 32;
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
-            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
