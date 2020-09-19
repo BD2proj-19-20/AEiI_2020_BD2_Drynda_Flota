@@ -12,9 +12,9 @@
             <Button Content="Kierownik" Margin="0 20 0 0" Click="Leader_Click"/>
             <Button Content="Opiekun" Margin="0 20 0 0" Click="Supervisor_Click"/>
             <Label Content="Login:" Foreground="White" Margin="0 20 0 0"/>
-            <TextBox x:Name="loginBox"></TextBox>
+			<TextBox x:Name="loginBox" KeyDown="TextBox_KeyDown"></TextBox>
             <Label Content="Hasło:" Foreground="White" Margin="0 20 0 0"/>
-            <PasswordBox x:Name="passwordBox"></PasswordBox>
+			<PasswordBox x:Name="passwordBox" KeyDown="TextBox_KeyDown"></PasswordBox>
             <Button Content="Zaloguj się" Margin="0 50 0 0" Click="Login_Click"/>
         </StackPanel>
     </Grid>

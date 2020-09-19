@@ -56,8 +56,8 @@ namespace FirmaTransportowa.Views
                             EmploymentData = person.employmentData,
                             LayoffDate = person.layoffDate,
                             PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+                            PermissionGrant = permissionPeople.grantDate,// == null ? DateTime.MinValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate// == null ? DateTime.MinValue : permissionPeople.revokeDate,
 
                         };
 

@@ -30,11 +30,11 @@ namespace FirmaTransportowa.Views
 
             InitializeComponent();
             CenterWindowOnScreen();
-            //  loginBox.Text= "kamBach";
-            //   passwordBox.Password = "kamBach";
+            loginBox.Text= "kamBach";
+			passwordBox.Password = "kamBach";
 
-              loginBox.Text= "rancisek";
-               passwordBox.Password = "rancisek";
+			//loginBox.Text= "rancisek";
+			//passwordBox.Password = "rancisek";
         }
 
         static public byte[] getHash(string password)
@@ -51,82 +51,51 @@ namespace FirmaTransportowa.Views
         private int getPermission(string login, string password)
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
-            var permissions = db.PeoplesPermissions;
-            var carSupervisors = db.CarSupervisors;
-            var permissionComapny = db.Permissions;
 
-            var permissionFlota = db.Permissions;
-
-            int permissionLevel = 0;
-            bool kierownikLogin = false;
+            int permissionLevel = 1; //każdy jest pracownikiem, jak nim nie jest to i tak rzuci zero
+			bool kierownikLogin = false;
             bool opiekunLogin = false;
 
-            if (login.Length >= 6 && password.Length >= 6)
-                foreach (var person in people)
-                {
-                    if (person.systemLogin == login)
-                    {
-                   
-                        if (person.passwordHash.SequenceEqual(getHash(password)) && (person.layoffDate >= DateTime.Now || person.layoffDate == null )) //zwolniony nie może się zalogować
-                        {
+			if (login.Length >= 6 && password.Length >= 6) {
+				Person person = db.People.Where(p => p.systemLogin == login && (p.layoffDate == null || p.layoffDate < DateTime.Now)).SingleOrDefault();
+				if (person != null) {
+					if (person.passwordHash.SequenceEqual(getHash(password))) { //sprawdzenie hasła
 
-                            actualUser = person;
-                            permissionLevel++; //każdy jest pracownikiem
+						actualUser = person;
 
+						var dateNow = DateTime.Now.Date;
 
-                                foreach (var permission in permissions)
-                                {
-                                    if (permission.personId == person.id && permission.grantDate.Date <= DateTime.Now.Date && 
-                                    permission.revokeDate > DateTime.Now.Date)
-                                    {
-                                        foreach (var permissionWorkers in permissionComapny)
-                                        {
+						int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => pp.personId == person.id && pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
 
-                                            if (permissionWorkers.Id == permission.permissionId && permissionWorkers.name == "Kierownik")
-                                            {
-                                                actualUser = person;
-                                                kierownikLogin = true;
-                                            }
+						//liczba uprawnień kierowniczych, powinno być zawsze jedno, bądź zero
 
-                                        }
+						if (kierownikPermissionsCount > 0)
+							kierownikLogin = true;
 
-                                    }
-                                }
-                               
-                                //opiekuna sprawdzamy po CarSupervisior
-                                foreach(var carSupervisor in carSupervisors)
-                                {
-                                if (carSupervisor.personId == person.id)
-                                    if (carSupervisor.personId==person.id && carSupervisor.beginDate <= DateTime.Now.Date
-                                    && (carSupervisor.endDate >DateTime.Now.Date || carSupervisor.endDate ==null))
-                                    opiekunLogin = true;
-                                }
+						int supervisedCarsCount = db.CarSupervisors.Where(cs => cs.personId == person.id && cs.beginDate <= dateNow && (cs.endDate == null || cs.endDate > dateNow)).Count();
+						if (supervisedCarsCount > 0)
+							opiekunLogin = true;
 
+						MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " !", "Komunikat");
 
-                                MessageBox.Show("Witaj " + person.firstName + " " + person.lastName + " !", "Komunikat");
+						if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
+							permissionLevel = 2;
+						else if (kierownikLogin == true && opiekunLogin == false) //tylko kierownik
+							permissionLevel = 3;
+						else if (kierownikLogin == true && opiekunLogin == true) // oby dwa 
+							permissionLevel = 4;
 
+						return permissionLevel; //ten permissionLevel mógłby być jakąś elegancką flagą bitową, trzy bity, jeden czy sukces, jeden czy kierownik, jeden czy opiekun
+												//ale piszemy w C#, a nie assemblerze, więc tutaj nikt się w coś takiego nie bawi, int jest ok
 
-                            if (opiekunLogin == true && kierownikLogin == false) //tylko opiekun
-                                permissionLevel = 2;
-                           else if (kierownikLogin == true && opiekunLogin == false) //tylko kierownik
-                                permissionLevel = 3;
-                          else  if (kierownikLogin == true && opiekunLogin == true) // oby dwa 
-                                permissionLevel = 4;
-
-                            return permissionLevel;
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("Logowanie nie udało się :-(", "Komunikat");
-                            return 0;
-                        }
-                    }
-                }
-
-            else
-                MessageBox.Show("Błędne dane logowania.", "Komunikat");
+					}
+					else {
+						MessageBox.Show("Logowanie nie udało się :-(", "Komunikat"); //złe hasło
+						return 0;
+					}
+				}
+			}
+			MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 0;
         }
 
@@ -186,5 +155,10 @@ namespace FirmaTransportowa.Views
             glowneOkno.Left = (screenWidth / 2) - (windowWidth / 2);
             glowneOkno.Top = (screenHeight / 2) - (windowHeight / 2);
         }
-    }
+
+		private void TextBox_KeyDown(object sender, KeyEventArgs e) {
+			if (e.Key == System.Windows.Input.Key.Enter)
+				Login_Click(sender, e);
+		}
+	}
 }
