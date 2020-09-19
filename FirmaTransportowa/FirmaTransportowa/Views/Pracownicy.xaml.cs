@@ -293,10 +293,10 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
 
-            var people = db.People.ToList().OrderBy(t => t.lastName);
-            var cars = db.Cars;
-            var activities = db.Activities;
-            var lends = db.Lends;
+           // var people = db.People.ToList().OrderBy(t => t.lastName);
+            //var cars = db.Cars;
+            //var activities = db.Activities;
+            //var lends = db.Lends;
 
             string path = GetPath();
 
@@ -304,7 +304,11 @@ namespace FirmaTransportowa.Views
             times.Size = 32;
             iTextSharp.text.Font times2 = FontFactory.GetFont("Arial", 20, new BaseColor(System.Drawing.Color.Black));
             iTextSharp.text.Font times3 = FontFactory.GetFont("Arial", 26, new BaseColor(System.Drawing.Color.Black));
+<<<<<<< HEAD
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+=======
+            FileStream fs = new FileStream(path + "Raport na temat pracowników " + DateTime.Now.ToShortDateString() + ".pdf", FileMode.Create, FileAccess.Write, FileShare.None); //todo: obsługa błędów
+>>>>>>> f6a2a8598bed798cb95097447cdf3876cd8f4390
 
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
@@ -324,8 +328,8 @@ namespace FirmaTransportowa.Views
                             LayoffDate = person.layoffDate,
 
                             PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate == null ? DateTime.MinValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate == null ? DateTime.MinValue : permissionPeople.revokeDate,
+                            PermissionGrant = permissionPeople.grantDate,// == null ? DateTime.MinValue : permissionPeople.grantDate,
+                            RevokeDate = permissionPeople.revokeDate// == null ? DateTime.MinValue : permissionPeople.revokeDate,
                         
                         };
 
