@@ -15,7 +15,7 @@
 		<Label Content="Data rezerwacji" HorizontalAlignment="Left" Margin="181,150,0,0" VerticalAlignment="Top" Width="112"/>
 		<Label Content="Rejestracja" HorizontalAlignment="Left" Margin="192,250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
 		<Label Content="Pojemność Silnika" HorizontalAlignment="Left" Margin="172,294,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.079,0.205"/>
-        <controls:FilteredComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,202,0,0" VerticalAlignment="Top" Width="120" Height="26" SelectionChanged="Function_SelectionChanged" TextBoxBase.TextChanged="ComboBox_TextChanged"/>
+        <controls:FilteredComboBox x:Name="PojazdID" HorizontalAlignment="Left" Margin="306,202,0,0" VerticalAlignment="Top" Width="120" Height="26"  TextBoxBase.TextChanged="ComboBox_TextChanged"/>
         <Label Content="Data Zakończenia" HorizontalAlignment="Left" Margin="181,108,0,0" VerticalAlignment="Top"/>
         <DatePicker IsEnabled="false" x:Name="ReservationEnd" HorizontalAlignment="Left" Height="24" Margin="306,108,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="326,546,0,0" VerticalAlignment="Top" Width="75" Click="Cofnij"/>

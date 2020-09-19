@@ -36,7 +36,7 @@
 		<Label						Grid.Row="3"  Grid.Column="0" Content="Data rezerwacji"		/>
 		<DatePicker					Grid.Row="3"  Grid.Column="1" x:Name="ReservationDate"		Height="24" IsEnabled="False"/>
 		<Label						Grid.Row="4"  Grid.Column="0" Content="Numer Pojazdu"		/>
-        <controls:FilteredComboBox	Grid.Row="4"  Grid.Column="1" x:Name="PojazdID"				Height="24" SelectionChanged="Function_SelectionChanged"  TextBoxBase.TextChanged="ComboBox_TextChanged"/>
+        <controls:FilteredComboBox	Grid.Row="4"  Grid.Column="1" x:Name="PojazdID"				Height="24"  TextBoxBase.TextChanged="ComboBox_TextChanged"/>
 		<Label						Grid.Row="5"  Grid.Column="0" Content="Rejestracja"			/>
 		<TextBox					Grid.Row="5"  Grid.Column="1" x:Name="Rejestracja"			Height="24"/>
 		<Label						Grid.Row="6"  Grid.Column="0" Content="Pojemność Silnika"	/>

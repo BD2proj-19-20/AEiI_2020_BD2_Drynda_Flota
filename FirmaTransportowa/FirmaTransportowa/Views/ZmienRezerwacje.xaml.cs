@@ -15,13 +15,20 @@ namespace FirmaTransportowa.Views
         public ZmienRezerwacje(Reservation reservationChange) {
             InitializeComponent();
 
+            PrywatneBox.IsChecked = reservationChange.@private;
+            Rejestracja.IsReadOnly = true;
+            PojemnoscSilnika.IsReadOnly = true;
+            Marka.IsReadOnly = true;
+            Model.IsReadOnly = true;
+            Zastosowanie.IsReadOnly = true;
+
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
 
             this.reservationChange = reservationChange;
 
             ReservationDate.SelectedDate = reservationChange.reservationDate;
-
 
             ReservationEnd.BlackoutDates.AddDatesInPast();
             ReservationStart.BlackoutDates.AddDatesInPast();
@@ -35,25 +42,38 @@ namespace FirmaTransportowa.Views
             }
             ReservationStart.SelectedDate = reservationChange.lendDate;
 
+            var query = from person in db.People
+                        select new
+                        {
+                            Id = person.id,
+                            LastName = person.lastName,
+                            FirstName = person.firstName,
+                            LayoffDate = person.layoffDate
+                        };
 
 
-            var people = db.People;
-
-            foreach (var human in people) {
-                if (human.layoffDate > DateTime.Now || human.layoffDate == null) //wyswietlamy tych co jeszcze pracują
-                    Pracownicy.Items.Add(human.id.ToString() + ") " + human.firstName + " " + human.lastName);
+            foreach (var human in query) {
+                if (human.LayoffDate > DateTime.Now || human.LayoffDate == null) //wyswietlamy tych co jeszcze pracują
+                    Pracownicy.Items.Add(human.Id.ToString() + ") " + human.FirstName + " " + human.LastName);
             }
-            var cars = db.Cars;
-            foreach (var car in cars) {
-                if (car.onService == false)  //gdy w sewisie nie wypożyczamy
-                    PojazdID.Items.Add(car.id.ToString());
+            var query2 = from car in db.Cars
+                        select new
+                        {
+                            Id = car.id,
+                            OnService = car.onService
+
+                        };
+            foreach (var car in query2)
+            {
+                if (car.OnService == false)  //gdy w sewisie nie wypożyczamy
+                    PojazdID.Items.Add(car.Id.ToString());
             }
             PojazdID.SelectedItem = reservationChange.carId.ToString();
             int index = -1;
-            foreach (var human in people) {
-                if (human.layoffDate > DateTime.Now || human.layoffDate == null)
+            foreach (var human in query) {
+                if (human.LayoffDate > DateTime.Now || human.LayoffDate == null)
                     index++;
-                if (reservationChange.personId == human.id)
+                if (reservationChange.personId == human.Id)
                     break;
             }
             Pracownicy.SelectedIndex = index;
@@ -61,34 +81,29 @@ namespace FirmaTransportowa.Views
 
         }
         private void Dane_Pojzadu() {
+
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            foreach (var car in cars) {
-                if ((car.id).ToString() == PojazdID.Text) {
-                    Rejestracja.Text = car.Registration;
-                    PojemnoscSilnika.Text = car.engineCapacity.ToString();
 
-                    var carmodel = db.CarModels;
-                    foreach (var carModel in carmodel) {
-                        if (car.modelId == carModel.id) {
-                            Marka.Text = car.CarModel.make;
-                            Model.Text = car.CarModel.model;
-                        }
-                    }
-                    var carDes = db.CarDestinations;
-                    foreach (var cardes in carDes) {
-                        if (car.destinationId == cardes.id)
-                            Zastosowanie.Text = cardes.name;
-                    }
-                }
+            var car = (from cars in db.Cars
+                       where cars.id.ToString() == PojazdID.Text
+                       select cars).FirstOrDefault();
+
+            if (car != null)
+            {
+                Rejestracja.Text = car.Registration;
+                PojemnoscSilnika.Text = car.engineCapacity.ToString();
+                Marka.Text = car.CarModel.make;
+                Model.Text = car.CarModel.model;
+                Zastosowanie.Text = car.CarDestination.name;
             }
-            PrywatneBox.IsChecked = reservationChange.@private;
-            Rejestracja.IsReadOnly = true;
-            PojemnoscSilnika.IsReadOnly = true;
-            Marka.IsReadOnly = true;
-            Model.IsReadOnly = true;
-            Zastosowanie.IsReadOnly = true;
-
+            else
+            {
+                Rejestracja.Text = "";
+                PojemnoscSilnika.Text = "";
+                Marka.Text = "";
+                Model.Text = "";
+                Zastosowanie.Text = "";
+            }
         }
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e) {
 
@@ -216,37 +231,12 @@ namespace FirmaTransportowa.Views
         }
         private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-
-            var car = (from cars in db.Cars
-                       where cars.id.ToString() == PojazdID.Text
-                       select cars).FirstOrDefault();
-
-            if (car != null)
-            {
-                Rejestracja.Text = car.Registration;
-                PojemnoscSilnika.Text = car.engineCapacity.ToString();
-                Marka.Text = car.CarModel.make;
-                Model.Text = car.CarModel.model;
-                Zastosowanie.Text = car.CarDestination.name;
-            }
-            else
-            {
-                Rejestracja.Text = "";
-                PojemnoscSilnika.Text = "";
-                Marka.Text = "";
-                Model.Text = "";
-                Zastosowanie.Text = "";
-            }
-
+            Dane_Pojzadu();
         }
         private void Cofnij(object sender, RoutedEventArgs e) {
 
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new Rezerwacje();
-        }
-        private void Function_SelectionChanged(object sender, RoutedEventArgs e) {
-            Dane_Pojzadu();
         }
 
         private CalendarDateRange reservationEndBlackoutRange = null;
