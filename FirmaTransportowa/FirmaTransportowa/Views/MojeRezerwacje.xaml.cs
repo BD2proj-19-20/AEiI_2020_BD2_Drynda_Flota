@@ -131,7 +131,6 @@ namespace FirmaTransportowa.Views
                 MyReservationList selectedObj = (MyReservationList)selected.Content;
                 int selectedId = selectedObj.ReservationId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            //    var reservations = db.Reservations;
                 Reservation reservationChange = null;
 
                 var reservation = (from reserv in db.Reservations

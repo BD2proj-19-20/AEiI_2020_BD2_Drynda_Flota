@@ -290,11 +290,14 @@ namespace FirmaTransportowa.Views
                 var lends = db.Lends;
                 Lend lendChange = null;
 
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
+
+                var lend = (from lendd in db.Lends
+                            where lendd.id == selectedId
+                            select lendd).FirstOrDefault();
+
+                if (lend != null)
+                    lendChange = lend;
+
                 if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate <= lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
@@ -698,12 +701,13 @@ namespace FirmaTransportowa.Views
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 Lend lendChange = null;
 
-                var lends = db.Lends;
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
+                var lend = (from lendd in db.Lends
+                            where lendd.id == selectedId
+                            select lendd).FirstOrDefault();
+
+                if (lend != null)
+                    lendChange = lend;
+
 
                 if (lendChange.lendDate > DateTime.Now)
                     MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
@@ -720,14 +724,14 @@ namespace FirmaTransportowa.Views
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
                             Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
-                        var reservations = db.Reservations;
+                        //   var reservations = db.Reservations;
 
-                        foreach (var reserv in reservations)
-                        {
-                            if (lendChange.id == reserv.lendId)
-                                reserv.ended = true;
+                        var reservation = (from reserv in db.Reservations
+                                           where lendChange.id == reserv.lendId
+                                           select reserv).FirstOrDefault();
 
-                        }
+
+                        reservation.ended = true;
                         db.SaveChanges();
 
                         ListViewLends.ItemsSource = null;

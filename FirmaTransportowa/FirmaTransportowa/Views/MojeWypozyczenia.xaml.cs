@@ -89,20 +89,17 @@ namespace FirmaTransportowa.Views
                 if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && ZakonczoneBox.IsChecked.Value == true && lend.Private == true) //zakończone
                 {
                     OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                                                       // items.Add(OneItem);
                     addItem = true;
                 }
                 else if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
                 {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                                                            //  items.Add(OneItem);
                     addItem = true;
                 }
                 else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false &&
                     PrywatneBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
-                                                              //  items.Add(OneItem);
                     addItem = true;
                 }
                 else if (PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
@@ -115,13 +112,9 @@ namespace FirmaTransportowa.Views
 
                 if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
                  && addItem == true)
-                {
                     addItem = false;
-                }
                 else if (addItem == true)
-                {
                     items.Add(OneItem);
-                }
             }
             ListViewMyLends.ItemsSource = items;
 
@@ -142,16 +135,16 @@ namespace FirmaTransportowa.Views
                 MyLendList selectedObj = (MyLendList)selected.Content;
                 int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var lends = db.Lends;
+              
                 Lend lendChange = null;
 
-                foreach (var  lend in lends)
-                {
-                    if (lend.id == selectedId)
+                var lend = (from lendd in db.Lends
+                          where lendd.id == selectedId
+                                   select lendd).FirstOrDefault();
+
+                if(lend != null)
                         lendChange = lend;
-                }
-
-
+                
                 if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate <= lendChange.lendDate.Date)
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                 else
@@ -177,12 +170,12 @@ namespace FirmaTransportowa.Views
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 Lend lendChange = null;
 
-                var lends = db.Lends;
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
+                var lend = (from lendd in db.Lends
+                            where lendd.id == selectedId
+                            select lendd).FirstOrDefault();
+
+                if (lend != null)
+                    lendChange = lend;
 
                 if (lendChange.lendDate > DateTime.Now)
                     MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
@@ -199,16 +192,14 @@ namespace FirmaTransportowa.Views
 
                         lendChange.comments += "Zakończono przez zakończenie\nwypożyczenia przez pracownika " + Logowanie.actualUser.id + ") " +
                             Logowanie.actualUser.firstName + " " + Logowanie.actualUser.lastName + " - " + DateTime.Now.ToString() + "\n";
-                        var reservations = db.Reservations;
+                    //    var reservations = db.Reservations;
 
-                        foreach (var reserv in reservations)
-                        {
-                            if (lendChange.id == reserv.lendId)
-                            {
-                                reserv.ended = true;
+                        var reservation = (from reserv in db.Reservations
+                                           where lendChange.id == reserv.lendId
+                                           select reserv).FirstOrDefault();
 
-                            }
-                        }
+                    
+                        reservation.ended = true;
                         db.SaveChanges();
 
                         ListViewMyLends.ItemsSource = null;
@@ -234,16 +225,14 @@ namespace FirmaTransportowa.Views
                 int selectedId = selectedObj.LendId - 1;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-                var cars = db.Cars;
 
                 Lend lendChange = null;
+                var lend = (from lendd in db.Lends
+                            where lendd.id == selectedId
+                            select lendd).FirstOrDefault();
 
-                var lends = db.Lends;
-                foreach (var lend in lends)
-                {
-                    if (lend.id == selectedId)
-                        lendChange = lend;
-                }
+                if (lend != null)
+                    lendChange = lend;
 
 
                 if (lendChange.lendDate > DateTime.Now.Date || lendChange.returnDate < lendChange.lendDate.Date)
@@ -252,21 +241,22 @@ namespace FirmaTransportowa.Views
                     MessageBox.Show("Wypożyczenie nie zaczeło się!", "Komunikat");
                     return;
                 }
-                foreach (var car in cars)
-                {
-                    if (lendChange.carId == car.id)
-                    {
+
+                var car = (from carr in db.Cars
+                            where carr.id == lendChange.id
+                           select carr).FirstOrDefault();
+
+                if(car!=null)
+                { 
                         ZglosUsterke zglosUsterke = new ZglosUsterke(car, 2);
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = zglosUsterke;
                         return;
-                    }
+                    
                 }
             }
             else
-            {
                 MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
         }
 
 
