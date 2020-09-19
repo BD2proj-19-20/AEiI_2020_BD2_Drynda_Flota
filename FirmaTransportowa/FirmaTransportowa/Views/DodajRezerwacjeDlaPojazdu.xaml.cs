@@ -37,9 +37,6 @@ namespace FirmaTransportowa.Views
             ReservationDate.SelectedDate = DateTime.Today;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            var people = db.People;
-
-            var cars = db.Cars;
             PojazdID.Text = carId.ToString();
             Dane_Pojzadu();
 
@@ -47,37 +44,27 @@ namespace FirmaTransportowa.Views
         private void Dane_Pojzadu()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            foreach (var car in cars)
-            {
-                if ((car.id).ToString() == PojazdID.Text)
-                {
-                    Rejestracja.Text = car.Registration;
-                    PojemnoscSilnika.Text = car.engineCapacity.ToString();
 
-                    var carmodel = db.CarModels;
-                    foreach (var carModel in carmodel)
-                    {
-                        if (car.modelId == carModel.id)
-                        {
-                            Marka.Text = car.CarModel.make;
-                            Model.Text = car.CarModel.model;
-                        }
-                    }
-                    var carDes = db.CarDestinations;
-                    foreach (var cardes in carDes)
-                    {
-                        if (car.destinationId == cardes.id)
-                            Zastosowanie.Text = cardes.name;
-                    }
-                }
+            var car = (from cars in db.Cars
+                       where cars.id.ToString() == PojazdID.Text
+                       select cars).FirstOrDefault();
+
+            if (car != null)
+            {
+                Rejestracja.Text = car.Registration;
+                PojemnoscSilnika.Text = car.engineCapacity.ToString();
+                Marka.Text = car.CarModel.make;
+                Model.Text = car.CarModel.model;
+                Zastosowanie.Text = car.CarDestination.name;
             }
-            PojazdID.IsReadOnly = true;
-            Rejestracja.IsReadOnly = true;
-            PojemnoscSilnika.IsReadOnly = true;
-            Marka.IsReadOnly = true;
-            Model.IsReadOnly = true;
-            Zastosowanie.IsReadOnly = true;
+            else
+            {
+                Rejestracja.Text = "";
+                PojemnoscSilnika.Text = "";
+                Marka.Text = "";
+                Model.Text = "";
+                Zastosowanie.Text = "";
+            }
 
         }
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
@@ -92,14 +79,14 @@ namespace FirmaTransportowa.Views
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
-            foreach (var person in people)
-            {
-                if (person.id == id)
-                {
-                    datePersonOut = person.layoffDate;
-                    personReservation = person;
-                }
+            var person = (from persons in db.People
+                          where persons.id == id
+                          select persons).FirstOrDefault();
 
+            if (person != null)
+            {
+                datePersonOut = person.layoffDate;
+                personReservation = person;
             }
             bool doReservationCar = true;
             bool doReservationPerson = true;
@@ -108,41 +95,59 @@ namespace FirmaTransportowa.Views
                 && (datePersonOut >= ReservationEnd.SelectedDate || datePersonOut == null))  //sprawdzanie poprawności danych
             {
 
-                foreach (var reserv in reservations)  //sprawdzanie rezerwacji wybranego pojazdu
-                {
-                    if (reserv.carId.ToString() == PojazdID.Text)
-                    {
-                        actualCarLendDate = reserv.lendDate;
-                        actualCarReturnDate = reserv.returnDate;
+                var query = from reserv in db.Reservations
+                            where reserv.carId.ToString() == PojazdID.Text
+                            select new
+                            {
+                                Id = reserv,
+                                CarId = reserv.carId,
+                                LendDate = reserv.lendDate,
+                                ReturnDate = reserv.returnDate,
+                                Ended = reserv.ended,
+                            };
 
-                        if (actualCarReturnDate <=  ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
-                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                        {
-                            doReservationCar = true;
-                        }
-                        else
-                        {
-                            doReservationCar = false;
-                            break;
-                        }
+
+                foreach (var reserv in query)
+                {
+                    actualCarLendDate = reserv.LendDate;
+                    actualCarReturnDate = reserv.ReturnDate;
+
+                    if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
+                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true)
+                        doReservationCar = true;
+                    else
+                    {
+                        doReservationCar = false;
+                        break;
                     }
 
                 }
-                foreach (var reserv in reservations) //sprawdzanie rezerwacji wybranego pracownika
-                {
-                    if (reserv.personId.ToString() == personReservation.id.ToString())
-                    {
-                        actualCarLendDate = reserv.lendDate;
-                        actualCarReturnDate = reserv.returnDate;
+                var query2 = from reserv in db.Reservations
+                             where reserv.personId.ToString() == personReservation.id.ToString()
+                             select new
+                             {
+                                 Id = reserv,
+                                 CarId = reserv.carId,
+                                 LendDate = reserv.lendDate,
+                                 ReturnDate = reserv.returnDate,
+                                 Ended = reserv.ended,
+                             };
 
-                        if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
-                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                            doReservationPerson = true;
-                        else
-                        {
-                            doReservationPerson = false;
-                            break;
-                        }
+                foreach (var reserv in query2)
+                {
+
+                    actualCarLendDate = reserv.LendDate;
+                    actualCarReturnDate = reserv.ReturnDate;
+
+                    if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
+                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true)
+                    {
+                        doReservationPerson = true;
+                    }
+                    else
+                    {
+                        doReservationPerson = false;
+                        break;
                     }
 
                 }
@@ -151,7 +156,7 @@ namespace FirmaTransportowa.Views
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 {
                     var newReservation = new Reservation();
-                    var newLend = new Lend(); //?
+                    var newLend = new Lend();
 
 
                     newReservation.carId = Int16.Parse(PojazdID.Text);

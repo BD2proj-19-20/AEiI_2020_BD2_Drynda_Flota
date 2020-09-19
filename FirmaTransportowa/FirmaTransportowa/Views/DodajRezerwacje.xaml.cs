@@ -136,7 +136,7 @@ namespace FirmaTransportowa.Views
 
                 }
                 var query2 = from reserv in db.Reservations
-                             where reserv.personId.ToString() == personReservation.id.ToString() && reserv.id != this.reservationChange.id
+                             where reserv.personId.ToString() == personReservation.id.ToString() 
                              select new
                              {
                                  Id = reserv,
