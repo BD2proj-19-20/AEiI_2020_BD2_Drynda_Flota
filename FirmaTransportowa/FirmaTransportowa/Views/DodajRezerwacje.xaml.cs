@@ -95,6 +95,15 @@ namespace FirmaTransportowa.Views
                 Model.Text = car.CarModel.model;
                 Zastosowanie.Text = car.CarDestination.name;
             }
+            else
+            {
+                Rejestracja.Text = "";
+                PojemnoscSilnika.Text = "";
+                Marka.Text = "";
+                Model.Text = "";
+                Zastosowanie.Text = "";
+            }
+
         }
         private void Function_SelectionChanged(object sender, RoutedEventArgs e)
         {
