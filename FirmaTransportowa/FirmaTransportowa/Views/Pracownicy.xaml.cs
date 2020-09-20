@@ -101,15 +101,25 @@ namespace FirmaTransportowa.Views
         {
 
             ListViewItem selected = (ListViewItem)workersList.SelectedItem;
-
             if (selected != null)
             {
                 WorkersList selectedObj = (WorkersList)selected.Content;
                 int selectedId = selectedObj.PersonId - 1;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
+                var dateNow = DateTime.Now.Date;
+
+                int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => (pp.Person.layoffDate == null || pp.Person.layoffDate > DateTime.Now) &&
+                pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
+
+                if (kierownikPermissionsCount<1)
+                {
+                    MessageBox.Show("Jesteś jedynym kierownikiem\nnie możesz tak pozostawić firmy!", "Komunikat");
+                    return;
+                }
                 Person personChange = null;
 
-                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            
                 var person = (from people in db.People
                                    where people.id == selectedId
                               select people).FirstOrDefault();

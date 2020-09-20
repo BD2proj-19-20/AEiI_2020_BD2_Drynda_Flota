@@ -57,7 +57,7 @@ namespace FirmaTransportowa.Views
             bool opiekunLogin = false;
 
 			if (login.Length >= 6 && password.Length >= 6) {
-				Person person = db.People.Where(p => p.systemLogin == login && (p.layoffDate == null || p.layoffDate < DateTime.Now)).SingleOrDefault();
+				Person person = db.People.Where(p => p.systemLogin == login && (p.layoffDate == null || p.layoffDate > DateTime.Now)).SingleOrDefault();
 				if (person != null) {
 					if (person.passwordHash.SequenceEqual(getHash(password))) { //sprawdzenie hasła
 
