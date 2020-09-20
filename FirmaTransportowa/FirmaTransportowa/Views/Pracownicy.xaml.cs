@@ -112,7 +112,7 @@ namespace FirmaTransportowa.Views
                 int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => (pp.Person.layoffDate == null || pp.Person.layoffDate > DateTime.Now) &&
                 pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
 
-                if (kierownikPermissionsCount<1)
+                if (kierownikPermissionsCount<2)
                 {
                     MessageBox.Show("Jesteś jedynym kierownikiem\nnie możesz tak pozostawić firmy!", "Komunikat");
                     return;
