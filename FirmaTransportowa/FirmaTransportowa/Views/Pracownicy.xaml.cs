@@ -557,12 +557,14 @@ namespace FirmaTransportowa.Views
                 times.Size = 32;
 
             }
+            
 
             Chunk c1 = new Chunk("");
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
         }
+
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
 

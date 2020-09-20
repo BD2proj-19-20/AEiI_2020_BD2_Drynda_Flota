@@ -47,7 +47,7 @@
             <StackPanel Margin="25,10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
                 <Button Content="Dodaj" Margin="25 0 0 0" Width="100"  Click="Dodaj_Pracownika"/>
                 <Button Content="Zwolnij" Margin="25 0 0 0" Width="100" Click="Zwolnij_Pracownika"/>
-                <Button Content="Analuj Zwolnienie" Margin="25 0 0 0" Width="110" Click="Usun_zwolnienie"/>
+                <Button Content="Anuluj Zwolnienie" Margin="25 0 0 0" Width="110" Click="Usun_zwolnienie"/>
                 <Button Content="Statystyki" Margin="25 0 0 0" Width="110" x:Name="WorkerStatistics" Click="WorkerStatistics_Click"/>
                 <Button Content="Generuj raport"  Margin="25 0 0 0" Click="Generuj_Raport_Pracownicy" Width="110"/>
             </StackPanel>
