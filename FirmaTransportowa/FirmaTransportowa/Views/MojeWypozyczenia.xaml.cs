@@ -56,7 +56,6 @@ namespace FirmaTransportowa.Views
                         select new
                         {
                             LendId = lend.id,
-                            Owner = lend.Person.lastName + " " + lend.Person.firstName,
                             Vehicle = lend.Car.CarModel.make + "/" + lend.Car.CarModel.model + "/" + lend.Car.Registration + "\n",
                             Private = lend.@private,
                             LendDate = lend.lendDate,
@@ -85,35 +84,20 @@ namespace FirmaTransportowa.Views
                     Vehicle = lend.Vehicle
                 };
 
-                bool addItem = false;
                 if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && ZakonczoneBox.IsChecked.Value == true && lend.Private == true) //zakończone
-                {
                     OneItem.Background = Brushes.Red;  //zakonczone prywatne
-                    addItem = true;
-                }
                 else if ((lend.ReturnDate <= DateTime.Now || lend.LendEnded == true) && Zakonczone_i_PrywatneBox.IsChecked.Value == true && lend.Private == false) //zakończone
-                {
                     OneItem.Background = Brushes.OrangeRed; //zakonczone nie prywatne
-                    addItem = true;
-                }
                 else if (lend.Private == true && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null) && lend.LendEnded == false &&
                     PrywatneBox.IsChecked.Value == true)
-                {
                     OneItem.Background = Brushes.BlueViolet;  //prywatne
-                    addItem = true;
-                }
-                else if (PozostałeBox.IsChecked.Value == true && lend.Private == false && lend.LendEnded == false
-                        && (lend.ReturnDate > DateTime.Now || lend.ReturnDate == null))
-                {
 
-                    //  items.Add(OneItem);
-                    addItem = true;
-                }
 
-                if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date
-                    || lend.ReturnDate < lend.LendDate.Date) && addItem == true && lend.LendEnded == true)
-                    addItem = false;
-                else if (addItem == true)
+
+                if (RozpoczeteBox.IsChecked.Value == true &&
+                    lend.LendDate > DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date)
+                    continue;
+
                     items.Add(OneItem);
             }
             ListViewMyLends.ItemsSource = items;
