@@ -19,8 +19,20 @@ namespace FirmaTransportowa.Views
     /// <summary>
     /// Interaction logic for HistoriaPojazdu.xaml
     /// </summary>
+
     public partial class HistoriaPojazdu : UserControl
     {
+        public class Activity
+        {
+            public int IDusterki { get; set; }
+            public string Opis { get; set; }
+            public string Krytyczna { get; set; }
+            public string DataZgloszenia { get; set; }
+            public string DataZamkniecia { get; set; }
+            public int ID { get; set; }
+            public String Serwisowana { get; set; }
+        }
+
         private Car car1;
         private int userPermission;
         public HistoriaPojazdu(int permission, Car car)
@@ -28,12 +40,34 @@ namespace FirmaTransportowa.Views
             InitializeComponent();
             car1 = car;
             userPermission = permission;
+            loadTable();
         }
 
         private void cofnij(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new StatystykiPojazdu(car1, userPermission);
+        }
+        private void loadTable()
+        {
+            Title.Content = "Historia usterek pojazdu:" + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
+            this.ListViewActivities.Items.Clear();
+            for (int i = 0; i < car1.Activities.Count; i++)
+            {
+                if (car1.Activities.ElementAt(i).closeDate != null)
+                {
+                    this.ListViewActivities.Items.Add(new Activity
+                    {
+                        IDusterki = car1.Activities.ElementAt(i).id,
+                        Opis = car1.Activities.ElementAt(i).comments,
+                        Krytyczna = car1.Activities.ElementAt(i).closeDate.ToString(),
+                        DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
+                        DataZamkniecia = car1.Activities.ElementAt(i).closeDate.ToString(),
+                        ID = car1.Activities.ElementAt(i).reporterId,
+                        Serwisowana = car1.Activities.ElementAt(i).service.ToString()
+                    });
+                }
+            }
         }
     }
 }

@@ -112,10 +112,5 @@ namespace FirmaTransportowa.Views
             glowneOkno.DataContext = new HistoriaPojazdu(permission, car1);
         }
 
-        private void UsterkiClick(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new Usterkipojazdu(permission, car1);
-        }
     }
 }

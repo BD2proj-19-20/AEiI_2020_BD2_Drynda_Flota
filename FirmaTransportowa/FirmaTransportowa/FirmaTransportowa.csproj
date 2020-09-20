@@ -235,9 +235,6 @@
     <Compile Include="Views\ZglosUsterke.xaml.cs">
       <DependentUpon>ZglosUsterke.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zlecenia.xaml.cs">
-      <DependentUpon>Zlecenia.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ZlecWykonanieCzynnosci.xaml.cs">
       <DependentUpon>ZlecWykonanieCzynnosci.xaml</DependentUpon>
     </Compile>
@@ -387,10 +384,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZglosUsterke.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Zlecenia.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -42,11 +42,5 @@ namespace FirmaTransportowa.Views
             ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = new Logowanie();
             Logowanie.actualUser = null;
         }
-
-        private void Activities_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new Zlecenia();
-        }
     }
 }

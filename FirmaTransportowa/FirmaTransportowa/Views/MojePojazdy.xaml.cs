@@ -196,7 +196,22 @@ namespace FirmaTransportowa.Views
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
             {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
 
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        if (car.onService == true)
+                            car.onService = false;
+                        else if (car.onService == false)
+                            car.onService = true;
+                    }
+                }
+                db.SaveChanges();
             }
             else
             {
@@ -224,6 +239,32 @@ namespace FirmaTransportowa.Views
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                         glowneOkno.DataContext = zglosUsterke;
                         return;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
+            }
+        }
+        private void UsterkiClick(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            if (selected != null)
+            {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
+
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var cars = db.Cars;
+
+                //Usuwam datę sprzedaży
+                foreach (var car in cars)
+                {
+                    if (car.id == selectedId)
+                    {
+                        System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+                        glowneOkno.DataContext = new Usterkipojazdu(3, car);
                     }
                 }
             }

@@ -60,8 +60,9 @@ namespace FirmaTransportowa.Views
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var activities = db.Activities;
+            var cars = db.Cars;
 
-            foreach (var activity in activities)
+           /* foreach (var activity in activities)
             {
                 if (activity.id == activity1.id)
                 {
@@ -75,6 +76,14 @@ namespace FirmaTransportowa.Views
                     else
                         activity.service = false;
 
+                }
+            }
+            db.SaveChanges();*/
+            foreach (var car in cars)
+            {
+                if (car.id == car1.id)
+                {
+                    car.onService = true;
                 }
             }
             db.SaveChanges();

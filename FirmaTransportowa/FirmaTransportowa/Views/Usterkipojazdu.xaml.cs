@@ -54,7 +54,7 @@ namespace FirmaTransportowa.Views
         private void cofnij(object sender, RoutedEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new StatystykiPojazdu(car1, userPermission);
+            glowneOkno.DataContext = new MojePojazdy();
         }
         private void loadTable()
         {
@@ -68,7 +68,6 @@ namespace FirmaTransportowa.Views
                     czyKrytyczna = "Tak";
                 else
                     czyKrytyczna = "Nie";
-
                 if (car1.Activities.ElementAt(i).orderDate==null)
                     czySerwisowana = "Nie";
                 else

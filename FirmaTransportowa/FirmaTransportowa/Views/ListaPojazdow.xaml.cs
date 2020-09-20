@@ -245,20 +245,6 @@ namespace FirmaTransportowa.Views
             }
         }
 
-        private void Report_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
-
         private void Refuel_Click(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód

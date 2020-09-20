@@ -12,9 +12,6 @@
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
                 <TextBlock Text="Moje pojazdy (opiekun)"/>
             </ListViewItem>
-            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Activities" MouseLeftButtonUp="Activities_MouseLeftButtonUp">
-                <TextBlock Text="Zlecenia (opiekun)"/>
-            </ListViewItem>
         </ListView>
         <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">

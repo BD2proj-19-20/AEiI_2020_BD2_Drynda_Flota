@@ -89,11 +89,6 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new MojePojazdyModel();
         }
-        private void Activities_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new Zlecenia();
-        }
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;

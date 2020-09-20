@@ -43,9 +43,10 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Podgląd" Width="150" x:Name="CarStatistics" Click="CarStatistics_Click" Height="50" VerticalAlignment="Bottom"/>
-                <Button Content="Wyłącz ze służby/Przywróć do służby" Margin="25 0 0 0" Width="150" Click="Activate_Disactivate_Click"/>
-                <Button Content="Zgłoś usterkę" Margin="25 0" Width="150" Click="zglos" />
+                <Button Content="Usterki" Margin="20 0 0 0" Width="150" Click="UsterkiClick"/>
+                <Button Content="Podgląd" Margin="20 0 0 0" Width="150" x:Name="CarStatistics" Click="CarStatistics_Click" Height="50" VerticalAlignment="Bottom"/>
+                <Button Content="Wyłącz ze służby/Przywróć do służby" Margin="20 0 0 0" Width="150" Click="Activate_Disactivate_Click"/>
+                <Button Content="Zgłoś usterkę" Margin="20 0" Width="150" Click="zglos" />
             </StackPanel>
         </StackPanel>
     </Grid>

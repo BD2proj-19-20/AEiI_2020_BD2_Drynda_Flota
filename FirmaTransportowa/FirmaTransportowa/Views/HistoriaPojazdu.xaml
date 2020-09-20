@@ -5,10 +5,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FirmaTransportowa.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Magenta">
-        <Button Content="Cofnij" HorizontalAlignment="Left" Margin="287,337,0,0" VerticalAlignment="Top" Width="187" Height="79" Click="cofnij"/>
-        <Label Content="Historia pojazdu" HorizontalAlignment="Left" Margin="333,52,0,0" VerticalAlignment="Top"/>
+                d:DesignHeight="580" d:DesignWidth="750">
+    <Grid Background="#FF646464">
+        <StackPanel Orientation="Vertical" Margin="0">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,20,25,0" Height="46" Width="700" RenderTransformOrigin="0.494,-0.141">
+                <Label Foreground="White" Content="Historia usterek:"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" RenderTransformOrigin="0.834,1.025" Name="Title"/>
+            </Border>
+            <ListView Name="ListViewActivities" Background="White" VerticalAlignment="Top" Height="400" Width="700">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="30" DisplayMemberBinding="{Binding IDusterki}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="IDusterk" >ID</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="300" DisplayMemberBinding="{Binding Opis}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Opis" >Opis usterki</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="60" DisplayMemberBinding="{Binding Krytyczna}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader  Tag="Krytyczna" >Krytyczna</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DataZgloszenia}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="DataZgloszenia" >Data zgłoszenia</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="70" DisplayMemberBinding="{Binding ID}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="ID" >Zgłaszający</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding Serwisowana}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Serwisowana" >Serwisowana</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="Cofnij" HorizontalAlignment="Center" Margin="0 25" Width="200" Height="50" Click="cofnij"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>
