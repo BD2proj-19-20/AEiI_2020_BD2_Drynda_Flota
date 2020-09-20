@@ -298,9 +298,6 @@ namespace FirmaTransportowa.Views
 
             //Tutaj beda wszyscy pracownicy z ich uprawnieniami
             var query = from person in db.People 
-                        join peoplePermission in db.PeoplesPermissions on person.id equals peoplePermission.personId into permissionTable
-
-                        from permissionPeople in permissionTable.DefaultIfEmpty()
                         select new
                         {
                             Id = person.id,
@@ -308,15 +305,7 @@ namespace FirmaTransportowa.Views
                             FirstName = person.firstName,
                             EmploymentData = person.employmentData,
                             LayoffDate = person.layoffDate,
-
-                            PermissionName = permissionPeople.Permission.name,
-                            PermissionGrant = permissionPeople.grantDate,// == null ? DateTime.MinValue : permissionPeople.grantDate,
-                            RevokeDate = permissionPeople.revokeDate// == null ? DateTime.MinValue : permissionPeople.revokeDate,
-                        
                         };
-
-            var lbLudzi = db.People.Count();
-            var lbQuery = query.Count();
 
             foreach (var person in query)
             {
@@ -351,6 +340,12 @@ namespace FirmaTransportowa.Views
                                  PlannedReturnDate = lends2.plannedReturnDate,
                                  LendedCar = lends2.Car
                              };
+
+                var workerPermission = (from personPermission in db.PeoplesPermissions
+                                        where personPermission.personId == person.Id
+                                        select personPermission).FirstOrDefault();
+
+
                 Chunk c = new Chunk((person.Id + 1) + ") " + person.LastName + " " + person.FirstName, times);
                 var dateO = "";
                 var dateE = "";
@@ -418,24 +413,26 @@ namespace FirmaTransportowa.Views
                 string kierownikStart = "";
                 string kierownikEnd = "";
 
-                if (person.PermissionName == "Kierownik" &&
-                      person.PermissionGrant <= DateTime.Now.Date && (person.RevokeDate > DateTime.Now || person.RevokeDate == null))
+                if (workerPermission != null && workerPermission.Permission.name == "Kierownik" &&
+       workerPermission.grantDate <= DateTime.Now.Date && (workerPermission.revokeDate > DateTime.Now || workerPermission.revokeDate == null))
                 {
                     kierownik = "Tak";
-                    kierownikStart = person.PermissionGrant.ToString().Substring(0, 10);
-                    if (person.RevokeDate != null)
-                        kierownikEnd = person.RevokeDate.ToString().Substring(0, 10);
+                    kierownikStart = workerPermission.grantDate.ToString().Substring(0, 10);
+                    if (workerPermission.revokeDate != null)
+                        kierownikEnd = workerPermission.revokeDate.ToString().Substring(0, 10);
+
                 }
-                else if (person.PermissionName == "Kierownik" && person.PermissionGrant > DateTime.Now.Date)
+                else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date)
                 {
-                    if (((person.PermissionGrant - DateTime.Now).Days + 1) == 1)
-                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now.Date).Days + 1) + " dzień";
+                    if (((workerPermission.grantDate - DateTime.Now).Days + 1) == 1)
+                        kierownik = "Za " + ((workerPermission.grantDate - DateTime.Now.Date).Days + 1) + " dzień";
                     else
-                        kierownik = "Za " + ((person.PermissionGrant - DateTime.Now.Date).Days + 1) + " dni";
-                    kierownikStart = person.PermissionGrant.ToString().Substring(0, 10);
-                    if (person.RevokeDate != null)
-                        kierownikEnd = person.RevokeDate.ToString().Substring(0, 10);
+                        kierownik = "Za " + ((workerPermission.grantDate - DateTime.Now.Date).Days + 1) + " dni";
+                    kierownikStart = workerPermission.grantDate.ToString().Substring(0, 10);
+                    if (workerPermission.revokeDate != null)
+                        kierownikEnd = workerPermission.revokeDate.ToString().Substring(0, 10);
                 }
+
                 if (kierownik != "")
                     doc.Add(new iTextSharp.text.Paragraph("Kierownik: " + kierownik, times2));
                 if (kierownikStart != "")
