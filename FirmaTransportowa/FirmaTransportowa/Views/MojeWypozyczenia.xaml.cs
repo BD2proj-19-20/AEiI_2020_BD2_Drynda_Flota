@@ -110,8 +110,8 @@ namespace FirmaTransportowa.Views
                     addItem = true;
                 }
 
-                if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date || lend.ReturnDate < lend.LendDate.Date)
-                 && addItem == true)
+                if (RozpoczeteBox.IsChecked.Value == true && (lend.LendDate >= DateTime.Now.Date
+                    || lend.ReturnDate < lend.LendDate.Date) && addItem == true && lend.LendEnded == true)
                     addItem = false;
                 else if (addItem == true)
                     items.Add(OneItem);
@@ -177,10 +177,11 @@ namespace FirmaTransportowa.Views
                 if (lend != null)
                     lendChange = lend;
 
-                if (lendChange.lendDate > DateTime.Now)
-                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
-                else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended == true)
+
+                if (lendChange.returnDate <= DateTime.Now || lendChange.Reservation.ended == true)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
+                else if (lendChange.lendDate > DateTime.Now)
+                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
                 else
                 {
 

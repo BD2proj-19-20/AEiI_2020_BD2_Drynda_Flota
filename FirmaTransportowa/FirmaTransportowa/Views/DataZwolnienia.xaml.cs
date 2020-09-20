@@ -15,6 +15,7 @@ namespace FirmaTransportowa.Views
         {
             InitializeComponent();
             Kalendarz.BlackoutDates.AddDatesInPast();
+            Kalendarz.SelectedDate = DateTime.Today;
             this.personChange = personChange;
 
         }

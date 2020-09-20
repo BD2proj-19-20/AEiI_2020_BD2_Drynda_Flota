@@ -709,10 +709,11 @@ namespace FirmaTransportowa.Views
                     lendChange = lend;
 
 
-                if (lendChange.lendDate > DateTime.Now)
-                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
-                  else if (lendChange.returnDate >= DateTime.Now || lendChange.Reservation.ended == true)
+                 if (lendChange.returnDate <= DateTime.Now || lendChange.Reservation.ended == true)
                     MessageBox.Show("Wypożyczenie się zakończyło!", "Komunikat");
+                else if (lendChange.lendDate > DateTime.Now)
+                    MessageBox.Show("Wypożyczenie się jeszcze\nnie rozpoczeło!", "Komunikat");
+             
                 else
                 {
 
