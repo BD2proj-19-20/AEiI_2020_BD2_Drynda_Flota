@@ -115,7 +115,7 @@ namespace FirmaTransportowa.Views
                     addItem = true;
 
                 if (RozpoczeteBox.IsChecked.Value == true &&
-                 lend.LendDate > DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date)
+                 (lend.LendDate > DateTime.Now.Date || lend.ReturnDate <= lend.LendDate.Date))
                     continue;
                 if (addItem==true)
                     items.Add(OneItem);
