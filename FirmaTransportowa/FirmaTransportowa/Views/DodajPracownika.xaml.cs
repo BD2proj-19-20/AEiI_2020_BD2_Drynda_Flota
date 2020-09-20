@@ -72,11 +72,11 @@ namespace FirmaTransportowa.Views
                             MessageBox.Show("Błedna data początku", "Komunikat");
                             return;
                         }
-                        if (DzienKierownictwaEnd.SelectedDate > DzienKierownictwaStart.SelectedDate)
+                        if (DzienKierownictwaEnd.SelectedDate <= DzienKierownictwaStart.SelectedDate)
                         {
                             workers.Remove(newWorker);
                             db.SaveChanges();
-                            MessageBox.Show("Błedna data zakonczenia", "Komunikat");
+                            MessageBox.Show("Błedna data zakonczenia kierownictwa", "Komunikat");
                             return;
                         }
                         else if (DzienKierownictwaEnd.Text != "")
