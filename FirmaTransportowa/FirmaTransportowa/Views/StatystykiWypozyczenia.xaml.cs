@@ -67,20 +67,20 @@ namespace FirmaTransportowa.Views
 
             {
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var lends = db.Lends;
-                foreach (var lend in lends)
+                //var lends = db.Lends;
+
+
+                var lend  = (from lendd in db.Lends
+                              where lendd.id == lendChange.id
+                             select lendd).FirstOrDefault();
+
+                if (lend != null)
                 {
-                    if(lend.id==lendChange.id)
-                    {
-                        lend.startOdometer = Int32.Parse(startOdometer.Text);
-                        lend.endOdometer = Int32.Parse(endOdometer.Text);
-                        lend.startFuel = Int32.Parse(startFuel.Text);
-                        lend.endFuel = Int32.Parse(endFuel.Text);
-                        this.lendChange = lend;
-                        break;
-                    }
-
-
+                    lend.startOdometer = Int32.Parse(startOdometer.Text);
+                    lend.endOdometer = Int32.Parse(endOdometer.Text);
+                    lend.startFuel = Int32.Parse(startFuel.Text);
+                    lend.endFuel = Int32.Parse(endFuel.Text);
+                    this.lendChange = lend;
                 }
 
                 db.SaveChanges();
