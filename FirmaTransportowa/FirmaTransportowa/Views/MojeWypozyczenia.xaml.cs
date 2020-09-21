@@ -239,7 +239,7 @@ namespace FirmaTransportowa.Views
                 }
 
                 var car = (from carr in db.Cars
-                            where carr.id == lendChange.id
+                            where carr.id == lendChange.carId
                            select carr).FirstOrDefault();
 
                 if(car!=null)

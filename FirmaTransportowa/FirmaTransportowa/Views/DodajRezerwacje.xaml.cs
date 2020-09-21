@@ -33,12 +33,12 @@ namespace FirmaTransportowa.Views
                         select new
                         {
                             Id = car.id,
-                            OnService= car.onService
-
+                            OnService = car.onService,
+                            SaleCar = car.saleDate
                         };
             foreach (var car in query)
             {
-                if (car.OnService == false)  //gdy w sewisie nie wypożyczamy
+                if (car.OnService == false && (car.SaleCar > DateTime.Now.Date || car.SaleCar==null))  //gdy w sewisie nie wypożyczamy
                     PojazdID.Items.Add(car.Id.ToString());
             }
             PojazdID.SelectedIndex = 0;
