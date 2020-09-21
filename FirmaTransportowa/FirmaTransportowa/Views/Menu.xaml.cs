@@ -30,7 +30,6 @@ namespace FirmaTransportowa.Views
                 case 1: //pracownik
                            for (int i = 0; i < 4; i++)
                     Kierownik.Items.RemoveAt(0);
-                            for (int i = 0; i < 2; i++)
                                Kierownik.Items.RemoveAt(3);
                     break;
 
@@ -39,7 +38,6 @@ namespace FirmaTransportowa.Views
                     Kierownik.Items.RemoveAt(0);
                     break;
                 case 3: //pracownik + kierownik
-                    for (int i = 0; i < 2; i++)
                         Kierownik.Items.RemoveAt(7);
                     break;
                 default:

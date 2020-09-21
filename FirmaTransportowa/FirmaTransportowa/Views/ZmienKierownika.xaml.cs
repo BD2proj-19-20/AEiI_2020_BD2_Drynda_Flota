@@ -52,21 +52,25 @@ namespace FirmaTransportowa.Views
                 }
             }
 
-            foreach (var permissionWorker in peoplePermission)
+
+            var personPermission = (from workerPermission in db.PeoplesPermissions
+                                  where workerPermission.personId == toChange.id && workerPermission.Permission.name == "Kierownik" 
+
+                                  select workerPermission).FirstOrDefault();
+
+           if(personPermission!=null)
             {
-                if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
-                   permissionWorker.grantDate <= DateTime.Now && (permissionWorker.revokeDate > DateTime.Now || permissionWorker.revokeDate == null))
+                if (personPermission.grantDate <= DateTime.Now && (personPermission.revokeDate > DateTime.Now || personPermission.revokeDate == null))
                 {
-                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
+                    newKierownikEnd.SelectedDate = personPermission.revokeDate;
                     newKierownikStart.IsEnabled = false;
                     newKierownikStart.BlackoutDates.Clear();
-                    newKierownikStart.SelectedDate = permissionWorker.grantDate;  //jeśli jest przed datą dzisiejszą pozwalamy na jej ustawienie ale nie zmienianie przez użytk.
+                    newKierownikStart.SelectedDate = personPermission.grantDate;  //jeśli jest przed datą dzisiejszą pozwalamy na jej ustawienie ale nie zmienianie przez użytk.
                 }
-                else if (permissionWorker.personId == toChange.id && permissionWorker.Permission.name == "Kierownik" &&
-                   permissionWorker.grantDate > DateTime.Now)
+                else if ( personPermission.grantDate > DateTime.Now)
                 {
-                    newKierownikEnd.SelectedDate = permissionWorker.revokeDate;
-                    newKierownikStart.SelectedDate = permissionWorker.grantDate;
+                    newKierownikEnd.SelectedDate = personPermission.revokeDate;
+                    newKierownikStart.SelectedDate = personPermission.grantDate;
                 }
             }
         }
@@ -119,27 +123,24 @@ namespace FirmaTransportowa.Views
 
             bool newPermission = true;
 
-            var person = (from people in db.People
-                          where people.id == toChange.id
-                          select people).FirstOrDefault();
 
 
-                if (person!=null)
-                {
-                    foreach (var permissionWorker in peoplePermission)
-                    {
-                        if (permissionWorker.personId == person.id  && permissionWorker.Permission.name=="Kierownik" ) //jeśli jest kierownikiem edytujemy uprawnienie 
-                        {
-                            permissionWorker.grantDate = (System.DateTime)newKierownikStart.SelectedDate;
+
+            var personPermission = (from workerPermission in db.PeoplesPermissions
+                                    where workerPermission.personId == toChange.id && workerPermission.Permission.name == "Kierownik"
+
+                                    select workerPermission).FirstOrDefault();
+
+                 if (personPermission != null)
+                 {
+                     personPermission.grantDate = (System.DateTime)newKierownikStart.SelectedDate;
                             if (newKierownikEnd.Text != "")
-                                permissionWorker.revokeDate = (System.DateTime)newKierownikEnd.SelectedDate;
+                    personPermission.revokeDate = (System.DateTime)newKierownikEnd.SelectedDate;
                             else
-                                permissionWorker.revokeDate = null;
+                    personPermission.revokeDate = null;
 
                             newPermission = false;
-                        }
-                        
-                    }
+                 }
 
                     if (newPermission == true)  //jeśli nie jest kierownikiem dodajemy mu uprawnienie 
                     {
@@ -151,10 +152,9 @@ namespace FirmaTransportowa.Views
                         else
                             workerPermission.revokeDate = null;
 
-                        workerPermission.personId = person.id;
+                        workerPermission.personId = toChange.id;
                         peoplePermission.Add(workerPermission);
                     }
-                }
             MessageBox.Show("Zmienieono!", "Komunikat");
             db.SaveChanges();
         }
