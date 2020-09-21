@@ -13,7 +13,14 @@ using Brushes = System.Windows.Media.Brushes;
 
 namespace FirmaTransportowa.Views
 {
-    public partial class Kontraktorzy : UserControl
+	public class ListItem
+	{
+		public int contractorId { get; set; }
+		public string name { get; set; }
+		public DateTime startDate { get; set; }
+		public DateTime? endDate { get; set; }
+	}
+	public partial class Kontraktorzy : UserControl
     {
 
         private ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
@@ -26,12 +33,7 @@ namespace FirmaTransportowa.Views
             InitializeList();
         }
 
-		private struct ListItem {
-			public int contractorId;
-			public string name;
-			public DateTime startDate;
-			public DateTime? endDate;
-		}
+
 
         private void InitializeList()
         {
@@ -47,10 +49,10 @@ namespace FirmaTransportowa.Views
                 list.Content = new ListItem { contractorId = contractor.id, name = contractor.name, startDate = contractor.startSate, endDate = contractor.endDate };
                 items.Add(list);
             }
-            Array.Sort(items.ToArray(), (ListViewItem a, ListViewItem b) => ((ListItem)a.Content).contractorId.CompareTo(((ListItem)b.Content).contractorId));
+            //Array.Sort(items.ToArray(), (ListViewItem a, ListViewItem b) => ((ListItem)a.Content).contractorId.CompareTo(((ListItem)b.Content).contractorId));
 			contractorList.ItemsSource = items;
 
-            stoper.Stop();
+			stoper.Stop();
             Title.Text = stoper.Elapsed.ToString();
         }
 
