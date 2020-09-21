@@ -98,7 +98,7 @@ namespace FirmaTransportowa.Views
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
             var worker = (from persons in db.People
-                          where (persons.id.ToString() + ") " + persons.firstName + " " + persons.lastName).Equals(Pracownicy.Text)
+                          where persons.id == id
                           select persons).FirstOrDefault();
 
             if (worker != null)
