@@ -49,17 +49,15 @@ namespace FirmaTransportowa.Views
                     Pracownicy.Items.Add(human.Id.ToString() + ") " + human.FirstName + " " + human.LastName);
             }
             var query2 = from car in db.Cars
+                         where car.onService == false //gdy w serwisie nie wypożyczamy
                         select new
                         {
                             Id = car.id,
-                            OnService = car.onService
-
                         };
+
             foreach (var car in query2)
-            {
-                if (car.OnService == false)  //gdy w sewisie nie wypożyczamy
                     PojazdID.Items.Add(car.Id.ToString());
-            }
+
             PojazdID.SelectedItem = reservationChange.carId.ToString();
             int index = -1;
             foreach (var human in query) {
@@ -100,9 +98,6 @@ namespace FirmaTransportowa.Views
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e) {
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var reservations = db.Reservations;
-            var lends = db.Lends;
-            var people = db.People;
             DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
@@ -171,9 +166,8 @@ namespace FirmaTransportowa.Views
                         actualCarReturnDate = reserv.ReturnDate;
 
                         if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
-                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true) {
+                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true) 
                             doReservationPerson = true;
-                        }
                         else {
                             doReservationPerson = false;
                             break;
@@ -184,11 +178,13 @@ namespace FirmaTransportowa.Views
                 if (doReservationCar == true && doReservationPerson == true) //sprawdzanie czy samochod jest zareezrwowany w wybranym czasie lub pracownik ma rezerwacje w tym czasie
                 {
                     Reservation reservationChange = null;
-                    foreach (var reserv in reservations) {
-                        if (reserv.id == this.reservationChange.id) {
-                            reservationChange = reserv;
-                        }
-                    }
+
+                    var reservation = (from reserv in db.Reservations
+                                       where reserv.id == this.reservationChange.id
+                                       select reserv).FirstOrDefault();
+
+                    if (reservation != null)
+                        reservationChange = reservation;
 
                     reservationChange.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
                     reservationChange.reservationDate = ReservationDate.SelectedDate.Value;
@@ -206,8 +202,11 @@ namespace FirmaTransportowa.Views
 
                     db.SaveChanges();
 
-                    foreach (var lend in lends) {
-                        if (lend.reservationId == reservationChange.id) {
+                    var lend = (from lendd in db.Lends
+                                       where lendd.reservationId == reservationChange.id
+                                select lendd).FirstOrDefault();
+
+                        if (lend!=null) {
                             lend.carId = reservationChange.carId;
                             lend.personId = reservationChange.personId;
                             lend.lendDate = reservationChange.reservationDate;
@@ -215,7 +214,6 @@ namespace FirmaTransportowa.Views
                             lend.@private = (bool)reservationChange.@private;
                             lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
                         }
-                    }
 
                     db.SaveChanges();
 

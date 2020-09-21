@@ -30,12 +30,16 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
 
-            foreach (var reserv in reservations)
-            {
-                if (reserv.id == reservationChange.id)
-                    this.reservationChange = reserv;
+            var reservation = (from reserv in db.Reservations
+                               where reserv.id == reservationChange.id
+                               select reserv).FirstOrDefault();
 
-            }
+            if(reservation!=null)
+                    this.reservationChange = reservation;
+
+            PrywatneBox.IsChecked = reservationChange.@private;
+
+
             ReservationDate.SelectedDate = reservationChange.reservationDate;
             ReservationStart.BlackoutDates.AddDatesInPast();
             ReservationEnd.BlackoutDates.AddDatesInPast();
@@ -44,59 +48,44 @@ namespace FirmaTransportowa.Views
 
             var people = db.People;
 
-            var cars = db.Cars;
-            foreach (var car in cars)
-            {
-                if (car.onService == false)  //gdy w sewisie nie wypożyczamy
-                    PojazdID.Items.Add(car.id.ToString());
-            }
-            PojazdID.SelectedItem = reservationChange.carId.ToString();
-            int index = -1;
-            foreach (var human in people)
-            {
-                if (human.layoffDate > DateTime.Now || human.layoffDate == null)
-                    index++;
-                if (reservationChange.personId == human.id)
-                    break;
-            }
+            var query2 = from car in db.Cars
+                         where car.onService == false //gdy w serwisie nie wypożyczamy
+                         select new
+                         {
+                             Id = car.id,
+                         };
 
+            foreach (var car in query2)
+                PojazdID.Items.Add(car.Id.ToString());
+
+            PojazdID.SelectedItem = reservationChange.carId.ToString();
             Dane_Pojzadu();
 
         }
         private void Dane_Pojzadu()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var cars = db.Cars;
-            foreach (var car in cars)
-            {
-                if ((car.id).ToString() == PojazdID.Text)
-                {
-                    Rejestracja.Text = car.Registration;
-                    PojemnoscSilnika.Text = car.engineCapacity.ToString();
 
-                    var carmodel = db.CarModels;
-                    foreach (var carModel in carmodel)
-                    {
-                        if (car.modelId == carModel.id)
-                        {
-                            Marka.Text = car.CarModel.make;
-                            Model.Text = car.CarModel.model;
-                        }
-                    }
-                    var carDes = db.CarDestinations;
-                    foreach (var cardes in carDes)
-                    {
-                        if (car.destinationId == cardes.id)
-                            Zastosowanie.Text = cardes.name;
-                    }
-                }
+            var car = (from cars in db.Cars
+                       where cars.id.ToString() == PojazdID.Text
+                       select cars).FirstOrDefault();
+
+            if (car != null)
+            {
+                Rejestracja.Text = car.Registration;
+                PojemnoscSilnika.Text = car.engineCapacity.ToString();
+                Marka.Text = car.CarModel.make;
+                Model.Text = car.CarModel.model;
+                Zastosowanie.Text = car.CarDestination.name;
             }
-            PrywatneBox.IsChecked = reservationChange.@private;
-            Rejestracja.IsReadOnly = true;
-            PojemnoscSilnika.IsReadOnly = true;
-            Marka.IsReadOnly = true;
-            Model.IsReadOnly = true;
-            Zastosowanie.IsReadOnly = true;
+            else
+            {
+                Rejestracja.Text = "";
+                PojemnoscSilnika.Text = "";
+                Marka.Text = "";
+                Model.Text = "";
+                Zastosowanie.Text = "";
+            }
 
         }
         private void Zmien_Dane_Rezerwacji(object sender, RoutedEventArgs e)
@@ -104,21 +93,18 @@ namespace FirmaTransportowa.Views
 
             int id = Logowanie.actualUser.id;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            DateTime temp;
-            var reservations = db.Reservations;
-            var lends = db.Lends;
-            var people = db.People;
             DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
-            foreach (var person in people)
+            var worker = (from persons in db.People
+                          where (persons.id.ToString() + ") " + persons.firstName + " " + persons.lastName).Equals(Pracownicy.Text)
+                          select persons).FirstOrDefault();
+
+            if (worker != null)
             {
-                if (person.id==id)
-                {
-                    datePersonOut = person.layoffDate;
-                    personReservation = person;
-                }
+                datePersonOut = worker.layoffDate;
+                personReservation = worker;
             }
             bool doReservationCar = true;
             bool doReservationPerson = true;
@@ -129,43 +115,57 @@ namespace FirmaTransportowa.Views
                 ReservationEnd.SelectedDate > ReservationStart.SelectedDate) //sprawdzanie poprawności danych
             {
 
-                foreach (var reserv in reservations)
-                {
-                    if (reserv.carId.ToString() == PojazdID.SelectedItem.ToString() && reserv.id != this.reservationChange.id) //nie obchodzi nas zmieniana rezerwacja
-                    {
-                        actualCarLendDate = reserv.lendDate;
-                        actualCarReturnDate = reserv.returnDate;
+                var query = from reserv in db.Reservations
+                            where reserv.carId.ToString() == PojazdID.SelectedItem.ToString() && reserv.id != this.reservationChange.id
+                            select new
+                            {
+                                Id = reserv,
+                                CarId = reserv.carId,
+                                LendDate = reserv.lendDate,
+                                ReturnDate = reserv.returnDate,
+                                Ended = reserv.ended,
+                            };
 
-                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
-                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                        {
-                            doReservationCar = true;
-                        }
-                        else
-                        {
-                            doReservationCar = false;
-                            break;
-                        }
+
+                foreach (var reserv in query)
+                {
+                    actualCarLendDate = reserv.LendDate;
+                    actualCarReturnDate = reserv.ReturnDate;
+
+                    if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
+                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true)
+                        doReservationCar = true;
+                    else
+                    {
+                        doReservationCar = false;
+                        break;
                     }
 
                 }
-                foreach (var reserv in reservations) //sprawdzanie rezerwacji wybranego pracownika
-                {
-                    if (reserv.personId.ToString() == personReservation.id.ToString() && reserv.id != this.reservationChange.id) //nie obchodzi nas zmieniana rezerwacja
-                    {
-                        actualCarLendDate = reserv.lendDate;
-                        actualCarReturnDate = reserv.returnDate;
+                var query2 = from reserv in db.Reservations
+                             where reserv.personId.ToString() == personReservation.id.ToString() && reserv.id != this.reservationChange.id
+                             select new
+                             {
+                                 Id = reserv,
+                                 CarId = reserv.carId,
+                                 LendDate = reserv.lendDate,
+                                 ReturnDate = reserv.returnDate,
+                                 Ended = reserv.ended,
+                             };
 
-                        if (actualCarReturnDate < ReservationStart.SelectedDate || (actualCarLendDate > ReservationEnd.SelectedDate)
-                             || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.ended == true)
-                        {
-                            doReservationPerson = true;
-                        }
-                        else
-                        {
-                            doReservationPerson = false;
-                            break;
-                        }
+                foreach (var reserv in query2)
+                {
+
+                    actualCarLendDate = reserv.LendDate;
+                    actualCarReturnDate = reserv.ReturnDate;
+
+                    if (actualCarReturnDate <= ReservationStart.SelectedDate || (actualCarLendDate >= ReservationEnd.SelectedDate)
+                         || (actualCarLendDate == null && actualCarReturnDate == null) || reserv.Ended == true)
+                        doReservationPerson = true;
+                    else
+                    {
+                        doReservationPerson = false;
+                        break;
                     }
 
                 }
@@ -174,11 +174,13 @@ namespace FirmaTransportowa.Views
                 {
 
                     Reservation reservationChange = null;
-                    foreach (var reserv in reservations)
-                    {
-                        if (reserv.id == this.reservationChange.id)
-                            reservationChange = reserv;
-                    }
+
+                    var reservation = (from reserv in db.Reservations
+                               where reserv.id == this.reservationChange.id
+                                  select reserv).FirstOrDefault();
+
+                        if (reservation!=null)
+                            reservationChange = reservation;
 
                     reservationChange.carId = Int16.Parse(PojazdID.SelectedItem.ToString());
                     reservationChange.reservationDate = ReservationDate.SelectedDate.Value;
@@ -195,17 +197,18 @@ namespace FirmaTransportowa.Views
                
                     db.SaveChanges();
 
-                    foreach (var lend in lends)
+                    var lend = (from lendd in db.Lends
+                                where lendd.reservationId == reservationChange.id
+                                select lendd).FirstOrDefault();
+
+                    if (lend != null)
                     {
-                        if (lend.reservationId == reservationChange.id)
-                        {
-                            lend.carId = reservationChange.carId;
-                            lend.personId = reservationChange.personId;
-                            lend.lendDate = reservationChange.reservationDate;
-                            lend.plannedReturnDate = reservationChange.returnDate;
-                            lend.@private = (bool)reservationChange.@private;
-                            lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
-                        }
+                        lend.carId = reservationChange.carId;
+                        lend.personId = reservationChange.personId;
+                        lend.lendDate = reservationChange.reservationDate;
+                        lend.plannedReturnDate = reservationChange.returnDate;
+                        lend.@private = (bool)reservationChange.@private;
+                        lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
                     }
 
                     db.SaveChanges();
