@@ -45,7 +45,7 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Data zakupu:" Width="150"/>
                             <TextBlock FontSize="15" Text="" Name="Data_zakupu"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Name="DataSprzedazy" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Data sprzedaży:" Width="150"/>
                             <TextBlock FontSize="15" Text="" Name="Data_sprzedaży"/>
                         </StackPanel>
@@ -58,32 +58,24 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przebieg:" Width="150"/>
-                            <TextBlock FontSize="15" Text=""/>
+                            <TextBlock FontSize="15" Name="Przebieg" Text=""/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przegląd ważny do:" Width="150"/>
                             <TextBlock FontSize="15" Text=""  Name="Przeglad"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wypożyczony przez:" Width="150"/>
-                            <TextBlock FontSize="15" Text="" Name="Wypozyczony_przez"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Dni rezerwacji:" Width="150"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Wypożyczony od:" Width="150"/>
-                            <TextBlock FontSize="15" Text="" Name="Wypozyczony_od"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Planowany zwrot:" Width="150"/>
-                            <TextBlock FontSize="15" Text="" Name="Planowany_zwrot"/>
-                        </StackPanel>
+                        <Calendar Name="Calendar"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Height="36">
-                <Button Content="Historia"   Margin="10,0,20,0" Width="120" Click="historiaClick"/>
-                <Button Content="Rezerwacje"    Margin="10,0,20,0" Width="120" Click="rezerwacjeClick"/>
-                <Button Content="Raport"  Click="GenerateRaport"  Margin="10,0,20,0" Width="120"/>
-                <Button Content="Cofnij"  Click="Cofnij"  Margin="10,0,20,0" Width="120"/>
+            <StackPanel Orientation="Horizontal"  Margin="40,0,0,40" Height="36">
+                <Button Content="Historia"   Margin="40,0,0,0" Width="120" Click="historiaClick"/>
+                <Button Content="Rezerwacje"    Margin="40,0,0,0" Width="120" Click="rezerwacjeClick"/>
+                <Button Content="Raport"  Click="GenerateRaport"  Margin="40,0,0,0" Width="120"/>
+                <Button Content="Cofnij"  Click="Cofnij"  Margin="40,0,0,0" Width="120"/>
 
             </StackPanel>
         </StackPanel>
