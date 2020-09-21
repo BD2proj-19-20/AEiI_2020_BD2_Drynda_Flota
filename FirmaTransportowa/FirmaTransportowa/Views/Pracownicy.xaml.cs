@@ -54,32 +54,42 @@ namespace FirmaTransportowa.Views
             stoper.Start();
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
+            //var people = db.People;
 
-            foreach (var person in people)
+            var query = from person in db.People
+                        select new
+                        {
+                            Id = person.id,
+                            LastName = person.lastName,
+                            FirstName = person.firstName,
+                            LayoffDate = person.layoffDate,
+                        };
+
+
+            foreach (var person in query)
             {
                 ListViewItem OneItem = new ListViewItem();
                 var date = "";
 
-                if (person.layoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true)
+                if (person.LayoffDate <= DateTime.Today && ZwolnieniBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.Red;
-                    string dateTime = person.layoffDate.ToString();
+                    string dateTime = person.LayoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.Id + 1, Person = person.LastName + " " + person.FirstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
-                else if (person.layoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
+                else if (person.LayoffDate > DateTime.Today && DataZwolnieniaBox.IsChecked.Value == true)
                 {
                     OneItem.Background = Brushes.Orange;
-                    string dateTime = person.layoffDate.ToString();
+                    string dateTime = person.LayoffDate.ToString();
                     date = dateTime.Substring(0, 10);
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.Id + 1, Person = person.LastName + " " + person.FirstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
-                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.layoffDate is null))
+                else if (BezZwolnieniaBox.IsChecked.Value == true && (person.LayoffDate is null))
                 {
-                    OneItem.Content = new WorkersList { PersonId = person.id + 1, Person = person.lastName + " " + person.firstName, PersonDateOut = date };
+                    OneItem.Content = new WorkersList { PersonId = person.Id + 1, Person = person.LastName + " " + person.FirstName, PersonDateOut = date };
                     items.Add(OneItem);
                 }
 
