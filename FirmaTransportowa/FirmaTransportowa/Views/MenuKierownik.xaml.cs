@@ -49,8 +49,12 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
         }
+		private void Contractors_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+			glowneOkno.DataContext = new Kontraktorzy();
+		}
 
-        private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = null;

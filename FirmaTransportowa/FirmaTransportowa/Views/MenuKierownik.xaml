@@ -21,7 +21,10 @@
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Manage" MouseLeftButtonUp="Manage_MouseLeftButtonUp">
                 <TextBlock Text="Zarządzaj pojazdami (kierownik)"/>
             </ListViewItem>
-        </ListView>
+			<ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Contractors" MouseLeftButtonUp="Contractors_MouseLeftButtonUp">
+				<TextBlock Text="Zarządzaj kontrahentami (kierownik)"/>
+			</ListViewItem>
+		</ListView>
         <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
                 <StackPanel Orientation="Horizontal">
