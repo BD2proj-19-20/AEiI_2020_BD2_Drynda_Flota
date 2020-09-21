@@ -205,7 +205,7 @@ namespace FirmaTransportowa.Views
                     {
                         lend.carId = reservationChange.carId;
                         lend.personId = reservationChange.personId;
-                        lend.lendDate = reservationChange.reservationDate;
+                        lend.lendDate = reservationChange.lendDate;
                         lend.plannedReturnDate = reservationChange.returnDate;
                         lend.@private = (bool)reservationChange.@private;
                         lend.comments += "\nZmiana w dniu " + DateTime.Now.ToShortDateString();
