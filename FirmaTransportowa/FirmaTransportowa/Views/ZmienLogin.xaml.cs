@@ -34,21 +34,23 @@ namespace FirmaTransportowa.Views
         {
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-            var people = db.People;
+            // var people = db.People;
+
+            Person person = db.People.Where(p => toChange.id == p.id).SingleOrDefault();
 
             if (newLogin.Text.Length >= 6)
             {
-                foreach (var person in people)
-                {
-                    if (person.systemLogin == newLogin.Text && person.id != toChange.id)
-                    {
+
+                int personSameLogin = db.People.Where(pp => pp.systemLogin == newLogin.Text && pp.id != toChange.id).Count();
+                if (personSameLogin > 0)
+                { 
                         MessageBox.Show("Login jest już zajęty!", "Komunikat");
                         return;
-                    }
-                    else if (person.id == toChange.id)
+                }
+                    else 
                         person.systemLogin = newLogin.Text;
 
-                }
+                
 
                 MessageBox.Show("Udało sie zmienić\nlogin!", "Komunikat");
                 db.SaveChanges();
