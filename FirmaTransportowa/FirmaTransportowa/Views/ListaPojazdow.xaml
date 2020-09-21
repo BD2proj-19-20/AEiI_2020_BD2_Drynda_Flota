@@ -39,9 +39,8 @@
                 </ListView.View>
             </ListView>
             <StackPanel Margin="0 10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="700">
-                <Button Content="Rezerwuj" Margin="30 0 0 0" Width="105" Name="Reserve" Click="Reserve_Click"/>
-                <Button Content="Podgląd" Margin="30 0 0 0" Width="105" Name="CarStatistics" Click="CarStatistics_Click"/>
-                <Button Content="Dodaj tankowanie" Margin="30 0 0 0" Width="105" Click="Refuel_Click"/>
+                <Button Content="Rezerwuj" Margin="100 0 0 0" Width="105" Name="Reserve" Click="Reserve_Click"/>
+                <Button Content="Podgląd" Margin="300 0 0 0" Width="105" x:Name="CarStatistics" Click="CarStatistics_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

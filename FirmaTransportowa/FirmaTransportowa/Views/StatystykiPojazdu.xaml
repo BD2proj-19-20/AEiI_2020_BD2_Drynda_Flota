@@ -45,7 +45,7 @@
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Data zakupu:" Width="150"/>
                             <TextBlock FontSize="15" Text="" Name="Data_zakupu"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
+                        <StackPanel Name="DataSprzedazy" Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Data sprzedaży:" Width="150"/>
                             <TextBlock FontSize="15" Text="" Name="Data_sprzedaży"/>
                         </StackPanel>

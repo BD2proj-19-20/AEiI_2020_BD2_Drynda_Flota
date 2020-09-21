@@ -22,6 +22,10 @@ namespace FirmaTransportowa.Views
         public StatystykiPojazdu(Car car, int userPermission)
         {
             InitializeComponent();
+
+            if (userPermission != 2)
+                DataSprzedazy.Visibility = Visibility.Hidden;
+
             permission = userPermission;
             car1 = car;
             Rejestracja.Text = car.Registration;
@@ -45,15 +49,17 @@ namespace FirmaTransportowa.Views
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            var models = db.CarModels;
-            foreach (var model in models)
+
+            var carModel= (from carModell in db.CarModels
+                          where carModell.id == car.modelId
+                      select carModell).FirstOrDefault();
+
+
+            if (carModel != null)
             {
-                if (car.modelId == model.id)
-                {
-                    ModelPojazdu.Text = model.make + " " + model.model;
-                    Marka.Text = model.make;
-                    Model.Text = model.model;
-                }
+                    ModelPojazdu.Text = carModel.make + " " + carModel.model;
+                    Marka.Text = carModel.make;
+                    Model.Text = carModel.model;
             }
 
             Zastosowanie.Text = car.CarDestination.name;
