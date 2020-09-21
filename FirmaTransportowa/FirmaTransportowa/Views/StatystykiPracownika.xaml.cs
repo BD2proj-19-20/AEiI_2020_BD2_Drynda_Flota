@@ -91,7 +91,7 @@ namespace FirmaTransportowa.Views
             Login.Text = worker.systemLogin;
 
 
-            var carSupervisior = db.CarSupervisors;
+          //  var carSupervisior = db.CarSupervisors;
 
             var lends = db.Lends;
             var cars = db.Cars;

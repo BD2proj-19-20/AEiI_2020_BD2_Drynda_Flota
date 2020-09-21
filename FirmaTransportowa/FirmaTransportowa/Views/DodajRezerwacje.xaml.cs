@@ -86,7 +86,7 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
             var lends = db.Lends;
-            var people = db.People;
+            //var people = db.People;
             DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;

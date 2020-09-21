@@ -71,12 +71,6 @@ namespace FirmaTransportowa.Views
                             ReservationDate = reserv.reservationDate
                         };
 
-            var people = db.People;
-            var reservations = db.Reservations;
-            var cars = db.Cars;
-
-            var queryCount = query.Count();
-            var reservCount = reservations.Count();
 
             foreach (var reserv in query)
             {

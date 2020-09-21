@@ -123,9 +123,6 @@ namespace FirmaTransportowa.Views
 
             bool newPermission = true;
 
-
-
-
             var personPermission = (from workerPermission in db.PeoplesPermissions
                                     where workerPermission.personId == toChange.id && workerPermission.Permission.name == "Kierownik"
 
