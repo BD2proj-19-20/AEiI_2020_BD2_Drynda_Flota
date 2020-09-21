@@ -218,9 +218,8 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
             var query = from car in db.Cars
-                        join supervisor in db.CarSupervisors on car.id equals supervisor.carId into final
+                        join supervisor in db.CarSupervisors.Where(x => x.endDate == null) on car.id equals supervisor.carId into final
                         from f in final.DefaultIfEmpty()
-                        where f.endDate == null
                         select new
                         {
                             SupervisorName = f == null ? "Brak" : f.Person.lastName + " " + f.Person.firstName,
@@ -228,6 +227,10 @@ namespace FirmaTransportowa.Views
                             CarId = car.id,
                             SaleDate = car.saleDate
                         };
+
+            int carCount = db.Cars.Count();
+            int superCount = db.CarSupervisors.Count();
+            int queryCount = query.Count();
 
             foreach (var car in query)
             {
