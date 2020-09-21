@@ -82,7 +82,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="63" Nullable="false" />
           <Property Name="startSate" Type="smalldatetime" Nullable="false" />
-          <Property Name="endDate" Type="nchar" MaxLength="10" />
+          <Property Name="endDate" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="Lends">
           <Key>
@@ -462,10 +462,10 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
           <Property Name="orderDate" Type="DateTime" Precision="0" />
           <Property Name="contractorId" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Contractor" Relationship="Self.FK_Activities_contractorId" FromRole="Activities" ToRole="Contractors" />
           <NavigationProperty Name="Person" Relationship="Self.FK_Activities_reporterId" FromRole="Activities" ToRole="People" />
           <Property Name="carId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Car" Relationship="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_carId" FromRole="Activity" ToRole="Car" />
+          <NavigationProperty Name="Contractor" Relationship="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_contractorId" FromRole="Activity" ToRole="Contractor" />
         </EntityType>
         <EntityType Name="CarDestination">
           <Key>
@@ -522,16 +522,6 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
           <Property Name="beginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="endDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Person" Relationship="Self.FK_personId" FromRole="CarSupervisors" ToRole="People" />
-        </EntityType>
-        <EntityType Name="Contractor">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="63" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Activities" Relationship="Self.FK_Activities_contractorId" FromRole="Contractors" ToRole="Activities" />
-          <Property Name="startSate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="endDate" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Lend">
           <Key>
@@ -610,18 +600,6 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
           <NavigationProperty Name="Lend" Relationship="Self.FK_Reservations_lendId" FromRole="Reservations" ToRole="Lends" />
           <NavigationProperty Name="Person" Relationship="Self.FK_Reservations_personId" FromRole="Reservations" ToRole="People" />
         </EntityType>
-        <Association Name="FK_Activities_contractorId">
-          <End Role="Contractors" Type="Self.Contractor" Multiplicity="0..1" />
-          <End Role="Activities" Type="Self.Activity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contractors">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Activities">
-              <PropertyRef Name="contractorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Activities_reporterId">
           <End Role="People" Type="Self.Person" Multiplicity="1" />
           <End Role="Activities" Type="Self.Activity" Multiplicity="*" />
@@ -777,16 +755,11 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
           <EntitySet Name="CarModels" EntityType="Self.CarModel" />
           <EntitySet Name="Cars" EntityType="Self.Car" />
           <EntitySet Name="CarSupervisors" EntityType="Self.CarSupervisor" />
-          <EntitySet Name="Contractors" EntityType="Self.Contractor" />
           <EntitySet Name="Lends" EntityType="Self.Lend" />
           <EntitySet Name="People" EntityType="Self.Person" />
           <EntitySet Name="PeoplesPermissions" EntityType="Self.PeoplesPermission" />
           <EntitySet Name="Permissions" EntityType="Self.Permission" />
           <EntitySet Name="Reservations" EntityType="Self.Reservation" />
-          <AssociationSet Name="FK_Activities_contractorId" Association="Self.FK_Activities_contractorId">
-            <End Role="Contractors" EntitySet="Contractors" />
-            <End Role="Activities" EntitySet="Activities" />
-          </AssociationSet>
           <AssociationSet Name="FK_Activities_reporterId" Association="Self.FK_Activities_reporterId">
             <End Role="People" EntitySet="People" />
             <End Role="Activities" EntitySet="Activities" />
@@ -844,6 +817,11 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
             <End Role="Activity" EntitySet="Activities" />
           </AssociationSet>
           <EntitySet Name="database_firewall_rules" EntityType="AEiI_2020_BD2_Drynda_FlotaModel.database_firewall_rules" />
+          <EntitySet Name="Contractors" EntityType="AEiI_2020_BD2_Drynda_FlotaModel.Contractor" />
+          <AssociationSet Name="FK_Activities_contractorId" Association="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_contractorId">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Activities_carId">
           <End Type="AEiI_2020_BD2_Drynda_FlotaModel.Car" Role="Car" Multiplicity="1" />
@@ -873,6 +851,28 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
           <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="Contractor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="63" FixedLength="false" Unicode="false" />
+          <Property Name="startSate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Activities" Relationship="AEiI_2020_BD2_Drynda_FlotaModel.FK_Activities_contractorId" FromRole="Contractor" ToRole="Activity" />
+        </EntityType>
+        <Association Name="FK_Activities_contractorId">
+          <End Type="AEiI_2020_BD2_Drynda_FlotaModel.Contractor" Role="Contractor" Multiplicity="0..1" />
+          <End Type="AEiI_2020_BD2_Drynda_FlotaModel.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="contractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -943,16 +943,6 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
                 <ScalarProperty Name="carId" ColumnName="carId" />
                 <ScalarProperty Name="beginDate" ColumnName="beginDate" />
                 <ScalarProperty Name="endDate" ColumnName="endDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Contractors">
-            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Contractor">
-              <MappingFragment StoreEntitySet="Contractors">
-                <ScalarProperty Name="endDate" ColumnName="endDate" />
-                <ScalarProperty Name="startSate" ColumnName="startSate" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1036,6 +1026,16 @@ warning 6002: The table/view 'AEiI_2020_BD2_Drynda_Flota_2.sys.database_firewall
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
                 <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contractors">
+            <EntityTypeMapping TypeName="AEiI_2020_BD2_Drynda_FlotaModel.Contractor">
+              <MappingFragment StoreEntitySet="Contractors">
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startSate" ColumnName="startSate" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

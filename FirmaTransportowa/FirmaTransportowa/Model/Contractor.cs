@@ -23,7 +23,7 @@ namespace FirmaTransportowa.Model
         public int id { get; set; }
         public string name { get; set; }
         public System.DateTime startSate { get; set; }
-        public string endDate { get; set; }
+        public Nullable<System.DateTime> endDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Activity> Activities { get; set; }
