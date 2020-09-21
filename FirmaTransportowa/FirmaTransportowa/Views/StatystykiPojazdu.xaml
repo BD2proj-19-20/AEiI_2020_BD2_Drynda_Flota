@@ -58,7 +58,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przebieg:" Width="150"/>
-                            <TextBlock FontSize="15" Text=""/>
+                            <TextBlock FontSize="15" Name="Przebieg" Text=""/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Przegląd ważny do:" Width="150"/>

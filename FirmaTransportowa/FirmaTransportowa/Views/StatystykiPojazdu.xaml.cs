@@ -50,38 +50,60 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
 
-            var carModel= (from carModell in db.CarModels
-                          where carModell.id == car.modelId
-                      select carModell).FirstOrDefault();
+            var carModel = (from carModell in db.CarModels
+                            where carModell.id == car.modelId
+                            select carModell).FirstOrDefault();
 
 
             if (carModel != null)
             {
-                    ModelPojazdu.Text = carModel.make + " " + carModel.model;
-                    Marka.Text = carModel.make;
-                    Model.Text = carModel.model;
+                ModelPojazdu.Text = carModel.make + " " + carModel.model;
+                Marka.Text = carModel.make;
+                Model.Text = carModel.model;
             }
 
             Zastosowanie.Text = car.CarDestination.name;
 
 
-             CalendarDateRange reservationBlackoutRange = null;
+            CalendarDateRange reservationBlackoutRange = null;
 
-         var reservations = car.Reservations;
+            var reservations = car.Reservations;
             int i = 0;
-            foreach (var reservation in reservations)
-            {
 
-                if (reservation.ended == false)
+            var query = from reserv in db.Reservations
+                        select new
+                        {
+                            PersonId = reserv.personId,
+                            Ended = reserv.ended,
+                            LendDate = reserv.lendDate,
+                            ReturnDate = reserv.returnDate,
+                        };
+
+            foreach (var reservation in query)
+            {
+                if (reservation.Ended == false)
                 {
-                    if (reservation.personId == Logowanie.actualUser.id && permission != 2)
+                    if (reservation.PersonId == Logowanie.actualUser.id && permission != 2)
                         continue;
-                       reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.lendDate).AddDays(-1), ((DateTime)reservation.returnDate));
-                        Calendar.BlackoutDates.Insert(i, reservationBlackoutRange);
-                        i++;
+                    reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.LendDate).AddDays(-1), ((DateTime)reservation.ReturnDate));
+                    Calendar.BlackoutDates.Insert(i, reservationBlackoutRange);
+                    i++;
                 }
             }
 
+            var query2 = from lend in car.Lends
+                         where lend.endOdometer!=null
+                         select new
+                         {
+                             StartOdometer = lend.startOdometer,
+                             EndOdometer = lend.endOdometer,
+                         };
+            int odometerCounter = 0;
+            foreach (var lend in query2)
+            {
+                   odometerCounter = (int)lend.EndOdometer - lend.StartOdometer;
+            }
+            Przebieg.Text = odometerCounter + " km";
         }
         private void Cofnij(object sender, RoutedEventArgs e)
         {
