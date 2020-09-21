@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -42,12 +43,11 @@ namespace FirmaTransportowa.Views
             else 
             if (Imie.Text.Length >= 3 && Nazwisko.Text.Length >= 3 && Login.Text.Length >= 6 && Hasło1.Password.Length >= 6)
             {
-                foreach (var person in workers)
-                {
-                    if (person.systemLogin == Login.Text)
-                        loginCheck = false;
 
-                }
+                int personSameLogin = db.People.Where(pp => pp.systemLogin == Login.Text).Count();
+
+                    if (personSameLogin>0)
+                        loginCheck = false;
                 if(loginCheck == false)
                     MessageBox.Show("Login jest zajęty!", "Komunikat");
                 else if (DzienZatrudnienia.SelectedDate != null)
