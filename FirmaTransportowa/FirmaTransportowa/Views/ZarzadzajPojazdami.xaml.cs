@@ -479,6 +479,11 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
+                        if(car.saleDate != null)
+                        {
+                            MessageBox.Show("Nie można zmienić opiekuna sprzedanego samochodu!", "Błąd przy zmianie opiekuna", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                         ZmianaOpiekuna zmianaOpiekunaView = new ZmianaOpiekuna(car, selectedObj)
                         {
                             Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2,
