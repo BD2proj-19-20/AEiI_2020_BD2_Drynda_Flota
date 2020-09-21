@@ -62,23 +62,35 @@ namespace FirmaTransportowa.Views
             var activities = db.Activities;
             var cars = db.Cars;
 
-           /* foreach (var activity in activities)
+            /* foreach (var activity in activities)
+             {
+                 if (activity.id == activity1.id)
+                 {
+                     activity.orderDate = DateTime.Now;
+                     if (Logowanie.actualUser != null)
+                         activity.contractorId = Logowanie.actualUser.id;
+                     else
+                         activity.contractorId = 1;
+                     if (this.Serwisowa.IsChecked == true)
+                         activity.service = true;
+                     else
+                         activity.service = false;
+
+                 }
+             }
+             db.SaveChanges();*/
+
+
+            // for (int i = 0; i < car1.Activities.Count; i++)
+            //{
+            foreach (var activity in activities)
             {
                 if (activity.id == activity1.id)
                 {
                     activity.orderDate = DateTime.Now;
-                    if (Logowanie.actualUser != null)
-                        activity.contractorId = Logowanie.actualUser.id;
-                    else
-                        activity.contractorId = 1;
-                    if (this.Serwisowa.IsChecked == true)
-                        activity.service = true;
-                    else
-                        activity.service = false;
-
                 }
             }
-            db.SaveChanges();*/
+            //}
             foreach (var car in cars)
             {
                 if (car.id == car1.id)

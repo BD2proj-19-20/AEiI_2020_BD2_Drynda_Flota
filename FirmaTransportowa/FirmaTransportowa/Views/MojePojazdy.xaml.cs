@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 
 namespace FirmaTransportowa.Views
 {
@@ -37,24 +38,48 @@ namespace FirmaTransportowa.Views
         private void initializeList()
         {
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            int id = Logowanie.actualUser.id;
 
-            var query = from car in db.Cars
-                        where car.id == Logowanie.actualUser.id
-                        select car;
+
+            var query = from supervisor in db.CarSupervisors
+                         where id == supervisor.personId
+                         join car in db.Cars on supervisor.carId equals car.id
+                         select new
+                         {
+                             carId = car.id,
+                             EndDate = supervisor.endDate == null ? DateTime.MinValue : supervisor.endDate,
+                             registration = car.Registration,
+                             onService = car.onService
+                         };
 
 
             String isCarUsed;
+            int carFaults = 0;
+            var activities = db.Activities;
 
             foreach (var car in query)
             {
-                ListViewItem OneItem = new ListViewItem();
-                if (car.onService)
-                    isCarUsed = "Nie";
-                else
-                    isCarUsed = "Tak";
-                OneItem.Content = new CarList { carId = car.id, registration = car.Registration, fault = car.Activities.Count, isUsed = isCarUsed };
+                if (car.EndDate == DateTime.MinValue)
+                {
+                    carFaults = 0;
+                    foreach (var activity in activities)
+                    {
 
-                items.Add(OneItem);
+                        if (activity.carId == car.carId)
+                        {
+                            if (activity.closeDate == null)
+                                carFaults++;
+                        }
+                    }
+                    ListViewItem OneItem = new ListViewItem();
+                    if (car.onService)
+                        isCarUsed = "Nie";
+                    else
+                        isCarUsed = "Tak";
+                    OneItem.Content = new CarList { carId = car.carId, registration = car.registration, fault = carFaults, isUsed = isCarUsed };
+
+                    items.Add(OneItem);
+                }
             }
             carList.ItemsSource = items;
 

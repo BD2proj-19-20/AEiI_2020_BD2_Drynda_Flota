@@ -27,9 +27,10 @@ namespace FirmaTransportowa.Views
             public string Opis { get; set; }
             public string Krytyczna { get; set; }
             public string DataZgloszenia { get; set; }
+            public string DataSerwisowania { get; set; }
             public int ID { get; set; }
             public String Serwisowana { get; set; }
-            
+
         }
         int userPermission = 0;
         Car car1;
@@ -40,7 +41,7 @@ namespace FirmaTransportowa.Views
             userPermission = permission;
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var cars = db.Cars;
-            foreach(var car3 in cars)
+            foreach (var car3 in cars)
             {
                 if (car3.id == car1.id)
                 {
@@ -59,30 +60,33 @@ namespace FirmaTransportowa.Views
         private void loadTable()
         {
 
-           Title.Content = "Usterki pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
+            Title.Content = "Usterki pojazdu: " + car1.CarModel.make + " " + car1.CarModel.model + " " + car1.Registration;
             this.ListViewActivities.Items.Clear();
             String czyKrytyczna, czySerwisowana;
             for (int i = 0; i < car1.Activities.Count; i++)
             {
-                if (car1.Activities.ElementAt(i).critical)
-                    czyKrytyczna = "Tak";
-                else
-                    czyKrytyczna = "Nie";
-                if (car1.Activities.ElementAt(i).orderDate==null)
-                    czySerwisowana = "Nie";
-                else
-                    czySerwisowana = "Tak";
-                this.ListViewActivities.Items.Add(new Activity
+                if (car1.Activities.ElementAt(i).closeDate == null)
                 {
-                    IDusterki = car1.Activities.ElementAt(i).id,
-                    Opis = car1.Activities.ElementAt(i).comments,
-                    Krytyczna = czyKrytyczna,
-                    DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
-                    ID = car1.Activities.ElementAt(i).reporterId,
-                    Serwisowana = czySerwisowana
+                    if (car1.Activities.ElementAt(i).critical)
+                        czyKrytyczna = "Tak";
+                    else
+                        czyKrytyczna = "Nie";
+                    if (car1.Activities.ElementAt(i).orderDate == null)
+                        czySerwisowana = "Nie";
+                    else
+                        czySerwisowana = "Tak";
+                    this.ListViewActivities.Items.Add(new Activity
+                    {
+                        IDusterki = car1.Activities.ElementAt(i).id,
+                        Opis = car1.Activities.ElementAt(i).comments,
+                        Krytyczna = czyKrytyczna,
+                        DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
+                        DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
+                        ID = car1.Activities.ElementAt(i).reporterId,
+                        Serwisowana = czySerwisowana
 
-                }) ; 
-                
+                    });
+                }
             }
         }
 
@@ -91,9 +95,8 @@ namespace FirmaTransportowa.Views
             Activity selected = (Activity)ListViewActivities.SelectedItem;
             if (selected != null)
             {
-                
-                int selectedId = selected.IDusterki;
 
+                int selectedId = selected.IDusterki;
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var activities = db.Activities;
 
@@ -102,9 +105,47 @@ namespace FirmaTransportowa.Views
                     if (activity.id == selectedId)
                     {
                         System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-                        glowneOkno.DataContext = new ZlecWykonanieCzynnosci(userPermission,car1,activity);
+                        glowneOkno.DataContext = new ZlecWykonanieCzynnosci(userPermission, car1, activity);
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano usterki!", "Komunikat");
+            }
+        }
+        private void fixed_button(object sender, RoutedEventArgs e)
+        {
+            Activity selected = (Activity)ListViewActivities.SelectedItem;
+            if (selected != null)
+            {
+                int selectedId = selected.IDusterki;
+                var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+                var activities = db.Activities;
+                var cars = db.Cars;
+                foreach (var activity in activities)
+                {
+                    if (activity.id == selectedId)
+                    {
+                        if (activity.orderDate != null)
+                        {
+                            activity.closeDate = DateTime.Now;
+                            /*foreach (var car in cars)
+                            {
+                                if(car.id == car1.id)
+                                {
+                                    car.Activities.Count = 0;
+                                }
+                            }*/
+                        }
+                        else
+                        {
+                            MessageBox.Show("Jeszcze nie serwisowana!", "Komunikat");
+                        }
+                    }
+                }
+                db.SaveChanges();
+                loadTable();
             }
             else
             {

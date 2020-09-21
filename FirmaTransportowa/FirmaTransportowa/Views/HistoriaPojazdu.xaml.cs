@@ -28,7 +28,8 @@ namespace FirmaTransportowa.Views
             public string Opis { get; set; }
             public string Krytyczna { get; set; }
             public string DataZgloszenia { get; set; }
-            public string DataZamkniecia { get; set; }
+            public string DataSerwisowania { get; set; }
+            public string DataNaprawienia { get; set; }
             public int ID { get; set; }
             public String Serwisowana { get; set; }
         }
@@ -62,7 +63,8 @@ namespace FirmaTransportowa.Views
                         Opis = car1.Activities.ElementAt(i).comments,
                         Krytyczna = car1.Activities.ElementAt(i).closeDate.ToString(),
                         DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
-                        DataZamkniecia = car1.Activities.ElementAt(i).closeDate.ToString(),
+                        DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
+                        DataNaprawienia = car1.Activities.ElementAt(i).closeDate.ToString(),
                         ID = car1.Activities.ElementAt(i).reporterId,
                         Serwisowana = car1.Activities.ElementAt(i).service.ToString()
                     });
