@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using FirmaTransportowa.Model;
+using System.Linq;
 
 namespace FirmaTransportowa.Views
 {
@@ -26,20 +27,25 @@ namespace FirmaTransportowa.Views
             if (Kalendarz.SelectedDate != null)
             { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                var carSupervisors = db.CarSupervisors;
+                //var carSupervisors = db.CarSupervisors;
 
-                foreach (var carS in carSupervisors)
-                {
-                    if (personChange.id == carS.personId)
-                        carS.endDate = Kalendarz.SelectedDate;
-                }
-                var people = db.People;
+                var carSupervisior = (from carS in db.CarSupervisors
+                                     where carS.personId == personChange.id
+                                      select carS).FirstOrDefault();
 
-                foreach (var person in people)
-                {
-                    if (person.id == personChange.id)
+                if (carSupervisior != null)
+                    carSupervisior.endDate = Kalendarz.SelectedDate;
+
+
+                var person = (from people in db.People
+                              where people.id == personChange.id
+                              select people).FirstOrDefault();
+
+                if (person != null)
                         person.layoffDate = Kalendarz.SelectedDate;
-                }
+                
+
+
                 var reservation = db.Reservations;
                 foreach( var res in reservation)
                 {
