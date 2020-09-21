@@ -442,7 +442,8 @@ namespace FirmaTransportowa.Views
                         kierownikEnd = workerPermission.revokeDate.ToString().Substring(0, 10);
 
                 }
-                else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date)
+                else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date
+                      && workerPermission.grantDate < person.LayoffDate)
                 {
                     if (((workerPermission.grantDate - DateTime.Now).Days + 1) == 1)
                         kierownik = "Za " + ((workerPermission.grantDate - DateTime.Now.Date).Days + 1) + " dzień";

@@ -27,7 +27,6 @@ namespace FirmaTransportowa.Views
             if (Kalendarz.SelectedDate != null)
             { 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
-                //var carSupervisors = db.CarSupervisors;
 
                 var carSupervisior = (from carS in db.CarSupervisors
                                      where carS.personId == personChange.id
@@ -36,7 +35,6 @@ namespace FirmaTransportowa.Views
                 if (carSupervisior != null)
                     carSupervisior.endDate = Kalendarz.SelectedDate;
 
-
                 var person = (from people in db.People
                               where people.id == personChange.id
                               select people).FirstOrDefault();
@@ -44,8 +42,6 @@ namespace FirmaTransportowa.Views
                 if (person != null)
                         person.layoffDate = Kalendarz.SelectedDate;
                 
-
-
                 var reservation = db.Reservations;
                 foreach( var res in reservation)
                 {
@@ -61,7 +57,7 @@ namespace FirmaTransportowa.Views
                     {
                         lend.returnDate = Kalendarz.SelectedDate;
                         lend.plannedReturnDate = Kalendarz.SelectedDate;
-                        lend.comments = "Zakończono przez zwolnienie pracownika - "+ DateTime.Now.ToString(); //na pewno Now, a nie data zwolnienia?
+                        lend.comments = "Zakończono przez zwolnienie pracownika - "+ DateTime.Now.ToString();
                     }
 
                 }

@@ -126,7 +126,8 @@ namespace FirmaTransportowa.Views
                     KierownikDateEnd.Text = workerPermission.revokeDate.ToString().Substring(0, 10);
 
             }
-            else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date)
+            else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date 
+                && workerPermission.grantDate < worker.layoffDate)
             {
                 KierownikEndPanel.Visibility = Visibility.Visible;
                 KierownikStartPanel.Visibility = Visibility.Visible;
