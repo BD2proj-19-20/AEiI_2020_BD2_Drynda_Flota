@@ -105,9 +105,6 @@
     <Compile Include="Model\Contractor.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\database_firewall_rules.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Lend.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
