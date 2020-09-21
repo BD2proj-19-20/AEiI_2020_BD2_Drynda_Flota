@@ -64,20 +64,21 @@ namespace FirmaTransportowa.Views
 
             Zastosowanie.Text = car.CarDestination.name;
 
-            var lends = car.Lends;
-            foreach (var lend in lends)
+
+             CalendarDateRange reservationBlackoutRange = null;
+
+         var reservations = car.Reservations;
+            int i = 0;
+            foreach (var reservation in reservations)
             {
-                if (lend.returnDate == null)
+
+                if (reservation.ended == false)
                 {
-                    Wypozyczony_od.Text = lend.lendDate.ToShortDateString();
-                    string planowanyZwrot = "";
-                    if (lend.plannedReturnDate != null)
-                    {
-                        DateTime temp = (DateTime)lend.plannedReturnDate;
-                        planowanyZwrot = temp.ToShortDateString();
-                    }
-                    Planowany_zwrot.Text = planowanyZwrot;
-                    Wypozyczony_przez.Text = lend.Person.firstName + " " + lend.Person.lastName;
+                    if (reservation.personId == Logowanie.actualUser.id && permission != 2)
+                        continue;
+                       reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.lendDate).AddDays(-1), ((DateTime)reservation.returnDate));
+                        Calendar.BlackoutDates.Insert(i, reservationBlackoutRange);
+                        i++;
                 }
             }
 
