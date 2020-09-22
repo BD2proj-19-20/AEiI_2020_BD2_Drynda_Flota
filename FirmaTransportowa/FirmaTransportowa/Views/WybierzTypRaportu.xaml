@@ -10,7 +10,7 @@
         <Button Content="Ogólny" Click="GeneralRaport" Height="40" Width="200" Margin="430,368,120,172" RenderTransformOrigin="0.205,-1.075" />
         <Label Content="Od:" HorizontalAlignment="Left" Margin="-123,54,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <DatePicker HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="280" Name="RaportOd" FontSize="25" Margin="92,80,0,0"/>
-        <Label Content="Do:" HorizontalAlignment="Left" Margin="215,76,0,0" VerticalAlignment="Top" Width="210" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
+        <Label Content="Do:" HorizontalAlignment="Left" Margin="377,76,0,0" VerticalAlignment="Top" Width="48" Height="50" FontSize="25" HorizontalContentAlignment="Right"/>
         <DatePicker HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="280" Name="RaportDo" FontSize="25" Margin="430,80,0,0"/>
         <Label Name="MarkaLabel" Content="Marka: " HorizontalAlignment="Left" Margin="172,148,0,0" VerticalAlignment="Top" Width="364" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Marka" FontSize="25" Margin="256,148,0,0"/>

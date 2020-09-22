@@ -28,7 +28,7 @@ namespace FirmaTransportowa.Views
 
             this.prevWindow = prevWindow;
             this.carToRaport = car;
-            if(car != null)
+            if (car != null)
             {
                 Marka.Visibility = Visibility.Hidden;
                 Model.Visibility = Visibility.Hidden;
@@ -96,6 +96,11 @@ namespace FirmaTransportowa.Views
             else
             {
                 var cars = GetCars();
+                if (cars.Count() == 0)
+                {
+                    MessageBox.Show("Brak pojazdów o wybranych cechach!", "Nie ma o czym raportować!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 RaportGenerator.GenerateCostsRaportAboutCars(cars, RaportBegin, RaportEnd);
             }
         }
@@ -107,6 +112,11 @@ namespace FirmaTransportowa.Views
             else
             {
                 var cars = GetCars();
+                if (cars.Count() == 0)
+                {
+                    MessageBox.Show("Brak pojazdów o wybranych cechach!", "Nie ma o czym raportować!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 RaportGenerator.GenerateGeneralRaportAboutCars(cars);
             }
         }
