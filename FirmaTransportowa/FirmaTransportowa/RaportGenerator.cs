@@ -369,15 +369,20 @@ namespace FirmaTransportowa
                 //ZASTOSOWANIE
 
                 //O KOSZTACH
+                var destinationFuelCostPerCar = destinationFuelCost / cars.Count();
+                destinationFuelCostPerCar = Math.Round(destinationFuelCostPerCar, 2, MidpointRounding.AwayFromZero);
+                var destinationServiceCostPerCar = destinationServiceCost / cars.Count();
+                destinationServiceCostPerCar = Math.Round(destinationServiceCostPerCar, 2, MidpointRounding.AwayFromZero);
+
                 doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + destinationFuelCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + destinationFuelCost/ cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + destinationFuelCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + destinationFuelCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + destinationServiceCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + destinationServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + destinationServiceCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + destinationServiceCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (destinationFuelCost + destinationServiceCost) + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (destinationFuelCost + destinationServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (destinationFuelCostPerCar + destinationServiceCostPerCar) + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (destinationFuelCostPerKm + destinationServiceCostPerKm) + "\n", Font14));
                 //O KOSZTACH
 
@@ -406,8 +411,11 @@ namespace FirmaTransportowa
 
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            var carModels = from Makes in db.CarModels
-                               select Makes;
+            var carModels = (from Makes in db.CarModels
+                             select new
+                             {
+                                 Makes.make
+                             }).Distinct();
 
             //Raport na temat np. Seatów, nie pojedynczych modeli
             foreach (var carModel in carModels)
@@ -435,15 +443,20 @@ namespace FirmaTransportowa
                 //ZASTOSOWANIE
 
                 //O KOSZTACH
+                var makeFuelCostPerCar = makeFuelCost / cars.Count();
+                makeFuelCostPerCar = Math.Round(makeFuelCostPerCar, 2, MidpointRounding.AwayFromZero);
+                var makeServiceCostPerCar = makeServiceCost / cars.Count();
+                makeServiceCostPerCar = Math.Round(makeServiceCostPerCar, 2, MidpointRounding.AwayFromZero);
+
                 doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + makeFuelCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + makeFuelCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + makeFuelCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + makeFuelCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + makeServiceCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + makeServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + makeServiceCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + makeServiceCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (makeFuelCost + makeServiceCost) + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (makeFuelCost + makeServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (makeFuelCostPerCar + makeServiceCostPerCar)+ "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (makeFuelCostPerKm + makeServiceCostPerKm) + "\n", Font14));
                 //O KOSZTACH
 
@@ -500,15 +513,20 @@ namespace FirmaTransportowa
                 //ZASTOSOWANIE
 
                 //O KOSZTACH
+                var modelFuelCostPerCar = modelFuelCost / cars.Count();
+                modelFuelCostPerCar = Math.Round(modelFuelCostPerCar, 2, MidpointRounding.AwayFromZero);
+                var modelServiceCostPerCar = modelServiceCost / cars.Count();
+                modelServiceCostPerCar = Math.Round(modelServiceCostPerCar, 2, MidpointRounding.AwayFromZero);
+
                 doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + modelFuelCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + modelFuelCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + modelFuelCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + modelFuelCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + modelServiceCost + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + modelServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + modelServiceCostPerCar + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + modelServiceCostPerKm + "\n\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (modelFuelCost + modelServiceCost) + "\n", Font14));
-                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (modelFuelCost + modelServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (modelServiceCostPerCar + modelFuelCostPerCar) + "\n", Font14));
                 doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (modelFuelCostPerKm + modelServiceCostPerKm) + "\n", Font14));
                 //O KOSZTACH
 
