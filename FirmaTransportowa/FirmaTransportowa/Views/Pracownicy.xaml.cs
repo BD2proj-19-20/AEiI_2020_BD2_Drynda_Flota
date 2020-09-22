@@ -305,6 +305,8 @@ namespace FirmaTransportowa.Views
             //var lends = db.Lends;
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times.Size = 32;

@@ -231,6 +231,8 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             Font times = new Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true)); //polskie znaki
             times.Size = 32;

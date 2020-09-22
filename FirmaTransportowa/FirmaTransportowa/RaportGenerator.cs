@@ -308,6 +308,8 @@ namespace FirmaTransportowa
             stopwatch.Start();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
@@ -332,6 +334,8 @@ namespace FirmaTransportowa
             stopwatch.Start();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
@@ -402,6 +406,8 @@ namespace FirmaTransportowa
             stopwatch.Start();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
@@ -475,6 +481,8 @@ namespace FirmaTransportowa
             stopwatch.Start();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
@@ -545,6 +553,8 @@ namespace FirmaTransportowa
             stopwatch.Start();
 
             string path = GetPath();
+            if (path == "")
+                return;
 
             FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
