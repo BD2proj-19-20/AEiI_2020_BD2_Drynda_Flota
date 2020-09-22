@@ -28,13 +28,13 @@ namespace FirmaTransportowa.Views
             switch (permissionLevel)
             {
                 case 1: //pracownik
-                           for (int i = 0; i < 4; i++)
+                           for (int i = 0; i < 5; i++)
                     Kierownik.Items.RemoveAt(0);
                                Kierownik.Items.RemoveAt(3);
                     break;
 
                  case 2: //pracownik + opiekun
-                          for (int i = 0; i < 4; i++)
+                          for (int i = 0; i < 5; i++)
                     Kierownik.Items.RemoveAt(0);
                     break;
                 case 3: //pracownik + kierownik
