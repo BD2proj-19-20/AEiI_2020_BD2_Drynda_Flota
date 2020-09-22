@@ -116,5 +116,22 @@ namespace FirmaTransportowa.Views
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             glowneOkno.DataContext = prevWindow;
         }
+
+        private void MakeRaport(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ModelRaport(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DestinationRaport(object sender, RoutedEventArgs e)
+        {
+            var RaportBegin = RaportOd.SelectedDate;
+            var RaportEnd = RaportDo.SelectedDate;
+            RaportGenerator.GenerateCostsRaportAboutCarsDestinations(RaportBegin, RaportEnd);
+        }
     }
 }

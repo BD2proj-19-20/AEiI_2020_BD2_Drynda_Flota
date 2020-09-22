@@ -7,12 +7,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace FirmaTransportowa
 {
+    public class CarCost
+    {
+        public double fuelCost { get; set; }
+        public double serviceCost { get; set; }
+        public double fuelCostPerKm { get; set; }
+        public double serviceCostPerKm { get; set; }
+    }
     public static class RaportGenerator
     {
         private static iTextSharp.text.Font Font32 = new iTextSharp.text.Font(BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.CP1250, true))
@@ -204,7 +212,7 @@ namespace FirmaTransportowa
             MessageBox.Show("Raport wygenerowany w czasie " + stopwatch.Elapsed + "!");
         }
 
-        private static void CostInfoAboutCar(Car car, Document doc, DateTime? raportBegin, DateTime? raportEnd)
+        private static CarCost CostInfoAboutCar(Car car, Document doc, DateTime? raportBegin, DateTime? raportEnd, bool write)
         {
             var distance = 0;
             var fuelCost = 0.0;
@@ -250,9 +258,9 @@ namespace FirmaTransportowa
             if (raportEnd != null)
                 services = services.Where(x => x.reportDate >= raportBegin);
 
-            foreach(var service in services)
+            foreach (var service in services)
             {
-                serviceCost += service.price == null? 0 : (double)service.price;
+                serviceCost += service.price == null ? 0 : (double)service.price;
             }
 
             serviceCost = Math.Round(serviceCost, 2, MidpointRounding.AwayFromZero);
@@ -265,21 +273,33 @@ namespace FirmaTransportowa
             serviceCostPerKm = Math.Round(serviceCostPerKm, 2, MidpointRounding.AwayFromZero);
             //KOSZTA SERWISU
 
-            //SAMOCHÓD
-            doc.Add(new iTextSharp.text.Paragraph(car.id + "   " + car.Registration + "\n\n", Font32));
-            //SAMOCHÓD
+            if (write)
+            {
+                //SAMOCHÓD
+                doc.Add(new iTextSharp.text.Paragraph(car.id + "   " + car.Registration + "\n\n", Font32));
+                //SAMOCHÓD
 
-            //O KOSZTACH
-            doc.Add(new iTextSharp.text.Paragraph("Przejechany dystans: " + distance + "\n\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + fuelCost + "\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + fuelCostPerKm + "\n\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + serviceCost + "\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + serviceCostPerKm + "\n\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (fuelCost + serviceCost) + "\n", Font14));
-            doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (fuelCostPerKm + serviceCostPerKm) + "\n", Font14));
-            //O KOSZTACH
+                //O KOSZTACH
+                doc.Add(new iTextSharp.text.Paragraph("Przejechany dystans: " + distance + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + fuelCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + fuelCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + serviceCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + serviceCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (fuelCost + serviceCost) + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (fuelCostPerKm + serviceCostPerKm) + "\n", Font14));
+                //O KOSZTACH
 
-            doc.NewPage();
+                doc.NewPage();
+            }
+
+            CarCost carCost = new CarCost
+            {
+                fuelCost = fuelCost,
+                serviceCost = serviceCost,
+                fuelCostPerKm = fuelCostPerKm,
+                serviceCostPerKm = serviceCostPerKm
+            };
+            return carCost;
         }
 
         public static void GenerateCostsRaportAboutCars(IQueryable<Car> cars, DateTime? raportBegin, DateTime? raportEnd)
@@ -297,7 +317,72 @@ namespace FirmaTransportowa
 
             foreach (var car in cars)
             {
-                CostInfoAboutCar(car, doc, raportBegin, raportEnd);
+                CostInfoAboutCar(car, doc, raportBegin, raportEnd, true);
+            }
+
+            doc.Close();
+
+            stopwatch.Stop();
+            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+        }
+
+        public static void GenerateCostsRaportAboutCarsDestinations(DateTime? raportBegin, DateTime? raportEnd)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            string path = GetPath();
+
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+            var destinations = from Destinations in db.CarDestinations
+                               select Destinations;
+
+            foreach (var destination in destinations)
+            {
+                var cars = from Cars in db.Cars
+                           where Cars.CarDestination.id == destination.id
+                           select Cars;
+
+                double destinationFuelCost = 0.0;
+                double destinationServiceCost = 0.0;
+                double destinationFuelCostPerKm = 0.0;
+                double destinationServiceCostPerKm = 0.0;
+
+                foreach (var car in cars)
+                {
+                    CarCost carCost = CostInfoAboutCar(car, doc, raportBegin, raportEnd, false);
+                    destinationFuelCost += carCost.fuelCost;
+                    destinationServiceCost += carCost.serviceCost;
+                    destinationFuelCostPerKm += carCost.fuelCostPerKm;
+                    destinationServiceCostPerKm += carCost.serviceCostPerKm;
+                }
+
+                //ZASTOSOWANIE
+                doc.Add(new iTextSharp.text.Paragraph(destination.name + "\n\n", Font32));
+                //ZASTOSOWANIE
+
+                //O KOSZTACH
+                doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + destinationFuelCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + destinationFuelCost/ cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + destinationFuelCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + destinationServiceCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + destinationServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + destinationServiceCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (destinationFuelCost + destinationServiceCost) + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (destinationFuelCost + destinationServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (destinationFuelCostPerKm + destinationServiceCostPerKm) + "\n", Font14));
+                //O KOSZTACH
+
+                doc.NewPage();
+
             }
 
             doc.Close();
@@ -319,7 +404,7 @@ namespace FirmaTransportowa
 
             doc.Open();
 
-            CostInfoAboutCar(car, doc, raportBegin, raportEnd);
+            CostInfoAboutCar(car, doc, raportBegin, raportEnd, true);
 
             doc.Close();
 

@@ -14,10 +14,13 @@
         <DatePicker HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="280" Name="RaportDo" FontSize="25" Margin="430,80,0,0"/>
         <Label Name="MarkaLabel" Content="Marka: " HorizontalAlignment="Left" Margin="172,148,0,0" VerticalAlignment="Top" Width="364" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Marka" FontSize="25" Margin="256,148,0,0"/>
+        <Button Content="Dla marek" Click="MakeRaport" Height="40" Margin="541,148,102,392"/>
         <Label Name="ModelLabel" Content="Model: " HorizontalAlignment="Left" Margin="172,226,0,0" VerticalAlignment="Top" Width="364" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Model" FontSize="25" Margin="256,226,0,0"/>
+        <Button Content="Dla modeli" Click="ModelRaport" Height="40" Margin="541,226,102,314"/>
         <Label Name ="ZastosowanieLabel" Content="Zastosowanie: " HorizontalAlignment="Left" Margin="92,292,0,0" VerticalAlignment="Top" Width="496" Height="50" FontSize="25" HorizontalContentAlignment="Left"/>
         <controls:FilteredComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="280"  Height="40" Name="Zastosowanie" FontSize="25" Margin="256,292,0,0"/>
+        <Button Content="Dla zastosowań" Click="DestinationRaport" Height="40" Margin="541,292,102,248"/>
         <Button Content="Kosztów" Click="CostsRaport" Height="40" Width="200" Margin="172,368,378,172"/>
         <Button Content="Anuluj" Click="Cancel" Height="40" Width="200" Margin="272,450,278,90"/>
     </Grid>
