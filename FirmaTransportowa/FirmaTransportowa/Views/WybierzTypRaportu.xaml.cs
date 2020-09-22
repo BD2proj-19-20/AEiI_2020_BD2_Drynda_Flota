@@ -119,12 +119,16 @@ namespace FirmaTransportowa.Views
 
         private void MakeRaport(object sender, RoutedEventArgs e)
         {
-
+            var RaportBegin = RaportOd.SelectedDate;
+            var RaportEnd = RaportDo.SelectedDate;
+            RaportGenerator.GenerateCostsRaportAboutCarsMake(RaportBegin, RaportEnd);
         }
 
         private void ModelRaport(object sender, RoutedEventArgs e)
         {
-
+            var RaportBegin = RaportOd.SelectedDate;
+            var RaportEnd = RaportDo.SelectedDate;
+            RaportGenerator.GenerateCostsRaportAboutCarsModel(RaportBegin, RaportEnd);
         }
 
         private void DestinationRaport(object sender, RoutedEventArgs e)

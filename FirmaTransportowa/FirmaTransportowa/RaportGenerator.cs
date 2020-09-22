@@ -391,6 +391,136 @@ namespace FirmaTransportowa
             MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
         }
 
+        public static void GenerateCostsRaportAboutCarsMake(DateTime? raportBegin, DateTime? raportEnd)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            string path = GetPath();
+
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+            var carModels = from Makes in db.CarModels
+                               select Makes;
+
+            //Raport na temat np. Seatów, nie pojedynczych modeli
+            foreach (var carModel in carModels)
+            {
+                var cars = from Cars in db.Cars
+                           where Cars.CarModel.make == carModel.make
+                           select Cars;
+
+                double makeFuelCost = 0.0;
+                double makeServiceCost = 0.0;
+                double makeFuelCostPerKm = 0.0;
+                double makeServiceCostPerKm = 0.0;
+
+                foreach (var car in cars)
+                {
+                    CarCost carCost = CostInfoAboutCar(car, doc, raportBegin, raportEnd, false);
+                    makeFuelCost += carCost.fuelCost;
+                    makeServiceCost += carCost.serviceCost;
+                    makeFuelCostPerKm += carCost.fuelCostPerKm;
+                    makeServiceCostPerKm += carCost.serviceCostPerKm;
+                }
+
+                //ZASTOSOWANIE
+                doc.Add(new iTextSharp.text.Paragraph(carModel.make + "\n\n", Font32));
+                //ZASTOSOWANIE
+
+                //O KOSZTACH
+                doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + makeFuelCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + makeFuelCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + makeFuelCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + makeServiceCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + makeServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + makeServiceCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (makeFuelCost + makeServiceCost) + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (makeFuelCost + makeServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (makeFuelCostPerKm + makeServiceCostPerKm) + "\n", Font14));
+                //O KOSZTACH
+
+                doc.NewPage();
+            }
+
+            doc.Close();
+
+            stopwatch.Stop();
+            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+        }
+
+        public static void GenerateCostsRaportAboutCarsModel(DateTime? raportBegin, DateTime? raportEnd)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            string path = GetPath();
+
+            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+
+            var carModels = from Models in db.CarModels
+                            select Models;
+
+            //Raport na temat np. Toledo, czyli pojedynczych modeli
+            foreach (var carModel in carModels)
+            {
+                var cars = from Cars in db.Cars
+                           where Cars.CarModel.model == carModel.model
+                           select Cars;
+
+                double modelFuelCost = 0.0;
+                double modelServiceCost = 0.0;
+                double modelFuelCostPerKm = 0.0;
+                double modelServiceCostPerKm = 0.0;
+
+                foreach (var car in cars)
+                {
+                    CarCost carCost = CostInfoAboutCar(car, doc, raportBegin, raportEnd, false);
+                    modelFuelCost += carCost.fuelCost;
+                    modelServiceCost += carCost.serviceCost;
+                    modelFuelCostPerKm += carCost.fuelCostPerKm;
+                    modelServiceCostPerKm += carCost.serviceCostPerKm;
+                }
+
+                //ZASTOSOWANIE
+                doc.Add(new iTextSharp.text.Paragraph(carModel.model + "\n\n", Font32));
+                //ZASTOSOWANIE
+
+                //O KOSZTACH
+                doc.Add(new iTextSharp.text.Paragraph("Samochodów: " + cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa: " + modelFuelCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / samochoód: " + modelFuelCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta paliwa / 1km: " + modelFuelCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu: " + modelServiceCost + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / samochód: " + modelServiceCost / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Koszta serwisu / 1km: " + modelServiceCostPerKm + "\n\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta: " + (modelFuelCost + modelServiceCost) + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta/ samochod: " + (modelFuelCost + modelServiceCost) / cars.Count() + "\n", Font14));
+                doc.Add(new iTextSharp.text.Paragraph("Sumaryczne koszta / 1km: " + (modelFuelCostPerKm + modelServiceCostPerKm) + "\n", Font14));
+                //O KOSZTACH
+
+                doc.NewPage();
+            }
+
+            doc.Close();
+
+            stopwatch.Stop();
+            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+        }
+
         public static void GenerateCostsRaportAboutCar(Car car, DateTime? raportBegin, DateTime? raportEnd)
         {
             Stopwatch stopwatch = new Stopwatch();
