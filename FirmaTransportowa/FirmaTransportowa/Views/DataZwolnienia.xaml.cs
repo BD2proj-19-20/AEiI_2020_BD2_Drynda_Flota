@@ -64,7 +64,7 @@ namespace FirmaTransportowa.Views
                 var permissions = db.PeoplesPermissions;
                 foreach (var permission in permissions)
                 {
-                    if (permission.personId == personChange.id && Kalendarz.SelectedDate > permission.grantDate)
+                    if (permission.personId == personChange.id)
                         permission.revokeDate = Kalendarz.SelectedDate; //zamykamy wszyskie uprawnienia pracownika
                 }
                 MessageBox.Show("Ustawiono zwolnienie!", "Komunikat");
