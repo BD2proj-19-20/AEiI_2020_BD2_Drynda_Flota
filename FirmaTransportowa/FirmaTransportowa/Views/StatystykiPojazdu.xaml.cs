@@ -70,7 +70,7 @@ namespace FirmaTransportowa.Views
             var reservations = car.Reservations;
             int i = 0;
 
-            var query = from reserv in db.Reservations
+            var query = from reserv in car.Reservations
                         select new
                         {
                             PersonId = reserv.personId,
