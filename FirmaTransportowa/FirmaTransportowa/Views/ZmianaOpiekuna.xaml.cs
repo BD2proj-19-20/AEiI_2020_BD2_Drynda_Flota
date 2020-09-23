@@ -75,7 +75,7 @@ namespace FirmaTransportowa.Views
                 foreach (var carSupervisor in carSupervisors)
                 {
                     //Sprawdzam czy taki opiekun już istnieje, jeżeli tak, zmieniam jego endDate?
-                    if (carSupervisor.personId == newSupervisor.personId && carSupervisor.carId == newSupervisor.carId)
+                    if (carSupervisor.personId == newSupervisor.Person.id && carSupervisor.carId == newSupervisor.carId)
                     {
                         carSupervisor.endDate = null;
                         carSupervisor.beginDate = DateTime.Today;
@@ -85,6 +85,21 @@ namespace FirmaTransportowa.Views
                 }
                 if (!againSupervisor)
                     carSupervisors.Add(newSupervisor);
+                db.SaveChanges();
+            }
+            else
+            {
+                var carSupervisors = db.CarSupervisors;
+                //Szukam dotychczasowego opiekuna i ustawiam mu date konca
+                foreach (var carSupervisor in carSupervisors)
+                {
+                    if (carSupervisor.carId == toChange.id && carSupervisor.endDate == null)
+                    {
+                        carSupervisor.endDate = DateTime.Today;
+                        itemToChange.carSupervisor = "Brak";
+                        break;
+                    }
+                }
                 db.SaveChanges();
             }
             this.Close();
