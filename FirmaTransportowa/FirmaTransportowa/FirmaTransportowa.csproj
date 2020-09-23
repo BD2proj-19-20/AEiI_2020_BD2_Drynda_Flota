@@ -247,6 +247,9 @@
     <Compile Include="Views\ZmienKierownika.xaml.cs">
       <DependentUpon>ZmienKierownika.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DodajKontraktora.xaml.cs">
+      <DependentUpon>DodajKontraktora.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZmienRezerwacje.xaml.cs">
       <DependentUpon>ZmienRezerwacje.xaml</DependentUpon>
     </Compile>
@@ -403,6 +406,10 @@
     <Page Include="Views\ZmienKierownika.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DodajKontraktora.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ZmienRezerwacje.xaml">
       <SubType>Designer</SubType>

@@ -118,7 +118,8 @@ namespace FirmaTransportowa.Views {
 			contractorList.Items.Refresh();
 		}
 		private void AddClick(object sender, RoutedEventArgs e) {
-
+			System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
+			glowneOkno.DataContext = new DodajKontraktora();
 		}
 		private void EndClick(object sender, RoutedEventArgs e) {
 			ListViewItem selected = (ListViewItem)contractorList.SelectedItem;
