@@ -84,6 +84,14 @@ namespace FirmaTransportowa.Views
                 {
                     if (activity.id == activity1.id)
                     {
+                        if (this.Serwisowa.IsChecked == true)
+                        {
+                            activity.service = true;
+                        }
+                        else if(this.Eksploatacyjna.IsChecked == true)
+                        {
+                            activity.service = false;
+                        }
                         activity.orderDate = DateTime.Now;
                         foreach (var contractor in contractors)
                         {
@@ -101,8 +109,9 @@ namespace FirmaTransportowa.Views
                 MessageBox.Show("Musisz wybrać kontraktora!", "Nie można przypisać kontraktora", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            
-            foreach (var car in cars)
+
+
+                foreach (var car in cars)
             {
                 if (car.id == car1.id)
                 {
