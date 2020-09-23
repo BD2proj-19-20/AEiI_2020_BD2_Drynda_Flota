@@ -41,7 +41,7 @@ namespace FirmaTransportowa.Views {
 
 			foreach (var contractor in contractors) {
 				ListViewItem list = new ListViewItem();
-				list.Content = new ListItem { contractorId = contractor.id, name = contractor.name, startDate = contractor.startSate, endDate = contractor.endDate };
+				list.Content = new ListItem { contractorId = contractor.id, name = contractor.name, startDate = contractor.startSate, endDate = contractor.endDate?.Date };
 				items.Add(list);
 			}
 			Array.Sort(items.ToArray(), (ListViewItem a, ListViewItem b) => ((ListItem)a.Content).contractorId.CompareTo(((ListItem)b.Content).contractorId));
@@ -120,6 +120,7 @@ namespace FirmaTransportowa.Views {
 		private void AddClick(object sender, RoutedEventArgs e) {
 			System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
 			glowneOkno.DataContext = new DodajKontraktora();
+			InitializeList();
 		}
 		private void EndClick(object sender, RoutedEventArgs e) {
 			ListViewItem selected = (ListViewItem)contractorList.SelectedItem;
