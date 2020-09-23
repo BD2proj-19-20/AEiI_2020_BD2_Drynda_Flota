@@ -178,6 +178,7 @@ namespace FirmaTransportowa.Views
 
 
             cars.Add(newCar);
+            db.SaveChanges();
 
             //OPIEKUN
             if (!Opiekunowie.Text.Equals(""))
