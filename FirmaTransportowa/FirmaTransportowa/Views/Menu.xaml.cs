@@ -101,5 +101,10 @@ namespace FirmaTransportowa.Views
             ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = new Logowanie();
             Logowanie.actualUser = null;
         }
-    }
+		private void Help_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			string dir = System.IO.Directory.GetCurrentDirectory();
+			System.Windows.Forms.Help.ShowHelp(null, @"..\..\help\index.htm");
+			HelpButton.IsSelected = false;
+		}
+	}
 }

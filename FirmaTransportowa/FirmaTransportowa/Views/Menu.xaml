@@ -38,8 +38,8 @@
             </ListViewItem>
         </ListView>
         <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">
-            <ListViewItem HorizontalAlignment="Center" Width="200" Height="50">
-                <StackPanel Orientation="Horizontal">
+			<ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="HelpButton" MouseLeftButtonUp="Help_MouseLeftButtonUp">
+				<StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Foreground="Blue" Kind="Help"/>
                     <TextBlock Text="Pomoc"/>
                 </StackPanel>
