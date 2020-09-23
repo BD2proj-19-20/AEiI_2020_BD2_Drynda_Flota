@@ -11,50 +11,45 @@ using System.Windows.Input;
 using FirmaTransportowa.Model;
 using Brushes = System.Windows.Media.Brushes;
 
-namespace FirmaTransportowa.Views
-{
-	public class ListItem
-	{
+namespace FirmaTransportowa.Views {
+	public class ListItem {
 		public int contractorId { get; set; }
 		public string name { get; set; }
 		public DateTime startDate { get; set; }
 		public DateTime? endDate { get; set; }
 	}
-	public partial class Kontraktorzy : UserControl
-    {
+	public partial class Kontraktorzy : UserControl {
 
-        private ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
-        private SortAdorner listViewSortAdorner = null;
-        private GridViewColumnHeader listViewSortCol = null;
-        private GridViewColumnHeader sortingColumn = null;
-        public Kontraktorzy()
-        {
-            InitializeComponent();
-            InitializeList();
-        }
+		private ObservableCollection<ListViewItem> items = new ObservableCollection<ListViewItem>();
+		private SortAdorner listViewSortAdorner = null;
+		private GridViewColumnHeader listViewSortCol = null;
+		private GridViewColumnHeader sortingColumn = null;
+		public Kontraktorzy() {
+			InitializeComponent();
+			InitializeList();
+		}
 
 
 
-        private void InitializeList()
-        {
-            Stopwatch stoper = new Stopwatch(); //todo: usunąć stoper
-            stoper.Start();
+		private void InitializeList() {
+			Stopwatch stoper = new Stopwatch(); //todo: usunąć stoper
+			stoper.Start();
 
-            items.Clear();
-            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+			items.Clear();
+			var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 			var contractors = db.Contractors;
 
-            foreach (var contractor in contractors) {
-                ListViewItem list = new ListViewItem();
-                list.Content = new ListItem { contractorId = contractor.id, name = contractor.name, startDate = contractor.startSate, endDate = contractor.endDate };
-                items.Add(list);
-            }
-            //Array.Sort(items.ToArray(), (ListViewItem a, ListViewItem b) => ((ListItem)a.Content).contractorId.CompareTo(((ListItem)b.Content).contractorId));
+			foreach (var contractor in contractors) {
+				ListViewItem list = new ListViewItem();
+				list.Content = new ListItem { contractorId = contractor.id, name = contractor.name, startDate = contractor.startSate, endDate = contractor.endDate };
+				items.Add(list);
+			}
+			Array.Sort(items.ToArray(), (ListViewItem a, ListViewItem b) => ((ListItem)a.Content).contractorId.CompareTo(((ListItem)b.Content).contractorId));
 			contractorList.ItemsSource = items;
 
 			stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
-        }
+			Title.Text = stoper.Elapsed.ToString();
+		}
 
 		private void contractorList_MouseDown(object sender, MouseButtonEventArgs e) {
 			contractorList.UnselectAll();
@@ -101,10 +96,10 @@ namespace FirmaTransportowa.Views
 					Array.Sort(tempItems, (ListViewItem a, ListViewItem b) => {
 						var aa = (ListItem)a.Content;
 						var bb = (ListItem)b.Content;
-					if (aa.endDate == null)
-						return 1;
-					if (bb.endDate == null)
-						return -1;
+						if (aa.endDate == null)
+							return 1;
+						if (bb.endDate == null)
+							return -1;
 						return aa.endDate.Value.CompareTo(bb.endDate.Value);
 					});
 				else
@@ -123,9 +118,17 @@ namespace FirmaTransportowa.Views
 			contractorList.Items.Refresh();
 		}
 		private void AddClick(object sender, RoutedEventArgs e) {
-			
+
 		}
 		private void EndClick(object sender, RoutedEventArgs e) {
+			ListViewItem selected = (ListViewItem)contractorList.SelectedItem;
+			if (selected != null) {
+				int selectedId = ((ListItem)selected.Content).contractorId;
+				var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+				var selectedContractor = db.Contractors.Where(c => c.id == selectedId).Single();
+				selectedContractor.endDate = DateTime.Now;
+				db.SaveChanges();
+			}
 			contractorList.UnselectAll();
 		}
 	}
