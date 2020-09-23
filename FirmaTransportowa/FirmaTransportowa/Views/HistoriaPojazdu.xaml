@@ -19,7 +19,7 @@
                                 <GridViewColumnHeader Tag="IDusterk" >ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Opis}">
+                        <GridViewColumn Width="110" DisplayMemberBinding="{Binding Opis}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Opis" >Opis usterki</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -47,6 +47,11 @@
                         <GridViewColumn Width="70" DisplayMemberBinding="{Binding ID}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="ID" >Zgłaszający</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Kontraktor}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Kontraktor" >Kontraktor</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView>

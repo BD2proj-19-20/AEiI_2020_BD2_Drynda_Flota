@@ -3,17 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FirmaTransportowa.Views"
+             xmlns:local="clr-namespace:FirmaTransportowa.Views" xmlns:controls="clr-namespace:THE.Controls;assembly=FilteredComboBox"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
+    <Grid Background="#FF646464">
         <Label Content="Label" HorizontalAlignment="Left" Margin="23,21,0,0" FontSize="20" VerticalAlignment="Top" Name="Title" Height="126" Width="767"/>
         <Button Content="Zleć wykonanie czynności" HorizontalAlignment="Left" Margin="23,415,0,0" VerticalAlignment="Top" Width="158" RenderTransformOrigin="-0.065,1.756" Height="25" Click="zlec"/>
         <RadioButton Content="Serwisowa" Name="Serwisowa" HorizontalAlignment="Left" Margin="29,179,0,0" VerticalAlignment="Top" IsChecked="True" Click="SerwisowaClick"/>
         <RadioButton Content="Eksploatacyjna" Name="Eksploatacyjna" HorizontalAlignment="Left" Margin="118,179,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.603,0.694" Height="18" Click="EksploatacyjnaClick" />
         <Label Content="Rodzaj czynności" FontSize="15" HorizontalAlignment="Left" Margin="29,152,0,0" VerticalAlignment="Top" Width="186"/>
         <Button Content="Cofnij" HorizontalAlignment="Left" Margin="199,415,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="cofnij"/>
-        
+        <controls:FilteredComboBox HorizontalAlignment="Left" Margin="29,233,0,0" VerticalAlignment="Top" Width="280" Height="40"  x:Name="Kontraktorzy" FontSize="25"/>
+
 
     </Grid>
 </UserControl>

@@ -26,11 +26,19 @@ namespace FirmaTransportowa.Views
         public ZlecWykonanieCzynnosci(int permission, Car car, Activity activity)
         {
             InitializeComponent();
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
+            var contractors = db.Contractors;
             userPermission = permission;
             car1 = car;
             activity1 = activity;
             this.Title.Content = "Zleć wykonanie czynności dla samochodu: "+ car1.CarModel.make+ " "+car1.CarModel.model + " " + car1.Registration + "\n"
                 + "Usterka: " + activity1.comments;
+
+            foreach (var human in contractors)
+            {
+                if (!(human.endDate <= DateTime.Now))
+                    Kontraktorzy.Items.Add(human.name);
+            }
         }
 
         private void cofnij(object sender, RoutedEventArgs e)
@@ -61,36 +69,39 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var activities = db.Activities;
             var cars = db.Cars;
+            var contractors = db.Contractors;
 
-            /* foreach (var activity in activities)
-             {
-                 if (activity.id == activity1.id)
-                 {
-                     activity.orderDate = DateTime.Now;
-                     if (Logowanie.actualUser != null)
-                         activity.contractorId = Logowanie.actualUser.id;
-                     else
-                         activity.contractorId = 1;
-                     if (this.Serwisowa.IsChecked == true)
-                         activity.service = true;
-                     else
-                         activity.service = false;
-
-                 }
-             }
-             db.SaveChanges();*/
-
-
-            // for (int i = 0; i < car1.Activities.Count; i++)
-            //{
-            foreach (var activity in activities)
+            if (!Kontraktorzy.Text.Equals(""))
             {
-                if (activity.id == activity1.id)
+                var contractorsList = Kontraktorzy.Items;
+                if (!contractorsList.Contains(Kontraktorzy.Text))
                 {
-                    activity.orderDate = DateTime.Now;
+                    MessageBox.Show("Wybrany kontraktor nie istnieje!", "Nie można przypisać kontraktora", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                foreach (var activity in activities)
+                {
+                    if (activity.id == activity1.id)
+                    {
+                        activity.orderDate = DateTime.Now;
+                        foreach (var contractor in contractors)
+                        {
+                            if (contractor.name == Kontraktorzy.Text)
+                            {
+                                activity.Contractor = contractor;
+                                Console.WriteLine("dodano: " + activity.Contractor.name);
+                            }
+                        }
+                    }
                 }
             }
-            //}
+            else
+            {
+                MessageBox.Show("Musisz wybrać kontraktora!", "Nie można przypisać kontraktora", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
             foreach (var car in cars)
             {
                 if (car.id == car1.id)

@@ -32,6 +32,7 @@ namespace FirmaTransportowa.Views
             public string DataNaprawienia { get; set; }
             public int ID { get; set; }
             public String Serwisowana { get; set; }
+            public String Kontraktor { get; set; }
         }
 
         private Car car1;
@@ -57,8 +58,25 @@ namespace FirmaTransportowa.Views
             {
                 if (car1.Activities.ElementAt(i).closeDate != null)
                 {
-                    this.ListViewActivities.Items.Add(new Activity
+                    if (car1.Activities.ElementAt(i).Contractor != null)
                     {
+                        this.ListViewActivities.Items.Add(new Activity
+                        {
+                            IDusterki = car1.Activities.ElementAt(i).id,
+                            Opis = car1.Activities.ElementAt(i).comments,
+                            Krytyczna = car1.Activities.ElementAt(i).closeDate.ToString(),
+                            DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
+                            DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
+                            DataNaprawienia = car1.Activities.ElementAt(i).closeDate.ToString(),
+                            ID = car1.Activities.ElementAt(i).reporterId,
+                            Serwisowana = car1.Activities.ElementAt(i).service.ToString(),
+                            Kontraktor = car1.Activities.ElementAt(i).Contractor.name
+                        });
+                    }
+                    else
+                    {
+                        this.ListViewActivities.Items.Add(new Activity
+                        {
                         IDusterki = car1.Activities.ElementAt(i).id,
                         Opis = car1.Activities.ElementAt(i).comments,
                         Krytyczna = car1.Activities.ElementAt(i).closeDate.ToString(),
@@ -66,8 +84,10 @@ namespace FirmaTransportowa.Views
                         DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
                         DataNaprawienia = car1.Activities.ElementAt(i).closeDate.ToString(),
                         ID = car1.Activities.ElementAt(i).reporterId,
-                        Serwisowana = car1.Activities.ElementAt(i).service.ToString()
-                    });
+                        Serwisowana = car1.Activities.ElementAt(i).service.ToString(),
+                        Kontraktor = "-"
+                        });
+                    }
                 }
             }
         }

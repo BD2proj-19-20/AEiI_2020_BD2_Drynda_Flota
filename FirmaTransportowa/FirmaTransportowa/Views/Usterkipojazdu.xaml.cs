@@ -30,6 +30,7 @@ namespace FirmaTransportowa.Views
             public string DataSerwisowania { get; set; }
             public int ID { get; set; }
             public String Serwisowana { get; set; }
+            public String Kontraktor { get; set; }
 
         }
         int userPermission = 0;
@@ -75,17 +76,35 @@ namespace FirmaTransportowa.Views
                         czySerwisowana = "Nie";
                     else
                         czySerwisowana = "Tak";
-                    this.ListViewActivities.Items.Add(new Activity
-                    {
-                        IDusterki = car1.Activities.ElementAt(i).id,
-                        Opis = car1.Activities.ElementAt(i).comments,
-                        Krytyczna = czyKrytyczna,
-                        DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
-                        DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
-                        ID = car1.Activities.ElementAt(i).reporterId,
-                        Serwisowana = czySerwisowana
 
-                    });
+                    if (car1.Activities.ElementAt(i).Contractor != null)
+                    {
+                        this.ListViewActivities.Items.Add(new Activity
+                        {
+                            IDusterki = car1.Activities.ElementAt(i).id,
+                            Opis = car1.Activities.ElementAt(i).comments,
+                            Krytyczna = czyKrytyczna,
+                            DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
+                            DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
+                            ID = car1.Activities.ElementAt(i).reporterId,
+                            Serwisowana = czySerwisowana,
+                            Kontraktor = car1.Activities.ElementAt(i).Contractor.name
+                        });
+                    }
+                    else
+                    {
+                        this.ListViewActivities.Items.Add(new Activity
+                        {
+                            IDusterki = car1.Activities.ElementAt(i).id,
+                            Opis = car1.Activities.ElementAt(i).comments,
+                            Krytyczna = czyKrytyczna,
+                            DataZgloszenia = car1.Activities.ElementAt(i).reportDate.ToString(),
+                            DataSerwisowania = car1.Activities.ElementAt(i).orderDate.ToString(),
+                            ID = car1.Activities.ElementAt(i).reporterId,
+                            Serwisowana = czySerwisowana,
+                            Kontraktor = "-"
+                        });
+                    }
                 }
             }
         }

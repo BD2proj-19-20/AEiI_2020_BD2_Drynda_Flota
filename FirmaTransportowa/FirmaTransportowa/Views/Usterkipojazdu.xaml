@@ -23,7 +23,7 @@
                                 <GridViewColumnHeader Tag="IDusterk" >ID</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="220" DisplayMemberBinding="{Binding Opis}">
+                        <GridViewColumn Width="140" DisplayMemberBinding="{Binding Opis}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Opis" >Opis usterki</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -33,12 +33,12 @@
                                 <GridViewColumnHeader  Tag="Krytyczna" >Krytyczna</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DataZgloszenia}">
+                        <GridViewColumn Width="110" DisplayMemberBinding="{Binding DataZgloszenia}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="DataZgloszenia" >Data zgłoszenia</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DataSerwisowania}">
+                        <GridViewColumn Width="110" DisplayMemberBinding="{Binding DataSerwisowania}">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="DataSerwisowania" >Data seriwsowania</GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -53,7 +53,11 @@
                                 <GridViewColumnHeader Tag="Serwisowana" >Serwisowana</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
-
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Kontraktor}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Kontraktor" >Kontraktor</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
