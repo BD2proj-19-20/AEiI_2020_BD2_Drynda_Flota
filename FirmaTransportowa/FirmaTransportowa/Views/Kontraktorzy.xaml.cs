@@ -125,6 +125,10 @@ namespace FirmaTransportowa.Views {
 		private void EndClick(object sender, RoutedEventArgs e) {
 			ListViewItem selected = (ListViewItem)contractorList.SelectedItem;
 			if (selected != null) {
+				if (((ListItem)selected.Content).endDate != null) {
+					MessageBox.Show("Współpraca z tym kontrahentem została już zakończona!");
+					return;
+				}
 				int selectedId = ((ListItem)selected.Content).contractorId;
 				var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 				var selectedContractor = db.Contractors.Where(c => c.id == selectedId).Single();
