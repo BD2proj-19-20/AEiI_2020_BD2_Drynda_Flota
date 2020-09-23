@@ -118,8 +118,8 @@ namespace FirmaTransportowa.Views
             if (workerPermission!=null && workerPermission.Permission.name == "Kierownik" &&
           workerPermission.grantDate <= DateTime.Now.Date && (workerPermission.revokeDate > DateTime.Now || workerPermission.revokeDate == null))
             {
-                KierownikEndPanel.Visibility = Visibility.Visible;
-                KierownikStartPanel.Visibility = Visibility.Visible;
+            //    KierownikEndPanel.Visibility = Visibility.Visible;
+             //   KierownikStartPanel.Visibility = Visibility.Visible;
                 Kierownik.Text = "Tak";
                 KierownikDateStart.Text = workerPermission.grantDate.ToString().Substring(0, 10);
                 if (workerPermission.revokeDate != null)
@@ -129,8 +129,8 @@ namespace FirmaTransportowa.Views
             else if (workerPermission != null && workerPermission.Permission.name == "Kierownik" && workerPermission.grantDate > DateTime.Now.Date 
                 && workerPermission.grantDate < worker.layoffDate)
             {
-                KierownikEndPanel.Visibility = Visibility.Visible;
-                KierownikStartPanel.Visibility = Visibility.Visible;
+               // KierownikEndPanel.Visibility = Visibility.Visible;
+            //    KierownikStartPanel.Visibility = Visibility.Visible;
 
                 if (((workerPermission.grantDate - DateTime.Now).Days + 1) == 1)
                     Kierownik.Text = "Za " + ((workerPermission.grantDate - DateTime.Now.Date).Days + 1) + " dzień";
