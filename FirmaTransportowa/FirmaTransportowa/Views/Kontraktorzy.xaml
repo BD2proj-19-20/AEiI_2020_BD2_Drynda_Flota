@@ -26,12 +26,12 @@
 								<GridViewColumnHeader Tag="name" Click="GridViewColumnHeaderClick">Nazwa</GridViewColumnHeader>
 							</GridViewColumn.Header>
 						</GridViewColumn>
-						<GridViewColumn Width="150" DisplayMemberBinding="{Binding startDate}">
+						<GridViewColumn Width="150" DisplayMemberBinding="{Binding startDate, StringFormat=d}">
 							<GridViewColumn.Header>
 								<GridViewColumnHeader Tag="startDate" Click="GridViewColumnHeaderClick">Data nawiązania współpracy</GridViewColumnHeader>
 							</GridViewColumn.Header>
 						</GridViewColumn>
-						<GridViewColumn Width="150" DisplayMemberBinding="{Binding endDate}">
+						<GridViewColumn Width="150" DisplayMemberBinding="{Binding endDate, StringFormat=d}">
 							<GridViewColumn.Header>
 								<GridViewColumnHeader Tag="endDate" Click="GridViewColumnHeaderClick">Data zakończenia współpracy</GridViewColumnHeader>
 							</GridViewColumn.Header>
