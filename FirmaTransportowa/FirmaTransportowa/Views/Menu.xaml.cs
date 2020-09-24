@@ -84,7 +84,7 @@ namespace FirmaTransportowa.Views
         private void CarList_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ListaPojazdowModel();
+            glowneOkno.DataContext = new ListaPojazdow();
         }
         private void MyCars_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

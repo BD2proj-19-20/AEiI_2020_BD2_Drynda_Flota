@@ -111,7 +111,7 @@ namespace FirmaTransportowa.Views
             switch (permission)
             {
                 case 1:
-                    glowneOkno.DataContext = new ListaPojazdowModel();
+                    glowneOkno.DataContext = new ListaPojazdow();
                     break;
                 case 2:
                     glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
