@@ -19,9 +19,6 @@
         <DataTemplate x:Name="MojePojazdyTemplate" DataType="{x:Type viewmodels:MojePojazdyModel}">
             <views:MojePojazdy DataContext="{Binding}"/>
         </DataTemplate>
-        <DataTemplate x:Name="DodajPojazdTemplate" DataType="{x:Type viewmodels:DodajPojazdModel}">
-            <views:DodajPojazd DataContext="{Binding}"/>
-        </DataTemplate>
     </Window.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
