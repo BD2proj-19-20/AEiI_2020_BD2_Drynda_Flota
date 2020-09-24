@@ -97,6 +97,14 @@ namespace FirmaTransportowa.Views
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
+
+            if (Rejestracja.Text == "" || PojemnoscSilnika.Text == "" ||
+            Marka.Text == "" || Model.Text == "" || Zastosowanie.Text == "")
+            {
+                MessageBox.Show("Złe dane pojazdu.", "Komunikat");
+                return;
+            }
+
             var worker = (from persons in db.People
                           where persons.id == id
                           select persons).FirstOrDefault();
@@ -127,6 +135,9 @@ namespace FirmaTransportowa.Views
                             };
 
 
+                if (query == null)
+                    doReservationCar = true;
+                else
                 foreach (var reserv in query)
                 {
                     actualCarLendDate = reserv.LendDate;
@@ -153,7 +164,10 @@ namespace FirmaTransportowa.Views
                                  Ended = reserv.ended,
                              };
 
-                foreach (var reserv in query2)
+                if (query2 == null)
+                    doReservationPerson = true;
+                else
+                    foreach (var reserv in query2)
                 {
 
                     actualCarLendDate = reserv.LendDate;

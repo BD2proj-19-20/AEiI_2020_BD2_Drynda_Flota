@@ -30,7 +30,7 @@ namespace FirmaTransportowa.Views
                 case 1: //pracownik
                            for (int i = 0; i < 5; i++)
                     Kierownik.Items.RemoveAt(0);
-                               Kierownik.Items.RemoveAt(4);
+                               Kierownik.Items.RemoveAt(3);
                     break;
 
                  case 2: //pracownik + opiekun

@@ -86,11 +86,18 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var reservations = db.Reservations;
             var lends = db.Lends;
-            //var people = db.People;
             DateTime? datePersonOut = null;
             DateTime? actualCarLendDate = null;
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
+
+            if (Rejestracja.Text == "" || PojemnoscSilnika.Text == "" ||
+            Marka.Text == "" || Model.Text == "" || Zastosowanie.Text == "")
+            {
+                MessageBox.Show("Złe dane pojazdu.", "Komunikat");
+                return;
+            }
+
 
             var person = (from persons in db.People
                           where persons.id== id
@@ -120,6 +127,9 @@ namespace FirmaTransportowa.Views
                             };
 
 
+                if(query==null)
+                    doReservationCar = true;
+                else
                 foreach (var reserv in query)
                 {
                     actualCarLendDate = reserv.LendDate;
@@ -145,7 +155,9 @@ namespace FirmaTransportowa.Views
                                  ReturnDate = reserv.returnDate,
                                  Ended = reserv.ended,
                              };
-
+                if(query2==null)
+                    doReservationPerson = true;
+                else
                 foreach (var reserv in query2)
                 {
 

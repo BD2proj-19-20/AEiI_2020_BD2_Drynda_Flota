@@ -229,13 +229,13 @@ namespace FirmaTransportowa.Views
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
 
-            CarList selectedObj = (CarList)selected.Content;
-            int selectedId = selectedObj.carId;
-          
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
             {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
+
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                 glowneOkno.DataContext = new DodajRezerwacjeDlaPojazdu(selectedId);
             }
@@ -245,18 +245,5 @@ namespace FirmaTransportowa.Views
             }
         }
 
-        private void Refuel_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
     }
 }
