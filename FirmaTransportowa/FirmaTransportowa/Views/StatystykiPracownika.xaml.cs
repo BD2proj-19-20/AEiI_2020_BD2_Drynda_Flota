@@ -77,9 +77,7 @@ namespace FirmaTransportowa.Views
                              ReturnDate = lends2.returnDate == null ? DateTime.MinValue : lends2.returnDate,
                              Private = lends2.@private,
                              StartOdometer = lends2.startOdometer,
-                             StartFuel = lends2.startFuel,
                              EndOdometer = lends2.endOdometer,
-                             EndFuel = lends2.endFuel,
                              PlannedReturnDate = lends2.plannedReturnDate,
                              LendedCar = lends2.Car
                          };

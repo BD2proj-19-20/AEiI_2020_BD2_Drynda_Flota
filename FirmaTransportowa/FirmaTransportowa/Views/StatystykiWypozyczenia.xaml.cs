@@ -63,7 +63,9 @@ namespace FirmaTransportowa.Views
             if (
                 (int.TryParse(startOdometer.Text, out n) && int.TryParse(endOdometer.Text, out n)
                 && int.TryParse(startFuel.Text, out n) && int.TryParse(endFuel.Text, out n))
-                && Int32.Parse(startOdometer.Text) < Int32.Parse(endOdometer.Text) && Int32.Parse(startFuel.Text) < Int32.Parse(endFuel.Text))
+                 && Int32.Parse(startOdometer.Text) >= 0 && Int32.Parse(endOdometer.Text) > 0 && Int32.Parse(startFuel.Text) >= 0 && Int32.Parse(endFuel.Text) > 0
+                && Int32.Parse(startOdometer.Text) < Int32.Parse(endOdometer.Text) && Int32.Parse(startFuel.Text) < Int32.Parse(endFuel.Text)
+               )
 
             {
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();

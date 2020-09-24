@@ -299,10 +299,6 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
 
-           // var people = db.People.ToList().OrderBy(t => t.lastName);
-            //var cars = db.Cars;
-            //var activities = db.Activities;
-            //var lends = db.Lends;
 
             string path = GetPath();
             if (path == "")
@@ -356,9 +352,7 @@ namespace FirmaTransportowa.Views
                                  ReturnDate = lends2.returnDate == null ? DateTime.MinValue : lends2.returnDate,
                                  Private = lends2.@private,
                                  StartOdometer = lends2.startOdometer,
-                                 StartFuel = lends2.startFuel,
                                  EndOdometer = lends2.endOdometer,
-                                 EndFuel = lends2.endFuel,
                                  PlannedReturnDate = lends2.plannedReturnDate,
                                  LendedCar = lends2.Car
                              };
