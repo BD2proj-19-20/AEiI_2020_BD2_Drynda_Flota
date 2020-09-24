@@ -1,11 +1,5 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Microsoft.Win32;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
@@ -114,10 +108,10 @@ namespace FirmaTransportowa.Views
                     glowneOkno.DataContext = new ListaPojazdow();
                     break;
                 case 2:
-                    glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
+                    glowneOkno.DataContext = new ZarzadzajPojazdami();
                     break;
                 case 3:
-                    glowneOkno.DataContext = new MojePojazdyModel();
+                    glowneOkno.DataContext = new MojePojazdy();
                     break;
                 default:
                     break;

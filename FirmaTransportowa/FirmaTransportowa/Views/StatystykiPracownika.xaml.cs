@@ -2,7 +2,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using FirmaTransportowa.ViewModels;
 using System.Linq;
 
 namespace FirmaTransportowa.Views

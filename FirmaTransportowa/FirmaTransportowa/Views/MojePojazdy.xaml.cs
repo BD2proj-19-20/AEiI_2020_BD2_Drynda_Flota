@@ -1,5 +1,4 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 
 namespace FirmaTransportowa.Views
 {
