@@ -10,31 +10,31 @@
     <Grid>
         <ListView Height="600" Width="250" BorderBrush="White" Name="Kierownik">
             <ListViewItem   HorizontalAlignment="Center" Width="200" Height="50" Name="Workers" MouseLeftButtonUp="Workers_MouseLeftButtonUp">
-                <TextBlock Text="Pracownicy (kierownik)"/>
+                <TextBlock Text="Pracownicy "/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Lends" MouseLeftButtonUp="Lend_MouseLeftButtonUp">
-                <TextBlock Text="Wypożyczenia (kierownik)"/>
+                <TextBlock Text="Wypożyczenia"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Rent" MouseLeftButtonUp="Rent_MouseLeftButtonUp">
-                <TextBlock Text="Rezerwacje (kierownik)"/>
+                <TextBlock Text="Rezerwacje"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Manage" MouseLeftButtonUp="Manage_MouseLeftButtonUp">
-                <TextBlock Text="Zarządzaj pojazdami (kierownik)"/>
+                <TextBlock Text="Zarządzaj pojazdami"/>
             </ListViewItem>
 			<ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Contractors" MouseLeftButtonUp="Contractors_MouseLeftButtonUp">
-				<TextBlock Text="Zarządzaj kontrahentami (kierownik)"/>
+				<TextBlock Text="Zarządzaj kontrahentami"/>
 			</ListViewItem>
 			<ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyLends" MouseLeftButtonUp="Lends_MouseLeftButtonUp">
-                <TextBlock Text="Moje wypożyczenia (pracownik)"/>
+                <TextBlock Text="Moje wypożyczenia"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="Reservations" MouseLeftButtonUp="Reservations_MouseLeftButtonUp">
-                <TextBlock Text="Moje rezerwacje (pracownik)"/>
+                <TextBlock Text="Moje rezerwacje"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="CarList" MouseLeftButtonUp="CarList_MouseLeftButtonUp">
-                <TextBlock Text="Lista pojazdów (pracownik)"/>
+                <TextBlock Text="Lista pojazdów"/>
             </ListViewItem>
             <ListViewItem HorizontalAlignment="Center" Width="200" Height="50" Name="MyCars" MouseLeftButtonUp="MyCars_MouseLeftButtonUp">
-                <TextBlock Text="Moje pojazdy (opiekun)"/>
+                <TextBlock Text="Moje pojazdy"/>
             </ListViewItem>
         </ListView>
         <ListView VerticalAlignment="Bottom" BorderBrush="Transparent">

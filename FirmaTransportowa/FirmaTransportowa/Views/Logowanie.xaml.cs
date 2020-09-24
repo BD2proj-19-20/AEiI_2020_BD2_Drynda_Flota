@@ -24,8 +24,6 @@ namespace FirmaTransportowa.Views
             /*loginBox.Text= "kamBach";
 			passwordBox.Password = "kamBach";*/
 
-            Kierownik.Visibility = Visibility.Hidden;
-            Opiekun.Visibility = Visibility.Hidden;
             //loginBox.Text= "rancisek";
             //passwordBox.Password = "rancisek";
         }
@@ -90,36 +88,6 @@ namespace FirmaTransportowa.Views
 			}
 			MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 0;
-        }
-
-        private void Worker_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuPracownik();
-        }
-
-        private void Leader_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuKierownik();
-        }
-
-        private void Supervisor_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuOpiekun();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
