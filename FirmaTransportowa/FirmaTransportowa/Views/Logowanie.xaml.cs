@@ -21,11 +21,13 @@ namespace FirmaTransportowa.Views
 
             InitializeComponent();
             CenterWindowOnScreen();
-            loginBox.Text= "kamBach";
-			passwordBox.Password = "kamBach";
+            /*loginBox.Text= "kamBach";
+			passwordBox.Password = "kamBach";*/
 
-			//loginBox.Text= "rancisek";
-			//passwordBox.Password = "rancisek";
+            Kierownik.Visibility = Visibility.Hidden;
+            Opiekun.Visibility = Visibility.Hidden;
+            //loginBox.Text= "rancisek";
+            //passwordBox.Password = "rancisek";
         }
 
         static public byte[] getHash(string password)

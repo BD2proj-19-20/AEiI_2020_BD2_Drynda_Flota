@@ -110,7 +110,7 @@ namespace FirmaTransportowa.Views
             ListViewMyReservations.ItemsSource = items;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
         private void Dodaj_Rezerwacje(object sender, RoutedEventArgs e)
         {

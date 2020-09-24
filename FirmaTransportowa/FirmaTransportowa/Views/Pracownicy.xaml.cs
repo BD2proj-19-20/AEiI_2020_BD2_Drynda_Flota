@@ -96,7 +96,7 @@ namespace FirmaTransportowa.Views
             }
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
 
             return items;
         }

@@ -9,8 +9,8 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Content="Kierownik" Margin="0 20 0 0" Click="Leader_Click"/>
-            <Button Content="Opiekun" Margin="0 20 0 0" Click="Supervisor_Click"/>
+            <Button Content="Kierownik" Margin="0 20 0 0" Click="Leader_Click" Name="Kierownik"/>
+            <Button Content="Opiekun" Margin="0 20 0 0" Click="Supervisor_Click" Name="Opiekun"/>
             <Label Content="Login:" Foreground="White" Margin="0 20 0 0"/>
             <TextBox  Width="150" x:Name="loginBox" KeyDown="TextBox_KeyDown"></TextBox>
             <Label Content="Hasło:" Foreground="White" Margin="0 20 0 0"/>

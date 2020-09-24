@@ -67,7 +67,7 @@ namespace FirmaTransportowa.Views
             view.Filter += UserFilter;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
 
         private bool UserFilter(object item)
