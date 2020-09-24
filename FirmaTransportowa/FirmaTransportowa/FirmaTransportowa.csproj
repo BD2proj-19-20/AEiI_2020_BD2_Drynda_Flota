@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="RaportGenerator.cs" />
     <Compile Include="SortAdorner.cs" />
+	<Compile Include="ViewModels\ListaPojazdowModel.cs" />
     <Compile Include="ViewModels\MenuKierownikModel.cs" />
     <Compile Include="ViewModels\MenuOpiekunModel.cs" />
     <Compile Include="ViewModels\MenuPracownikModel.cs" />
