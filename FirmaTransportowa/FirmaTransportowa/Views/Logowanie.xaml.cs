@@ -81,7 +81,7 @@ namespace FirmaTransportowa.Views
 
 					}
 					else {
-						MessageBox.Show("Logowanie nie udało się :-(", "Komunikat"); //złe hasło
+						MessageBox.Show("Błędne dane logowania", "Komunikat"); //złe hasło
 						return 0;
 					}
 				}
