@@ -96,7 +96,7 @@ namespace FirmaTransportowa.Views
             }
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
 
             return items;
         }
@@ -118,18 +118,8 @@ namespace FirmaTransportowa.Views
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
                 var dateNow = DateTime.Now.Date;
-
-                int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => (pp.Person.layoffDate == null || pp.Person.layoffDate > DateTime.Now) &&
-                pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
-
-                if (kierownikPermissionsCount<2)
-                {
-                    MessageBox.Show("Jesteś jedynym kierownikiem\nnie możesz tak pozostawić firmy!", "Komunikat");
-                    return;
-                }
                 Person personChange = null;
 
-            
                 var person = (from people in db.People
                                    where people.id == selectedId
                               select people).FirstOrDefault();
@@ -139,6 +129,16 @@ namespace FirmaTransportowa.Views
 
                 if ((personChange.layoffDate is null) || personChange.layoffDate > DateTime.Today)
                 {
+                    int kierownikPermissionsCount = db.PeoplesPermissions.Where(pp => (pp.Person.layoffDate == null || pp.Person.layoffDate > DateTime.Now) &&
+                    pp.Permission.name == "Kierownik" && pp.grantDate <= dateNow && (pp.revokeDate == null || pp.revokeDate > dateNow)).Count();
+
+                    if (kierownikPermissionsCount < 2)
+                    {
+                        MessageBox.Show("Jesteś jedynym kierownikiem\nnie możesz tak pozostawić firmy!", "Komunikat");
+                        return;
+                    }
+
+
                     DataZwolnienia dataZwolnieniaView = new DataZwolnienia(personChange);
 
                     dataZwolnieniaView.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen; //środek ekranu
@@ -299,10 +299,6 @@ namespace FirmaTransportowa.Views
             var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
             var carSupervisors = db.CarSupervisors;
 
-           // var people = db.People.ToList().OrderBy(t => t.lastName);
-            //var cars = db.Cars;
-            //var activities = db.Activities;
-            //var lends = db.Lends;
 
             string path = GetPath();
             if (path == "")
@@ -356,9 +352,7 @@ namespace FirmaTransportowa.Views
                                  ReturnDate = lends2.returnDate == null ? DateTime.MinValue : lends2.returnDate,
                                  Private = lends2.@private,
                                  StartOdometer = lends2.startOdometer,
-                                 StartFuel = lends2.startFuel,
                                  EndOdometer = lends2.endOdometer,
-                                 EndFuel = lends2.endFuel,
                                  PlannedReturnDate = lends2.plannedReturnDate,
                                  LendedCar = lends2.Car
                              };
@@ -586,6 +580,7 @@ namespace FirmaTransportowa.Views
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
+            MessageBox.Show("Raport został wygenerowany.","Komunikat");
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)

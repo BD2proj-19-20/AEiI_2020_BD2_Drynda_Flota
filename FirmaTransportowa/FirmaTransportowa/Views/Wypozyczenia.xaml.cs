@@ -123,7 +123,7 @@ namespace FirmaTransportowa.Views
             ListViewLends.ItemsSource = items;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
         private void Box_Click(object sender, RoutedEventArgs e)
         {
@@ -279,6 +279,7 @@ namespace FirmaTransportowa.Views
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)

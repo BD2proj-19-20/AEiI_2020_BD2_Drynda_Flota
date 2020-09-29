@@ -112,7 +112,7 @@ namespace FirmaTransportowa.Views
             ListViewReservations.ItemsSource = items;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
 
 
@@ -329,6 +329,7 @@ namespace FirmaTransportowa.Views
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         private void Box_Click(object sender, RoutedEventArgs e)

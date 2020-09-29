@@ -1,18 +1,5 @@
-﻿using FirmaTransportowa.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FirmaTransportowa.Views
 {
@@ -38,7 +25,7 @@ namespace FirmaTransportowa.Views
                     Kierownik.Items.RemoveAt(0);
                     break;
                 case 3: //pracownik + kierownik
-                        Kierownik.Items.RemoveAt(7);
+                        Kierownik.Items.RemoveAt(8);
                     break;
                 default:
                     break;
@@ -65,7 +52,7 @@ namespace FirmaTransportowa.Views
         private void Manage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
+            glowneOkno.DataContext = new ZarzadzajPojazdami();
         }
 		private void Contractors_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
 			System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
@@ -84,12 +71,12 @@ namespace FirmaTransportowa.Views
         private void CarList_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new ListaPojazdowModel();
+            glowneOkno.DataContext = new ListaPojazdow();
         }
         private void MyCars_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.DataContext = new MojePojazdyModel();
+            glowneOkno.DataContext = new MojePojazdy();
         }
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

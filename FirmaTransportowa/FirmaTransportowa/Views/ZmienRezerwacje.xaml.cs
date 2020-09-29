@@ -1,5 +1,4 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -103,6 +102,13 @@ namespace FirmaTransportowa.Views
             DateTime? actualCarReturnDate = null;
             Person personReservation = null;
 
+            if (Rejestracja.Text == "" || PojemnoscSilnika.Text == "" ||
+        Marka.Text == "" || Model.Text == "" || Zastosowanie.Text == "")
+            {
+                MessageBox.Show("Złe dane pojazdu.", "Komunikat");
+                return;
+            }
+
             var worker = (from persons in db.People
                        where (persons.id.ToString() + ") " + persons.firstName + " " + persons.lastName).Equals(Pracownicy.Text)
                        select persons).FirstOrDefault();
@@ -133,7 +139,9 @@ namespace FirmaTransportowa.Views
                                 Ended = reserv.ended,
                             };
 
-
+                if (query == null)
+                    doReservationCar = true;
+                else
                 foreach (var reserv in query)
                 {
                         actualCarLendDate = reserv.LendDate;
@@ -158,7 +166,9 @@ namespace FirmaTransportowa.Views
                                 ReturnDate = reserv.returnDate,
                                 Ended = reserv.ended,
                             };
-
+                if (query2 == null)
+                    doReservationPerson = true;
+                else
                 foreach (var reserv in query2) 
                 {
 
@@ -234,7 +244,7 @@ namespace FirmaTransportowa.Views
         }
         private void ComboBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            Dane_Pojzadu();
+           Dane_Pojzadu();
         }
         private void Cofnij(object sender, RoutedEventArgs e) {
 

@@ -255,7 +255,7 @@ namespace FirmaTransportowa.Views
             view.Filter += UserFilter;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
         private void RepurchaseCar(object sender, RoutedEventArgs e)
         {
@@ -390,14 +390,14 @@ namespace FirmaTransportowa.Views
                 ItemList selectedObj = (ItemList)selected.Content;
                 int selectedId = selectedObj.carId;
                 MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz usunąć pojazd " + selectedObj.registration + "?"
-                                                          ,"Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                                                          , "Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (result != MessageBoxResult.Yes)
                 {
                     return;
                 }
                 //Usuwam zaznaczony samochód z listy
-                items.Remove((ListViewItem)carList.SelectedItem);
-                carList.ItemsSource = items;
+                /*items.Remove((ListViewItem)carList.SelectedItem);
+                carList.ItemsSource = items;*/
 
                 var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
                 var cars = db.Cars;
@@ -422,14 +422,10 @@ namespace FirmaTransportowa.Views
                     {
                         if (reservation.carId == selectedId)
                         {
-                            result = MessageBox.Show("Istnieją rezerwacje powiązane z " + selectedObj.registration 
-                                                                        + ", które również zostaną usunięte, czy chcesz kontynuować?"
-                                                                        , "Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                            if (result != MessageBoxResult.Yes)
-                            {
-                                return;
-                            }
-                            db.Reservations.Remove(reservation);
+                            MessageBox.Show("Istnieją rezerwacje powiązane z " + selectedObj.registration
+                                                                        + ", nie można usunąć tego pojazdu?"
+                                                                        , "Błąd przy usuwaniu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
                         }
                     }
 
@@ -438,24 +434,19 @@ namespace FirmaTransportowa.Views
                     {
                         if (lend.carId == selectedId)
                         {
-                            result = MessageBox.Show("Istnieją wypożyczenia powiązane z " + selectedObj.registration
-                                                                        + ", które również zostaną usunięte, czy chcesz kontynuować?"
-                                                                        , "Potwierdź usunięcie", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                            if (result != MessageBoxResult.Yes)
-                            {
-                                return;
-                            }
-                            db.Lends.Remove(lend);
+                            MessageBox.Show("Istnieją wypożyczenia powiązane z " + selectedObj.registration
+                                                                        + ", nie można usunąć tego pojazdu?"
+                                                                        , "Błąd przy usuwaniu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
                         }
                     }
 
-                    MessageBox.Show("Usunięto zarezerwowany samochód, powiązane rezerwacje zostały również usunięte.", "Informacja");
+                    MessageBox.Show("Usunięto samochód", "Informacja");
+                    items.Remove(selected);
+                    carList.ItemsSource = items;
+                    carList.Items.Refresh();
                     db.SaveChanges();
                 }
-
-                items.Remove(selected);
-                carList.ItemsSource = items;
-                carList.Items.Refresh();
             }
             else
             {
@@ -479,7 +470,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (car.id == selectedId)
                     {
-                        if(car.saleDate != null)
+                        if (car.saleDate != null)
                         {
                             MessageBox.Show("Nie można zmienić opiekuna sprzedanego samochodu!", "Błąd przy zmianie opiekuna", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;

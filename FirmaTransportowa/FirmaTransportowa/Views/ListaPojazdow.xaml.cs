@@ -1,5 +1,4 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,7 +66,7 @@ namespace FirmaTransportowa.Views
             view.Filter += UserFilter;
 
             stoper.Stop();
-            Title.Text = stoper.Elapsed.ToString();
+            //Title.Text = stoper.Elapsed.ToString();
         }
 
         private bool UserFilter(object item)
@@ -229,34 +228,29 @@ namespace FirmaTransportowa.Views
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
-            CarList selectedObj = (CarList)selected.Content;
-            int selectedId = selectedObj.carId;
-          
+            ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
             {
+                CarList selectedObj = (CarList)selected.Content;
+                int selectedId = selectedObj.carId;
+
+                var car = (from carr in db.Cars
+                           where carr.id == selectedId
+                           select carr).FirstOrDefault();
+                if(car.onService==true)
+                {
+                    MessageBox.Show("Samochód jest w serwisie!", "Komunikat");
+                    return;
+                }
+
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                 glowneOkno.DataContext = new DodajRezerwacjeDlaPojazdu(selectedId);
             }
             else
-            {
                 MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
         }
 
-        private void Refuel_Click(object sender, RoutedEventArgs e)
-        {
-            //Pobieram zaznaczony samochód
-            ListViewItem selected = (ListViewItem)carList.SelectedItem;
-            if (selected != null)
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
-        }
     }
 }

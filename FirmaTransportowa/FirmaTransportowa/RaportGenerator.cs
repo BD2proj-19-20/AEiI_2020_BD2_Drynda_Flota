@@ -163,9 +163,6 @@ namespace FirmaTransportowa
 
         public static void GenerateGeneralRaportAboutOneCar(Car car)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             string path = GetPath();
             if (path == "")
                 return;
@@ -180,14 +177,12 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         public static void GenerateGeneralRaportAboutCars(IQueryable<Car> cars)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+
 
             string path = GetPath();
             if (path == "")
@@ -208,8 +203,7 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         private static CarCost CostInfoAboutCar(Car car, Document doc, DateTime? raportBegin, DateTime? raportEnd, bool write)
@@ -304,8 +298,6 @@ namespace FirmaTransportowa
 
         public static void GenerateCostsRaportAboutCars(IQueryable<Car> cars, DateTime? raportBegin, DateTime? raportEnd)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             string path = GetPath();
             if (path == "")
@@ -324,14 +316,11 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         public static void GenerateCostsRaportAboutCarsDestinations(DateTime? raportBegin, DateTime? raportEnd)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             string path = GetPath();
             if (path == "")
@@ -396,14 +385,11 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         public static void GenerateCostsRaportAboutCarsMake(DateTime? raportBegin, DateTime? raportEnd)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             string path = GetPath();
             if (path == "")
@@ -471,14 +457,11 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         public static void GenerateCostsRaportAboutCarsModel(DateTime? raportBegin, DateTime? raportEnd)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             string path = GetPath();
             if (path == "")
@@ -542,15 +525,11 @@ namespace FirmaTransportowa
             }
 
             doc.Close();
-
-            stopwatch.Stop();
-            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         public static void GenerateCostsRaportAboutCar(Car car, DateTime? raportBegin, DateTime? raportEnd)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             string path = GetPath();
             if (path == "")
@@ -566,8 +545,7 @@ namespace FirmaTransportowa
 
             doc.Close();
 
-            stopwatch.Stop();
-            MessageBox.Show("Raport kosztów wygenerowany w czasie " + stopwatch.Elapsed + "!");
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
     }
 }

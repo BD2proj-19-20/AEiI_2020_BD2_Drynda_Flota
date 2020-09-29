@@ -48,7 +48,7 @@ namespace FirmaTransportowa.Views {
 			contractorList.ItemsSource = items;
 
 			stoper.Stop();
-			Title.Text = stoper.Elapsed.ToString();
+			//Title.Text = stoper.Elapsed.ToString();
 		}
 
 		private void contractorList_MouseDown(object sender, MouseButtonEventArgs e) {

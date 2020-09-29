@@ -1,11 +1,5 @@
 ﻿using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using Microsoft.Win32;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
@@ -70,7 +64,7 @@ namespace FirmaTransportowa.Views
             var reservations = car.Reservations;
             int i = 0;
 
-            var query = from reserv in db.Reservations
+            var query = from reserv in car.Reservations
                         select new
                         {
                             PersonId = reserv.personId,
@@ -85,7 +79,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (reservation.PersonId == Logowanie.actualUser.id && permission != 2)
                         continue;
-                    reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.LendDate).AddDays(-1), ((DateTime)reservation.ReturnDate));
+                    reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.LendDate), ((DateTime)reservation.ReturnDate).AddDays(-1));
                     Calendar.BlackoutDates.Insert(i, reservationBlackoutRange);
                     i++;
                 }
@@ -111,13 +105,13 @@ namespace FirmaTransportowa.Views
             switch (permission)
             {
                 case 1:
-                    glowneOkno.DataContext = new ListaPojazdowModel();
+                    glowneOkno.DataContext = new ListaPojazdow();
                     break;
                 case 2:
-                    glowneOkno.DataContext = new ZarzadzajPojazdamiModel();
+                    glowneOkno.DataContext = new ZarzadzajPojazdami();
                     break;
                 case 3:
-                    glowneOkno.DataContext = new MojePojazdyModel();
+                    glowneOkno.DataContext = new MojePojazdy();
                     break;
                 default:
                     break;

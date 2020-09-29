@@ -21,11 +21,11 @@ namespace FirmaTransportowa.Views
 
             InitializeComponent();
             CenterWindowOnScreen();
-            loginBox.Text= "kamBach";
-			passwordBox.Password = "kamBach";
+            /*loginBox.Text= "kamBach";
+			passwordBox.Password = "kamBach";*/
 
-			//loginBox.Text= "rancisek";
-			//passwordBox.Password = "rancisek";
+            //loginBox.Text= "rancisek";
+            //passwordBox.Password = "rancisek";
         }
 
         static public byte[] getHash(string password)
@@ -81,43 +81,13 @@ namespace FirmaTransportowa.Views
 
 					}
 					else {
-						MessageBox.Show("Logowanie nie udało się :-(", "Komunikat"); //złe hasło
+						MessageBox.Show("Błędne dane logowania", "Komunikat"); //złe hasło
 						return 0;
 					}
 				}
 			}
 			MessageBox.Show("Błędne dane logowania.", "Komunikat");
             return 0;
-        }
-
-        private void Worker_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuPracownik();
-        }
-
-        private void Leader_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuKierownik();
-        }
-
-        private void Supervisor_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
-            glowneOkno.Width = 1000;
-            glowneOkno.Height = 600;
-            CenterWindowOnScreen();
-            ((MainWindow)System.Windows.Application.Current.MainWindow).LoginScreen.Content = null;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).Menu.Content = new MenuOpiekun();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)

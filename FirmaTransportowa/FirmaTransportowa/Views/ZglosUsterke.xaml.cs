@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FirmaTransportowa.Model;
-using FirmaTransportowa.ViewModels;
 
 namespace FirmaTransportowa.Views
 {
@@ -36,7 +24,7 @@ namespace FirmaTransportowa.Views
         {
             System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
             if(whereGo==1)
-            glowneOkno.DataContext = new MojePojazdyModel();
+            glowneOkno.DataContext = new MojePojazdy();
             else if(whereGo==2)
                 glowneOkno.DataContext = new MojeWypozyczenia();
         }
@@ -66,10 +54,9 @@ namespace FirmaTransportowa.Views
                 db.SaveChanges();
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                 if (whereGo == 1)
-                    glowneOkno.DataContext = new MojePojazdyModel();
+                    glowneOkno.DataContext = new MojePojazdy();
                 else if (whereGo == 2)
                     glowneOkno.DataContext = new MojeWypozyczenia();
-                //glowneOkno.DataContext = new MojePojazdyModel();
 
             }
         }
