@@ -228,6 +228,7 @@ namespace FirmaTransportowa.Views
         private void Reserve_Click(object sender, RoutedEventArgs e)
         {
             //Pobieram zaznaczony samochód
+            var db = new AEiI_2020_BD2_Drynda_FlotaEntities();
 
             ListViewItem selected = (ListViewItem)carList.SelectedItem;
             if (selected != null)
@@ -235,13 +236,20 @@ namespace FirmaTransportowa.Views
                 CarList selectedObj = (CarList)selected.Content;
                 int selectedId = selectedObj.carId;
 
+                var car = (from carr in db.Cars
+                           where carr.id == selectedId
+                           select carr).FirstOrDefault();
+                if(car.onService==true)
+                {
+                    MessageBox.Show("Samochód jest w serwisie!", "Komunikat");
+                    return;
+                }
+
                 System.Windows.Window glowneOkno = System.Windows.Application.Current.MainWindow;
                 glowneOkno.DataContext = new DodajRezerwacjeDlaPojazdu(selectedId);
             }
             else
-            {
                 MessageBox.Show("Nie wybrano samochodu!", "Komunikat");
-            }
         }
 
     }
