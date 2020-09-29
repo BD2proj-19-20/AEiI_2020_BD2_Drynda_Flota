@@ -580,6 +580,7 @@ namespace FirmaTransportowa.Views
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
+            MessageBox.Show("Raport został wygenerowany.","Komunikat");
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)

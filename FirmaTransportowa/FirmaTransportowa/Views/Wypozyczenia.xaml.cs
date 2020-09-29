@@ -279,6 +279,7 @@ namespace FirmaTransportowa.Views
             doc.Add(c1); //doc nie może być pusty 
 
             doc.Close();
+            MessageBox.Show("Raport został wygenerowany.", "Komunikat");
         }
 
         private void Statystyki_Wypozyczenia(object sender, RoutedEventArgs e)
