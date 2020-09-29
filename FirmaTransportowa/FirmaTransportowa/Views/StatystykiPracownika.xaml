@@ -61,7 +61,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150" Height="23"/>
                             <TextBlock FontSize="15" x:Name="Pojazd" Height="Auto" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
@@ -87,12 +87,12 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="Auto">
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Aktualny pojazd:" Width="150" Height="24"/>
                             <TextBlock FontSize="15" x:Name="PojazdSluzbowe" Height="Auto" VerticalAlignment="Bottom"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Ilość wypożyczeń: " Width="150"/>
-                            <TextBlock FontSize="15" Name="ZleceniaSluzbowe" />
+                            <TextBlock FontSize="15" x:Name="ZleceniaSluzbowe" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="25">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Czas jazdy:" Width="150"/>

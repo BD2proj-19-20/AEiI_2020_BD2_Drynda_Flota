@@ -172,9 +172,7 @@ namespace FirmaTransportowa.Views
                             TimeSpan t = (DateTime)personLend.ReturnDate - personLend.LendDate;
                             dni += (int)t.TotalDays;
                         }
-
-                        //jaki to samochód;
-
+                        if(przejechaneKm>0)
                         koszty = (przejechaneKm * 4.75) + (0.05 * personLend.EngineCar);
 
                     }
@@ -188,27 +186,24 @@ namespace FirmaTransportowa.Views
                             TimeSpan t = (DateTime)personLend.ReturnDate - personLend.LendDate;
                             dniSluzbowe += (int)t.TotalDays;
                         }
-
-                        kosztySluzbowe = (przejechaneKmSluzbowe * 4.75) + (0.05 * personLend.EngineCar);
+                        if (przejechaneKmSluzbowe > 0)
+                            kosztySluzbowe = (przejechaneKmSluzbowe * 4.75) + (0.05 * personLend.EngineCar);
                     }
                 }
 
-                if (personLend.LendDate < DateTime.Today && personLend.PlannedReturnDate < DateTime.Today &&
-                    personLend.ReturnDate > DateTime.Today) //aktualny pojazd
+                if (personLend.LendDate <= DateTime.Today && personLend.PlannedReturnDate > DateTime.Today &&
+                    ( personLend.ReturnDate==null || personLend.ReturnDate == DateTime.MinValue) && personLend.ReservationEnd == false) //aktualny pojazd
                 {
-
-                    foreach (var personSup in query2)
                     {
                         if (personLend.Private == true)
-                            pojazd += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
+                            pojazd += personLend.LendedCar.CarModel.make+ "/" + personLend.LendedCar.CarModel.model + "/" + personLend.LendedCar.Registration + "\n";
                         else
-                            pojazdSluzbowy += personSup.CarMake + "/" + personSup.CarModel + "/" + personSup.CarRegistration + "\n";
+                            pojazdSluzbowy += personLend.LendedCar.CarModel.make + "/" + personLend.LendedCar.CarModel.model + "/" + personLend.LendedCar.Registration + "\n";
                     }
                 }
 
             }
 
-            //Koszty???
             Pojazd.Text = pojazd;
             PojazdSluzbowe.Text = pojazdSluzbowy;
 
