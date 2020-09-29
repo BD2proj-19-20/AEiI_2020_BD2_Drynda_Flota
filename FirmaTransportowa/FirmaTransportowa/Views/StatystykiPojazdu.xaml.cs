@@ -79,7 +79,7 @@ namespace FirmaTransportowa.Views
                 {
                     if (reservation.PersonId == Logowanie.actualUser.id && permission != 2)
                         continue;
-                    reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.LendDate).AddDays(-1), ((DateTime)reservation.ReturnDate));
+                    reservationBlackoutRange = new CalendarDateRange(((DateTime)reservation.LendDate), ((DateTime)reservation.ReturnDate).AddDays(-1));
                     Calendar.BlackoutDates.Insert(i, reservationBlackoutRange);
                     i++;
                 }
